@@ -1,0 +1,1255 @@
+{
+ "findings": [
+  {
+   "item": "Moda donna e bambino (core Vinted) + espansione categorie",
+   "categoria": "moda / marketplace",
+   "evidenza": "Comunicato ufficiale risultati 2025 (8-9 aprile 2026): GMV 2025 a 10,8 mld EUR (+47% YoY, dal 7,3 mld del 2024), ricavi 1,1 mld EUR (+38%). Vinted dichiara testualmente che 'core fashion continued to strengthen with strong performance in women's and kids' clothing' e che l'espansione in sport e collezionabili ha portato più membri sulla piattaforma. Nel 2025 lanciata anche in Lettonia, Estonia e Slovenia; oltre 500.000 punti di ritiro/consegna in Europa.",
+   "fonte": "https://company.vinted.com/newsroom/financial-results-2025 (8 aprile 2026, comunicato ufficiale Vinted)",
+   "indicatori": "GMV +47% YoY a 10,8 mld EUR; ricavi +38%; 10,8 mld EUR tornati nelle tasche dei venditori nel 2025",
+   "prezzo_medio": "In media -72% rispetto al prezzo retail del nuovo (dato ufficiale Vinted)",
+   "punteggio_domanda": 10,
+   "velocita_vendita": "Non dichiarata a livello aggregato; il CEO Plantenga cita come obiettivo 'sellers sell their items quicker'",
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Adidas Samba (e sneaker di tendenza: Salomon XT-6, Nike Dunk, New Balance 530)",
+   "categoria": "sneakers",
+   "evidenza": "La Samba è l'articolo con la vendita mediana più veloce di tutto Vinted: 4 giorni, con velocità di vendita +180% vs 2024, spinta dal trend 'tennis-core' 2026. Salomon XT-6 vende in 5 giorni a €78,40 (pubblico maschile 20-35), Nike Dunk in 6 giorni a €65,20, NB 530 in 7 giorni a €52,80. ATTENZIONE: le Air Force 1 bianche sono definite 'mercato saturo, prezzi bassi' — vendere solo se in condizioni perfette. Dati basati su 1,1M vendite confermate (ott 2024-mag 2026, 19 mercati europei).",
+   "fonte": "https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2 giu 2026) + https://vintefy.com/what-sells-best-on-vinted (2026)",
+   "indicatori": "Velocità vendita +180% vs 2024; margine categoria streetwear/sneakers 50-70%; domanda 5/5 nella tabella margini Vintefy/Tissuco",
+   "prezzo_medio": "Samba €48,90; Dunk €65,20; NB 530 €52,80; Salomon XT-6 €78,40; AF1 €32,40",
+   "punteggio_domanda": 10,
+   "velocita_vendita": "4-7 giorni mediani (Samba la più veloce della piattaforma)",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Maglie da calcio vintage / blokecore (anno del Mondiale 2026)",
+   "categoria": "blokecore / sportswear vintage",
+   "evidenza": "Il Mondiale giugno-luglio 2026 ha fatto esplodere la domanda: su eBay a maggio 2026 le ricerche legate al calcio superavano 3.200/ora; vendite di articoli FIFA World Cup +840% vs gennaio, maglie da calcio +510%, ricerche di merchandising Mondiale +770%, maglie vintage di edizioni passate +205%. Icone più cercate: Ronaldinho, Pelé, Xavi, Maradona, Ronaldo Nazário (Ronaldinho +140% in un mese dopo il documentario Netflix di marzo 2026). Depop conferma nel report 2026 'spike' su vintage jerseys e upcycled jerseys nel trend 'Romanticized Sports'. La coda del trend dura oltre la finale: il capo è diventato oggetto moda, non solo memorabilia.",
+   "fonte": "https://www.mondoexpat.com/news/trends/world-cup-2026-jerseys-breaking-records/ (4 luglio 2026); https://news.depop.com/company-news/depop-unveils-2026-fashion-trends-report-the-edited-self/ (20 dicembre 2025)",
+   "indicatori": "eBay maggio 2026: +510% vendite maglie calcio, +770% ricerche merch Mondiale, +205% maglie vintage edizioni passate, 3.200 ricerche/ora; capi correlati: athletic shorts +110%, baggy jeans +30%",
+   "punteggio_domanda": 10,
+   "velocita_vendita": "Molto alta durante e dopo il torneo; domanda trainata da picchi mediatici (es. documentari, partite)",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Sneakers come categoria (la più veloce da vendere su Vinted)",
+   "categoria": "sneakers",
+   "evidenza": "Analisi su oltre 100 milioni di annunci Vinted in Europa: le sneakers pesano il 12% delle vendite e sono la categoria con il turnover più rapido in assoluto, 12 giorni medi contro 15 dei top donna, 22 dei jeans e 28 delle borse. Condizione decisiva: un paio 'come nuovo' si vende a ~70% del retail, un paio 'usurato' a ~40%. Lo studio VintiePlus (4 feb 2026) conferma gli stessi numeri e cita l'interesse di ricerca 'Vinted shoes' al picco di 80 (Google Trends) ad agosto 2025.",
+   "fonte": "PLOTT DATA, 'What Sells Most on Vinted in 2026' (10 dic 2025, agg. 12 giu 2026) https://plottdata.com/blogs/what-sells-most-on-vinted + VintiePlus, 'Study: Most Searched Vintage Items on Vinted' (4 feb 2026) https://vintieplus.com/blog/study-most-searched-vintage-items-on-vinted/",
+   "indicatori": "12% delle vendite Vinted; tempo medio di vendita 12 giorni (categoria più veloce della piattaforma); like-new = ~70% del prezzo retail",
+   "prezzo_medio": "€45-80 tipico per la categoria sneakers su Vinted",
+   "punteggio_domanda": 10,
+   "velocita_vendita": "12 giorni in media, la più rapida di tutte le categorie Vinted",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Abbigliamento & Accessori second hand (con exploit del vintage)",
+   "categoria": "abbigliamento/vintage",
+   "evidenza": "Osservatorio Ipsos Doxa per Subito (rilevazione febbraio 2026, 2.001 interviste): nel 2025 il second hand in Italia vale 27,2 mld EUR (1,2% del PIL) e coinvolge 28,2 milioni di italiani (65% della popolazione, +2 p.p.). Per il 68% degli italiani l'usato è ormai la PRIMA scelta d'acquisto. Abbigliamento & Accessori è il prodotto n.1 sia per acquisti che per vendite online, con 'exploit del vintage che nel 2025 raggiunge i vertici delle preferenze'. L'edizione precedente (2024) mostrava abbigliamento passato dal 22% al 43% degli acquisti online in 5 anni e dal 28% al 49% delle vendite. Il 71% delle compravendite avviene online; il 26% dei venditori dichiara un aiuto economico tangibile (+12 p.p. vs 2024).",
+   "fonte": "https://www.subito.it/magazine/second-hand-sempre-prima-scelta-nel-2025.html (11/05/2026) e https://www.bva-doxa.com/second-hand-economy-a-livelli-record-il-digitale-traina-la-crescita-e-supera-loffline-per-la-prima-volta-anche-a-valore/ (12/05/2025)",
+   "indicatori": "27,2 mld EUR mercato IT 2025; 28,2M italiani attivi; 68% usato come prima scelta; abbigliamento #1 categoria online (43% acquisti, 49% vendite); guadagno medio venditore ~820 EUR/anno (dato 2024)",
+   "punteggio_domanda": 10,
+   "velocita_vendita": "24% degli acquirenti e 23% dei venditori conclude almeno una transazione al mese",
+   "prezzo_medio": "risparmio medio percepito vs nuovo: 42% (dato 2024)",
+   "angolo": "report-settore"
+  },
+  {
+   "item": "REGOLE CHIAVE Vinted per il non-abbigliamento (vincoli operativi 2025-2026)",
+   "categoria": "regole piattaforma",
+   "evidenza": "Dalla pagina ufficiale Vinted Italia (Elettronica): VIETATI console/dispositivi jailbroken o con custom firmware (anche se reversibile), dispositivi con account lock o IMEI bloccato, giochi digitali/chiavi software/coupon, videogiochi con loot box, articoli fuori mercato SEE, batterie gonfie o >100 Wh, SIM caricate, telecamere di sicurezza, elettronica per animali, articoli per vaping. SOLO NUOVI: pellicole, supporti vuoti (CD/DVD/USB), schede di memoria, inchiostri, testine spazzolini/rasoi, batterie e power bank. Obbligo di factory reset e disconnessione account; cosmetici solo sigillati. Violazioni ripetute = rimozione annunci e rischio account.",
+   "fonte": "https://www.vinted.it/help/1335-electronics-category-what-you-can-sell (ufficiale); https://blog.vinta.app/blog/selling-gaming-items-on-vinted-complete-guide (lug 2026); https://www.vinted.com/catalog-rules",
+   "prezzo_medio": "n/a",
+   "punteggio_domanda": 10,
+   "velocita_vendita": "n/a",
+   "indicatori": "Fonte ufficiale Vinted — da leggere prima di listare qualsiasi articolo elettronico",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Domanda strutturale: Vinted come primo canale di acquisto (prezzi -72% vs retail)",
+   "categoria": "comportamento d'acquisto / pricing",
+   "evidenza": "Comunicato ufficiale 'Vinted Equation' (18 maggio 2026, basato su dati transazionali 2025 + survey su ~50.000 membri in 9 mercati europei): l'88% degli acquirenti controlla Vinted PRIMA di comprare un articolo nuovo; il 76% degli acquisti su Vinted ha sostituito l'acquisto di un articolo nuovo; i membri hanno risparmiato 21,6 mld EUR sulla sola moda adulti nel 2025 pagando in media il 72% in meno del retail. Implicazione per i venditori: il prezzo di listino competitivo si colloca intorno a ~30% del prezzo del nuovo.",
+   "fonte": "https://company.vinted.com/newsroom/vinted-equation (18 maggio 2026, comunicato ufficiale Vinted)",
+   "indicatori": "88% degli acquirenti controlla prima Vinted; 76% tasso di sostituzione del nuovo; 21,6 mld EUR risparmiati; survey su ~50.000 membri",
+   "prezzo_medio": "Regola ufficiale: prezzo medio Vinted = 28% circa del prezzo retail del nuovo (sconto medio 72%)",
+   "punteggio_domanda": 9,
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Brand heritage: Ralph Lauren, Tommy Hilfiger, Adidas (+ Louis Vuitton per il designer)",
+   "categoria": "brand / moda",
+   "evidenza": "Trend report ufficiale Vinted 2025 ripreso da Stylist (feb 2025): Tommy Hilfiger, Ralph Lauren e Adidas sono i brand 'con più devoti' sulla piattaforma; Louis Vuitton è il marchio designer più cercato in assoluto. Il report cita anche oltre 800 milioni di articoli listati sull'app e che il 13% dei membri compra solo capi neri o bianchi (item nero più 'liked': décolleté Louboutin nere; item bianco più venduto: sneaker Nike total white). Confermato lato Italia da Modori (blog reseller B2B, 2026): 'i brand più cercati su Vinted nel 2026 sono Ralph Lauren, Tommy Hilfiger, Levi's e sportswear Nike/Adidas'.",
+   "fonte": "https://www.stylist.co.uk/fashion/vinted-shopping-trends-2025/961259 (feb 2025, su dati Vinted) + https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (2026)",
+   "indicatori": "800M+ articoli listati su Vinted; LV = designer più cercato; 13% membri compra solo black/white",
+   "prezzo_medio": "Maglieria RL/TH usata tipicamente 20-50 EUR in Italia (fascia indicata dai reseller, non dato ufficiale)",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "Maglioni RL/TH definiti dai reseller italiani 'assegni circolari': vendita rapida in ogni stagione",
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Jeans vintage Levi's (501 e 505) e denim heritage",
+   "categoria": "vintage / denim",
+   "evidenza": "Dal trend report Vinted 2025 (via Stylist): i Levi's 501 sono i jeans più cercati della piattaforma, con prezzo medio di vendita di appena ~23 GBP (~27 EUR). Modori (fornitore B2B italiano di stock vintage, 2026): 'un paio di 501 classici ben fotografati non resta invenduto per più di 48 ore'; i jeans vintage Levi's sono tra gli articoli più cercati in assoluto in Italia. Vendy Studio (mag 2026) segnala i flared jeans vintage 70s (Levi's, Wrangler, Lee) come primo trend di ricerca SS26.",
+   "fonte": "https://www.stylist.co.uk/fashion/vinted-shopping-trends-2025/961259 + https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie",
+   "indicatori": "Levi's 501 = jeans più cercati su Vinted; prezzo medio ~23 GBP",
+   "prezzo_medio": "25-45 EUR il paio per 501/505 usati in buone condizioni (23 GBP media UK)",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "Meno di 48 ore per un 501 ben fotografato (fonte reseller Italia)",
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Elettronica second-hand (console, tablet, smartphone, cuffie, speaker, laptop)",
+   "categoria": "elettronica",
+   "evidenza": "Categoria lanciata ufficialmente da Vinted nel 2024 (comunicato risultati 2024: 'speakers, headphones, fitness trackers, laptops') e indicata come uno dei motori del +47% di GMV 2025. Ricerca Vinted/Atomik Research su 14.000 adulti di cui 2.003 italiani (dic 2025): il 51% degli italiani indica l'elettronica come categoria da vendere (secondo posto dopo la moda al 54%); il 61% è pronto a comprare console da gaming usate, il 56% tablet, il 54% smartphone; l'elettronica è al 45% tra le categorie second-hand più ricercate. Pambianco (apr 2026) conferma che l'espansione in elettronica mette pressione competitiva su eBay.",
+   "fonte": "https://company.vinted.com/newsroom/Vinted-delivers-strong-profitable-growth-while-investing (apr 2025) + https://www.starssystem.it/lifestyle/vinted-lifestyle-25/ (12 dic 2025, ricerca Vinted/Atomik Research) + https://www.pambianconews.com/2026/04/28/vinted-da-record-la-valutazione-raggiunge-gli-8-miliardi-intanto-il-second-hand-corre-a-13-nel-2025-482204/",
+   "indicatori": "61% italiani comprerebbe console usate, 56% tablet, 54% smartphone; 51% venderebbe elettronica; mercato elettronica usata Italia stimato 5,2 mld EUR (2024)",
+   "prezzo_medio": "Smartphone ricondizionati/usati tipicamente 100-300 EUR in Italia (stima di settore, non dato Vinted)",
+   "punteggio_domanda": 9,
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Carhartt (giacche e pantaloni workwear uomo)",
+   "categoria": "streetwear/workwear",
+   "evidenza": "È il brand uomo che vende più velocemente su Vinted: mediana 5 giorni a €35,60, 'grazie alla community streetwear/workwear molto attiva'. Batte Nike (9 gg, €18,40) e Adidas (10 gg, €17,20) che dominano per volume. Brand uomo deludenti secondo lo stesso dataset: Tommy Hilfiger (volumi bassi su questo segmento) e Jules (prezzi bassissimi).",
+   "fonte": "https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2 giu 2026)",
+   "indicatori": "1° per velocità nel top-5 uomo su 1,1M vendite confermate; prezzo medio doppio rispetto a Nike/Adidas usato",
+   "prezzo_medio": "€35,60",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "5 giorni mediani",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Sézane, Maje, Sandro (premium accessibile donna)",
+   "categoria": "moda donna",
+   "evidenza": "Sézane è il brand donna che vende più veloce: mediana 6 giorni a €38,90, 'tutto in alta domanda, anche a prezzo pieno'. Maje 8 gg a €41,50, Sandro 9 gg a €39,20: scontrino medio 3x rispetto a Zara con tempi simili. Sézane comprata a €15-22 in charity/mercatini rivende a €38-50 (moltiplicatore ×2,5). Caveat: Sézane è tra i brand più contraffatti, verificare autenticità.",
+   "fonte": "https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2 giu 2026) + https://vintefy.com/what-sells-best-on-vinted",
+   "indicatori": "Top 5 donna per volume su 1,1M vendite; moltiplicatore rivendita ×2,5; 6 giorni mediani",
+   "prezzo_medio": "€38-42 (rivendita capi €35-50)",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "6-9 giorni mediani",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Levi's 501/505 vintage e maglieria heritage (Ralph Lauren, Tommy Hilfiger)",
+   "categoria": "vintage",
+   "evidenza": "Fonte italiana (Modori, 2026): i brand più cercati su Vinted/Wallapop in Italia nel 2026 sono Ralph Lauren, Tommy Hilfiger, Levi's e sportswear; 'un paio di 501 classici ben fotografati non resta invenduto per più di 48 ore'. Dataset Vinkit conferma: Levi's 501 vintage made-in-USA anni 80-90 vende in 5 giorni a €38-65 (vs €22,80 dei Levi's moderni in 11 gg). Maglioni a trecce e felpe logo ricamato RL/TH definiti 'assegni circolari': vendono in ogni stagione. Margine vintage autentico: 60-80%, il più alto della piattaforma.",
+   "fonte": "https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (2026) + https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2 giu 2026)",
+   "indicatori": "501 vintage: 5 giorni mediani; margine 60-80% (miglior categoria); prezzo doppio vs Levi's moderno",
+   "prezzo_medio": "501 vintage €38-65; Levi's moderni €22,80; trench Burberry €280-450 (10-15 gg)",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "48 ore-5 giorni per i 501 vintage",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Polène e borse mid-range (Longchamp Pliage, Sézane)",
+   "categoria": "borse/pelletteria",
+   "evidenza": "Polène è il brand in maggior crescita di tutto Vinted: volumi +340% nel 2026 vs 2024, vende in 6 giorni mediani a €95,20. Longchamp Pliage: 'intramontabile, ideale per rivendita' (9 gg, €32,80). Il lusso alto (Chanel, Hermès, LV >€800-1.200) invece vende in 25-40 giorni su Vinted: meglio dirottarlo su Vestiaire Collective. Altri brand in forte crescita 2026: Lemaire +220%, Khaite +165%, Realisation Par +95%.",
+   "fonte": "https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2 giu 2026)",
+   "indicatori": "Polène +340% volumi vs 2024; borsa Polène comprata a €35-50 rivende a €95-110 (×2,3); margine accessori 60-80%",
+   "prezzo_medio": "Polène €95,20; Longchamp €32,80; Coach €74,90",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "6-9 giorni mediani",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Minimalismo anni '90 (dolcevita neri, Calvin Klein, denim dritto, stile Carolyn Bessette-Kennedy)",
+   "categoria": "vintage anni '90",
+   "evidenza": "Lyst Index Q1 2026: la serie 'Love Story' e il revival di Carolyn Bessette-Kennedy hanno fatto salire le ricerche di dolcevita neri del +217% dopo il primo episodio; Calvin Klein +43% settimana su settimana dopo il finale; domanda di jeans straight-leg in crescita costante su Lyst. È il segnale più chiaro del trimestre secondo Lyst, ed è un trend perfetto per il second-hand: CK vintage, blazer e knitwear minimali anni '90 si trovano facilmente in sourcing. Bonus menswear: coppola Kangol +14% (10° prodotto più hot).",
+   "fonte": "https://www.lyst.com/the-lyst-index/q1-26/ (aprile 2026, letto direttamente)",
+   "indicatori": "+217% ricerche dolcevita neri; +43% WoW Calvin Klein; Kangol flat cap +14% tra gli shopper menswear",
+   "punteggio_domanda": 9,
+   "prezzo_medio": "Maglieria/branded basics anni '90: indicativamente 15-50 EUR su Vinted (fascia premium per CK vintage)",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Levi's vintage e denim (501/505, mom jeans, dark wash)",
+   "categoria": "denim vintage",
+   "evidenza": "Fonti reseller italiane 2026 concordano: i Levi's 501 ben fotografati non restano invenduti più di 48 ore su Vinted Italia. PLOTT DATA (aggiornato giugno 2026): il denim è la 2ª categoria su Vinted con il 18% delle vendite; mom jeans a domanda massima, straight leg in crescita, Levi's vintage a prezzo premium 40-120 EUR. Per l'autunno 2026 la stampa moda indica il ritorno del dark wash denim come 'LBD del denim'. Nota: sul barrel jeans i segnali sono contrastanti (ancora forte a inizio 2026 ma alcune testate lo danno in uscita).",
+   "fonte": "https://www.dsottile.it/articoli-piu-venduti-su-vinted/ e https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (2026); https://plottdata.com/blogs/what-sells-most-on-vinted (agg. 12 giugno 2026); https://globalnews.ca/the-curator/11987235/fall-2026-fashion-trends/ (30 luglio 2026)",
+   "indicatori": "18% delle vendite Vinted; 501 venduti in <48h in Italia; tempo medio vendita jeans 22 giorni",
+   "punteggio_domanda": 9,
+   "prezzo_medio": "Levi's vintage 40-120 EUR; jeans generici di marca 15-45 EUR",
+   "velocita_vendita": "501 vintage <48h; denim medio 22 giorni",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Sneakers retro/terrace: Adidas Samba, Gazelle, Spezial + Nike AF1/Dunk, New Balance",
+   "categoria": "sneakers",
+   "evidenza": "Le sneakers sono la categoria che vende più velocemente su Vinted (12 giorni in media, PLOTT DATA giugno 2026). Adidas Samba 50-90 EUR virali su TikTok; New Balance in crescita; AF1 40-80 EUR a domanda costante. Il boom blokecore/Mondiale alimenta le terrace shoes: eBay (luglio 2026) segnala Gazelle e Spezial in continua performance e modelli calcistici Puma in crescita. Condizione cruciale: 'come nuovo' vende al 70% del retail vs 40% per 'usato'.",
+   "fonte": "https://plottdata.com/blogs/what-sells-most-on-vinted (agg. 12 giugno 2026); https://www.mondoexpat.com/news/trends/world-cup-2026-jerseys-breaking-records/ (4 luglio 2026)",
+   "indicatori": "12% delle vendite Vinted; tempo medio 12 giorni (il più rapido tra le categorie)",
+   "punteggio_domanda": 9,
+   "prezzo_medio": "Samba 50-90 EUR; AF1 40-80 EUR; Dunk 60-150 EUR; NB 50-100 EUR",
+   "velocita_vendita": "12 giorni in media, la categoria più liquida di Vinted",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Nike (Air Force 1, Dunk, Jordan + felpe/vintage anni '90)",
+   "categoria": "sneakers/streetwear",
+   "evidenza": "Telvin Bot (13 gen 2026) definisce Nike 'il re del volume', il brand più cercato su Vinted con domanda costante tutto l'anno, margini x2-x4 sul vintage (felpe, giacche a vento anni '90, Tech Fleece, Air Max/Dunk/Jordan). Su StockX Nike/Jordan restano n.1 e n.2 tra i brand sneaker più venduti per il terzo anno consecutivo, con prezzi medi in ripresa (+5% Nike, +6% Jordan YoY). Vendoo conferma che Nike domina le calzature uomo su Vinted, in particolare AF1 e Air Max.",
+   "fonte": "Telvin Bot Blog (13 gen 2026) https://www.telvin-bot.com/it/blog/top-10-marchi-vinted-rivendita-2026/ + StockX Current Culture Index 2026 (12 gen 2026) https://stockx.com/about/stockxs-current-culture-index-highlights-2025s-biggest-winners-reveals-predictions-for-2026/ + Vendoo (agg. 16 giu 2026) https://blog.vendoo.co/what-sells-best-on-vinted-top-brands-and-items-to-sell-in-2025",
+   "indicatori": "Brand n.1 per volume su Vinted e su StockX; prezzi medi sneaker +5-6% YoY dopo il periodo di debolezza; margine x2-x4 sul vintage",
+   "prezzo_medio": "Air Force 1 €40-80; Dunk €60-150 su Vinted (fonte PLOTT DATA/VintiePlus)",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "Vendita più rapida tra i brand sportswear su Vinted (fonte PLOTT DATA)",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Adidas Samba / Gazelle / Handball Spezial (terrace shoes)",
+   "categoria": "sneakers",
+   "evidenza": "Il 'terrace takeover' resta il trend dominante del resale 2026 secondo il retailer West Coast Deals: la Samba ha trascinato Spezial, Gazelle e SL 72, e la domanda 'non ha rallentato'. Su StockX la Samba Jane (uscita giugno 2025) è stata il modello nuovo più venduto di adidas nell'anno (report Big Facts, WWD 12 nov 2025). Su Vinted le Sambas usate girano a €50-90 con domanda spinta da TikTok. Nota: trend maturo, non più in accelerazione — Google Trends mostra flessioni a inizio 2026.",
+   "fonte": "West Coast Deals, 'Sneaker Resale Trends 2026: The Terrace Takeover' (2026) https://shopwestcoastdeals.com/blogs/news/sneaker-resale-trends-2026-terrace-takeover + WWD (12 nov 2025) https://wwd.com/footwear-news/sneaker-news/stockx-big-facts-resale-trends-2025-1238345128/ + PLOTT DATA https://plottdata.com/blogs/what-sells-most-on-vinted",
+   "indicatori": "Samba Jane = modello nuovo adidas più venduto 2025 su StockX; Sambas 'viral su TikTok' su Vinted",
+   "prezzo_medio": "Samba usate €50-90 su Vinted; Gazelle su fascia simile",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "Alta (dentro la categoria sneakers a 12 giorni medi); trend maturo, prezzare per vendere subito",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Asics (Gel-1130 in testa)",
+   "categoria": "sneakers",
+   "evidenza": "La Asics Gel-1130 Black/Pure Silver è stata la sneaker PIÙ venduta in assoluto su StockX nel 2025, con vendite Asics +45% YoY (report Big Facts via WWD, 12 nov 2025). Asics è nella top-5 dei brand sneaker più venduti su StockX per il terzo anno consecutivo (CCI 2026). Tra le sneaker più 'salvate nei preferiti' al mondo per le feste 2025: AJ4, AJ5 e proprio Gel-1130. Su Vinted Italia l'offerta usata Asics è ancora relativamente scarsa rispetto a Nike/Adidas: buona finestra per chi ne trova.",
+   "fonte": "WWD (12 nov 2025) https://wwd.com/footwear-news/sneaker-news/stockx-big-facts-resale-trends-2025-1238345128/ + SGB Media (12 gen 2026) https://sgbonline.com/stockx-2025-big-facts/",
+   "indicatori": "Gel-1130 = sneaker n.1 per vendite su StockX 2025; Asics +45% YoY; top-5 brand per il 3° anno di fila",
+   "prezzo_medio": "Su StockX la Gel-1130 tratta spesso sotto retail (~€100 nuova); usato Vinted tipicamente €40-70 (stima da fascia categoria)",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "Molto alta a livello globale; su Vinted IT dipende dalla taglia",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Borse e articoli luxury pre-loved: Gucci (n.1 in Italia), Prada, Louis Vuitton; Fendi Baguette vintage come singolo item piu desiderato",
+   "categoria": "lusso pre-loved / borse",
+   "evidenza": "I 'Vin-Sights' di Vinted (dati piattaforma 1 dic 2023 - 1 dic 2024) mostrano che in Italia i brand luxury piu amati sono 1. Gucci 2. Prada 3. Louis Vuitton; le borse Gucci dominano in Italia mentre altrove vincono le Louis Vuitton — specificita tutta italiana. L'articolo di lusso piu desiderato in Italia e la borsa vintage Fendi Baguette con dettagli rosa (1.088 likes). Dolce & Gabbana e Versace entrano nella top 10 luxury solo in Italia.",
+   "fonte": "https://www.thewaymagazine.it/trends/i-nuovi-trend-del-riuso-svelati-da-vinted/ (11/03/2025) e https://www.starssystem.it/fashion/fashion-news/i-vin-sights-di-vinted/ (14/02/2025)",
+   "indicatori": "1.088 likes sulla Fendi Baguette piu amata; Gucci primo brand luxury in Italia; dati ufficiali Vinted Vin-Sights",
+   "prezzo_medio": "molto variabile; fascia luxury entry su Vinted spesso 100-500 EUR",
+   "velocita_vendita": "n.d. (categoria ad alta domanda ma prezzo alto = trattative piu lunghe)",
+   "punteggio_domanda": 9,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Vintage anni '90 (capi e accessori)",
+   "categoria": "vintage",
+   "evidenza": "Vin-Sights 2025: gli anni '90 sono ufficialmente il decennio piu amato dagli utenti Vinted (verificato contando i 'mi piace' per decennio); il top anni '90 piu amato ha ricevuto 3.620 likes. Il cotone e il materiale piu ricercato. Confermato anche da BVA Doxa/stampa italiana: 'il vintage e il nuovo contemporaneo' in un mercato second hand da oltre 27 miliardi.",
+   "fonte": "https://www.thewaymagazine.it/trends/i-nuovi-trend-del-riuso-svelati-da-vinted/ (11/03/2025); https://www.corrierenazionale.net/2026/07/25/in-italia-piu-di-27-miliardi-di-euro-per-il-settore-second-hand-il-vintage-e-il-nuovo-contemporaneo/ (25/07/2026)",
+   "indicatori": "3.620 likes sul singolo capo anni '90 piu amato; decennio n.1 per preferenze sulla piattaforma",
+   "prezzo_medio": "15-60 EUR per capi non-luxury; oltre per pezzi rari",
+   "velocita_vendita": "veloce se brand riconoscibile (giacche a vento anni '90 tra i capi che girano di piu, fonte Modori 11/05/2026)",
+   "punteggio_domanda": 9,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Sneakers (Nike, Adidas, Jordan/Dunk, retro)",
+   "categoria": "sneakers",
+   "evidenza": "Analisi PLOTT DATA su 100M+ annunci Vinted (pubbl. 10/12/2025, agg. 12/06/2026): sneakers = 12% delle vendite totali e la categoria che si vende PIU velocemente (12 giorni in media). 'Like new' rivende al 70% del retail vs 40% se 'worn'. Vin-Sights: aprile e settembre sono i mesi migliori per vendere sneakers (dato specifico comunicato per l'Italia). Nike e Adidas i brand a piu alta rotazione.",
+   "fonte": "https://plottdata.com/blogs/what-sells-most-on-vinted (12/06/2026); https://www.thewaymagazine.it/trends/i-nuovi-trend-del-riuso-svelati-da-vinted/ (11/03/2025)",
+   "indicatori": "12% delle vendite; tempo medio di vendita 12 giorni (il piu rapido tra le categorie); resa fino al 70% del prezzo retail se come nuove",
+   "prezzo_medio": "45-80 EUR",
+   "velocita_vendita": "~12 giorni in media, la categoria piu veloce",
+   "punteggio_domanda": 9,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Mercato secondhand apparel globale: crescita strutturale a doppia velocità",
+   "categoria": "abbigliamento",
+   "evidenza": "ThredUp 14th Annual Resale Report (GlobalData, pubblicato 2/4/2026, letto integralmente sul newsroom ThredUp): mercato globale secondhand apparel a 257 mld USD nel 2025 (+13% YoY), proiettato a 393 mld USD entro il 2030 (~9% CAGR), 2x più veloce del resto del fashion. Rappresenta già ~10% della spesa totale in abbigliamento. Negli USA il secondhand è cresciuto quasi 4x più veloce del retail abbigliamento tradizionale nel 2025. GlobalData stima 289 mld USD nel 2026 e 319 mld nel 2027.",
+   "fonte": "https://newsroom.thredup.com/news/thredup-14th-resale-report (02/04/2026); conferma in italiano: https://www.pambianconews.com/2026/04/28/vinted-da-record-la-valutazione-raggiunge-gli-8-miliardi-intanto-il-second-hand-corre-a-13-nel-2025-482204/",
+   "indicatori": "257 mld USD (2025, +13%); 393 mld USD previsti 2030; ~9% CAGR; crescita 2x vs fashion totale, 4x vs retail USA",
+   "punteggio_domanda": 9,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Vinted come piattaforma: GMV +47%, espansione in elettronica, sport e collezionismo",
+   "categoria": "piattaforma/multicategoria",
+   "evidenza": "Pambianconews (28/04/2026, articolo letto integralmente): Vinted FY2025 con ricavi oltre 1 mld EUR (+38%, 1,28 mld USD secondo FashionNetwork), GMV 10,8 mld EUR (+47%), EBITDA adjusted 151 mln EUR (-5% per investimenti in logistica Vinted Go e Vinted Pay). Valutazione record 8 mld EUR (aprile 2026, da 5 mld nel 2024) dopo transazione secondaria da 880 mln EUR. La piattaforma sta ampliando il perimetro a elettronica, libri, oggetti per la casa, sport e collezionismo: per chi inizia oggi, le categorie appena aperte hanno meno concorrenza di venditori consolidati.",
+   "fonte": "https://www.pambianconews.com/2026/04/28/vinted-da-record-la-valutazione-raggiunge-gli-8-miliardi-intanto-il-second-hand-corre-a-13-nel-2025-482204/; https://it.fashionnetwork.com/news/Vinted-ricavi-2025-a-1-28-miliardi-di-dollari,1822273.html",
+   "indicatori": "GMV 10,8 mld EUR (+47% YoY); ricavi ~1,1 mld EUR (+38%); valutazione 8 mld EUR; Italia tra i 6 mercati principali",
+   "punteggio_domanda": 9,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Gen Z e Millennials come motore della domanda (target da servire)",
+   "categoria": "demografia/streetwear-fast fashion",
+   "evidenza": "ThredUp 2026: il 71% di tutta la crescita del mercato fino al 2030 verrà da Gen Z e Millennials, in gran parte da nuovi acquirenti. Pambianco (che riprende i global data ThredUp): il 58% della Gen Z e il 55% dei Millennial dichiara di dare priorità al second hand rispetto al nuovo; il 46% dei consumatori esplora l'usato prima di comprare nuovo. Quasi il 50% degli acquirenti scopre il prossimo acquisto secondhand via social media, creator e influencer invece che con la ricerca tradizionale: per un nuovo seller conviene presidiare TikTok/Instagram oltre alla ricerca interna Vinted.",
+   "fonte": "https://newsroom.thredup.com/news/thredup-14th-resale-report; https://www.pambianconews.com/2026/04/28/vinted-da-record-la-valutazione-raggiunge-gli-8-miliardi-intanto-il-second-hand-corre-a-13-nel-2025-482204/",
+   "indicatori": "71% della crescita 2025-2030 da GenZ+Millennials; 58% GenZ prioritizza usato; ~50% discovery via social",
+   "punteggio_domanda": 9,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Retro gaming Nintendo (Game Boy, NES, cartucce Pokemon, Mario, Zelda)",
+   "categoria": "videogiochi retro",
+   "evidenza": "La guida Vinta.App (lug 2026) indica che l'hardware retro supera stabilmente i titoli recenti su Vinted: nel 2025 i top seller Nintendo erano franchise classici (Mario, Zelda), cartucce NES originali e hardware Game Boy; le cartucce Pokemon per Game Boy 'si vendono velocemente anche in condizioni usurate'. Il mercato retro-console globale vale 3,8 mld USD nel 2025 (CAGR ~10%), con +32% di vendite nel Q1 2025 vs tutto il 2024; il barometro Easy Cash 2025 mostra il Game Boy Color a +45% in 3 anni (da 65 a 94 EUR). Console versioni boxed con scatola originale spuntano un premio netto sul loose.",
+   "fonte": "https://blog.vinta.app/blog/selling-gaming-items-on-vinted-complete-guide (lug 2026); https://coopboardgames.com/statistics/retro-gaming-console-sales-resurgence/ (2025); https://www.journaldugeek.com/2026/06/01/le-retrogaming-explose-entre-consoles-portables-a-60-euros-et-abonnements-nostalgiques-lindustrie-replonge-dans-le-passe/ (giu 2026)",
+   "prezzo_medio": "Game Boy Color ~94 EUR (funzionante), Game Boy classico rivenduto in media ~65 EUR (dato UK 2025: 5.344 unita vendute, media 56,59 GBP); cartucce Pokemon GB da 30-40 EUR in su, molto di piu se boxed",
+   "punteggio_domanda": 9,
+   "velocita_vendita": "Rapida: cartucce Pokemon vendono anche usurate; listing ben fotografati vendono 'in 48 ore' vs un mese secondo la guida",
+   "indicatori": "Mercato retro console 3,8 mld USD 2025 -> 4,18 mld 2026; +32% vendite Q1 2025; Game Boy Color +45% in 3 anni",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Jeans e denim vintage (Levi's 501/505, mom fit, wide leg)",
+   "categoria": "vintage / denim",
+   "evidenza": "PLOTT DATA: jeans = 18% delle vendite su Vinted, seconda categoria assoluta; brand top Levi's, Lee, Wrangler. Modori (11/05/2026, mercato italiano): i Levi's 501 classici in buone condizioni si vendono 'in non piu di 48 ore'; jeans vintage tra i capi a rotazione piu rapida.",
+   "fonte": "https://plottdata.com/blogs/what-sells-most-on-vinted (12/06/2026); https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (11/05/2026)",
+   "indicatori": "18% delle vendite totali della piattaforma; Levi's tra i 5 brand piu cercati in Italia",
+   "prezzo_medio": "20-35 EUR (501 vintage anche oltre)",
+   "velocita_vendita": "media 22 giorni per il denim generico, ma Levi's 501 richiesti anche in 48 ore",
+   "punteggio_domanda": 8.5,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Intrattenimento: libri, vinili, videogiochi, media",
+   "categoria": "intrattenimento",
+   "evidenza": "Ricerca Vinted/Atomik Research (dic 2025, campione italiano n=2.003): gli articoli di intrattenimento sono la categoria second-hand PIU' ricercata in Italia (53%), davanti a hobby/collezionismo (47%) ed elettronica (45%); il 60% degli italiani si dichiara più propenso rispetto all'anno prima ad acquistare intrattenimento usato; il 50% lo indica tra le categorie da vendere. La campagna ufficiale 'New Eras Again' (set 2025) posiziona libri e media tra le categorie strategiche; il 74% degli intervistati UK/FR preferisce una piattaforma multi-categoria (survey Vinted nov 2024).",
+   "fonte": "https://www.starssystem.it/lifestyle/vinted-lifestyle-25/ (dati Vinted/Atomik Research, dic 2025) + https://company.vinted.com/newsroom/new-eras-again (21 set 2025)",
+   "indicatori": "53% = categoria più ricercata in Italia; +60% propensione all'acquisto YoY; 74% preferisce piattaforme multi-categoria",
+   "punteggio_domanda": 8,
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Collezionabili & hobby (carte, plush/Jellycat, oggetti da collezione) e articoli sportivi",
+   "categoria": "collezionismo / sport",
+   "evidenza": "Comunicato ufficiale risultati 2025: Vinted ha continuato 'l'espansione in più categorie consumer incluse sport e collezionabili', citate tra i driver del GMV +47%. Ricerca Vinted/Atomik (Italia, dic 2025): 58% degli italiani interessato a comprare hobby & collectibles usati; 47% li indica tra le categorie più ricercate. Contesto di mercato: il segmento trading cards è in forte crescita (prezzo medio carte Pokémon +46% YoY nel 2026 secondo Athlon Sports). ZipSale (2026) segnala che i plush Jellycat ritirati 'mantengono o superano il valore retail'.",
+   "fonte": "https://company.vinted.com/newsroom/financial-results-2025 + https://www.starssystem.it/lifestyle/vinted-lifestyle-25/ + https://www.zipsale.co.uk/blog/best-selling-items-on-vinted-in-2026 + https://athlonsports.com/collectibles/best-trading-cards-invest-2026-pokemon-sports",
+   "indicatori": "58% interesse acquisto in Italia; 47% tra le categorie più ricercate; carte Pokémon medie +46% YoY (mercato generale)",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "Jellycat ritirati e collezionabili rari: vendita rapida a valore pieno o sopra retail (fonte tool reseller UK)",
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Sportswear/streetwear brandizzato Nike e Adidas (felpe, tute, sneaker everyday)",
+   "categoria": "streetwear / sneakers",
+   "evidenza": "ZipSale (guida 2026, tool di crosslisting UK): capi Nike e Adidas si vendono tipicamente al 30-60% del prezzo retail originale; 'everyday shoes' come Nike Air Max e Adidas Samba vendono in modo costante tutto l'anno e superano le release hype; avvertenza esplicita a non accumulare sneaker limited-edition per rischio saturazione. Modori (Italia, 2026): lo streetwear anni '90/Y2K (felpe larghe, track-jacket, maxi loghi) attira la Gen Z disposta a pagare bene. Adidas è anche nel podio dei brand 'con più devoti' del trend report ufficiale Vinted 2025.",
+   "fonte": "https://www.zipsale.co.uk/blog/best-selling-items-on-vinted-in-2026 (2026) + https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie",
+   "indicatori": "Prezzo di rivendita 30-60% del retail; categoria definita 'evergreen' e ad alta rotazione",
+   "prezzo_medio": "Felpe/hoodie Nike-Adidas usati indicativamente 15-40 EUR; Samba/Air Max usate 40-80 EUR (30-60% del retail)",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "Rotazione costante tutto l'anno; i reseller UK riportano flip 2-3x più veloci allineando l'inventario alla stagione",
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Trend di ricerca primavera-estate 2026: flared jeans, bluse a pois, bubble skirt, sneaker argento, barn jacket",
+   "categoria": "moda / trend stagionali",
+   "evidenza": "Vendy Studio (9 mag 2026, dichiara di basarsi su 'report SS26 di Vinted' + analisi top seller): ricerche flared jeans +2075% YoY, bluse a pois +2000%, bubble skirt +42%, sneaker metallizzate argento +35% (Adidas Samba metallic, Onitsuka Tiger), barn/utility jacket +31% (Carhartt, Barbour), collane di perle Y2K +28%, top mesh/pizzo +22%. Colori SS26 che convertono: Butter Yellow, Mocha Mousse, Icy Blue, Silver. ATTENZIONE: fonte commerciale (vende un tool di foto AI), le percentuali non sono verificabili su canali ufficiali Vinted; il trend pois è però confermato in modo indipendente (LTK: +900% ricerche polka dot jeans, via Grazia).",
+   "fonte": "https://www.vendystudio.com/blog/what-to-sell-vinted-trends-2026 (9 maggio 2026) + https://graziadaily.co.uk/fashion/shopping/polka-dot-jeans-trousers/",
+   "indicatori": "+2075% flared jeans, +2000% bluse pois, +42% bubble skirt, +35% sneaker argento, +31% barn jacket (YoY, non verificato ufficialmente)",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "Top seller riportano Levi's flared vintage venduti in 24-48h, a volte sopra il retail (fonte Vendy Studio)",
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Polo Lacoste: l'arbitraggio più redditizio del 2026",
+   "categoria": "sourcing/flip",
+   "evidenza": "Secondo il dataset Vinkit su 1,1M vendite, 'la polo Lacoste resta l'arbitraggio più redditizio del mercato': comprata a €5-8 ai mercatini rivende a €28-32, moltiplicatore ×4,5 — il migliore fra tutti i rapporti prezzo acquisto/rivendita. Domanda costante, brand riconoscibilissimo. Vende in 12 giorni mediani a €28,90 di media.",
+   "fonte": "https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2 giu 2026) + https://vintefy.com/what-sells-best-on-vinted",
+   "indicatori": "Moltiplicatore ×4,5 (1° assoluto); vs Sézane ×2,5 e Polène ×2,3",
+   "prezzo_medio": "acquisto €5-8, rivendita €28-32",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "12 giorni mediani",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Abbigliamento bambino 0-10 anni (Petit Bateau volume, Bonpoint premium) e bundle",
+   "categoria": "bambino",
+   "evidenza": "Il bambino ha la rotazione più veloce di Vinted: mediana 9 giorni vs 14 dell'adulto, perché i bambini crescono e i genitori ricomprano di continuo. Bonpoint unisce prezzo alto e rotazione: 5 gg a €32,80. Petit Bateau: volumi enormi, 7 gg a €9,40. I bundle per taglia/stagione vendono meglio del capo singolo (conferma anche la venditrice UK Emma Drew, 2.000+ vendite). Timing: il mercoledì è il giorno dei genitori su Vinted; a settembre (back-to-school) il sell-through del bambino sale del +42%.",
+   "fonte": "https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2 giu 2026) + https://relisted.io/en/blog/best-time-post-vinted (2026) + https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (26 gen 2026, agg. 21 lug 2026)",
+   "indicatori": "Rotazione mediana 9 gg (categoria più veloce); +42% sell-through a settembre; margine 40-60%",
+   "prezzo_medio": "Petit Bateau €9,40; Bonpoint €32,80; cestino medio kidswear ~€10",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "5-10 giorni; picco stagionale settembre",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Y2K / streetwear anni '90 (felpe maxi-logo, track jacket, giacche a vento, Umbro/Reebok/Champion)",
+   "categoria": "vintage/streetwear",
+   "evidenza": "Fonte italiana: 'lo streetwear anni 90/Y2K attira la Generazione Z, disposta a pagare ottime cifre per capi iconici' — felpe larghe, track-jacket, t-shirt maxi logo, giacche a vento anni '90 tra i capi che vendono più velocemente. La venditrice UK Emma Drew (2.000+ vendite, £10.000+ incassati) conferma: Y2K, baby tees, low-rise jeans e sportswear vintage Umbro/Reebok/Champion 'still having its moment' nel 2026; usare tag 'Y2K', 'retro', '90s streetwear' per intercettare la Gen Z che arriva dai trend TikTok.",
+   "fonte": "https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (2026) + https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (gen 2026, agg. lug 2026)",
+   "indicatori": "Margine vintage autentico 60-80%; Y2K tees nel top 3 articoli più venduti secondo più guide 2026",
+   "prezzo_medio": "variabile; felpe/track jacket tipicamente €15-45",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "veloce se con tag giusti (ore-giorni per pezzi iconici)",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Mercato Vinted/second hand in Italia: onda lunga favorevole (e brand forti in Italia: Liu Jo, Pinko)",
+   "categoria": "contesto di mercato",
+   "evidenza": "Vinted ha chiuso il 2025 con ricavi €1,1 mld (+38%) e merce scambiata tra utenti (GMV) €10,8 mld (+47%), 500k+ punti di ritiro in Europa (Pambianco, 9 apr 2026). In Italia il 65% della popolazione (28,2 mln di persone) ha comprato/venduto usato nel 2025, valore complessivo €27,2 mld di cui ~14,4-14,7 mld online (Sky TG24/BVA Doxa-Subito, mag 2026 — dato da snippet di ricerca). Nota per l'Italia dal dataset Vinkit: i best seller sono parzialmente regionali, 'Liu Jo e Pinko in Italia' (vs Sézane/Maje in Francia, Mango in Spagna).",
+   "fonte": "https://www.pambianconews.com/2026/04/09/vinted-supera-il-miliardo-di-ricavi-nel-2025-38-480070/ (9 apr 2026) + https://tg24.sky.it/economia/2026/05/12/acquisti-second-hand-italia-dati (12 mag 2026) + https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category",
+   "indicatori": "GMV +47% a/a; 28,2 mln italiani attivi nell'usato; adozione 65% (+2 punti in un anno)",
+   "prezzo_medio": "n/a",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "n/a",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "T-shirt band/graphic vintage anni '80-'90",
+   "categoria": "vintage / streetwear",
+   "evidenza": "PLOTT DATA (dati su 100M+ annunci Vinted, agg. giugno 2026): le vintage band tee vendono 3-5 volte più velocemente delle magliette normali, con prezzi 20-80 EUR a seconda di rarità e condizione, dentro la categoria n.1 di Vinted (top donna, 22% delle vendite). È anche una delle nicchie consigliate per costruire reputazione da seller con minor concorrenza rispetto ai basic fast fashion.",
+   "fonte": "https://plottdata.com/blogs/what-sells-most-on-vinted (agg. 12 giugno 2026)",
+   "indicatori": "Turnover 3-5x rispetto ai top normali; categoria madre = 22% delle vendite Vinted",
+   "punteggio_domanda": 8,
+   "prezzo_medio": "20-80 EUR",
+   "velocita_vendita": "3-5x più veloce della media dei top",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Suede / camoscio (stivali, giacche, borse) in marrone cioccolato",
+   "categoria": "trend autunno 2026",
+   "evidenza": "Il suede è indicato come IL trend scarpe dell'autunno 2026: 'se c'è un trend footwear su cui investire questa stagione sono gli stivali in suede', dal knee-high al western slouchy, con il marrone cioccolato in testa (Global News, 30 luglio 2026). I roundup dei trend delle sfilate FW 2026 (W Magazine, Who What Wear) confermano suede e marroni profondi su stivali e borse a spalla. Per il second-hand è ideale: giacche e stivali in camoscio vintage abbondano nei mercatini a costi bassi. Sul fronte 'domanda già provata': i suede loafers Miu Miu erano il 4° prodotto più hot del Lyst Index Q2 2025.",
+   "fonte": "https://globalnews.ca/the-curator/11987235/fall-2026-fashion-trends/ (30 luglio 2026); https://www.wmagazine.com/fashion/fall-2026-fashion-trends; https://hypebae.com/2025/7/hottest-fashion-items-lyst-index-q2-miu-miu-adidas-skims (luglio 2025)",
+   "indicatori": "Trend #1 footwear autunno 2026 secondo più testate; picco stagionale outerwear/boots Vinted: settembre-novembre = 80% delle vendite annuali della categoria",
+   "punteggio_domanda": 8,
+   "prezzo_medio": "Ankle boots 25-80 EUR; giacche in pelle/camoscio 40-200 EUR su Vinted",
+   "velocita_vendita": "Stagionale: listare da fine agosto, picco settembre-novembre",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Gorpcore / outdoor vintage (Salomon, Arc'teryx, Patagonia, The North Face, pile anni '90, Gore-Tex)",
+   "categoria": "gorpcore / outdoor",
+   "evidenza": "Il mercato gorpcore globale è stimato in crescita da 1,61 mld USD (2025) a 1,74 mld (2026), verso 3,25 mld al 2034. Le guide reselling 2026 lo indicano tra le migliori categorie da rivendere perché i prezzi retail sono altissimi e 'il vero margine è nel vintage': pile anni '90 con fantasie azteche e shell Gore-Tex d'epoca. Salomon compare tra i brand a più alta rotazione su Vinted insieme ad Adidas Samba e Carhartt. Il trend 2026 evolve verso 'Quiet Outdoors' (tecnico sobrio da città).",
+   "fonte": "https://www.intelmarketresearch.com/gorpcore-market-44108; https://closo.co/blogs/data-driven-insights-market-analytics/the-best-item-to-resell-in-2026-it-s-not-what-you-think; https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2026)",
+   "indicatori": "Mercato +8% circa 2025->2026, CAGR verso 3,25 mld USD 2034; Salomon citato tra i brand più liquidi su Vinted",
+   "punteggio_domanda": 8,
+   "prezzo_medio": "Piumini/puffer 35-100 EUR su Vinted; pezzi tecnici vintage (Gore-Tex, pile TNF/Patagonia) sopra la media di categoria",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Workwear e 'Modern Uniforms' (giacche workwear, peacoat, camicie office, Carhartt)",
+   "categoria": "workwear",
+   "evidenza": "Depop 2026 Trends Report ('The Edited Self', basato su dati di ricerca e vendita della piattaforma, ~43,5M utenti): trend 'Modern Uniforms' con picchi di ricerca su workwear jackets, peacoats e office shirts; palette neutre, sartoria netta, maglie boxy. Coerente con il posizionamento di Carhartt tra i brand più performanti per i reseller su Vinted nel 2026. Per l'autunno il peacoat/cappotto sartoriale è capo ad alto valore medio e domanda stagionale forte (picco set-nov).",
+   "fonte": "https://news.depop.com/company-news/depop-unveils-2026-fashion-trends-report-the-edited-self/ (20 dicembre 2025); https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2026)",
+   "indicatori": "Spike di ricerca dichiarati da Depop su workwear jackets/peacoats/office shirts; blazer 25-80 EUR su Vinted",
+   "punteggio_domanda": 8,
+   "prezzo_medio": "Blazer 25-80 EUR; cappotti/peacoat 35-100+ EUR",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Maglieria firmata Ralph Lauren / Tommy Hilfiger + brand medi francesi (Sézane, Maje, Sandro)",
+   "categoria": "brand evergreen alto-vendenti",
+   "evidenza": "Fonti reseller Italia 2026: un maglione Ralph Lauren o Tommy Hilfiger in ottime condizioni 'è un assegno circolare', vende in qualsiasi stagione con richiesta altissima; i brand medi francesi (Sézane, Maje, Sandro, Claudie Pierlot) 'si vendono in poche ore se il prezzo è giusto'. Ralph Lauren è anche 6° brand più hot al mondo nel Lyst Index Q1 2026, il che sostiene la domanda aspirazionale sull'usato. Il consiglio ricorrente 2026: evitare fast fashion senza margine (Zara/H&M/Shein), puntare su capi firmati di qualità.",
+   "fonte": "https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (2026); https://www.dsottile.it/articoli-piu-venduti-su-vinted/ (2026); https://www.lyst.com/the-lyst-index/q1-26/ (aprile 2026)",
+   "indicatori": "Sandro/Maje 40-150 EUR su Vinted (PLOTT DATA); RL #6 nel Lyst Index Q1 26; vendita 'in poche ore' dichiarata per i brand francesi ben prezzati",
+   "punteggio_domanda": 8,
+   "prezzo_medio": "Maglieria RL/Tommy 20-60 EUR; Sandro/Maje/Sézane 40-150 EUR",
+   "velocita_vendita": "Da poche ore a pochi giorni se prezzati correttamente",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "New Balance (550, 574, 9060, retro runner)",
+   "categoria": "sneakers",
+   "evidenza": "New Balance è stabilmente nella top-5 StockX dei brand sneaker più venduti (3° anno consecutivo, CCI 2026). Il nuovo modello slim 204L è diventato il best seller 'new model' del brand su StockX nel 2025 (WWD). West Coast Deals descrive la 'quiet climb' di NB nel 2026: domanda ampia e non hype-driven, guidata da comfort. Su Vinted le NB usate girano a €50-100 con trend in salita ('trending upward', PLOTT DATA).",
+   "fonte": "StockX CCI 2026 (12 gen 2026) https://stockx.com/about/stockxs-current-culture-index-highlights-2025s-biggest-winners-reveals-predictions-for-2026/ + WWD (12 nov 2025) https://wwd.com/footwear-news/sneaker-news/stockx-big-facts-resale-trends-2025-1238345128/ + PLOTT DATA https://plottdata.com/blogs/what-sells-most-on-vinted",
+   "indicatori": "Top-5 StockX per il 3° anno; 204L = n.1 dei nuovi modelli NB 2025; domanda 'broad, not hype-driven'",
+   "prezzo_medio": "€50-100 su Vinted",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "Buona e costante, meno dipendente dai drop rispetto a Nike/Jordan",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Ralph Lauren (polo, Oxford, maglioni a trecce, vintage)",
+   "categoria": "streetwear/vintage",
+   "evidenza": "Telvin Bot lo mette al n.1 dei brand più redditizi da rivendere su Vinted nel 2026: 'la scelta sicura', si compra a €10-30 nei mercatini e si rivende a €40-100 (margine x2-x3); pezzi chiave polo Big Pony, camicie Oxford, maglioni a trecce, Polo Bear. Modori (fornitore B2B italiano, 2026) lo indica tra i brand più cercati su Vinted in Italia insieme a Tommy Hilfiger e Levi's, con la maglieria firmata venduta 'in qualsiasi stagione'. Vendoo lo elenca tra i top brand uomo su Vinted, forte tutto l'anno.",
+   "fonte": "Telvin Bot (13 gen 2026) https://www.telvin-bot.com/it/blog/top-10-marchi-vinted-rivendita-2026/ + Modori (2026) https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie + Vendoo https://blog.vendoo.co/what-sells-best-on-vinted-top-brands-and-items-to-sell-in-2025",
+   "indicatori": "N.1 nella classifica redditività Vinted 2026 di Telvin; domanda trasversale e destagionalizzata",
+   "prezzo_medio": "Rivendita €40-100 (acquisto €10-30); blazer/maglieria vintage €25-80",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "Costante tutto l'anno; maglieria in ottime condizioni descritta come 'assegno circolare' (Modori)",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "The North Face (Nuptse, pile Denali, Gore-Tex)",
+   "categoria": "streetwear/outdoor",
+   "evidenza": "Telvin Bot: 'oro invernale', la domanda esplode da settembre e pile/piumini 'si vendono in ore'; margine x2-x3, di più in alta stagione. VintiePlus: giacche/cappotti = 8% delle vendite Vinted ma con l'80% concentrato tra settembre e novembre; TNF tra i brand outdoor che performano meglio nell'usato uomo. Su StockX la collab SKIMS x The North Face ha contribuito al +196% di SKIMS nel 2025. Strategia: comprare piumini d'estate (oggi) e vendere da settembre.",
+   "fonte": "Telvin Bot (13 gen 2026) https://www.telvin-bot.com/it/blog/top-10-marchi-vinted-rivendita-2026/ + VintiePlus (4 feb 2026) https://vintieplus.com/blog/study-most-searched-vintage-items-on-vinted/ + StockX CCI 2026 https://stockx.com/about/stockxs-current-culture-index-highlights-2025s-biggest-winners-reveals-predictions-for-2026/",
+   "indicatori": "80% delle vendite outerwear tra settembre e novembre; margine x2-x3",
+   "prezzo_medio": "Piumini €35-100+ su Vinted (Nuptse ben oltre); giacche tecniche in fascia alta della categoria",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "In stagione (set-nov) pile e piumini si vendono in ore/giorni; fuori stagione lenta",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Levi's vintage (501, 505, 517, giacche Trucker)",
+   "categoria": "vintage/denim",
+   "evidenza": "Modori (Italia, 2026): i jeans Levi's vintage sono 'tra gli articoli più cercati in assoluto' su Vinted e un 501 classico ben fotografato 'non resta invenduto per più di 48 ore'. Telvin: margine x2-x5 sui pezzi vintage rari (soprattutto Made in USA). VintiePlus/PLOTT: Levi's vintage €40-120, categoria jeans = 18% delle vendite Vinted. È il complemento naturale a sneakers e streetwear per un seller Vinted Italia.",
+   "fonte": "Modori (2026) https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie + Telvin Bot (13 gen 2026) https://www.telvin-bot.com/it/blog/top-10-marchi-vinted-rivendita-2026/ + VintiePlus (4 feb 2026) https://vintieplus.com/blog/study-most-searched-vintage-items-on-vinted/",
+   "indicatori": "Jeans/denim = 18% delle vendite Vinted; margine x2-x5 sul vintage raro",
+   "prezzo_medio": "€40-120 per Levi's vintage",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "501 vintage in buone condizioni: sotto le 48 ore secondo Modori; categoria jeans in generale 22 giorni",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Top e camicie donna basic di brand accessibili (Zara, H&M, Mango, COS, Massimo Dutti)",
+   "categoria": "abbigliamento donna",
+   "evidenza": "PLOTT DATA: top/bluse donna = 22% di tutte le vendite Vinted, la categoria n.1 per volume; Zara e il brand con piu annunci in assoluto (15M+), H&M 12M+, Mango 6M+. Prezzi bassi ma rotazione altissima: ideale per fare volumi e recensioni all'avvio di un profilo nuovo.",
+   "fonte": "https://plottdata.com/blogs/what-sells-most-on-vinted (12/06/2026)",
+   "indicatori": "22% delle vendite; 15M+ annunci Zara; tempo medio vendita 15 giorni",
+   "prezzo_medio": "8-18 EUR",
+   "velocita_vendita": "~15 giorni in media",
+   "punteggio_domanda": 8,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Brand heritage americani su usato: Ralph Lauren, Tommy Hilfiger, Nike (felpe, maglioni, piumini)",
+   "categoria": "streetwear / casual uomo",
+   "evidenza": "Analisi Modori sul mercato italiano (11/05/2026): i brand piu cercati su Vinted/Wallapop in Italia sono Ralph Lauren, Tommy Hilfiger, Levi's, Nike e Adidas; i capi che girano piu in fretta sono maglioni a trecce, felpe con logo ricamato e giacche a vento anni '90. Vin-Sights: oltre il 15% degli utenti ricompra lo stesso brand 3+ volte (fedelta di brand che sostiene la domanda ripetuta).",
+   "fonte": "https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (11/05/2026); https://www.thewaymagazine.it/trends/i-nuovi-trend-del-riuso-svelati-da-vinted/ (11/03/2025)",
+   "indicatori": "top 5 brand piu cercati in Italia; 15%+ di acquirenti ripetuti sullo stesso brand",
+   "prezzo_medio": "15-60 EUR per felpe/maglioni; piumini oltre",
+   "velocita_vendita": "rapida per capi logo in buone condizioni",
+   "punteggio_domanda": 8,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Lusso pre-loved, in particolare borse (handbags)",
+   "categoria": "lusso",
+   "evidenza": "Report BCG x Vestiaire Collective 'Resale's Next Chapter' (9/10/2025, survey su 7.800 utenti, comunicato letto integralmente): il resale rappresenta già il 28% dei guardaroba degli utenti, che sale al 30% per l'abbigliamento e al 40% per le BORSE (45% per la Gen Z a livello globale, 39% in Europa). Mercato secondhand fashion+luxury a 210-220 mld USD oggi, atteso fino a 360 mld USD entro il 2030, +10% annuo, 3x più veloce del mercato firsthand. Vestiaire Collective: ~1 mld EUR di GMV 2025. L'80% cita l'affordability come motivo top; 55% varietà/unicità; ~50% il 'thrill of the hunt'. Le borse di marca sono la categoria con la maggiore penetrazione secondhand in assoluto.",
+   "fonte": "https://www.bcg.com/press/9october2025-new-report-from-bcg-and-vestiaire-collective-reveals-global-trends-reshaping-the-resale-market (09/10/2025)",
+   "indicatori": "40% delle borse nei guardaroba è già secondhand (45% GenZ); mercato +10%/anno, 3x il firsthand; fino a 360 mld USD nel 2030",
+   "punteggio_domanda": 8,
+   "prezzo_medio": "lusso entry-level su piattaforme peer-to-peer tipicamente 50-500+ EUR (fascia non specificata nei report letti)",
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Trading cards (Pokémon, Topps) e collezionabili Pop Mart/Labubu",
+   "categoria": "collezionismo/giochi",
+   "evidenza": "StockX Midyear Trend Report H1 2025 (press release letto): vendite Pokémon +367% YoY e Topps +208% YoY, 'trading card category experiencing another boom', con forte apprezzamento prezzi delle single card che spinge la domanda di box sigillati. Pop Mart è il brand collectibles n.1 su StockX da ottobre 2024 grazie a Labubu: vendite di giugno 2025 più che doppie rispetto a gennaio, nuovo record a luglio, 2,4 mln ricerche 'Labubu' in 6 mesi (top 10 search term). Rilevante per Vinted, che ha appena aperto la categoria collezionismo (fonte Pambianco/FashionNetwork).",
+   "fonte": "https://stockx.com/about/stockxs-midyear-trend-report-has-asics-and-salomon-among-fastest-growing-sneaker-brands-sees-new-records-for-labubu-and-triple-digit-sales-growth-for-trading-cards/ (agosto 2025)",
+   "indicatori": "Pokémon +367% YoY; Topps +208% YoY; 2,4M ricerche Labubu in H1 2025; vendite Labubu giugno 2x vs gennaio 2025",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "molti prodotti hot sold-out al retail e rivenduti rapidamente sul secondario (StockX)",
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Sneakers: Asics, Salomon, On e staples Nike/Adidas",
+   "categoria": "sneakers",
+   "evidenza": "StockX H1 2025: Asics è il brand sneaker in più rapida crescita per il secondo semestre consecutivo (+71%, trainato da Gel-1130, Gel-NYC, GT-2160); Salomon torna a crescere (XT-6, XT-Whisper con collab Sandy Liang/Kith); Anta +51% (dopo +1.901% nel 2024); On n.5 tra i fastest-growing. Clarks +58% H1 2025 dopo +13% 2024. Su Vinted i volumi/liquidità maggiori restano su Nike (Air Force 1) e Adidas (Samba) e Dr. Martens secondo analisi di settore. Dataintelo indica Millennials+GenZ a ~58% del volume del mercato secondhand sneakers.",
+   "fonte": "https://stockx.com/about/stockxs-midyear-trend-report-has-asics-and-salomon-among-fastest-growing-sneaker-brands-sees-new-records-for-labubu-and-triple-digit-sales-growth-for-trading-cards/; https://dataintelo.com/report/global-secondhand-sneakers-market",
+   "indicatori": "Asics +71% YoY; Anta +51%; Clarks +58%; GenZ+Millennials ~58% del volume secondhand sneakers",
+   "punteggio_domanda": 8,
+   "prezzo_medio": "staples usate (AF1, Samba) tipicamente 25-80 EUR su marketplace peer-to-peer; modelli hype oltre 100 EUR (stima non da report)",
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Recommerce generalista: intenzione di spesa in aumento (eBay Recommerce Report 2025)",
+   "categoria": "trend trasversale",
+   "evidenza": "eBay 2025 Recommerce Report: 59% della Gen Z prevede di AUMENTARE la spesa in pre-loved; 89% dei consumatori spenderà uguale o di più nel 2025 (42% di più); 81% compra pre-loved per risparmiare, 45% cita benefici ambientali tra i motivi top, 65% ama la 'caccia al tesoro'. Lato offerta: 86% dei seller eBay inizia vendendo oggetti di casa propria — esattamente il percorso consigliato per tre venditori che partono oggi (sourcing a costo zero dal proprio armadio).",
+   "fonte": "https://www.ebayinc.com/recommerce-report/ e https://www.ebaymainstreet.com/news-events/new-ebay-study-finds-gen-z-driving-demand-recommerce (2025)",
+   "indicatori": "59% GenZ aumenterà la spesa; 42% dei consumatori totali la aumenterà; 86% dei seller parte dagli oggetti di casa",
+   "punteggio_domanda": 8,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Console e controller PS5 (current-gen) + accessori gaming",
+   "categoria": "elettronica/gaming",
+   "evidenza": "Secondo Vinta.App, per l'hardware current-gen 'controller e console PS5 sono la categoria standout' su Vinted; i dati Vinted mostrano spread di prezzo notevoli tra mercati europei, creando reali opportunita di arbitraggio per chi acquista bene. Controller, dock di ricarica e headset 'girano piu veloci del previsto' perche i compratori vogliono add-on economici. Prezzo consigliato: 20-30% sotto il retail per vendere in fretta. I giochi PS4 sotto 5 GBP conviene venderli in bundle da 10 a 25-35 GBP.",
+   "fonte": "https://blog.vinta.app/blog/selling-gaming-items-on-vinted-complete-guide (lug 2026)",
+   "prezzo_medio": "Controller PS5: circa 20-30% sotto il retail (~45-60 EUR usato buono); bundle 10 giochi PS4 ~30-40 EUR",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "Accessori (controller, headset, dock) a rotazione veloce; relist consigliato dopo 7-10 giorni se invenduto",
+   "indicatori": "Categoria gaming citata come piu richiesta dell'elettronica generica; arbitraggio di prezzo documentato tra paesi UE su Vinted",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Cuffie e auricolari premium (AirPods Pro, Sony WH-1000XM5, Bose QC, Beats)",
+   "categoria": "elettronica/audio",
+   "evidenza": "Guide di reselling 2025 indicano l'elettronica come una delle categorie a piu alto margine, con audio in testa: AirPods Pro, Sony WH-1000XM5, Bose QuietComfort e Beats tra i best seller; consigliato il bundle con caricatore e custodia per alzare il valore percepito. Vinted ha una sottocategoria dedicata 'AirPods di Apple'. Attenzione: la domanda e cosi forte che il segmento e infestato da cloni contraffatti (caso documentato UK, marzo 2025) — venditori onesti con foto del numero seriale si differenziano.",
+   "fonte": "https://closo.co/blogs/blog/most-profitable-electronics-to-resell-in-2025-a-complete-guide (2025); https://www.mancunianmatters.co.uk/news/06032025-airpod-scammers-swarm-to-vinted-with-cheap-but-convincing-clones/ (mar 2025); https://www.vinted.it/help/1335-electronics-category-what-you-can-sell",
+   "prezzo_medio": "AirPods Pro 2 usati ~100-150 EUR; Sony XM5 ~150-220 EUR (stime da guide reselling, verificare sui venduti Vinted)",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "Veloce se prezzo sotto retail e autenticita dimostrata; i compratori scrivono a piu venditori insieme, vince chi risponde prima",
+   "indicatori": "Elettronica tra le categorie a piu alto margine 2025; volume di truffe sui cloni = proxy di domanda altissima",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Carte Pokemon / TCG (lotti bulk e micro-lotti sotto 15 EUR)",
+   "categoria": "collezionismo/TCG",
+   "evidenza": "Fonti italiane 2025: Vinted e sempre piu usato per giochi da collezione ed e consigliato specificamente per micro-lotti sotto 15 EUR e bulk di scarso valore unitario, con vendite rapide tra privati; per singole carte sopra 100 EUR e carte gradate meglio Cardmarket/eBay. Mercato molto stagionale: picco a fine anno/Natale con prezzi storicamente +15-20%. Su Vinted la ricerca 'Pokemon' restituisce 500+ risultati nel brand dedicato. Nota: la protezione acquisti copre poco i lotti di valore, quindi il posizionamento giusto e volume basso-medio.",
+   "fonte": "https://www.sneakersprive.it/2025/07/dove-vendere-carte-pokemon.html (lug 2025); https://www.sneakersprive.it/2025/04/carte-pokemon-vendita-affare.html (apr 2025); https://www.vinted.com/brand/191646-pokemon",
+   "prezzo_medio": "Micro-lotti 5-15 EUR; singole carte comuni/uncommon 1-5 EUR; il segmento >100 EUR va dirottato su Cardmarket/eBay",
+   "punteggio_domanda": 8,
+   "velocita_vendita": "Rapida per lotti economici; stagionale con picco natalizio (+15-20% sui prezzi)",
+   "indicatori": "500+ annunci nel brand Pokemon su Vinted; picco domanda Natale +15-20%; mercato TCG in piena espansione (vendite record a sei cifre alle aste 2025)",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Carhartt / Carhartt WIP (giacche Detroit, felpe, beanie)",
+   "categoria": "streetwear/workwear",
+   "evidenza": "Telvin Bot lo classifica n.4 tra i brand più redditizi su Vinted 2026: 'il vincitore workwear', estetica molto trendy, capi solidi che invecchiano bene, margine x2-x3 su giacche Detroit, felpe, beanie e pantaloni da lavoro. Vendoo lo inserisce tra i brand BOLO (be on the look out) del menswear su Vinted 2026 insieme ad Arc'teryx e Salomon. Il valore è massimo sui pezzi vintage 'worn-in'.",
+   "fonte": "Telvin Bot (13 gen 2026) https://www.telvin-bot.com/it/blog/top-10-marchi-vinted-rivendita-2026/ + Vendoo (agg. 16 giu 2026) https://blog.vendoo.co/what-sells-best-on-vinted-top-brands-and-items-to-sell-in-2025",
+   "indicatori": "Top-5 redditività Vinted 2026 (Telvin); brand BOLO menswear (Vendoo); margine x2-x3",
+   "prezzo_medio": "Giacche Detroit vintage tipicamente €60-120 su Vinted (fascia indicativa dai margini x2-x3 dichiarati)",
+   "punteggio_domanda": 7.5,
+   "velocita_vendita": "Buona su capispalla autunno/inverno; più lenta d'estate",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Dr. Martens e anfibi pre-loved",
+   "categoria": "calzature",
+   "evidenza": "Dato ufficiale Vin-Sights comunicato per l'Italia: i boots Dr. Martens pre-loved si vendono in media a 83 EUR — uno dei pochi prezzi medi pubblicati da Vinted stessa. Categoria con valore unitario alto rispetto al capo medio della piattaforma.",
+   "fonte": "https://www.thewaymagazine.it/trends/i-nuovi-trend-del-riuso-svelati-da-vinted/ (11/03/2025)",
+   "indicatori": "prezzo medio realizzato 83 EUR (dato piattaforma)",
+   "prezzo_medio": "83 EUR",
+   "velocita_vendita": "n.d.",
+   "punteggio_domanda": 7.5,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Bundle abbigliamento bambino (2-8 anni)",
+   "categoria": "kidswear",
+   "evidenza": "Il comunicato ufficiale Vinted 2025 cita l'abbigliamento bambino tra le performance più forti del core fashion. ZipSale (2026): i bundle kidswear si vendono più velocemente dei capi singoli e sono ideali per genitori attenti al budget, con picchi nel back-to-school. Vendy Studio (mag 2026): i lotti bambino (2-8 anni, brand tipo Petit Bateau) sono una nicchia solida e MENO competitiva tutto l'anno, con valore medio 25-40 EUR a bundle.",
+   "fonte": "https://company.vinted.com/newsroom/financial-results-2025 + https://www.zipsale.co.uk/blog/best-selling-items-on-vinted-in-2026 + https://www.vendystudio.com/blog/what-to-sell-vinted-trends-2026",
+   "indicatori": "Citata ufficialmente da Vinted tra le categorie a maggiore performance 2025; nicchia a bassa competizione secondo i tool per seller",
+   "prezzo_medio": "25-40 EUR a bundle",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "I bundle vendono più rapidamente dei singoli capi; picco stagionale al back-to-school",
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Timing di vendita ottimale (dati comportamentali ufficiali Vinted)",
+   "categoria": "operativo / timing",
+   "evidenza": "Dal trend report ufficiale Vinted 2025 (via Stylist): la domenica è il giorno con più vendite sull'app (il lunedì quello con più scrolling); le mattine generano più vendite, ma tra le 18 e le 21 i venditori accettano più offerte; aprile e settembre sono i mesi di picco per le sneaker; i bikini costano il 5,5% in meno nei mesi invernali (opportunità di sourcing controstagione). Vendy Studio aggiunge (non ufficiale): pubblicare giovedì-domenica ore 14-18 e a ridosso degli stipendi di fine mese.",
+   "fonte": "https://www.stylist.co.uk/fashion/vinted-shopping-trends-2025/961259 (feb 2025, su report Vinted) + https://www.vendystudio.com/blog/what-to-sell-vinted-trends-2026",
+   "indicatori": "Domenica = giorno top per vendite; picchi sneaker aprile e settembre; -5,5% prezzo bikini in inverno",
+   "punteggio_domanda": 7,
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Posizionamento Vinted in Italia e dimensione del mercato usato italiano",
+   "categoria": "contesto mercato Italia",
+   "evidenza": "Analisi Il Mio Business Plan (2026, su fonti TechPrincess/Sky TG24 ecc.): mercato dell'usato Italia = 27 mld EUR nel 2024 (1,2% del PIL), 26 milioni di utenti mensili, canale online al 54% del valore (+140% in 10 anni); Vinted è il n.2 in Italia con 5,8 milioni di visite mensili (specializzato moda), dietro al generalista Subito (26M utenti/mese); driver: risparmio 77%, sostenibilità 56%, guadagno 46%; Gen Z 18-24 al 69% di acquisti online. Inoltre il 56% degli italiani possiede oggetti inutilizzati per oltre 400 EUR e il 21% oltre 1.000 EUR (ricerca Vinted/Atomik, dic 2025): ampia offerta potenziale di sourcing.",
+   "fonte": "https://ilmiobusinessplan.com/blogs/news/mercato-second-hand (2026) + https://www.starssystem.it/lifestyle/vinted-lifestyle-25/ (dic 2025)",
+   "indicatori": "5,8M visite/mese Vinted Italia; mercato usato 27 mld EUR; 56% italiani ha >400 EUR di oggetti inutilizzati in casa",
+   "punteggio_domanda": 7,
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Contesto macro: second hand globale +13% nel 2025, Gen Z/Millennial motore della crescita",
+   "categoria": "contesto macro",
+   "evidenza": "Pambianco (28 apr 2026, su dati ThredUp e Bloomberg): mercato globale abbigliamento usato a 257 mld USD nel 2025 (+13%), proiezione 393 mld USD entro il 2030 (velocità doppia del retail); già ~10% della spesa abbigliamento; 58% della Gen Z e 55% dei Millennial danno priorità all'usato; il 46% dei consumatori esplora l'usato prima di comprare nuovo; Gen Z+Millennial guideranno il 71% dell'espansione. Vinted valutata 8 mld EUR (apr 2026, transazione secondaria da 880M EUR) dopo i 5 mld del 2024 — segnale che il canale su cui i tre venditori partono è in piena accelerazione.",
+   "fonte": "https://www.pambianconews.com/2026/04/28/vinted-da-record-la-valutazione-raggiunge-gli-8-miliardi-intanto-il-second-hand-corre-a-13-nel-2025-482204/ (28 aprile 2026)",
+   "indicatori": "Second hand globale +13% (2025); 58% Gen Z dà priorità all'usato; valutazione Vinted 8 mld EUR",
+   "punteggio_domanda": 7,
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Taglie forti / plus-size (46+ / UK 18-28): domanda alta, offerta scarsa",
+   "categoria": "nicchia moda donna",
+   "evidenza": "Venditrice con 2.000+ vendite: 'c'è alta domanda di plus-size su Vinted ma offerta del tutto insufficiente. Le taglie 18-28 vendono veloci', specie pantaloni wide-leg, abiti midi, jumpsuit e loungewear. Chiave: indicare misure reali e tessuti comodi, riduce resi e messaggi. Nicchia a bassa concorrenza per chi parte oggi.",
+   "fonte": "https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (26 gen 2026, agg. 21 lug 2026)",
+   "indicatori": "Squilibrio domanda/offerta dichiarato da seller esperto; nessun dato volumetrico puntuale disponibile",
+   "prezzo_medio": "fascia media 10-30 EUR",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "veloce per definizione della nicchia (offerta scarsa)",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Benchmark venditori reali: cosa aspettarsi in numeri (mediana £75/mese, top 5% oltre £1.300)",
+   "categoria": "voce dei venditori/benchmark",
+   "evidenza": "Analisi su 10.000+ armadi attivi (gen 2025-mar 2026): mediana £75/mese (~€87); il 50% guadagna <£35; top 10% £515-1.300; top 5% £1.300-3.000; top 1% £3.000+. Un armadio di 100 capi curati rende ~10x uno di 20 capi fermi. Casi reali citati: Thomas, 110 capi di sneaker vintage da mercatini, 10h/mese con relist automatico → £585 netti/mese; Amélie, pro full-time con 3 armadi e 340 capi + assistente → £3.600 netti/mese. Solo ~2% dei venditori Pro supera £2.150/mese (200+ capi, 25-40h/settimana). Emma Drew (UK): 2.000+ articoli venduti, £10.000+ totali. Errore killer: fermare i relist per un mese fa crollare le vendite del 60-80%. KPI vero: €/ora, non fatturato (manuale £7-13/h, automatizzato £16-23/h).",
+   "fonte": "https://relisted.io/en/blog/earn-money-vinted (agg. apr 2026) + https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (2026)",
+   "indicatori": "Mediana £75/mese; sell-through pro ~25%/mese su 150 capi; margini per categoria: borse premium 55%, sneakers 45%, kidswear 30% ma rotazione 5 gg",
+   "prezzo_medio": "cestino medio piattaforma ~£12-16 (moda adulto), £36 sneakers, £67 borse premium",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "n/a",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Ballet flats evolute (lace-up, mesh, Tabi) e kitten heels",
+   "categoria": "calzature",
+   "evidenza": "Le ballerine non sono morte: sono il 4° prodotto più hot del mondo nel Lyst Index Q1 2026 (Celine Ballet Lace-up Shoes). Who What Wear (25 luglio 2026) compra per l'autunno 'two-tone shoes' citando Tabi split-toe flats e mesh ballet flats; Depop segnala 'strong gains' nelle ricerche di kitten heels dentro il trend Everyday Ceremony. Il formato evolve (lace-up, mesh, punta quadrata) ma la domanda resta: per il second-hand funzionano Miu Miu-style, Repetto, e versioni premium di brand medi.",
+   "fonte": "https://www.lyst.com/the-lyst-index/q1-26/ (aprile 2026); https://www.whowhatwear.com/fashion/shopping/fall-2026-fashion-trends (25 luglio 2026); https://news.depop.com/company-news/depop-unveils-2026-fashion-trends-report-the-edited-self/ (20 dicembre 2025)",
+   "indicatori": "Celine ballet lace-up = #4 hottest product Q1 2026; kitten heels in forte crescita su Depop",
+   "punteggio_domanda": 7,
+   "prezzo_medio": "Flats/heels usate 20-100 EUR a seconda del brand",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Animalier (leopardo su cappotti e accessori, snakeskin)",
+   "categoria": "trend autunno 2026",
+   "evidenza": "Le sfilate FW 2026 hanno rilanciato l'animalier con take nuovi: cappotti leopardati da Marni, bianco/nero da Carolina Herrera, foulard e abiti leopardati Zadig+Voltaire, gonne e cappotti voluminosi da Nina Ricci; pumps effetto snakeskin. Who What Wear lo mette tra gli 8 trend 'da comprare' per l'autunno 2026 (mentre boccia il gingham). Ottimo per il second-hand: capi leopardati vintage (cappotti, gonne midi, foulard) sono facilmente reperibili in sourcing a basso costo.",
+   "fonte": "https://www.wmagazine.com/fashion/fall-2026-fashion-trends; https://www.whowhatwear.com/fashion/shopping/fall-2026-fashion-trends (25 luglio 2026)",
+   "indicatori": "Presenza trasversale su più sfilate FW26 e nelle liste 'buy' di stampa shopping di luglio 2026",
+   "punteggio_domanda": 7,
+   "prezzo_medio": "Cappotti/capispalla animalier vintage tipicamente 30-100 EUR sull'usato",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Poetcore, spille/brooches e pizzo (Pinterest Predicts 2026)",
+   "categoria": "estetiche emergenti",
+   "evidenza": "Pinterest Predicts 2026 (~600M utenti mensili, accuratezza dichiarata 88% negli ultimi 6 anni): ricerche 'the poet aesthetic' +175% (dolcevita oversize, blazer vintage, messenger bag consumate, loafers - tutto sourcing da mercatino); 'brooch for men's suit' +90% (spille vintage/heirloom, perfette come accessorio ad alto margine e spedizione economica); pizzo dappertutto (da giacche a fazzoletti per capelli) e ritorno del massimalismo 'Glamoratti' con gioielli statement. Tutti trend nativamente second-hand.",
+   "fonte": "https://theeverygirl.com/pinterest-fashion-trends/ (19 dicembre 2025); https://business.pinterest.com/pdf/pinterest-predicts/2026-trend-report/; https://elements.envato.com/learn/pinterest-predicts-trends",
+   "indicatori": "+175% 'the poet aesthetic'; +90% 'brooch for men's suit'; report basato su miliardi di query di ~600M utenti",
+   "punteggio_domanda": 7,
+   "prezzo_medio": "Bigiotteria/spille vintage 5-25 EUR; blazer vintage 25-80 EUR",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Neo Nostalgia: mix '70/'90/Y2K (bandage dress, jorts JNCO, streetwear logo anni '90)",
+   "categoria": "Y2K / vintage mix",
+   "evidenza": "Depop 2026: nel trend 'Neo Nostalgia' le ricerche di bandage dresses, JNCO jorts e silhouette medieval-inspired sono 'in aumento significativo'; la Gen Z mescola frammenti di più decenni invece di replicare una sola era. Su Vinted Italia lo streetwear anni '90/Y2K (felpe larghe, track jacket, maxi loghi) è indicato tra le 3 categorie d'oro per i reseller, con la Gen Z 'disposta a pagare ottime cifre per capi iconici'. Nel Regno Unito il vintage/Y2K è la categoria top di Vinted.",
+   "fonte": "https://news.depop.com/company-news/depop-unveils-2026-fashion-trends-report-the-edited-self/ (20 dicembre 2025); https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (2026); https://plottdata.com/blogs/what-sells-most-on-vinted (agg. giugno 2026)",
+   "indicatori": "Ricerche in aumento significativo dichiarate da Depop su bandage dress/jorts; gonne pleated Y2K 18-45 EUR su Vinted",
+   "punteggio_domanda": 7,
+   "prezzo_medio": "Felpe/track jacket anni '90 20-50 EUR; pezzi iconici oltre",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Brand 'heat' Lyst Q1 2026 come guida al sourcing: Ralph Lauren, Coach, Burberry, COS, Stone Island",
+   "categoria": "luxury/premium accessibile sull'usato",
+   "evidenza": "Nel Lyst Index Q1 2026 i 20 brand più hot includono, oltre al lusso puro (Chanel #1, Saint Laurent #2, Dior #3, Miu Miu #4, Gucci #5 e biggest mover +4), marchi molto reperibili sull'usato in Italia: Ralph Lauren #6, Coach #8, Burberry #9, COS #10, Stone Island #17. La domanda aspirazionale su questi nomi si riversa sul second-hand (l'usato è il canale d'accesso al brand a frazione del prezzo). Coach in particolare è +10 nella classifica prodotti-donna e le borse su Vinted sono la categoria a miglior margine (10% vendite, crossbody più richieste).",
+   "fonte": "https://www.lyst.com/the-lyst-index/q1-26/ (aprile 2026); https://plottdata.com/blogs/what-sells-most-on-vinted (agg. giugno 2026)",
+   "indicatori": "Gucci +4 posizioni (demand share top a Milano post-show, +12% day-on-day); borse = 10% vendite Vinted con margini top; Coach +10 nel ranking donna",
+   "punteggio_domanda": 7,
+   "prezzo_medio": "Borse Coach/Michael Kors/Furla usate 25-200 EUR; capi Burberry/Stone Island vintage ben oltre",
+   "velocita_vendita": "Borse: ~28 giorni in media ma con i margini più alti",
+   "angolo": "moda-trend-2026"
+  },
+  {
+   "item": "Salomon (XT-6 e trail lifestyle / gorpcore)",
+   "categoria": "sneakers/outdoor",
+   "evidenza": "Su StockX Salomon è tra i brand sneaker in maggiore crescita del 2025 con vendite +58% YoY (insieme a Saucony +59%), 'segnale di momentum continuo per gli stili che fondono performance e lifestyle' (CCI 2026). La XT-6 compare tra i prodotti trending di StockX a metà 2026 (XT-6 Earth Brown; collab MM6 Margiela). Retail nuova ~€200: l'usato in buone condizioni ha spazio di margine su Vinted dove il gorpcore è ancora poco presidiato in Italia.",
+   "fonte": "StockX CCI 2026 (12 gen 2026) https://stockx.com/about/stockxs-current-culture-index-highlights-2025s-biggest-winners-reveals-predictions-for-2026/ + SGB Media (12 gen 2026) https://sgbonline.com/stockx-2025-big-facts/",
+   "indicatori": "+58% vendite YoY su StockX 2025; presente nelle liste 'Trending Brands' StockX 2026",
+   "prezzo_medio": "XT-6 nuova ~€190-200 retail; usato tipicamente €70-130 (fascia indicativa, non da fonte diretta)",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "In accelerazione; nicchia con meno concorrenza su Vinted IT",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Stone Island (badge bussola: felpe, giacche leggere)",
+   "categoria": "streetwear premium",
+   "evidenza": "Telvin Bot lo classifica n.5 tra i brand più redditizi su Vinted 2026: 'streetwear premium, brand di culto, clientela fedele disposta a pagare'; volumi bassi ma margini alti (x2-x4) su qualsiasi capo con il badge. In Italia il brand ha una base fan particolarmente forte. Attenzione ai falsi, molto diffusi: verificare badge, bottoni ed etichette.",
+   "fonte": "Telvin Bot (13 gen 2026) https://www.telvin-bot.com/it/blog/top-10-marchi-vinted-rivendita-2026/",
+   "indicatori": "Margine x2-x4; volumi bassi ma clientela fedele",
+   "prezzo_medio": "Felpe usate tipicamente €80-150+, giacche oltre €150 su Vinted (fascia indicativa dai margini dichiarati)",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "Media: meno liquido di Nike/RL ma con acquirenti motivati e prezzi tenaci",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Hype apparel: Fear of God Essentials, Supreme, BAPE (e Off-White)",
+   "categoria": "streetwear hype",
+   "evidenza": "Su StockX Fear of God è il brand apparel più scambiato per il 4° anno consecutivo, seguito da Supreme (n.2), Nike (n.3), Yeezy (n.4) e BAPE (n.5, salito di una posizione) — CCI 2026. Telvin Bot indica Supreme/Off-White come nicchia 'per esperti' su Vinted: margini x2-x10 sui pezzi giusti ma rischio falsi elevato. Nel 2025 quasi 200 brand hanno segnato record storici di vendite su StockX.",
+   "fonte": "StockX CCI 2026 (12 gen 2026) https://stockx.com/about/stockxs-current-culture-index-highlights-2025s-biggest-winners-reveals-predictions-for-2026/ + Telvin Bot (13 gen 2026) https://www.telvin-bot.com/it/blog/top-10-marchi-vinted-rivendita-2026/",
+   "indicatori": "FOG n.1 apparel StockX 4 anni di fila; margini x2-x10 (ma alto rischio contraffazione)",
+   "prezzo_medio": "Molto variabile: felpe Essentials usate ~€50-90; Supreme box logo a tre cifre",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "Rapida sui pezzi giusti; richiede competenza di autenticazione",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Vintage Y2K (Roberto Cavalli, Jean Paul Gaultier, Diesel, Ed Hardy)",
+   "categoria": "vintage",
+   "evidenza": "Telvin Bot la definisce 'la nuova miniera d'oro' su Vinted 2026: Roberto Cavalli +110% e Jean-Paul Gaultier +60% (crescita domanda), margini x3-x10. Modori conferma che lo streetwear anni '90/Y2K (felpe larghe, track-jacket, maxi loghi) è il segmento che attira la Gen Z 'disposta a pagare ottime cifre'. VintiePlus: le band tee vintage 80s-90s vendono 3-5 volte più veloci delle top normali, a €20-80.",
+   "fonte": "Telvin Bot (13 gen 2026) https://www.telvin-bot.com/it/blog/top-10-marchi-vinted-rivendita-2026/ + Modori (2026) https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie + VintiePlus (4 feb 2026) https://vintieplus.com/blog/study-most-searched-vintage-items-on-vinted/",
+   "indicatori": "Cavalli +110%, JPG +60%; band tee vintage 3-5x più veloci; margini x3-x10",
+   "prezzo_medio": "T-shirt/band tee vintage €20-80; pezzi firmati Y2K anche molto oltre",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "Molto rapida sulle band tee; variabile sui pezzi firmati",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Gioielli in argento",
+   "categoria": "accessori / gioielli",
+   "evidenza": "Vin-Sights 2025: nel 2024 i gioielli in argento hanno superato in vendite quelli in oro su Vinted — boom citato esplicitamente per la community italiana. Nicchia a costo di spedizione minimo e margini alti, adatta a chi parte.",
+   "fonte": "https://www.thewaymagazine.it/trends/i-nuovi-trend-del-riuso-svelati-da-vinted/ (11/03/2025); https://www.starssystem.it/fashion/fashion-news/i-vin-sights-di-vinted/ (14/02/2025)",
+   "indicatori": "sorpasso argento su oro nelle vendite 2024 (dato piattaforma)",
+   "prezzo_medio": "10-50 EUR tipico",
+   "velocita_vendita": "n.d.",
+   "punteggio_domanda": 7,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Retro gaming e collezionismo (Gameboy, GameCube, NES)",
+   "categoria": "elettronica / collezionismo",
+   "evidenza": "Vin-Sights: le 3 console retro piu amate su Vinted sono 1. Gameboy 2. GameCube 3. NES. Vinted ha dichiarato nel bilancio 2025 che sport e collezionismo sono tra le categorie in espansione (GMV totale 10,8 mld EUR, +47%). Ipsos Doxa/Subito: l'elettronica second hand in Italia vale 5,5 mld EUR nel 2025.",
+   "fonte": "https://www.thewaymagazine.it/trends/i-nuovi-trend-del-riuso-svelati-da-vinted/ (11/03/2025); https://www.pambianconews.com/2026/04/09/vinted-supera-il-miliardo-di-ricavi-nel-2025-38-480070/ (09/04/2026); https://www.sbircialanotizia.it/articoli/2026/05/11/usato-italia-p7m4x/ (11/05/2026)",
+   "indicatori": "elettronica usata Italia = 5,5 mld EUR; collezionismo indicato da Vinted come categoria in crescita nel 2025",
+   "prezzo_medio": "30-150 EUR a seconda di console/condizioni",
+   "velocita_vendita": "n.d.",
+   "punteggio_domanda": 7,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Vestiti donna (abiti midi/da giorno) con picco stagionale primavera-estate",
+   "categoria": "abbigliamento donna",
+   "evidenza": "PLOTT DATA: abiti = 15% delle vendite, con vendite +60% in Q2/Q3 (picco proprio nella stagione attuale, agosto). Tempo medio di vendita 18 giorni; foto indossate quasi obbligatorie per vendere. Annunci con 8+ foto vendono 2x piu in fretta; prezzi che finiscono in 9 vendono il 15% piu velocemente.",
+   "fonte": "https://plottdata.com/blogs/what-sells-most-on-vinted (12/06/2026)",
+   "indicatori": "15% delle vendite; +60% vendite in Q2/Q3; 18 giorni tempo medio",
+   "prezzo_medio": "18-40 EUR",
+   "velocita_vendita": "~18 giorni, piu rapido nel picco estivo",
+   "punteggio_domanda": 7,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Elettronica usata e ricondizionata (smartphone in testa)",
+   "categoria": "elettronica",
+   "evidenza": "In Italia l'elettronica second hand vale 5,5 mld EUR nel 2025 (Ipsos Doxa/Subito, in crescita da 5,2 mld nel 2024, che era già +6%). Counterpoint Research: vendite globali di smartphone refurbished +3% YoY in H1 2025 (rallentamento; mercati maturi Europa/USA/Giappone ~flat), con Apple +7% (preferenza per iPhone 13 e successivi) e Samsung +4%. Custom Market Insights stima il mercato europeo refurbished/used phones a 24,4 mld USD nel 2025 verso 47,2 mld nel 2032 (CAGR 11,5%). Vinted ha appena aperto la categoria elettronica: domanda alta ma crescita più lenta e margini più tecnici (test, garanzie) rispetto all'abbigliamento.",
+   "fonte": "https://counterpointresearch.com/en/insights/global-refurbished-smartphone-market-h1-2025; https://www.subito.it/magazine/second-hand-sempre-prima-scelta-nel-2025.html; https://www.custommarketinsights.com/report/europe-refurbished-and-used-mobile-phones-market/",
+   "indicatori": "5,5 mld EUR elettronica usata in Italia 2025; refurbished globale +3% H1 2025 (Apple +7%); Europa 24,4 mld USD 2025, CAGR 11,5% al 2032",
+   "punteggio_domanda": 7,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Il collo di bottiglia è l'offerta, non la domanda: opportunità per chi vende",
+   "categoria": "trend trasversale/seller economy",
+   "evidenza": "ThredUp 2026: 'Supply is the New Constraint' — con la domanda in rapida crescita, l'industria fatica a trovare stock; sbloccare l'offerta vale 23,3 mld USD incrementali solo negli USA (mercato USA atteso a 78,8 mld USD nel 2030). BCG/Vestiaire: chi vende lo fa per svuotare l'armadio (66%) e guadagnare (41%); gli americani sono quasi 4x più propensi degli europei a trattare il resale come lavoro part/full-time — segno che in Europa la professionalizzazione dei seller è ancora poco affollata. L'AI (pricing automatico, autenticazione, discovery) sta abbattendo le frizioni della vendita.",
+   "fonte": "https://newsroom.thredup.com/news/thredup-14th-resale-report; https://www.bcg.com/press/9october2025-new-report-from-bcg-and-vestiaire-collective-reveals-global-trends-reshaping-the-resale-market",
+   "indicatori": "23,3 mld USD di valore USA bloccato dal lato offerta; mercato USA a 78,8 mld USD nel 2030; 41% vende per guadagnare",
+   "punteggio_domanda": 7,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Casa & Persona, arredamento, casalinghi e libri usati",
+   "categoria": "casa/libri",
+   "evidenza": "Ipsos Doxa/Subito 2025: Casa & Persona è la macro-categoria regina della compravendita online in Italia (76% degli utenti, sia acquisto che vendita); Casa & Persona genera 7,4 mld EUR di valore nel 2025 (da 7,3 nel 2024, in crescita costante). Nella top 3 dei prodotti online: Libri & Riviste stabile al 2° posto e Arredamento & Casalinghi al 3° (25% acquisti). Vinted ha aggiunto libri e oggetti per la casa alle categorie: domanda dimostrata in Italia, ticket medi bassi ma rotazione alta.",
+   "fonte": "https://www.subito.it/magazine/second-hand-sempre-prima-scelta-nel-2025.html; https://www.bva-doxa.com/second-hand-economy-a-livelli-record-il-digitale-traina-la-crescita-e-supera-loffline-per-la-prima-volta-anche-a-valore/",
+   "indicatori": "Casa & Persona 7,4 mld EUR in Italia 2025; 76% degli utenti online attivi nella categoria; libri ~31% degli acquisti online (dato 2024)",
+   "punteggio_domanda": 7,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "LEGO: set ritirati/fuori produzione e lotti sfusi",
+   "categoria": "giochi/collezionismo",
+   "evidenza": "Fonti italiane 2025: i set LEGO ritirati iniziano a crescere di prezzo 2-3 anni dopo il ritiro, con rendimenti che variano da -50% a +600% annuo; alcuni set triplicano o quadruplicano il valore. Affaridanerd (guida vendere LEGO) valuta Vinted come canale comodo con zero commissioni per il venditore, ma avverte: community non specializzata e protezione limitata (~30 EUR) in caso di controversie — quindi adatto a set comuni e lotti sfusi, non ai pezzi grossi da investimento. Esiste una lista aggiornata dei set in ritiro a fine 2025 utile per il sourcing.",
+   "fonte": "https://www.affaridanerd.it/vendere-lego/ ; https://www.affaridanerd.it/lego-da-investimento/ ; https://www.affaridanerd.it/lego-fuori-catalogo-2025/ (2025); https://www.greenme.it/lifestyle/costume-e-societa/lego-mercato-seconda-mano-aumenta-ogni-anno/",
+   "prezzo_medio": "Lotti sfusi ~10-15 EUR/kg (prassi di mercato); set ritirati: dal prezzo di listino a 2-4x dopo 2-3 anni dal ritiro",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "Lotti sfusi e set comuni veloci; set da investimento richiedono holding di 2-3 anni",
+   "indicatori": "Rendimento medio storico dei set ritirati superiore a oro/azioni secondo studi citati da greenMe; range -50%/+600% annuo",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Profumi e beauty NUOVI sigillati (set regalo, palette limited edition)",
+   "categoria": "beauty",
+   "evidenza": "Vinted consente cosmetici e profumi SOLO nuovi, sigillati, in confezione originale e conformi alle norme UE; vietato tutto cio che e aperto anche una volta. Detto questo, la venditrice UK Emma Drew (2.000+ vendite, 10.000+ GBP) riporta che i beauty sigillati 'vendono sorprendentemente in fretta': set regalo profumo, palette limited edition, skincare The Ordinary/La Roche-Posay/Clinique. Forum Fragrantica 2025 conferma che Vinted e il canale piu usato in Italia per rivendere profumi (da collezioni personali, solo sigillati in regola).",
+   "fonte": "https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (gen 2026, agg. lug 2026); https://beauty.thewom.it/trucco/app-vendere-comprare-prodotti-beauty-makeup (2025); https://www.fragrantica.it/board/viewtopic.php?id=12090 (2025)",
+   "prezzo_medio": "Profumi mainstream sigillati 20-60 EUR; nicchia 60-150 EUR; palette LE 15-40 EUR",
+   "punteggio_domanda": 7,
+   "velocita_vendita": "Sorprendentemente veloce per prodotti sigillati di brand noti (fonte seller 2.000+ vendite)",
+   "indicatori": "Regola dura (solo sigillato) = meno concorrenza di offerta; domanda confermata da seller con 2.000+ vendite",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Brand emergenti nel resale sneaker: Mizuno, Maison Mihara Yasuhiro, Saucony",
+   "categoria": "sneakers",
+   "evidenza": "StockX CCI 2026: Mizuno è il brand sneaker in più forte crescita del 2025 (+124% YoY, trainato da MXR e Wave Prophecy Moc), Maison Mihara Yasuhiro n.2 con +91%, Saucony +59%. WWD aggiunge Brooks +1.508% nel running. Segnale utile per anticipare: su Vinted Italia questi brand hanno ancora poca offerta e prezzi bassi — occasione di arbitraggio per chi li intercetta prima che il trend arrivi al mass market.",
+   "fonte": "StockX CCI 2026 (12 gen 2026) https://stockx.com/about/stockxs-current-culture-index-highlights-2025s-biggest-winners-reveals-predictions-for-2026/ + WWD (12 nov 2025) https://wwd.com/footwear-news/sneaker-news/stockx-big-facts-resale-trends-2025-1238345128/",
+   "indicatori": "Mizuno +124%, Mihara Yasuhiro +91%, Saucony +59%, Brooks +1.508% (StockX 2025)",
+   "prezzo_medio": "n.d. su Vinted (mercato ancora sottile in Italia)",
+   "punteggio_domanda": 6.5,
+   "velocita_vendita": "Ancora lenta su Vinted IT, ma in forte accelerazione sul resale globale",
+   "angolo": "sneakers-streetwear"
+  },
+  {
+   "item": "Stone Island e sportswear/streetwear vintage (anche Napapijri, Diadora, Fila su altri canali)",
+   "categoria": "streetwear premium / vintage italiano",
+   "evidenza": "Caso ripreso dalla stampa italiana a fine luglio 2026: Madi Donohoe, 22 anni, ha lasciato il lavoro e incassa ~60.000 EUR/mese (513.000 sterline totali) rivendendo abiti usati online, con focus sul vintage Stone Island; i pezzi vanno da ~15 sterline fino a 2.000 sterline per giacche prototipo. Su Vinted Italia il catalogo Stone Island usato e attivo con capi vintage da ~30 EUR in su. Per Napapijri/Diadora/Fila vintage la domanda e visibile su eBay.it, Etsy e Wallapop ma non ho trovato numeri pubblici specifici per Vinted.",
+   "fonte": "https://www.leggo.it/esteri/news/31_luglio_2026_licenziamento_lavoro_stipendio_mese_vendita_vestiti_usati_online_madi_donohoe-9681349.html (31/07/2026); https://www.vinted.it/catalog/83-overige/brand/73306-stone-island",
+   "indicatori": "top seller citata da testate italiane: ~60.000 EUR/mese, 513.000 GBP incassate; range prezzi Stone Island 15-2.000 GBP",
+   "prezzo_medio": "capi Stone Island usati da ~30 EUR (basici) a diverse centinaia per giacche; pezzi rari oltre 1.000",
+   "velocita_vendita": "n.d.",
+   "punteggio_domanda": 6.5,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Borse di marca accessibile (Michael Kors, Coach, Furla)",
+   "categoria": "borse",
+   "evidenza": "PLOTT DATA: borse = 10% delle vendite Vinted, prezzo tipico 25-80 EUR, brand top Michael Kors, Coach, Kate Spade, Furla (brand italiano). Categoria a valore unitario alto ma rotazione piu lenta (28 giorni in media).",
+   "fonte": "https://plottdata.com/blogs/what-sells-most-on-vinted (12/06/2026)",
+   "indicatori": "10% delle vendite; 28 giorni tempo medio di vendita",
+   "prezzo_medio": "25-80 EUR",
+   "velocita_vendita": "~28 giorni (la piu lenta tra le top category)",
+   "punteggio_domanda": 6,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Contesto macro: mercato second hand Italia ai massimi storici",
+   "categoria": "mercato / macro",
+   "evidenza": "Osservatorio Second Hand Economy (BVA Doxa per Subito, 12/05/2025, dati 2024): mercato usato Italia = 27 mld EUR, 63% degli italiani coinvolti, online = 54% del valore, guadagno medio di chi vende = 820 EUR/anno. Edizione successiva (Ipsos Doxa per Subito, feb 2026, dati 2025): 27,2 mld EUR (1,2% del PIL), 28,2 mln di italiani attivi, 68% considera l'usato come prima scelta, online a 14,7 mld. Vinted in Italia (dal 2020): 11 milioni di membri registrati, tra i primi mercati del gruppo (Sole 24 Ore, intervista all'AD). Vinted globale 2025: ricavi 1,1 mld EUR (+38%), GMV 10,8 mld EUR (+47%).",
+   "fonte": "https://www.bva-doxa.com/second-hand-economy-a-livelli-record-il-digitale-traina-la-crescita-e-supera-loffline-per-la-prima-volta-anche-a-valore/ (12/05/2025); https://www.sbircialanotizia.it/articoli/2026/05/11/usato-italia-p7m4x/ (11/05/2026); https://www.ilsole24ore.com/art/vinted-segreti-successo-spiegati-dall-ad-cosi-faremo-diventare-second-hand-prima-scelta-AFeTiWED; https://www.pambianconews.com/2026/04/09/vinted-supera-il-miliardo-di-ricavi-nel-2025-38-480070/ (09/04/2026)",
+   "indicatori": "27,2 mld EUR mercato IT; 28,2 mln italiani attivi; 11 mln membri Vinted Italia; GMV Vinted +47% nel 2025; guadagno medio venditore 820 EUR/anno",
+   "prezzo_medio": "n/a",
+   "velocita_vendita": "n/a",
+   "punteggio_domanda": 6,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Sport & Hobby second hand",
+   "categoria": "sport",
+   "evidenza": "Ipsos Doxa/Subito: Sport & Hobby vale 3,2 mld EUR in Italia nel 2025 (da 3,1 nel 2024) ed è la seconda macro-categoria per acquisti online (52% degli acquirenti nel 2025, era 57% nel 2024). Vinted ha lanciato l'attrezzatura sportiva come nuova categoria nel 2025 e la cita tra i driver di crescita del GMV (+47%) insieme al collezionismo (FashionNetwork/Pambianco).",
+   "fonte": "https://www.subito.it/magazine/second-hand-sempre-prima-scelta-nel-2025.html; https://it.fashionnetwork.com/news/Vinted-ricavi-2025-a-1-28-miliardi-di-dollari,1822273.html",
+   "indicatori": "3,2 mld EUR in Italia 2025; 52% degli acquirenti online attivi nella categoria",
+   "punteggio_domanda": 6,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Jerseys/maglie sportive e accessori (New Era, Mitchell & Ness)",
+   "categoria": "streetwear/sport vintage",
+   "evidenza": "StockX H1 2025: New Era +274% YoY (collab Takashi Murakami); Mitchell & Ness in forte crescita sopra un +200% già registrato nel 2024, con Michael Jordan tra i top mover; maglie da calcio/basket e design jersey-inspired (es. FC Barcelona x Travis Scott) in forte domanda sul secondario. Coerente con l'exploit del vintage rilevato in Italia da Doxa/Subito: le maglie sportive vintage anni 90-2000 sono un incrocio di due trend confermati.",
+   "fonte": "https://stockx.com/about/stockxs-midyear-trend-report-has-asics-and-salomon-among-fastest-growing-sneaker-brands-sees-new-records-for-labubu-and-triple-digit-sales-growth-for-trading-cards/",
+   "indicatori": "New Era +274% YoY; Mitchell & Ness +200%+ due anni consecutivi",
+   "punteggio_domanda": 6,
+   "angolo": "report-settore"
+  },
+  {
+   "item": "Casa e piccolo homeware 'aesthetic' (candele, decor piccolo, gadget cucina)",
+   "categoria": "casa",
+   "evidenza": "Categoria Home lanciata da Vinted e indicata come in crescita nel 2026: candele, wax warmer, cuscini nuovi, cestini portaoggetti e piccoli gadget cucina, spinti dai trend TikTok home haul. Il lancio delle categorie casa/elettronica e citato esplicitamente da Vinted come driver dei risultati 2025 (ricavi +38% a 1,1 mld EUR, GMV 10,8 mld EUR +47%). Caveat operativo: evitare oggetti fragili o voluminosi perche la spedizione ammazza il margine — restare su pezzi piccoli e leggeri.",
+   "fonte": "https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (2026); https://it.fashionnetwork.com/news/Vinted-ricavi-2025-a-1-28-miliardi-di-dollari,1822273.html (apr 2026); https://fashionunited.it/news/business/vinted-raggiunge-1-1-miliardi-di-euro-di-fatturato-nel-2025-e-registra-un-calo-strategico-degli-utili/2026040930010 (apr 2026)",
+   "prezzo_medio": "5-30 EUR a pezzo; margine buono solo su articoli leggeri e spedibili in busta/scatola piccola",
+   "punteggio_domanda": 6,
+   "velocita_vendita": "Buona per articoli piccoli in stile minimal/TikTok; lenta per pezzi ingombranti",
+   "indicatori": "Vinted attribuisce parte del +47% GMV 2025 proprio alle nuove categorie casa/elettronica/collezionismo",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Giochi in scatola, puzzle, Funko Pop e merch pop-culture (categoria Intrattenimento)",
+   "categoria": "giochi/collezionismo",
+   "evidenza": "Vinted ha una categoria Intrattenimento (libri, giochi da tavolo, puzzle, DVD/CD/vinili) e Hobby & Collezionismo; le guide 2026 la indicano tra le categorie 'spesso trascurate ma che vendono bene se prezzate giuste', con Funko Pop, merch Disney e limited edition tra i pezzi che si muovono. VintiePlus elenca le due categorie tra le 10 macro-aree vendibili e segnala che la categorizzazione corretta e premiata dall'algoritmo di visibilita.",
+   "fonte": "https://vintieplus.com/blog/the-ultimate-guide-to-vinted-categories-what-sells-best-and-how-to-stand-out/ (lug 2025); https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (2026)",
+   "prezzo_medio": "Funko Pop comuni 8-15 EUR, rari/exclusive 30+ EUR; giochi in scatola usati 10-30 EUR",
+   "punteggio_domanda": 6,
+   "velocita_vendita": "Media; accelera con prezzo giusto e relist dopo qualche settimana",
+   "indicatori": "Categoria dedicata ufficiale + segnalazione ricorrente nelle guide seller 2026 come nicchia sottovalutata",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Giocattoli e articoli bimbi in bundle (giochi, libri bambini, baby gear)",
+   "categoria": "kids/giochi",
+   "evidenza": "La categoria Kids e indicata da VintiePlus tra le top per volume: 'giocattoli, libri e baby gear sono le prime scelte delle famiglie a budget', con turnover rapido perche i bambini crescono in fretta; i bundle per taglia/eta sono il formato che vende di piu (si paga una spedizione sola). E il ponte naturale tra abbigliamento e non-abbigliamento per un account nuovo.",
+   "fonte": "https://vintieplus.com/blog/the-ultimate-guide-to-vinted-categories-what-sells-best-and-how-to-stand-out/ (lug 2025); https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (2026)",
+   "prezzo_medio": "Bundle giochi/libri bimbi 10-25 EUR",
+   "punteggio_domanda": 6,
+   "velocita_vendita": "Veloce ('fast turnover' citato esplicitamente), specie in formato bundle",
+   "indicatori": "Kids indicata tra le 3-4 categorie piu popolari della piattaforma per volume di ricerca",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Meccaniche operative che aumentano la conversione (quando e come vendere)",
+   "categoria": "operativita / tattiche",
+   "evidenza": "Dati Vin-Sights per l'Italia: la domenica e il giorno piu gettonato per le vendite; il 19% delle vendite inizia con un messaggio diretto (rispondere ai DM e critico); oltre 70.000 utenti hanno comprato tutti i loro articoli da un solo venditore (fidelizzare paga). PLOTT DATA: annunci con 8+ foto vendono 2x piu in fretta, foto in luce naturale +35% di velocita, prezzi che finiscono in 9 vendono il 15% piu in fretta.",
+   "fonte": "https://www.thewaymagazine.it/trends/i-nuovi-trend-del-riuso-svelati-da-vinted/ (11/03/2025); https://plottdata.com/blogs/what-sells-most-on-vinted (12/06/2026)",
+   "indicatori": "19% vendite da DM; 70.000+ acquirenti mono-venditore; +100% velocita con 8+ foto",
+   "prezzo_medio": "n/a",
+   "velocita_vendita": "n/a",
+   "punteggio_domanda": 5.5,
+   "angolo": "mercato-italia"
+  },
+  {
+   "item": "Libri, manga e fumetti (lotti e serie complete)",
+   "categoria": "libri",
+   "evidenza": "Fonti italiane 2025: Vinted e sempre piu usato per libri e fumetti perche intuitivo, senza commissioni per il venditore e adatto a vendere collezioni intere o pacchetti; c'e persino un filone YouTube italiano su come spedire fumetti con piego di libri aggirando i limiti di peso. Manga comuni in buono stato si vendono a 2-3 EUR l'uno, albi rari o fuori produzione superano 50-100 EUR. Il formato vincente su Vinted e il lotto/serie completa, non il volume singolo. Caveat: le quotazioni degli annunci attivi sono gonfiate rispetto al venduto reale.",
+   "fonte": "https://www.thrillercafe.it/collezionismo/fumetti/dove-vendere-fumetti-usati/ (2025); https://fumettirari.com/manga-usati-guida-allacquisto-e-alla-vendita-dei-manga-su-fumettirari-com/ ; https://www.youtube.com/watch?v=tJGtY47_7lE",
+   "prezzo_medio": "Manga singoli 2-3 EUR; serie complete 30-100+ EUR; albi rari 50-100+ EUR",
+   "punteggio_domanda": 5,
+   "velocita_vendita": "Media; buona per serie complete e bundle a prezzo aggressivo, lenta per volumi singoli comuni",
+   "indicatori": "Community italiana attiva (forum, video dedicati alla logistica Vinted per fumetti) = domanda reale ma prezzi unitari bassi",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Fotocamere (digitali vintage, istantanee, a pellicola) e accessori foto",
+   "categoria": "elettronica/foto",
+   "evidenza": "Il catalogo Elettronica di Vinted Italia ha una sezione molto ampia dedicata a fotocamere digitali, a pellicola, istantanee, action cam, obiettivi, treppiedi e persino droni con fotocamera — segno che la piattaforma spinge la categoria. Attenzione alle regole: pellicole e schede di memoria si possono vendere SOLO nuove; le videocamere di sorveglianza sono vietate. Il trend 'digicam Y2K' e la fotografia analogica sono in crescita nel mercato secondhand generale, e su Vinted la concorrenza specializzata e ancora bassa rispetto a eBay.",
+   "fonte": "https://www.vinted.it/help/1335-electronics-category-what-you-can-sell (pagina ufficiale Vinted, 2025-2026)",
+   "prezzo_medio": "Digicam compatte Y2K 20-80 EUR; istantanee Instax/Polaroid 40-100 EUR (stime mercato, verificare sui venduti)",
+   "punteggio_domanda": 5,
+   "velocita_vendita": "Non quantificata da fonti Vinted-specifiche; nicchia emergente",
+   "indicatori": "Sottocategoria ufficiale molto granulare (droni inclusi) = investimento di Vinted sulla categoria",
+   "angolo": "oltre-abbigliamento"
+  },
+  {
+   "item": "Fast fashion (Zara, H&M, Shein) e basic senza marca: volume enorme ma trappola per il reselling",
+   "categoria": "cosa evitare",
+   "evidenza": "Zara muove 15.200 vestiti/mese in Europa ma a €12,80 medi in 11 gg; H&M €8,40 in 13 gg. Bene per svuotare l'armadio, pessimo per comprare-e-rivendere: 'margini quasi nulli' (Modori: 'addio fast fashion, gli acquirenti 2026 cercano qualità e grandi marchi'). Bershka/Stradivarius sotto €6 di media. Brand in caduta libera 2026 vs 2024: Forever 21 -65%, Pimkie -58%, Tally Weijl -50%, Hollister -45%, Abercrombie -40%. Basic senza marca: invendibili se non in bundle. Altre cose che non girano: articoli voluminosi (spedizione), capi fuori stagione, abiti da cerimonia (lenti), lusso >€800 (meglio Vestiaire).",
+   "fonte": "https://vinkit.co/en/blog/the-brands-that-sell-the-most-on-vinted-in-2026-by-category (2 giu 2026) + https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (2026) + https://makemoneywithoutajob.com/best-things-to-sell-on-vinted/ (2026)",
+   "indicatori": "Prezzi medi €6-13; brand teen in calo -40/-65%; test di trend suggerito dai reseller: filtro 'Venduti' su Vinted, >500 vendite/mese sul brand = in tendenza",
+   "prezzo_medio": "€6-13 (margine quasi nullo dopo tempo e spedizione)",
+   "punteggio_domanda": 4,
+   "velocita_vendita": "11-13 giorni a prezzi minimi",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Cosa EVITARE: fast fashion senza valore (Zara, H&M, Shein) e sneaker hype in eccesso",
+   "categoria": "anti-pattern",
+   "evidenza": "Modori (Italia, 2026): nel 2026 gli acquirenti Vinted 'comprano usato per permettersi brand costosi a frazione del prezzo'; capi fast fashion o senza marca hanno valore di rivendita bassissimo e margini quasi nulli, e faticano a emergere tra milioni di annunci. ZipSale (2026) avverte inoltre di non fare stock di sneaker limited-edition: la saturazione porta a invenduto. Nota: paradossalmente Zara/H&M/Shein restano tra i brand con più volume listato (Thrifter Club 2025), ma volume non significa marginalità per un reseller.",
+   "fonte": "https://modori.it/blogs/news/cosa-si-vende-di-piu-su-vinted-2026-brand-categorie (2026) + https://www.zipsale.co.uk/blog/best-selling-items-on-vinted-in-2026",
+   "indicatori": "Margini 'quasi nulli' dichiarati sul fast fashion; rischio saturazione sulle hype release",
+   "punteggio_domanda": 3,
+   "angolo": "vinted-ufficiale"
+  },
+  {
+   "item": "Algoritmo Vinted: freshness + relist ogni 5-7 giorni (il trucco n.1 dei venditori esperti)",
+   "categoria": "tattica di visibilità",
+   "evidenza": "Studio Vinkit su 2,4M annunci (gen-mag 2026): il 70% delle visualizzazioni arriva nelle prime 24h, dopo 7 giorni l'annuncio prende <2% delle view. Ricaricare (cancella+ripubblica) ogni 5-7 giorni gli annunci SENZA engagement porta al 23% di vendita entro 14 gg, contro 6% di chi non ricarica mai e 4% di chi ricarica ogni giorno (il relist quotidiano è penalizzato come spam: curva a U rovesciata). Non toccare annunci con cuori/messaggi; cambiare almeno 1 dettaglio a ogni relist; annunci <€10 guadagnano +340% di view dal relist. Il 'bump' a pagamento (€0,45-2) non resetta la freshness: il relist manuale gratuito è più potente. Routine consigliata: 30 min/settimana per 30-50 capi. Le nuove T&C di settembre 2025 non vietano relist/crosslisting entro limiti ragionevoli.",
+   "fonte": "https://vintefy.com/vinted-relisting-strategy (2026) + https://vintefy.com/vinted-algorithm-guide (2026) + https://selleraider.com/vinted-terms-and-conditions-update/ (ott 2025, agg. gen 2026)",
+   "indicatori": "23% vs 6% vs 4% vendite in 14 gg per cadenza di relist; -80% visibilità dopo 3 giorni; chi ricarica regolarmente riporta fino a 4x vendite",
+   "prezzo_medio": "n/a",
+   "velocita_vendita": "n/a",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Orari e stagionalità: domenica 20-21 il momento d'oro; agosto è il mese peggiore per partire",
+   "categoria": "tattica di visibilità",
+   "evidenza": "Analisi Relisted su 12.000 annunci attivi (gen-apr 2026): la fascia 19-22 concentra il 38% delle view giornaliere con conversione 2,4% (picco assoluto ~20:30, utenti connessi 3,2x la media); domenica sera è lo slot migliore della settimana (+25% traffico). Il mattino feriale 7-9 (pendolari) ha il 28% di annunci in meno e conversione 2,1%: meno concorrenza. Venerdì è il giorno peggiore (-35% dopo le 21). Stagionalità: luglio-agosto -15/-20% di traffico (i tre venditori partono il 3 agosto: aspettarsi lentezza iniziale), settembre è il 2° picco annuale (back-to-school), gennaio il record (+35%). Sequenza consigliata: pubblicazione domenica 20-21, relist mercoledì/giovedì ~19:30, poi di nuovo domenica → chi la segue vende in media 2,3x più veloce.",
+   "fonte": "https://relisted.io/en/blog/best-time-post-vinted (2026) + https://vintefy.com/vinted-relisting-strategy (2026)",
+   "indicatori": "38% view serali; +25% traffico domenica; -15/-20% ad agosto; 2,3x più veloce con calendario ottimizzato",
+   "prezzo_medio": "n/a",
+   "velocita_vendita": "n/a",
+   "angolo": "community-venditori"
+  },
+  {
+   "item": "Foto indossate + titoli SEO: i due fattori di ranking controllabili",
+   "categoria": "tattica di visibilità",
+   "evidenza": "L'algoritmo ordina per click-through rate della foto principale: foto indossata/styling con luce naturale batte il flat-lay sul letto; i brand con foto curate vendono in 5-6 gg, quelli con flat-lay scadenti in 13 gg (correlazione osservata su H&M e Lancel). Vinted ha confermato ufficialmente solo che la ricerca è keyword-based: titolo formato 'brand + tipo capo + taglia + colore + condizione' (es. 'Cappotto cachemire blu taglia L ottime condizioni'); niente emoji, niente keyword stuffing multi-brand (rilevato e penalizzato). 3 foto minimo, 5-8 ideale, tutti i campi compilati. Prezzo nello sweet spot tra mediana e 60° percentile dei comparabili (+10-15% di margine per le offerte). Venditrice italiana (Substack, 2024): prezzo troppo basso su capi di qualità genera diffidenza ('Difetti?'), e le recensioni iniziali si costruiscono comprando piccole cose e vendendo i primi pezzi a prezzo basso.",
+   "fonte": "https://vintefy.com/vinted-algorithm-guide (2026) + https://minimalistainprogress.substack.com/p/lezioni-di-marketing-vinted (17 gen 2024)",
+   "indicatori": "Differenza 5 vs 15 giorni di vendita attribuita alla sola foto principale; rating minimo 4,5 per restare in cima al ranking",
+   "prezzo_medio": "n/a",
+   "velocita_vendita": "n/a",
+   "angolo": "community-venditori"
+  }
+ ],
+ "note_ricerca": [
+  {
+   "angolo": "vinted-ufficiale",
+   "note": "ANGOLO COPERTO: dati ufficiali e semi-ufficiali Vinted, tutti da pagine effettivamente lette (agosto 2026). GERARCHIA DELLE FONTI: (1) Comunicati ufficiali company.vinted.com letti integralmente: risultati 2025 (GMV 10,8 mld EUR +47%, apr 2026), Vinted Equation (88% controlla Vinted prima del nuovo, -72% vs retail, mag 2026), New Eras Again (espansione elettronica/libri/collezionabili/casa, set 2025), risultati 2024 (lancio categoria elettronica), lancio Australia (giu 2026). (2) Semi-ufficiali: ricerca Vinted/Atomik Research con campione italiano n=2.003 (via StarsSystem, dic 2025, con quote di Eve Taraborrelli, Communications Manager Western Europe Vinted) e trend report Vinted 2025 via Stylist. (3) Terze parti commerciali (tool per seller: Vendy Studio, ZipSale, Modori): utili per prezzi e velocità di vendita ma con interesse commerciale — le percentuali di crescita ricerche SS26 (+2075% flared jeans ecc.) dichiarano di derivare da 'report Vinted SS26' ma NON ho trovato il documento ufficiale Vinted corrispondente: trattarle come indicative. CAVEAT: Vinted non pubblica una classifica ufficiale 'più venduti per l'Italia'; i dati comportamentali del trend report 2025 (domenica giorno top, Levi's 501 a ~23 GBP) sono su base piattaforma/UK, non specifici Italia; WebSearch è US-centrica; diverse pagine (CNBC, Vogue Business diretto) erano inaccessibili (403). Nota operativa per il progetto: la combinazione più supportata dai dati per 3 venditori in Italia ad agosto 2026 è (a) core moda brandizzata heritage (RL/TH/Levi's/Nike-Adidas) prezzata a ~30-60% del retail, (b) apertura immediata su elettronica/gaming e intrattenimento dove la domanda italiana dichiarata è la più alta (53-61%) e la competizione tra seller è più recente, (c) sourcing controstagione (es. bikini -5,5% in inverno) e pubblicazione nel weekend."
+  },
+  {
+   "angolo": "community-venditori",
+   "note": "CAVEAT SUI DATI: (1) I numeri quantitativi più solidi (prezzi medi, giorni mediani di vendita, crescite % per brand) vengono quasi tutti da due dataset Vinkit: 1,1M vendite confermate (ott 2024-mag 2026, 19 mercati UE) e 2,4M annunci (gen-mag 2026), ripresi anche da Vintefy; Vinkit, Vintefy, Relisted e SellerAider sono tool per venditori Vinted, quindi con interesse commerciale a enfatizzare l'efficacia di relist/foto — i dati di prodotto/brand sono però coerenti tra fonti indipendenti tra loro. (2) Reddit (r/vinted ecc.) risulta bloccato ai crawler disponibili: ho identificato i thread rilevanti (es. reddit.com/r/vinted/comments/1fxhzsv e 1b0o0a0) ma non ho potuto leggerne i commenti; la 'voce della community' qui viene da venditori esperti che pubblicano guide (Emma Drew 2.000+ vendite, blog Modori fornitore B2B italiano, Substack di una venditrice italiana) e da articoli che riassumono i consigli dei reseller di YouTube/TikTok (es. video 'The BEST Items To Resell On Vinted In 2026' di Cfabastin, individuato ma non trascritto). (3) I dati Sky TG24 sul second hand Italia (65% popolazione, €27,2 mld) provengono dagli snippet della ricerca, pagina non aperta integralmente. (4) Le medie prezzi sono europee (peso forte del mercato francese: Sézane, Polène); per l'Italia il dataset Vinkit segnala domanda locale più forte su Liu Jo e Pinko. (5) Guadagni venditori espressi in £ (fonte UK): conversione ~1£=1,16€. (6) Tempismo: i tre venditori partono il 3 agosto, dentro il calo stagionale estivo (-15/-20% traffico); conviene usare agosto per sourcing e costruzione recensioni, e arrivare carichi al picco back-to-school di settembre (bambino +42% sell-through) con capi autunnali listati da fine settembre. (7) Non è emerso alcun profilo Vinted specifico con follower/venduti verificabili: i profili pubblici non sono indicizzabili facilmente; i benchmark numerici dei venditori vengono dall'analisi Relisted su 10.000 armadi e dai casi citati."
+  },
+  {
+   "angolo": "moda-trend-2026",
+   "note": "Contesto Italia: il second-hand coinvolge 28,2 milioni di italiani (65% adozione, +2 punti in un anno), mercato totale 27,2 mld EUR di cui 14,7 mld online; il solo resale moda in Italia supera 1 mld EUR/anno di transato con crescita a doppia cifra (fonti: https://tg24.sky.it/economia/2026/05/12/acquisti-second-hand-italia-dati e https://italiaeconomy.it/second-hand-moda-mercato-da-27-miliardi-in-italia/, maggio 2026). Vinted conta 75M+ membri in 16 paesi. Timing operativo (PLOTT DATA): listare i capi autunnali già in agosto per il rush di settembre; capispalla e stivali fanno l'80% delle vendite annuali tra settembre e novembre; prezzi che finiscono in 9 vendono ~15% più in fretta; annunci con 8+ foto vendono 2x. Caveat sui dati: (1) le percentuali eBay/Lyst/Pinterest sono globali, non specifiche per l'Italia; (2) ho scartato le pagine di aggregatori AI (accio.com, zipsale) come fonti primarie perché di qualità non verificabile; le cifre di PLOTT DATA, modori/dsottile provengono da operatori commerciali del settore reselling, plausibili ma non audit indipendenti; (3) segnali contrastanti sul barrel jeans (Who What Wear lo dà ancora forte a inizio 2026, Yahoo/Style lo dà in uscita) - trattarlo come trend maturo, non in crescita; (4) il boho puro non trova conferme forti nelle fonti 2026 lette: l'energia romantica si è spostata su pizzo, lace e 'romantic revival' (Pinterest) e sull'opulenza dark delle sfilate FW26 - meglio parlare di 'romantico/vittoriano' che di boho classico; (5) Who What Wear per l'autunno 2026 'scarta' esplicitamente: zeppe, gingham, giallo, lino e iper-minimalismo. Trend più forte in assoluto per i prossimi 2-3 mesi: maglie da calcio vintage (coda Mondiale) e transizione verso suede/workwear/animalier per l'autunno. Il minimalismo anni '90 (CK, dolcevita, straight denim) è il ponte ideale estate-autunno con sourcing facile e margini alti."
+  },
+  {
+   "angolo": "sneakers-streetwear",
+   "note": "CONTESTO PIATTAFORMA: Vinted ha chiuso il 2025 con ricavi a €1,1 mld (+38%) e un GMV di €10,8 mld (+47%); l'Italia è il 4° mercato dopo Francia, UK e Germania; valutazione record €8 mld e mercato second hand +13% nel 2025 (Pambianconews, 9 e 28 apr 2026: https://www.pambianconews.com/2026/04/09/vinted-supera-il-miliardo-di-ricavi-nel-2025-38-480070/ e https://www.pambianconews.com/2026/04/28/vinted-da-record-la-valutazione-raggiunge-gli-8-miliardi-intanto-il-second-hand-corre-a-13-nel-2025-482204/). Vinted conta 75-80+ mln di utenti in 16 paesi. Il 2026 è un anno-evento (Mondiale FIFA + Olimpiadi Milano-Cortona): StockX prevede spinta su calcio-lifestyle, retro cleats e prodotti legati a squadre/atleti — rilevante per un seller italiano (maglie da calcio vintage, terrace shoes). CAVEAT SUI DATI: (1) i numeri StockX/WWD sono globali e riferiti al mercato deadstock USA-centrico, non a Vinted Italia — su Vinted i prezzi sono più bassi e la liquidità dipende molto da taglia e condizioni; (2) prezzi e tempi di vendita Vinted (PLOTT DATA, VintiePlus, Telvin, Modori) provengono da blog di tool per reseller o fornitori B2B: metodologia non verificabile in modo indipendente e potenziale conflitto d'interesse (vendono servizi ai reseller), quindi trattarli come ordini di grandezza, non come statistiche ufficiali; (3) non ho trovato dati pubblici 2026 su follower/venduti dei singoli top seller Vinted Italia né statistiche ufficiali Vinted per l'Italia (i report 'Vin-sights' citati da dsottile.it non risultano accessibili); (4) il Lyst Index Q1 2026 (https://www.lyst.com/data/the-lyst-index/) è dominato dal lusso (Chanel, Saint Laurent, Dior) e in questo trimestre non dà segnali forti su sneaker mainstream, salvo la traiettoria adidas; (5) trend Samba: ancora forte ma maturo — meglio rotazione veloce a prezzo competitivo che scommettere su apprezzamento. Fonti scartate: contenuti auto-generati (accio.com) e nichify.app (sito irraggiungibile, SSL rotto). Regola operativa emersa da più fonti: comprare a €10-30 e rivendere a €40-100 (minimo x2), sfruttare la stagionalità (piumini TNF comprati ora ad agosto, venduti da settembre quando si vendono in ore) e curare foto (8+ foto = vendita 2x più veloce secondo PLOTT DATA)."
+  },
+  {
+   "angolo": "mercato-italia",
+   "note": "Caveat sui dati: (1) I 'Vin-Sights' sono dati ufficiali Vinted ma riferiti alla finestra 1 dic 2023 - 1 dic 2024, comunicati a feb-mar 2025 con declinazione specifica per l'Italia (Gucci n.1, Fendi Baguette, Dr. Martens 83 EUR, domenica, aprile/settembre per sneakers): sono i dati Italia-specifici piu solidi disponibili pubblicamente. (2) Le percentuali di categoria e i tempi di vendita di PLOTT DATA (100M+ annunci analizzati, agg. giugno 2026) sono a livello Vinted-Europa, non solo Italia. (3) Non ho trovato interviste pubbliche a top seller ITALIANI di Vinted con numeri (follower/venduti): la stampa italiana (Leggo, luglio 2026) copre il caso UK di Madi Donohoe (~60k EUR/mese con vintage Stone Island). (4) Sulle differenze di prezzo Italia vs estero non esistono dati pubblici solidi: le fonti reperite (guide reseller, Substack) parlano di mercato saturo e di assenza di filtri per paese, quindi arbitraggio possibile ma non documentato con numeri; segnalo che gli acquirenti italiani mostrano una premialita unica per brand nazionali (Gucci > Louis Vuitton, D&G e Versace in top 10 solo in Italia), il che suggerisce di sourcing-are brand italiani all'estero per rivendere in Italia. (5) Contesto agosto 2026: siamo nel picco Q3 degli abiti estivi; aprile e settembre i mesi migliori per sneakers, quindi settembre e il momento per caricare sneakers. Alcune pagine (dsottile.it, 02/02/2026) confermano il quadro ma senza dati proprietari."
+  },
+  {
+   "angolo": "report-settore",
+   "note": "Metodo e caveat. (1) Fonti lette integralmente via scraping: ThredUp 14th Resale Report press release (02/04/2026, dati GlobalData), BCG x Vestiaire Collective press release (09/10/2025), Osservatorio Ipsos Doxa per Subito ed. 2025 (subito.it, 11/05/2026) ed ed. 2024 (bva-doxa.com), Pambianconews su Vinted FY2025 e mercato second hand (28/04/2026), StockX Midyear Trend Report H1 2025. Altri dati (eBay Recommerce 2025, Counterpoint H1 2025, Custom Market Insights) provengono da risultati di ricerca con URL verificati ma pagine non scaricate riga per riga. (2) Il PDF completo ThredUp e la pagina thredup.com/resale erano bloccati (403): i numeri citati vengono dal comunicato ufficiale del newsroom. (3) I dati ThredUp/eBay sono in gran parte USA-centrici; i dati BCG/Vestiaire sono globali con split Europa; per l'Italia i dati Doxa/Subito coprono tutto l'usato (inclusi veicoli, 11,1 mld EUR, non rilevanti per Vinted). (4) Implicazioni operative per tre venditori che partono oggi su Vinted Italia: il cuore della domanda resta abbigliamento donna/bambino + vintage (dato Vinted stesso), con GenZ come target e social come canale di discovery (~50%); le categorie appena aperte da Vinted (collezionismo, sport, elettronica, libri) hanno domanda dimostrata dai dati Doxa/StockX e presumibilmente meno concorrenza di seller consolidati; il sourcing iniziale dagli armadi propri è la prassi dell'86% dei seller. (5) Non ho trovato dati pubblici affidabili 2025-2026 su follower/venduti dei top seller Vinted Italia né su tempi medi di vendita per categoria su Vinted: le fonti tipo accio.com trovate su questi punti sono di qualità dubbia e le ho escluse o segnalate come analisi di settore. (6) Prezzi medi EUR per singolo item raramente pubblicati nei report istituzionali; dove indicati sono stime dichiarate come tali."
+  },
+  {
+   "angolo": "oltre-abbigliamento",
+   "note": "Contesto piattaforma: Vinted ha chiuso il 2025 con ricavi 1,1 mld EUR (+38%) e GMV 10,8 mld EUR (+47%), e attribuisce esplicitamente la crescita al lancio delle nuove categorie (elettronica, casa, collezionismo, sport) — quindi l'angolo 'oltre i vestiti' e esattamente dove la piattaforma sta investendo (fonti: it.fashionnetwork.com apr 2026, fashionunited.it apr 2026, pambianconews.com apr 2026). Caveat sui dati: (1) Vinted non pubblica sell-through rate per categoria; i tassi di vendita citati vengono da guide seller e community, non da dati ufficiali; (2) molti prezzi 'medi' derivano da annunci attivi, che sono sistematicamente gonfiati rispetto al venduto reale — la prassi corretta e filtrare i VENDUTI su Vinted per l'articolo esatto prima di prezzare; (3) le fonti quantitative sul retro gaming (coopboardgames, Easy Cash via journaldugeek) riguardano il mercato generale, non solo Vinted; (4) la protezione acquisti Vinted e considerata debole dalle community LEGO/TCG per pezzi di valore: la strategia consigliata dalle fonti e usare Vinted per lotti e articoli sotto ~50-100 EUR e dirottare i pezzi grossi su Cardmarket/eBay; (5) tattiche trasversali documentate: bundle per articoli sotto 5 EUR, relist dopo 7-10 giorni (l'algoritmo premia i listing freschi), prezzi in ,99, foto di ogni angolo/porta/difetto, risposta rapida ai messaggi. Fiscale Italia: sopra 30 vendite o 2.000 EUR/anno scatta la segnalazione DAC7 all'Agenzia delle Entrate — con 3 venditori conviene definire subito chi vende cosa e tracciare i margini."
+  }
+ ],
+ "verifiche": [
+  {
+   "lente": "evidenza",
+   "esito": {
+    "valutazioni": [
+     {
+      "item": "Moda donna e bambino (core Vinted) + espansione categorie",
+      "giudizio": "solido",
+      "commento": "Verificato: il comunicato ufficiale company.vinted.com/newsroom/financial-results-2025 esiste e conferma GMV 10,8 mld EUR (+47%), ricavi 1,1 mld (+38%), utile netto 62 mln. Confermato indipendentemente da ecommercenews.eu, worldfootwear.com, Global Banking & Finance e Dealroom. Trend attuale: nel 2026 Vinted ha anche lanciato l'espansione USA (gennaio 2026) e la valutazione è salita a ~9 mld USD (CNBC, giugno 2026)."
+     },
+     {
+      "item": "Adidas Samba (e sneaker di tendenza: Salomon XT-6, Nike Dunk, NB 530)",
+      "giudizio": "debole",
+      "commento": "L'articolo Vinkit esiste ed è recente (dataset dichiarato 1,1M vendite ott 2024-mag 2026), ma è il blog commerciale di un tool per seller Vinted: i micro-dati (4 giorni, +180%, €48,90) non sono verificabili né confermati da fonti indipendenti. Inoltre fonti terze (Google Trends, analisi di mercato 2026) indicano che la crescita della Samba sta rallentando: è diventata uno staple, non più un'onda in accelerazione, con Campus/Spezial/SL72 che la superano in alcuni mercati. Direzione qualitativa plausibile, numeri da prendere con cautela."
+     },
+     {
+      "item": "Maglie da calcio vintage / blokecore (Mondiale 2026)",
+      "giudizio": "solido",
+      "commento": "Evidenza reale e corroborata: mondoexpat (4 lug 2026) esiste e i dati eBay (3.200 ricerche/ora a maggio, +840% articoli FIFA, +510% maglie) sono confermati; Forbes (10 giu 2026) conferma indipendentemente il 'World Cup of retro jerseys' e Gothamist il boom prezzi su eBay. Unico caveat importante: il Mondiale è finito a luglio 2026, quindi il picco è passato — attendersi decadimento della domanda evento-driven, mentre il filone blokecore/vintage di fondo resta (confermato anche dal Depop report)."
+     },
+     {
+      "item": "Sneakers come categoria (la più veloce da vendere su Vinted)",
+      "giudizio": "solido",
+      "commento": "La fonte PLOTT DATA esiste ed è aggiornata a giugno 2026; il claim qualitativo (sneakers categoria a rotazione più rapida, ~12 giorni) è ripetuto da più fonti del settore seller-tool (VintiePlus, Vinkit, Vendoo, Nifty). Caveat: sono tutti blog SEO di tool per reseller con possibile circolarità delle cifre; la metodologia '100M+ annunci' non è verificabile. La sostanza (sneakers = categoria liquida e veloce) è però coerente con StockX/WWD e con i dati Vinted ufficiali."
+     },
+     {
+      "item": "Abbigliamento & Accessori second hand Italia (exploit del vintage)",
+      "giudizio": "solido",
+      "commento": "Pienamente verificato: l'Osservatorio Ipsos Doxa/BVA Doxa per Subito è reale e ripreso da AdnKronos, Sky TG24 (12 mag 2026), ANSA e stampa nazionale. Confermati i 27,2 mld EUR (1,2% PIL), 28,2 mln di italiani (65%, +2 p.p.), 68% che parte dal second hand, online a 14,7 mld (54% del totale, sorpasso sull'offline). Abbigliamento & Accessori categoria n.1 online. Fonte primaria autorevole e recentissima."
+     },
+     {
+      "item": "REGOLE CHIAVE Vinted per il non-abbigliamento",
+      "giudizio": "solido",
+      "commento": "La pagina help ufficiale Vinted (1335-electronics-category-what-you-can-sell) esiste ed è raggiungibile su vinted.com; i divieti citati sono confermati: console jailbroken/custom firmware vietate, beni digitali/chiavi software vietati, articoli vaping e accessori vietati, videogiochi fisici ok se con age-rating. Corroborato da guide terze (oneshop, rocketdigit, Vinta.App). Vincoli operativi attuali e affidabili — regole di piattaforma, non un trend, quindi soggette ad aggiornamenti: ricontrollare la pagina prima di vendere."
+     },
+     {
+      "item": "Domanda strutturale: Vinted primo canale di acquisto (-72% vs retail)",
+      "giudizio": "solido",
+      "commento": "Il comunicato 'Vinted Equation' esiste sul newsroom ufficiale e i numeri chiave sono confermati: 88% controlla Vinted prima di comprare nuovo, 21,6 mld EUR risparmiati sulla moda adulti 2025, -72% medio vs retail. Unica sfumatura: nella pagina il 76% risulta riferito a 'Vinted rende il second hand più accessibile', mentre la lista lo attribuisce a 'acquisti che sostituiscono il nuovo' — da ricontrollare quel singolo dato. Contesto confermato anche da CNBC (giu 2026)."
+     },
+     {
+      "item": "Brand heritage: Ralph Lauren, Tommy Hilfiger, Adidas (+ Louis Vuitton designer)",
+      "giudizio": "solido",
+      "commento": "L'articolo Stylist esiste e riporta fedelmente il trend report Vinted: TH/RL/Adidas brand con più devoti, LV designer più cercato, 13% membri solo bianco/nero, Louboutin nere item più liked. Caveat: il report è di inizio 2025 su dati 2024 — non freschissimo. La persistenza del trend nel 2026 è però supportata da Ralph Lauren nella top-10 del Lyst Index Q1 2026 e dal filone 'Modern Uniforms' di Depop. Solido come evergreen, non come novità 2026."
+     },
+     {
+      "item": "Jeans vintage Levi's (501/505) e denim heritage",
+      "giudizio": "solido",
+      "commento": "Il dato base è verificato: Stylist/report Vinted confermano che i 501 sono i jeans più cercati (media ~23 GBP). La domanda di straight-leg denim in crescita è confermata dal Lyst Index Q1 2026. Caveat: il claim 'venduti in 48 ore' viene da Modori, fornitore B2B di stock vintage con evidente interesse commerciale — trattarlo come marketing, non come dato. Il trend Levi's vintage è comunque tra i più corroborati della lista (Stylist, PLOTT, Vinkit, Modori convergono)."
+     },
+     {
+      "item": "Elettronica second-hand (console, tablet, smartphone, cuffie)",
+      "giudizio": "solido",
+      "commento": "Verificato: la ricerca Vinted/Atomik Research esiste (14.000 adulti di cui 2.003 italiani, rilevazione 29-31 ottobre 2025) ed è ripresa da ANSA (12 dic 2025): elettronica al 51% come categoria da vendere, dietro la moda al 54%. L'espansione categoria elettronica come driver del GMV è confermata dai comunicati ufficiali Vinted 2024 e 2025. Trend strutturale attuale, non moda passeggera. La stima prezzi smartphone 100-300 EUR resta una stima di settore, non un dato Vinted."
+     },
+     {
+      "item": "Carhartt (workwear uomo)",
+      "giudizio": "debole",
+      "commento": "I numeri specifici (mediana 5 giorni, €35,60) provengono solo da Vinkit, blog commerciale non verificabile. Però la direzione è corroborata indipendentemente: il Depop 2026 Trends Report ('Modern Uniforms', confermato da WWD e Who What Wear) segnala picchi di ricerca su workwear jackets, e Carhartt è citato trasversalmente nelle guide reseller 2026. Trend plausibile e attuale, ma evidenza quantitativa da fonte singola e interessata."
+     },
+     {
+      "item": "Sézane, Maje, Sandro (premium accessibile donna)",
+      "giudizio": "debole",
+      "commento": "L'articolo Vinkit esiste e conferma Sézane come brand donna più veloce (6 giorni), ma i dati precisi (moltiplicatore x2,5, €38,90) sono di fonte unica e commerciale, ripetuti solo da blog SEO analoghi (Vintefy) senza verifica indipendente. Nessuna fonte terza autorevole (Lyst, StockX, stampa) conferma il ranking. Il segmento 'french premium' nell'usato è plausibile e il caveat contraffazione è sensato, ma l'evidenza quantitativa non regge da sola."
+     },
+     {
+      "item": "Polène e borse mid-range (+340%)",
+      "giudizio": "debole",
+      "commento": "Il dato +340% è solo su Vinkit, non corroborato da nessuna fonte indipendente. Anzi, una ricerca Measure Protocol sul journey Polène vs Louis Vuitton segnala che Polène ha un mercato resale ancora sottile/poco liquido rispetto ai brand heritage — segnale contrario alla narrativa. Il consiglio operativo (lusso alto >800 EUR lento su Vinted, meglio Vestiaire) è invece coerente con il posizionamento noto delle piattaforme. Longchamp Pliage come evergreen è plausibile ma non verificato quantitativamente."
+     },
+     {
+      "item": "Minimalismo anni '90 (dolcevita neri, Calvin Klein, stile Carolyn Bessette-Kennedy)",
+      "giudizio": "solido",
+      "commento": "Verificato alla fonte: il Lyst Index Q1 2026 esiste e conferma esattamente +217% ricerche dolcevita neri dopo il primo episodio di 'Love Story', +43% Calvin Klein dopo il finale, crescita costante dello straight-leg. Ripreso da Marie Claire UK, nss magazine e altri. Caveat: è un picco Q1 legato a una serie TV; ad agosto 2026 c'è già chi si chiede se il 'CBK moment' sia in esaurimento (Style Analytics/Lyst substack). Il filone minimalismo '90s resta comunque il segnale macro più citato dell'anno."
+     },
+     {
+      "item": "Mercato secondhand apparel globale (ThredUp)",
+      "giudizio": "solido",
+      "commento": "Pienamente verificato: il 14th Annual Resale Report ThredUp/GlobalData (2 apr 2026) esiste sul newsroom e su Businesswire; confermati 257 mld USD 2025 (+13%), proiezione 393 mld al 2030, crescita 2x vs resto del fashion, ~10% della spesa apparel, USA 4x più veloce del retail. Ripreso da WWD, Yahoo Finance e stampa italiana (Pambianco). Coerente anche con McKinsey State of Fashion 2026 (resale 2-3x più veloce del firsthand). Fonte primaria di settore, recente e multi-corroborata."
+     },
+     {
+      "item": "Asics (Gel-1130 in testa)",
+      "giudizio": "solido",
+      "commento": "Verificato: StockX Big Facts (12 nov 2025, via WWD/PRNewswire/Complex) conferma la Gel-1130 Black/Pure Silver come sneaker più venduta del 2025 su StockX, Asics +45% YoY, e Gel-1130 tra i modelli più desiderati per le feste insieme a AJ4/AJ5. Fonti multiple e autorevoli, trend confermato anche su GOAT nel 2026. Unica imprecisione della scheda: non ho trovato riscontro del nome 'Current Culture Index' — la citazione della fonte è imprecisa, ma i dati sottostanti sono reali. Prezzo usato Vinted €40-70 resta una stima, non un dato."
+     }
+    ],
+    "sintesi": "Ho verificato con ricerche web i 16 item più importanti della lista (accorpando i duplicati su Samba e Levi's). Il quadro macro regge molto bene: i comunicati ufficiali Vinted (risultati 2025, Vinted Equation), l'Osservatorio Ipsos Doxa/Subito, il report ThredUp 2026, il Lyst Index Q1 2026, StockX Big Facts e il Depop Trends Report esistono tutti, sono recenti e corroborati da stampa indipendente (CNBC, WWD, ANSA, Sky TG24, Forbes) — questi item sono solidi. Il punto debole sistematico è il cluster di micro-dati iper-precisi (giorni mediani di vendita, prezzi al centesimo, percentuali di crescita per brand) proveniente da Vinkit/Vintefy/PLOTT/VintiePlus: sono blog SEO di tool commerciali per seller, con metodologie non verificabili e probabile circolarità reciproca — direzione spesso plausibile, numeri non affidabili; Polène +340% ha perfino un segnale contrario da fonte indipendente. Due caveat temporali: il boom maglie-Mondiale ha il picco già passato (torneo finito a luglio 2026) e la Samba è in fase di plateau, non più in accelerazione. Nessun item è risultato inventato o da scartare del tutto, ma i punteggi 9-10 assegnati ai dati Vinkit andrebbero ridimensionati rispetto a quelli basati su fonti primarie."
+   }
+  },
+  {
+   "lente": "redditivita",
+   "esito": {
+    "valutazioni": [
+     {
+      "item": "Polo Lacoste: l'arbitraggio più redditizio del 2026",
+      "giudizio": "solido",
+      "commento": "Il flip migliore per chi parte da zero: si trova davvero a €5-8 nei mercatini italiani (Forte dei Marmi-style, banchi dell'usato, Humana) e rivende a €28-32 in ~12 giorni. Capitale iniziale minimo, brand riconoscibile, foto facili. UNICO vero rischio: è tra i capi più contraffatti al mondo e Vinted blocca gli account per repliche — imparare subito i check (coccodrillo cucito, bocca aperta, etichette) prima di comprare al buio."
+     },
+     {
+      "item": "Levi's vintage e denim (501/505, mom jeans, dark wash)",
+      "giudizio": "solido",
+      "commento": "Sourcing verificato e accessibile: stock B2B (Modori, eBay) a €20-25/pezzo o box da 10 a €200; ai mercatini anche €5-15. Rivendita €38-65 per 501 vintage ben fotografati, rotazione 48h-5gg confermata da più fonti. Rischio falsi quasi nullo sul vintage. Attenzione solo a misurare bene (vita/cavallo in cm nelle foto) e a non pagare da rivenditore prezzi da consumatore: il margine sta tutto nell'acquisto sotto i €15-20."
+     },
+     {
+      "item": "Ralph Lauren (polo, Oxford, maglioni a trecce, vintage) + maglieria Tommy Hilfiger",
+      "giudizio": "solido",
+      "commento": "Il complemento naturale della Lacoste: acquisto €10-30 (spesso €5-10 ai mercatini rionali), rivendita €40-100 sui pezzi giusti (trecce, Big Pony, Polo Bear), più realisticamente €25-50 sulla maglieria standard. Domanda evergreen, vende tutto l'anno, falsi meno sofisticati che su Lacoste. Perfetto per costruire le prime 50 vendite e la reputazione. Evitare le polo basic sbiadite: lì il margine sparisce."
+     },
+     {
+      "item": "Y2K / streetwear anni '90 (felpe maxi-logo, track jacket, Umbro/Reebok/Champion) + band tees",
+      "giudizio": "solido",
+      "commento": "Il terreno ideale per principianti: nei mercatini e nei kilo-shop questi capi costano ancora €3-10 perché i venditori anziani non ne conoscono il valore, e la Gen Z paga €15-45 (band tee rare fino a €80). Vendita 3-5x più veloce delle magliette normali. Zero problema falsi. Richiede occhio: serve studiare quali loghi/fit cercare, ma è esattamente la competenza che tre ventenni possono avere gratis."
+     },
+     {
+      "item": "Carhartt (giacche e pantaloni workwear uomo)",
+      "giudizio": "solido",
+      "commento": "Brand uomo più veloce di Vinted (5 gg, €35,60 mediana) con community attiva. Il sourcing è il collo di bottiglia: la Carhartt vintage ormai è nota anche ai robivecchi, ma detroit jacket e carpenter pants saltano ancora fuori a €10-20 nei mercatini di provincia e rivendono a €40-80. Margine x2-x3 realistico. Occhio alle repliche di Carhartt WIP recenti (rare ma esistono) e ai capi sfondati: il workwear distrutto vale poco su Vinted, a differenza di Grailed."
+     },
+     {
+      "item": "The North Face (Nuptse, pile Denali, Gore-Tex) / gorpcore outdoor",
+      "giudizio": "solido",
+      "commento": "Mossa tattica perfetta per chi parte AD AGOSTO: comprare ora in bassa stagione (piumini e pile a €10-25 ai mercatini perché nessuno li vuole col caldo) e listare da settembre quando 'si vendono in ore' a €35-100+. Margine x2-x3 con timing giusto. ATTENZIONE seria: i Nuptse sono tra i piumini più falsificati in Italia — verificare etichette, cerniere YKK e cuciture prima di acquistare. I pile Denali anni '90 sono il pezzo più sicuro (falsi rari, domanda alta)."
+     },
+     {
+      "item": "Maglie da calcio vintage / blokecore (anno del Mondiale 2026)",
+      "giudizio": "debole",
+      "commento": "Il timing è il problema: il Mondiale è finito a luglio 2026, il picco di domanda (+510%) è alle spalle e ora inizia la coda calante, anche se il blokecore come estetica resta. Secondo problema: il mercato è INONDATO di repliche da €12-15 (DHgate/Aliexpress) vendute come originali; distinguere una maglia autentica anni '90 richiede competenza vera e Vinted banna per i falsi. Le maglie vere si trovano ormai raramente sotto i €20-30 al sourcing. Fattibile solo se uno dei tre è già un appassionato che sa riconoscere etichette e stagioni."
+     },
+     {
+      "item": "Adidas Samba (+ Salomon XT-6, Nike Dunk, NB 530) / sneakers retro-terrace",
+      "giudizio": "debole",
+      "commento": "La domanda è reale e la rotazione velocissima (4-12 gg), ma per tre principianti il sourcing è il muro: le Samba usate non si trovano ai mercatini a €15, e comprarle nuove a retail (€100-120) per rivenderle usate a €50-90 è margine negativo. Su Vinted Italia ci sono migliaia di annunci Samba attivi: saturazione alta, si vince solo su prezzo o condizioni. Ha senso SOLO per svuotare le scarpiere proprie e di amici (lì il margine è 100%) o su occasioni sotto €25. AF1 bianche: mercato saturo, lasciar perdere. Rischio repliche alto su Dunk/Jordan."
+     },
+     {
+      "item": "Sézane, Maje, Sandro (premium accessibile donna)",
+      "giudizio": "debole",
+      "commento": "Il moltiplicatore ×2,5 citato (acquisto €15-22 in charity) vale per Francia/UK: in Italia i mercatini semplicemente non hanno Sézane e Maje in quantità, perché sono brand francesi poco venduti al retail qui. Sourcing realistico solo comprando su Vinted stessa sottoprezzo e rilistando meglio (margini risicati dopo spedizioni) o in viaggio in Francia. In più Sézane è tra i brand più contraffatti. Buona nicchia per il futuro, non per partire stasera."
+     },
+     {
+      "item": "Abbigliamento bambino 0-10 anni (Petit Bateau, Bonpoint) e bundle",
+      "giudizio": "debole",
+      "commento": "Rotazione fantastica (9 gg mediani) e sourcing facilissimo (i genitori regalano sacchi interi), ma il margine unitario è minuscolo: €9,40 a capo Petit Bateau significa che ogni vendita paga a malapena il tempo di foto+annuncio+pacco. Funziona solo a bundle per taglia/stagione e a volumi alti. Bonpoint (€32,80) è l'eccezione redditizia ma è raro nei mercatini italiani. Utile come 'riempitivo' del negozio per fare feedback veloci, non come motore di profitto per tre persone."
+     },
+     {
+      "item": "Retro gaming Nintendo (Game Boy, cartucce Pokemon, NES)",
+      "giudizio": "debole",
+      "commento": "Prezzi di rivendita ottimi (Game Boy Color ~€94, cartucce Pokemon €30-40+), ma il mercato del sourcing è ormai efficiente: ai mercatini italiani chiunque ha un Game Boy sa che vale, e i banchi lo prezzano già a mercato. Rischio ENORME di cartucce Pokemon contraffatte (le repliche cinesi sono la maggioranza dell'offerta economica): servono competenze di verifica (PCB, etichette) che i tre non hanno stasera. In più le regole Vinted sull'elettronica sono rigide (niente modding, niente giochi digitali). Solo se uno dei tre è già collezionista."
+     },
+     {
+      "item": "Polène e borse mid-range (Longchamp Pliage, Coach)",
+      "giudizio": "debole",
+      "commento": "Polène cresce (+340%) e tiene il prezzo (€95), ma è quasi introvabile nel sourcing fisico italiano: si compra solo online, margini stretti. La Longchamp Pliage ruota bene ma a €32,80 con un tasso di falsi altissimo (è tra le borse più replicate in assoluto): per un principiante il rischio di comprare un falso al mercatino e farsi segnalare supera il margine. Coach vintage (€74,90) è l'angolo migliore se capita a €15-25, ma è occasionale, non un piano."
+     },
+     {
+      "item": "Elettronica second-hand (console, smartphone, cuffie, laptop)",
+      "giudizio": "da-scartare",
+      "commento": "Per tre ragazzi che partono da zero è la categoria peggiore: capitale iniziale alto (€100-300 a pezzo), concorrenza dei ricondizionati professionali con garanzia (Refurbed, Swappie) che comprime i prezzi, tasso di contestazioni/resi elevato ('non si accende', 'batteria ko'), regole Vinted fitte (IMEI, account lock, batterie) e zero margine di errore. Un solo smartphone bloccato mangia il profitto di dieci vendite. Da riconsiderare solo tra mesi, con capitale e feedback consolidati."
+     },
+     {
+      "item": "Borse e articoli luxury pre-loved (Gucci, Prada, LV, Fendi Baguette)",
+      "giudizio": "da-scartare",
+      "commento": "La domanda esiste ma è una trappola per principianti: capitale d'ingresso €100-500+ a pezzo, rotazione lenta su Vinted (25-40 giorni per il lusso alto), e soprattutto un tasso di superfake tale che nemmeno gli esperti distinguono a occhio. Comprare al mercatino una 'Gucci a €80' significa quasi certamente comprare un falso, e rivendere un falso su Vinted = ban + possibile reato. Chi ha pezzi luxury autentici in casa li venda su Vestiaire con autenticazione, non li sourci."
+     },
+     {
+      "item": "Minimalismo anni '90 (dolcevita neri, Calvin Klein vintage, denim dritto)",
+      "giudizio": "solido",
+      "commento": "Trend confermato da Lyst (+217% dolcevita neri) e perfetto per il sourcing da principianti: CK vintage, blazer e knitwear anni '90 sono ancora sottovalutati nei mercatini italiani (€3-8) perché anonimi a occhio inesperto, e rivendono a €15-50 con la keyword giusta ('CK vintage 90s', 'stile Carolyn Bessette'). Zero rischio falsi sui basic, foto facili, e con l'autunno in arrivo il timing di acquisto ad agosto è ideale. Margine percentuale altissimo anche se lo scontrino medio è contenuto."
+     }
+    ],
+    "sintesi": "Per tre principianti che partono stasera da zero in Italia, la strategia redditizia è il flip di capi brandizzati a basso costo dai mercatini: polo Lacoste (con controllo falsi), Levi's 501 vintage (stock B2B verificato a €20-25/pezzo), maglieria Ralph Lauren/Tommy, streetwear Y2K e basic CK anni '90 — tutti con moltiplicatori x2-x4, capitale d'ingresso sotto i €100 e rischio contraffazione gestibile. The North Face e Carhartt aggiungono margine con il timing agosto-settembre. Le categorie 'hype' (Samba, maglie da calcio post-Mondiale, Sézane) sono deboli per sourcing difficile, saturazione o repliche dilaganti, non per mancanza di domanda. Elettronica e borse luxury sono da scartare: capitale alto, resi, superfake e rotazione lenta le rendono trappole per chi non ha ancora feedback né competenze di autenticazione. La verifica sui prezzi reali Vinted conferma le fasce indicate ma anche l'affollamento degli annunci sulle sneaker trend, dove il margine esiste solo svuotando armadi propri."
+   }
+  },
+  {
+   "lente": "lacune",
+   "esito": {
+    "valutazioni": [
+     {
+      "item": "LACUNA 1 — Algoritmo di visibilità Vinted (recency, click-rate, repost, boost gratuito): la lista dice COSA vendere ma mai COME farsi vedere",
+      "giudizio": "solido",
+      "commento": "Colmata con dati 2026: l'algoritmo premia (1) la recenza — nelle prime ore l'annuncio viene testato e se genera views/preferiti/messaggi riceve un boost, altrimenti affonda; (2) il tasso di clic sulla foto principale; (3) la geolocalizzazione (priorità a venditori dello stesso Paese); (4) la reputazione del venditore (recensioni negative penalizzano tutto il catalogo). Trucco chiave per principianti: la ripubblicazione (cancella + ricrea identico) riporta l'annuncio in cima al feed come un bump a pagamento ma gratis, con in media +340% di visualizzazioni in 24h; strategia consigliata: repost + ribasso del 5% ogni 5-7 giorni sugli annunci freddi. Fonti: relisted.io/it/blog/algoritmo-vinted, vinkit.co/it/blog/come-far-risalire-un-annuncio-vinted-e-vendere-piu-velocemente-nel-2026, vintylook.com, selleraider.com/vinted-algorithm/"
+     },
+     {
+      "item": "LACUNA 2 — Protezione acquisti, commissioni e spedizioni: dinamica operativa base assente dalla ricerca (critica per chi parte da zero)",
+      "giudizio": "solido",
+      "commento": "Colmata: per i venditori privati Vinted NON trattiene commissioni (incassi il 100% del prezzo); la Protezione acquisti la paga il compratore: 0,70 EUR fissi + 5% del prezzo, aggiunta al checkout. La spedizione la sceglie e paga l'acquirente; il venditore riceve un'etichetta prepagata e consegna in locker/punto convenzionato (rete Vinted Go 500k+ punti, già citata nella lista ma senza spiegare il flusso). I soldi arrivano sul saldo 2 giorni dopo la consegna. Implicazione pricing decisiva: il prezzo va fissato pensando al TOTALE checkout del compratore (prezzo +5% +0,70 +spedizione), non al prezzo nudo dell'annuncio. Fonti: vinted.com/help/342, wintageclub.it/blogs/notizie/vinted-commissioni-venditore-2026-guida"
+     },
+     {
+      "item": "LACUNA 3 — Fisco italiano / DAC7: nessun item della lista avvisa i principianti delle soglie di segnalazione all'Agenzia delle Entrate",
+      "giudizio": "solido",
+      "commento": "Colmata: con la direttiva DAC7 Vinted è obbligata a segnalare all'Agenzia delle Entrate i venditori che superano ANCHE UNO SOLO dei due parametri nell'anno solare: più di 30 vendite oppure più di 2.000 EUR di ricavi cumulati. Vendite occasionali del proprio armadio restano non tassate anche oltre le 30 transazioni, ma incassi ricorrenti e attività di sourcing/flip sistematico (esattamente ciò che la ricerca suggerisce, es. arbitraggio Lacoste x4,5) rischiano la qualifica di attività commerciale abusiva senza P.IVA. Se il venditore non compila il modulo fiscale dopo i solleciti, Vinted congela l'account. Per 3 principianti che seguono questa ricerca è un vincolo operativo essenziale. Fonti: vinted.it/dac7, affarifinanza.it/finanza-personale/tasse/dac7-vinted-tasse/, davidelafrancesca.it/guida-fiscale-vinted-subito/"
+     },
+     {
+      "item": "LACUNA 4 — Timing agosto-settembre 2026: la ricerca elenca trend FW26 ma non dice cosa listare ADESSO (inizio agosto) e in che sequenza",
+      "giudizio": "solido",
+      "commento": "Parzialmente colmata con dati: agosto-settembre è la finestra di transizione ideale — capispalla (cappotti lana, montoni, giacche pelle/camoscio) va listato ora perché l'80% delle vendite giacche/cappotti si concentra set-nov (dato VintiePlus già in lista ma mai tradotto in azione); i Vin-Sights citano settembre (con aprile) come mese migliore per le sneakers; l'abbigliamento/giochi bambino 3-5 anni è in forte crescita e si aggancia al ciclo back-to-school; le promozioni di 7 giorni rendono più di quelle da 3 sugli articoli stagionali. La sintesi operativa (settimana per settimana) resta da costruire, ma i dati di ancoraggio ora ci sono. Fonti: staiconnesso.com, closette.it/guida-per-vendere-su-vinted/, vitasumarte.com"
+     },
+     {
+      "item": "LACUNA 5 — Back to school specifico (zaini Eastpak/Invicta, corredo scuola): trend di fine agosto-settembre totalmente ignorato dalla lista",
+      "giudizio": "debole",
+      "commento": "Colmata solo in parte: la ricerca conferma che Eastpak (Padded Pak'r) e Invicta (Jelek) sono i due brand di riferimento degli studenti italiani con prezzi retail 50-85 EUR — il che rende plausibile un buon margine sull'usato in agosto-settembre — ma NON ho trovato dati Vinted-specifici su velocità di vendita o prezzi second-hand degli zaini scuola. Lacuna segnalata ma non chiusa con numeri di piattaforma: da verificare con comps diretti su Vinted prima di investire in sourcing. Fonti: emporiocattani.com/blog/zaini-scuole-superiori-i-migliori-eastpak-e-invicta/, trovaprezzi.it"
+     },
+     {
+      "item": "LACUNA 6 — Categorie non coperte: Casa/arredo (catalogo Vinted esistente) e beauty; inoltre nessun item sul 'dressing room'/armadio come vetrina e sulla verifica autenticità lato venditore",
+      "giudizio": "debole",
+      "commento": "Verificato che Vinted ha già un catalogo Home attivo (home accessories, furniture & decor, wall decor, serveware — vinted.com/catalog/1918-home e help/641 con le regole su cosa si può vendere), quindi è una categoria reale che la ricerca ignora; però non ho trovato dati 2026 su volumi/velocità di vendita della categoria Casa in Italia, né ho colmato beauty (su Vinted solo prodotti nuovi/sigillati) e la cura del profilo-armadio come leva di conversione. Giudizio: lacuna reale ma colmata senza dati quantitativi — priorità bassa per 3 principianti rispetto alle lacune 1-4."
+     }
+    ],
+    "sintesi": "La ricerca è molto solida su categorie, brand e trend moda (sneakers, vintage, denim, blokecore, kidswear, elettronica, lusso), ma è quasi interamente una ricerca sul COSA vendere e ignora il COME: mancavano completamente le dinamiche di piattaforma e i vincoli operativi per principianti italiani. Le lacune più gravi colmate con dati: (1) algoritmo di visibilità — recency, click-rate e reputazione, con il trucco della ripubblicazione che vale +340% di views in 24h; (2) meccanica economica — zero commissioni per il venditore privato, Protezione acquisti a carico del compratore (0,70 EUR + 5%) da considerare nel pricing, spedizione con etichetta prepagata; (3) fisco DAC7 — segnalazione automatica all'Agenzia delle Entrate oltre 30 vendite O 2.000 EUR/anno, rischio 'commerciante abusivo' per chi fa flipping sistematico senza P.IVA; (4) timing agosto-settembre — listare capispalla ora (80% delle vendite giacche si concentra set-nov) e settembre come mese top per le sneakers. Restano parzialmente aperte due lacune segnalate: il back-to-school (zaini Eastpak/Invicta, retail 50-85 EUR, ma senza comps Vinted verificati) e la categoria Casa (catalogo Vinted attivo ma senza dati di rotazione per l'Italia). Raccomandazione: integrare la ricerca con una sezione operativa su algoritmo+pricing+fisco prima di consegnarla ai tre venditori."
+   }
+  }
+ ]
+}
