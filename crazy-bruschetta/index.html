@@ -1,0 +1,1668 @@
+<!doctype html>
+<html lang="it" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B2634">
+
+<!-- ============================================================================
+     Crazy Bruschetta - La Spezia
+     Pagina singola, nessun build step. Deploy: Netlify (base directory = crazy-bruschetta).
+
+     PRIMA DI PUBBLICARE, cerca "DA CONFERMARE" nel file: sono i punti dove non
+     abbiamo dati verificati e non e' stato inventato nulla (orari, P.IVA,
+     coordinate GPS, metodi di pagamento, testi delle recensioni, badge dietetici,
+     piatti piu' ordinati, data di aggiornamento prezzi).
+
+     Sostituisci anche SITE_URL qui sotto con il dominio definitivo.
+============================================================================= -->
+<link rel="canonical" href="https://crazybruschetta.netlify.app/"><!-- DA CONFERMARE: dominio definitivo -->
+
+<title>Crazy Bruschetta - bruschette al metro e aperitivo gourmet a La Spezia</title>
+<meta name="description" content="Bruschetteria e aperitivo gourmet in centro a La Spezia. Bruschette di terra e di mare servite al metro su vassoio lungo, panuozzo napoletano, primi e dolci fatti in casa. 4,7 su Google.">
+
+<meta property="og:type" content="restaurant">
+<meta property="og:site_name" content="Crazy Bruschetta">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Crazy Bruschetta - bruschette al metro, La Spezia">
+<meta property="og:description" content="Un vassoio lungo, bruschette di terra e di mare, e la mano che continua ad allungarsi. Aperitivo gourmet in Via Manzoni, La Spezia.">
+<meta property="og:url" content="https://crazybruschetta.netlify.app/">
+<meta property="og:image" content="https://crazybruschetta.netlify.app/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vassoio di bruschette al metro da Crazy Bruschetta, La Spezia">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Crazy Bruschetta - bruschette al metro, La Spezia">
+<meta name="twitter:description" content="Un vassoio lungo, bruschette di terra e di mare, e la mano che continua ad allungarsi.">
+<meta name="twitter:image" content="https://crazybruschetta.netlify.app/assets/img/og.jpg">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2634'/%3E%3Ctext x='16' y='23' font-family='Helvetica,Arial,sans-serif' font-size='20' font-weight='bold' fill='%23FF4FA3' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="assets/img/og.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" fetchpriority="high"
+      href="assets/img/hero-1400.jpg"
+      imagesrcset="assets/img/hero-800.jpg 800w, assets/img/hero-1400.jpg 1400w, assets/img/hero.jpg 2000w"
+      imagesizes="100vw">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@70..100,400..900&family=Inter:wght@400;500;600;700&display=swap">
+
+<script>document.documentElement.classList.remove('no-js');</script>
+
+<style>
+/* ===========================================================================
+   DESIGN SYSTEM
+   Sta qui, inline, di proposito: se il CDN di Tailwind non carica la pagina
+   resta impaginata e leggibile. Tailwind aggiunge solo utility di layout.
+   Tutte le regole usano selettori di CLASSE cosi' il preflight di Tailwind
+   (che arriva dopo, via JS) non puo' sovrascriverle.
+   =========================================================================== */
+
+:root{
+  /* palette --------------------------------------------------------------- */
+  --blu-locale:#123B54;
+  --blu-notte:#0B2634;
+  --rosa-neon:#FF4FA3;
+  --verde-mural:#2E7D5B;
+  --crema:#F4EEE4;
+  --legno:#C08A55;
+
+  /* Le due varianti chiare servono al TESTO piccolo, non alla grafica.
+     --legno a 12px su --blu-locale si ferma a 3,94:1 e --verde-mural a 2,36:1:
+     nessuno dei due passa AA. Le versioni sotto stanno a 5,55:1 e 6,01:1 sul
+     blu chiaro e a 7,4:1 / 8,0:1 sul blu notte, e restano legno e verde.
+     I token originali restano quelli dell'identita': filetti, bordi, dots. */
+  --legno-testo:#D8A97A;
+  --verde-testo:#7FC8A3;
+
+  /* derivate: il fondo dominante e' --blu-notte perche' e' l'unico sul quale
+     il rosa raggiunge 5,14:1 (AA per il testo). Su --blu-locale il rosa si
+     ferma a 3,88:1 -> li' e' ammesso solo su testo grande (>=20px/800). */
+  --superficie:var(--blu-locale);
+  --superficie-alta:#17475F;
+  --bordo:rgba(244,238,228,.14);
+  --bordo-forte:rgba(244,238,228,.26);
+  --testo:var(--crema);
+  --testo-soft:rgba(244,238,228,.72);   /* 7,3:1 su blu-notte - 5,8:1 su blu-locale */
+  --testo-mute:rgba(244,238,228,.56);
+
+  /* misure ---------------------------------------------------------------- */
+  --h-header:56px;
+  --h-catnav:52px;
+  --gutter:clamp(1.125rem, 5vw, 2.5rem);
+  --maxw:74rem;
+  --r:14px;
+  --r-lg:22px;
+
+  /* tipografia ------------------------------------------------------------ */
+  --f-display:'Archivo','Archivo Fallback',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-body:'Inter','Inter Fallback',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (min-width:768px){ :root{ --h-header:64px; } }
+
+/* fallback metrici: evitano il salto di layout mentre i font caricano */
+@font-face{font-family:'Archivo Fallback';src:local('Arial Narrow'),local('Helvetica Neue Condensed'),local('Arial');size-adjust:88%;ascent-override:92%;descent-override:24%;line-gap-override:0%}
+@font-face{font-family:'Inter Fallback';src:local('Helvetica Neue'),local('Arial');size-adjust:107%;ascent-override:90%;descent-override:22%;line-gap-override:0%}
+
+.page{
+  margin:0;
+  background:var(--blu-notte);
+  color:var(--testo);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+.page *,.page *::before,.page *::after{box-sizing:border-box}
+
+/* --- scala tipografica ---------------------------------------------------- */
+.t-h1{font-family:var(--f-display);font-weight:900;font-stretch:78%;font-size:clamp(2.75rem,7.6vw,6.25rem);line-height:.9;letter-spacing:-.03em;margin:0}
+.t-h2{font-family:var(--f-display);font-weight:800;font-stretch:82%;font-size:clamp(2rem,5.2vw,3.5rem);line-height:.95;letter-spacing:-.02em;margin:0}
+.t-h3{font-family:var(--f-display);font-weight:800;font-stretch:85%;font-size:clamp(1.5rem,3.5vw,2.25rem);line-height:1;letter-spacing:-.01em;margin:0}
+.t-h4{font-family:var(--f-display);font-weight:800;font-stretch:88%;font-size:clamp(1.125rem,2.6vw,1.375rem);line-height:1.15;letter-spacing:-.01em;margin:0}
+.t-lead{font-size:clamp(1.0625rem,2.6vw,1.375rem);line-height:1.45;color:var(--testo-soft);margin:0}
+.t-body{font-size:1rem;line-height:1.6;color:var(--testo-soft);margin:0}
+.t-small{font-size:.875rem;line-height:1.55;color:var(--testo-soft);margin:0}
+.t-eyebrow{font-weight:600;font-size:.75rem;line-height:1.2;letter-spacing:.14em;text-transform:uppercase;color:var(--legno-testo);margin:0}
+
+/* --- neon ----------------------------------------------------------------- */
+/* Il nucleo del tubo e' quasi bianco, l'alone e' --rosa-neon: e' come si
+   comporta un neon vero, e porta "Crazy" a 7,6:1 anche su una foto bruciata. */
+.neon{
+  color:#FFE3F0;
+  text-shadow:
+    0 0 .02em #fff,
+    0 0 .07em var(--rosa-neon),
+    0 0 .18em var(--rosa-neon),
+    0 0 .42em rgba(255,79,163,.78),
+    0 0 .9em rgba(255,79,163,.45),
+    0 0 1.8em rgba(255,79,163,.25);
+  animation:neon-flicker 1.5s steps(1,end) .35s 1 both;
+}
+@keyframes neon-flicker{
+  0%{opacity:.32}  7%{opacity:1}  12%{opacity:.35}
+  19%{opacity:1}   24%{opacity:.6} 30%{opacity:1}
+  100%{opacity:1}
+}
+
+/* --- layout --------------------------------------------------------------- */
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+.section{padding-block:clamp(4rem,10vw,7.5rem);position:relative}
+.rule{height:1px;background:var(--bordo);border:0;margin:0}
+
+/* --- bottoni -------------------------------------------------------------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  min-height:48px;padding:.75rem 1.4rem;border-radius:999px;border:1px solid transparent;
+  font-family:var(--f-body);font-weight:600;font-size:1rem;line-height:1;
+  text-decoration:none;cursor:pointer;
+  transition:transform .18s ease,background-color .18s ease,border-color .18s ease,color .18s ease;
+}
+.btn:active{transform:translateY(1px)}
+/* fondo rosa + testo blu notte = 5,14:1. Crema su rosa sarebbe 2,64:1: vietato. */
+.btn-primary{background:var(--rosa-neon);color:var(--blu-notte);font-weight:700;box-shadow:0 6px 26px rgba(255,79,163,.28)}
+.btn-primary:hover{background:#FF6BB2}
+.btn-ghost{background:transparent;color:var(--crema);border-color:var(--bordo-forte)}
+.btn-ghost:hover{border-color:var(--crema);background:rgba(244,238,228,.06)}
+.btn-wood{background:transparent;color:var(--crema);border-color:var(--legno)}
+.btn-wood:hover{background:rgba(192,138,85,.14)}
+.btn-sm{min-height:40px;padding:.5rem 1rem;font-size:.875rem}
+
+/* :not(.btn) e' obbligatorio: senza, questa regola vince per specificita' sui
+   .btn-* e i bottoni rosa si ritrovano il testo crema addosso -> 2,64:1. */
+.page a:not(.btn){color:inherit}
+.page :focus-visible{outline:3px solid var(--rosa-neon);outline-offset:3px;border-radius:6px}
+
+/* --- header --------------------------------------------------------------- */
+.hdr{
+  position:fixed;inset:0 0 auto 0;z-index:60;height:var(--h-header);
+  display:flex;align-items:center;
+  background:transparent;transition:background-color .3s ease,border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+.hdr.is-stuck{background:rgba(11,38,52,.92);backdrop-filter:blur(10px);border-bottom-color:var(--bordo)}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;gap:1rem;width:100%}
+.brand{display:inline-flex;align-items:baseline;gap:.35rem;text-decoration:none;font-family:var(--f-display);font-weight:900;font-stretch:80%;font-size:1.0625rem;letter-spacing:-.01em}
+.brand-c{color:var(--rosa-neon)}
+.brand-r{font-size:.6em;color:var(--testo-mute);font-weight:600}
+.hdr-nav{display:none;gap:1.5rem;align-items:center}
+@media (min-width:900px){ .hdr-nav{display:flex} }
+.hdr-nav a:not(.btn){font-size:.9375rem;font-weight:500;color:var(--testo-soft);text-decoration:none;transition:color .18s ease}
+.hdr-nav a:not(.btn):hover{color:var(--crema)}
+.hdr-nav a.btn{text-decoration:none}
+
+/* --- hero ----------------------------------------------------------------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;padding-top:var(--h-header)}
+.hero-media{position:absolute;inset:0;overflow:hidden}
+/* L'immagine e' gia' piu' alta del contenitore, sempre, anche senza JS: il
+   parallax poi la muove solo con transform. Se invece height/top cambiassero
+   al load per "fare spazio" al parallax, quello sarebbe un layout shift (0,09
+   di CLS misurati) per un'animazione puramente decorativa. */
+.hero-media img{position:absolute;inset:0;width:100%;height:126%;top:-13%;object-fit:cover;object-position:center}
+/* velo base 70% come da identita' */
+.hero-veil{position:absolute;inset:0;background:var(--blu-notte);opacity:.7}
+/* scrim aggiuntivo sotto il titolo: porta l'oscuramento effettivo a ~85% nella
+   banda del testo. Senza, su una zona di foto sovraesposta il rosa scende a 1,9:1. */
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(11,38,52,.92) 0%,rgba(11,38,52,.72) 38%,rgba(11,38,52,.12) 72%,rgba(11,38,52,0) 100%)}
+.hero-in{position:relative;z-index:2;width:100%;padding-block:clamp(2.5rem,7vw,5rem)}
+.hero-eyebrow{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:1.25rem}
+@media (max-width:639px){ .hero-eyebrow-sep{display:none} }
+.hero-h1{max-width:21ch}
+.hero-lead{max-width:46ch;margin-top:1.5rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.55rem;margin-top:2rem;
+  padding:.5rem .9rem;border:1px solid var(--bordo-forte);border-radius:999px;
+  background:rgba(11,38,52,.5);font-size:.875rem;color:var(--testo-soft);
+}
+.stars{color:var(--rosa-neon);letter-spacing:.06em;font-size:.8125rem}
+.hero-scroll{display:none}
+@media (min-width:900px){
+  .hero-scroll{display:block;position:absolute;right:var(--gutter);bottom:2rem;z-index:2;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--testo-mute);writing-mode:vertical-rl}
+}
+/* Maschera per lo stagger a parole. overflow:hidden lo mette GSAP solo per la
+   durata del tween (.is-masking) e poi lo toglie: da fermo taglierebbe l'alone
+   del neon, disegnando un rettangolo scuro intorno a "Crazy". */
+.w{display:inline-block;vertical-align:top}
+.hero-h1.is-masking .w{overflow:hidden}
+.wi{display:inline-block;will-change:transform}
+
+/* --- concept -------------------------------------------------------------- */
+.cblock{position:relative;border-radius:var(--r-lg);background:var(--superficie);border:1px solid var(--bordo);padding:clamp(1.5rem,4vw,2.5rem)}
+.cblock-num{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:3rem;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--legno);opacity:.8}
+.cblock-accent{position:absolute;left:0;top:clamp(1.5rem,4vw,2.5rem);width:3px;height:2.5rem;background:var(--verde-mural);border-radius:0 3px 3px 0}
+
+/* --- menu ----------------------------------------------------------------- */
+.menu-sec{background:linear-gradient(180deg,var(--blu-notte) 0%,#0D2C3C 50%,var(--blu-notte) 100%)}
+
+.catnav-wrap{
+  position:sticky;top:var(--h-header);z-index:40;
+  background:rgba(11,38,52,.94);backdrop-filter:blur(10px);
+  border-block:1px solid var(--bordo);
+  display:flex;align-items:center;gap:.5rem;
+}
+.catnav{flex:1;min-width:0;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-ms-overflow-style:none}
+.catnav::-webkit-scrollbar{display:none}
+.catnav-list{display:flex;gap:.25rem;list-style:none;margin:0;padding:0;white-space:nowrap}
+.catnav-link{
+  display:inline-block;padding:.9rem .75rem;text-decoration:none;
+  font-family:var(--f-display);font-weight:800;font-stretch:88%;font-size:.9375rem;letter-spacing:.01em;
+  color:var(--testo-mute);border-bottom:2px solid transparent;transition:color .2s ease,border-color .2s ease;
+}
+.catnav-link:hover{color:var(--crema)}
+.catnav-link.is-active{color:var(--rosa-neon);border-bottom-color:var(--rosa-neon)}
+.catnav-link.is-empty{opacity:.32;pointer-events:none}
+
+.filter-pill{
+  display:inline-flex;align-items:center;gap:.4rem;margin-right:var(--gutter);
+  padding:.35rem .7rem;border-radius:999px;border:1px solid var(--rosa-neon);
+  background:transparent;color:var(--crema);font-family:var(--f-body);font-size:.8125rem;font-weight:600;
+  cursor:pointer;white-space:nowrap;
+}
+.filter-pill:hover{background:rgba(255,79,163,.12)}
+
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{
+  min-height:40px;padding:.5rem 1rem;border-radius:999px;
+  border:1px solid var(--bordo-forte);background:transparent;color:var(--testo-soft);
+  font-family:var(--f-body);font-size:.875rem;font-weight:600;line-height:1;cursor:pointer;
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease;
+}
+.chip:hover{border-color:var(--crema);color:var(--crema)}
+.chip.is-on{background:var(--rosa-neon);border-color:var(--rosa-neon);color:var(--blu-notte)}
+
+.cat{scroll-margin-top:calc(var(--h-header) + var(--h-catnav) + 16px);max-width:56rem}
+.cat[hidden]{display:none}
+.dish-list{list-style:none;margin:0;padding:0}
+.dish-li{border-bottom:1px solid var(--bordo)}
+.dish-li[hidden]{display:none}
+.dish{
+  display:block;width:100%;text-align:left;background:transparent;border:0;
+  padding:1rem .5rem;cursor:pointer;color:inherit;font:inherit;
+  border-radius:10px;transition:background-color .18s ease;
+}
+.dish:hover{background:rgba(244,238,228,.045)}
+.dish-head{display:flex;align-items:baseline;gap:0}
+.dish-name{font-family:var(--f-display);font-weight:700;font-stretch:88%;font-size:clamp(1.0625rem,2.5vw,1.25rem);line-height:1.2;letter-spacing:-.005em;color:var(--crema)}
+.dots{flex:1 1 auto;min-width:1.5rem;border-bottom:1px dotted var(--legno);margin:0 .55rem .32em;opacity:.75}
+/* >=20px/800 = "large text" WCAG, quindi il rosa a 3,88:1 su --blu-locale passa AA */
+.dish-price{font-family:var(--f-display);font-weight:800;font-size:clamp(1.25rem,3vw,1.375rem);line-height:1;color:var(--rosa-neon);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dish-desc{display:block;margin-top:.3rem;max-width:52ch;font-size:.9375rem;line-height:1.5;color:var(--testo-soft)}
+.dish-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem}
+.tag{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .55rem;border-radius:999px;font-size:.6875rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.tag-best{background:rgba(255,79,163,.16);color:#FFC2DE;border:1px solid rgba(255,79,163,.5)}
+.tag-diet{background:rgba(46,125,91,.18);color:#9FD9BC;border:1px solid rgba(46,125,91,.55)}
+
+.menu-empty{padding:2.5rem 1rem;text-align:center;border:1px dashed var(--bordo-forte);border-radius:var(--r-lg);background:var(--superficie)}
+.menu-foot{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--bordo)}
+
+/* --- galleria ------------------------------------------------------------- */
+.masonry{columns:2;column-gap:.75rem}
+@media (min-width:768px){ .masonry{columns:3;column-gap:1rem} }
+.masonry-item{break-inside:avoid;margin-bottom:.75rem;display:block;width:100%;padding:0;border:0;background:transparent;cursor:zoom-in;border-radius:var(--r);overflow:hidden;position:relative}
+@media (min-width:768px){ .masonry-item{margin-bottom:1rem} }
+.masonry-item img{display:block;width:100%;height:auto;border-radius:var(--r);transition:transform .5s cubic-bezier(.22,.61,.36,1)}
+.masonry-item:hover img{transform:scale(1.04)}
+.masonry-item::after{content:"";position:absolute;inset:0;border-radius:var(--r);box-shadow:inset 0 0 0 1px var(--bordo)}
+
+/* --- recensioni ----------------------------------------------------------- */
+.quote{background:var(--superficie);border:1px solid var(--bordo);border-radius:var(--r-lg);padding:clamp(1.25rem,3.5vw,1.75rem);height:100%;display:flex;flex-direction:column;gap:.9rem}
+.quote-txt{font-size:1.0625rem;line-height:1.55;color:var(--crema);margin:0}
+.quote-who{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:auto;padding-top:.5rem;border-top:1px solid var(--bordo)}
+.pending{color:var(--legno);font-style:normal}
+
+/* --- info ----------------------------------------------------------------- */
+.card{background:var(--superficie);border:1px solid var(--bordo);border-radius:var(--r-lg);padding:clamp(1.25rem,3.5vw,2rem)}
+.card-verde{border-color:rgba(46,125,91,.55)}
+.srv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;list-style:none;margin:0;padding:0}
+@media (min-width:640px){ .srv{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.srv li{display:flex;align-items:center;gap:.6rem;padding:.7rem .8rem;border:1px solid var(--bordo);border-radius:var(--r);font-size:.875rem;color:var(--testo-soft)}
+.srv svg{flex:none;color:var(--verde-testo)}
+.dl{display:grid;gap:.15rem;margin:0}
+.dl dt{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--legno-testo)}
+.dl dd{margin:0 0 1.1rem;font-size:1rem;color:var(--crema)}
+.map-card{position:relative;display:block;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--bordo);background:
+  repeating-linear-gradient(45deg,rgba(46,125,91,.10) 0 12px,transparent 12px 24px),
+  radial-gradient(120% 90% at 30% 20%,var(--superficie-alta),var(--blu-notte));
+  min-height:220px;text-decoration:none;padding:clamp(1.25rem,3.5vw,2rem);display:flex;flex-direction:column;justify-content:space-between;gap:1.5rem}
+.map-pin{width:44px;height:44px;border-radius:50%;background:var(--rosa-neon);display:grid;place-items:center;color:var(--blu-notte);box-shadow:0 0 0 8px rgba(255,79,163,.16)}
+
+/* --- footer --------------------------------------------------------------- */
+.ftr{border-top:1px solid var(--bordo);background:#081E29}
+.ftr a:not(.btn){text-decoration:none;color:var(--testo-soft);transition:color .18s ease}
+.ftr a:not(.btn):hover{color:var(--crema)}
+.social{display:flex;gap:.6rem;list-style:none;margin:0;padding:0}
+.social a{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--bordo-forte);border-radius:50%}
+.social a:hover{border-color:var(--rosa-neon);color:var(--rosa-neon)}
+
+/* --- barra sticky mobile -------------------------------------------------- */
+.sticky-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;
+  display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
+  padding:.6rem var(--gutter) calc(.6rem + env(safe-area-inset-bottom));
+  background:rgba(11,38,52,.96);backdrop-filter:blur(12px);border-top:1px solid var(--bordo);
+  transform:translateY(110%);transition:transform .32s cubic-bezier(.22,.61,.36,1);
+}
+.sticky-bar.is-on{transform:translateY(0)}
+@media (min-width:900px){ .sticky-bar{display:none} }
+.page{padding-bottom:0}
+@media (max-width:899px){ .has-stickybar{padding-bottom:76px} }
+
+/* --- dialog --------------------------------------------------------------- */
+.dlg{border:0;padding:0;background:transparent;max-width:min(560px,calc(100vw - 2rem));width:100%;color:var(--testo)}
+.dlg::backdrop{background:rgba(6,22,31,.82);backdrop-filter:blur(4px)}
+.dlg-in{background:var(--superficie);border:1px solid var(--bordo-forte);border-radius:var(--r-lg);overflow:hidden}
+.dlg-img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;background:var(--blu-notte)}
+.dlg-body{padding:clamp(1.25rem,4vw,1.75rem);display:grid;gap:.9rem}
+.dlg-close{position:absolute;top:.75rem;right:.75rem;width:40px;height:40px;border-radius:50%;border:1px solid var(--bordo-forte);background:rgba(11,38,52,.8);color:var(--crema);display:grid;place-items:center;cursor:pointer;font-size:1.25rem;line-height:1}
+.dlg-close:hover{background:var(--blu-notte)}
+.lb{max-width:min(1100px,calc(100vw - 1.5rem))}
+.lb img{display:block;width:100%;height:auto;max-height:82vh;object-fit:contain;border-radius:var(--r)}
+.lb-nav{display:flex;justify-content:space-between;gap:.5rem;margin-top:.75rem}
+
+/* --- utility -------------------------------------------------------------- */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.no-js .js-only{display:none !important}
+.skip{position:absolute;left:.5rem;top:-100px;z-index:100;background:var(--rosa-neon);color:var(--blu-notte);padding:.6rem 1rem;border-radius:8px;font-weight:700;text-decoration:none;transition:top .2s ease}
+.skip:focus{top:.5rem}
+
+/* --- riduzione movimento -------------------------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  .page *,.page *::before,.page *::after{
+    animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;scroll-behavior:auto !important;
+  }
+  .neon{animation:none;opacity:1}
+  .sticky-bar{transition:none}
+}
+</style>
+
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>
+tailwind.config = {
+  corePlugins:{ container:false },
+  theme:{
+    extend:{
+      colors:{
+        notte:'#0B2634', blu:'#123B54', rosa:'#FF4FA3',
+        verde:'#2E7D5B', crema:'#F4EEE4', legno:'#C08A55'
+      },
+      fontFamily:{
+        display:['Archivo','system-ui','sans-serif'],
+        sans:['Inter','system-ui','sans-serif']
+      }
+    }
+  }
+};
+</script>
+</head>
+
+<body class="page has-stickybar">
+
+<a class="skip" href="#menu">Salta al menu</a>
+
+<!-- ======================================================================= -->
+<!-- HEADER                                                                  -->
+<!-- ======================================================================= -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr-in">
+    <a class="brand" href="#top" aria-label="Crazy Bruschetta, torna in cima">
+      <span class="brand-c">Crazy</span><span>Bruschetta</span><span class="brand-r">&reg;</span>
+    </a>
+    <nav class="hdr-nav" aria-label="Navigazione principale">
+      <a href="#concept">Il concept</a>
+      <a href="#menu">Menu</a>
+      <a href="#galleria">Il locale</a>
+      <a href="#info">Dove e quando</a>
+      <a class="btn btn-primary btn-sm" href="https://wa.me/393332708504?text=Ciao%2C%20vorrei%20prenotare%20un%20tavolo" target="_blank" rel="noopener">Prenota</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===================================================================== -->
+  <!-- 1. HERO                                                               -->
+  <!-- ===================================================================== -->
+  <section class="hero" id="hero" aria-labelledby="h1">
+    <div class="hero-media">
+      <img src="assets/img/hero-1400.jpg"
+           srcset="assets/img/hero-800.jpg 800w, assets/img/hero-1400.jpg 1400w, assets/img/hero.jpg 2000w"
+           sizes="100vw" width="2000" height="1333"
+           alt="La sala di Crazy Bruschetta: pareti blu, murale tropicale verde e insegna al neon rosa"
+           fetchpriority="high" decoding="async">
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="wrap hero-in">
+      <p class="t-eyebrow hero-eyebrow">
+        <span>La Spezia &middot; Via Manzoni 39/41</span>
+        <span class="hero-eyebrow-sep" aria-hidden="true" style="color:var(--bordo-forte)">&#9679;</span>
+        <span>Bruschetteria &amp; aperitivo</span>
+      </p>
+
+      <h1 class="t-h1 hero-h1" id="h1">
+        <span class="w"><span class="wi">Non</span></span>
+        <span class="w"><span class="wi">una</span></span>
+        <span class="w"><span class="wi">bruschetta.</span></span>
+        <span class="w"><span class="wi">Un</span></span>
+        <span class="w"><span class="wi">metro</span></span>
+        <span class="w"><span class="wi">di</span></span>
+        <span class="w"><span class="wi neon">Crazy</span></span>
+      </h1>
+
+      <p class="t-lead hero-lead">
+        Arriva un vassoio lungo, e sopra ci stanno tutte. Bruschette di terra e di mare,
+        da dividere finch&eacute;&nbsp;dura. Da Anna e Albert, nel centro della Spezia.
+      </p>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://wa.me/393332708504?text=Ciao%2C%20vorrei%20prenotare%20un%20tavolo" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 15l-1.2 4.4 4.5-1.2A10 10 0 1 0 12 2Zm5.6 14.1c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.2.2-3.5-.7-2.9-1.2-4.8-4.2-5-4.4-.1-.2-1.1-1.5-1.1-2.8 0-1.4.7-2 .9-2.3.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.9c.2-.2.3-.2.5-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+          Prenota su WhatsApp
+        </a>
+        <a class="btn btn-ghost" href="#menu">Guarda il menu</a>
+      </div>
+
+      <p class="hero-badge">
+        <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span><b style="color:var(--crema);font-weight:700">4,7</b> su Google &middot; 406 recensioni</span>
+      </p>
+    </div>
+
+    <span class="hero-scroll" aria-hidden="true">Scorri</span>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 2. IL CONCEPT                                                         -->
+  <!-- ===================================================================== -->
+  <section class="section" id="concept" aria-labelledby="h-concept" data-reveal>
+    <div class="wrap">
+      <p class="t-eyebrow">Come funziona</p>
+      <h2 class="t-h2 mt-3 max-w-[22ch]" id="h-concept">Si ordina per il tavolo, non per te</h2>
+
+      <div class="grid gap-4 mt-10 md:grid-cols-12 md:gap-5">
+        <!-- blocco 1: alto e stretto -->
+        <article class="cblock md:col-span-5 md:row-span-2" data-reveal-item>
+          <span class="cblock-accent" aria-hidden="true"></span>
+          <p class="cblock-num" aria-hidden="true">01</p>
+          <h3 class="t-h3 mt-4">Al metro</h3>
+          <p class="t-body mt-3">
+            Il vassoio &egrave; lungo un metro e non ha un ordine preciso: le bruschette
+            arrivano tutte insieme, si passano, si assaggiano e si litiga sull&#39;ultima.
+            Funziona in due, funziona meglio in sei.
+          </p>
+        </article>
+
+        <!-- blocco 2: largo -->
+        <article class="cblock md:col-span-7" data-reveal-item>
+          <span class="cblock-accent" aria-hidden="true" style="background:var(--legno)"></span>
+          <p class="cblock-num" aria-hidden="true">02</p>
+          <h3 class="t-h3 mt-4">Terra e mare, senza scegliere</h3>
+          <p class="t-body mt-3">
+            Da una parte salsiccia, gorgonzola, mortadella e pistacchi. Dall&#39;altra
+            polpo, muscoli e acciughe. Nessuno ti obbliga a decidere: met&agrave; e met&agrave;
+            &egrave; l&#39;ordine pi&ugrave; comune del sabato sera.
+          </p>
+        </article>
+
+        <!-- blocco 3: corto, sfalsato -->
+        <article class="cblock md:col-span-7" data-reveal-item>
+          <span class="cblock-accent" aria-hidden="true"></span>
+          <p class="cblock-num" aria-hidden="true">03</p>
+          <h3 class="t-h3 mt-4">Veg, vegan e km 0</h3>
+          <p class="t-body mt-3">
+            Verdure di stagione, pesti fatti in casa, fornitori vicini quando si pu&ograve;.
+            Le versioni veg e vegan ci sono: chiedile in sala o su WhatsApp, si adatta
+            quasi tutto.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================================================================== -->
+  <!-- 3. MENU                                                               -->
+  <!-- ===================================================================== -->
+  <section class="menu-sec" id="menu" aria-labelledby="h-menu">
+
+    <div class="wrap" style="padding-top:clamp(4rem,10vw,7.5rem)" data-reveal>
+      <p class="t-eyebrow">Scontrino medio 17 &euro; &middot; bevande escluse</p>
+      <h2 class="t-h2 mt-3" id="h-menu">Il menu</h2>
+      <p class="t-lead mt-4 max-w-[52ch]">
+        Ventotto voci, nessuna sorpresa sul conto. Tocca un piatto per vederlo
+        da vicino e ordinarlo direttamente su WhatsApp.
+      </p>
+    </div>
+
+    <!-- nav categorie sticky -->
+    <div class="catnav-wrap" id="catnav-wrap">
+      <nav class="catnav" aria-label="Categorie del menu">
+        <ul class="catnav-list" style="padding-inline:var(--gutter)">
+          <li><a class="catnav-link" href="#cat-antipasti" data-catlink="antipasti">Antipasti</a></li>
+          <li><a class="catnav-link" href="#cat-le-classiche" data-catlink="le-classiche">Le classiche</a></li>
+          <li><a class="catnav-link" href="#cat-terra" data-catlink="terra">Terra</a></li>
+          <li><a class="catnav-link" href="#cat-mare" data-catlink="mare">Mare</a></li>
+          <li><a class="catnav-link" href="#cat-dolci" data-catlink="dolci">Dolci</a></li>
+          <li><a class="catnav-link" href="#cat-a-la-carte" data-catlink="a-la-carte">A la carte</a></li>
+        </ul>
+      </nav>
+      <!-- scorciatoia per togliere il filtro senza risalire ai chip -->
+      <button type="button" class="filter-pill js-only" id="filter-pill" hidden>
+        <span>Filtro: <b id="filter-pill-label"></b></span>
+        <span aria-hidden="true">&#10005;</span>
+        <span class="sr-only">Rimuovi il filtro</span>
+      </button>
+    </div>
+
+    <div class="wrap" style="padding-bottom:clamp(4rem,10vw,7.5rem)">
+
+      <!-- chip filtri -->
+      <div class="js-only mt-8">
+        <p class="t-eyebrow mb-3" id="chips-label">Filtra veloce</p>
+        <div class="chips" role="radiogroup" aria-labelledby="chips-label" id="chips">
+          <button type="button" class="chip is-on" role="radio" aria-checked="true"  tabindex="0"  data-filter="tutto">Tutto</button>
+          <button type="button" class="chip"       role="radio" aria-checked="false" tabindex="-1" data-filter="terra">Terra</button>
+          <button type="button" class="chip"       role="radio" aria-checked="false" tabindex="-1" data-filter="mare">Mare</button>
+          <button type="button" class="chip"       role="radio" aria-checked="false" tabindex="-1" data-filter="veg">Veg</button>
+          <button type="button" class="chip"       role="radio" aria-checked="false" tabindex="-1" data-filter="dolci">Dolci</button>
+          <button type="button" class="chip"       role="radio" aria-checked="false" tabindex="-1" data-filter="sotto7">Sotto i 7&nbsp;&euro;</button>
+        </div>
+        <p class="t-small mt-3" id="menu-count" aria-live="polite" role="status">28 piatti</p>
+      </div>
+
+      <!-- stato vuoto: unico caso oggi = filtro Veg, perche' i badge dietetici
+           non sono ancora confermati dalla cucina (vedi DIET/diet:[] nello script) -->
+      <div class="menu-empty js-only mt-8" id="menu-empty" hidden>
+        <h3 class="t-h4">Non l&#39;abbiamo ancora messo per iscritto</h3>
+        <p class="t-body mt-3 mx-auto max-w-[46ch]">
+          I piatti veg e vegan non sono ancora confermati con la cucina, e non ce li
+          inventiamo. Chiedi in sala o scrivici: te lo diciamo in due minuti.
+        </p>
+        <a class="btn btn-primary mt-5" href="https://wa.me/393332708504?text=Ciao%2C%20avete%20opzioni%20veg%20o%20vegan%3F" target="_blank" rel="noopener">Chiedi su WhatsApp</a>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- Le voci qui sotto sono la versione statica dell'array MENU in   -->
+      <!-- fondo al file: restano leggibili anche se il JS non parte.      -->
+      <!-- Se cambi un prezzo, cambialo NELL'ARRAY: allo start la pagina   -->
+      <!-- riallinea il DOM da sola e ti segnala la differenza in console. -->
+      <!-- ============================================================== -->
+      <div id="menu-list">
+
+        <section class="cat mt-12" id="cat-antipasti" data-cat="antipasti" data-menu-cat>
+          <h3 class="t-h3">Antipasti</h3>
+          <ul class="dish-list mt-4">
+            <li class="dish-li" data-slug="tagliere-della-casa" data-cat="antipasti" data-price="12" data-diet="">
+              <button type="button" class="dish" data-slug="tagliere-della-casa" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Tagliere della casa x2</span><span class="dots" aria-hidden="true"></span><span class="dish-price">12&nbsp;&euro;</span></span>
+                <span class="dish-desc">Salumi e formaggi, per 2 persone</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="tagliere-speciale" data-cat="antipasti" data-price="20" data-diet="">
+              <button type="button" class="dish" data-slug="tagliere-speciale" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Tagliere speciale x2</span><span class="dots" aria-hidden="true"></span><span class="dish-price">20&nbsp;&euro;</span></span>
+                <span class="dish-desc">Selezione speciale di salumi e formaggi, per 2 persone</span>
+              </button>
+            </li>
+          </ul>
+        </section>
+
+        <section class="cat mt-12" id="cat-le-classiche" data-cat="le-classiche" data-menu-cat>
+          <h3 class="t-h3">Le classiche</h3>
+          <ul class="dish-list mt-4">
+            <li class="dish-li" data-slug="semplice" data-cat="le-classiche" data-price="5" data-diet="">
+              <button type="button" class="dish" data-slug="semplice" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Semplice</span><span class="dots" aria-hidden="true"></span><span class="dish-price">5&nbsp;&euro;</span></span>
+                <span class="dish-desc">Pomodorini, olio agliato, origano</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="cotto-e-fiordilatte" data-cat="le-classiche" data-price="6" data-diet="">
+              <button type="button" class="dish" data-slug="cotto-e-fiordilatte" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Cotto e fiordilatte</span><span class="dots" aria-hidden="true"></span><span class="dish-price">6&nbsp;&euro;</span></span>
+                <span class="dish-desc">Prosciutto cotto, mozzarella</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="crudo-e-stracchino" data-cat="le-classiche" data-price="6" data-diet="">
+              <button type="button" class="dish" data-slug="crudo-e-stracchino" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Crudo e stracchino</span><span class="dots" aria-hidden="true"></span><span class="dish-price">6&nbsp;&euro;</span></span>
+                <span class="dish-desc">Prosciutto crudo, stracchino</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="viennese" data-cat="le-classiche" data-price="6" data-diet="">
+              <button type="button" class="dish" data-slug="viennese" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Viennese</span><span class="dots" aria-hidden="true"></span><span class="dish-price">6&nbsp;&euro;</span></span>
+                <span class="dish-desc">Mozzarella, w&uuml;rstel, patatine fritte</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="ligure" data-cat="le-classiche" data-price="6" data-diet="">
+              <button type="button" class="dish" data-slug="ligure" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Ligure</span><span class="dots" aria-hidden="true"></span><span class="dish-price">6&nbsp;&euro;</span></span>
+                <span class="dish-desc">Mozzarella, pesto, noci</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="diavola" data-cat="le-classiche" data-price="6" data-diet="">
+              <button type="button" class="dish" data-slug="diavola" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Diavola</span><span class="dots" aria-hidden="true"></span><span class="dish-price">6&nbsp;&euro;</span></span>
+                <span class="dish-desc">Mozzarella, passata napoletana, pomodori secchi</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="contadina" data-cat="le-classiche" data-price="6" data-diet="">
+              <button type="button" class="dish" data-slug="contadina" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Contadina</span><span class="dots" aria-hidden="true"></span><span class="dish-price">6&nbsp;&euro;</span></span>
+                <span class="dish-desc">Verdure miste saltate in padella, mandorle</span>
+              </button>
+            </li>
+          </ul>
+        </section>
+
+        <section class="cat mt-12" id="cat-terra" data-cat="terra" data-menu-cat>
+          <h3 class="t-h3">Terra</h3>
+          <ul class="dish-list mt-4">
+            <li class="dish-li" data-slug="fit" data-cat="terra" data-price="7" data-diet="">
+              <button type="button" class="dish" data-slug="fit" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Fit</span><span class="dots" aria-hidden="true"></span><span class="dish-price">7&nbsp;&euro;</span></span>
+                <span class="dish-desc">Rucola, bresaola, pomodorini, grana</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="norma" data-cat="terra" data-price="6" data-diet="">
+              <button type="button" class="dish" data-slug="norma" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Norma</span><span class="dots" aria-hidden="true"></span><span class="dish-price">6&nbsp;&euro;</span></span>
+                <span class="dish-desc">Melanzane a funghetto, burrata, menta</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="nerano" data-cat="terra" data-price="6" data-diet="">
+              <button type="button" class="dish" data-slug="nerano" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Nerano</span><span class="dots" aria-hidden="true"></span><span class="dish-price">6&nbsp;&euro;</span></span>
+                <span class="dish-desc">Pesto di zucchine, provolone, zucchine</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="boscaiola" data-cat="terra" data-price="7" data-diet="">
+              <button type="button" class="dish" data-slug="boscaiola" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Boscaiola</span><span class="dots" aria-hidden="true"></span><span class="dish-price">7&nbsp;&euro;</span></span>
+                <span class="dish-desc">Mozzarella, funghi trifolati, salsiccia</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="pistacchiosa" data-cat="terra" data-price="8" data-diet="">
+              <button type="button" class="dish" data-slug="pistacchiosa" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Pistacchiosa</span><span class="dots" aria-hidden="true"></span><span class="dish-price">8&nbsp;&euro;</span></span>
+                <span class="dish-desc">Pesto di pistacchi, mortadella, burrata, granella di pistacchi</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="vesuvio" data-cat="terra" data-price="7" data-diet="">
+              <button type="button" class="dish" data-slug="vesuvio" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Vesuvio</span><span class="dots" aria-hidden="true"></span><span class="dish-price">7&nbsp;&euro;</span></span>
+                <span class="dish-desc">Pesto di friarielli, mozzarella di bufala, salsiccia</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="gorgo-speck" data-cat="terra" data-price="7" data-diet="">
+              <button type="button" class="dish" data-slug="gorgo-speck" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Gorgo speck</span><span class="dots" aria-hidden="true"></span><span class="dish-price">7&nbsp;&euro;</span></span>
+                <span class="dish-desc">Gorgonzola, speck, salsa di noci</span>
+              </button>
+            </li>
+          </ul>
+        </section>
+
+        <section class="cat mt-12" id="cat-mare" data-cat="mare" data-menu-cat>
+          <h3 class="t-h3">Mare</h3>
+          <ul class="dish-list mt-4">
+            <li class="dish-li" data-slug="tellaro" data-cat="mare" data-price="10" data-diet="">
+              <button type="button" class="dish" data-slug="tellaro" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Tellaro</span><span class="dots" aria-hidden="true"></span><span class="dish-price">10&nbsp;&euro;</span></span>
+                <span class="dish-desc">Pesto di prezzemolo, crema di patate, polpo</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="spezzina" data-cat="mare" data-price="8" data-diet="">
+              <button type="button" class="dish" data-slug="spezzina" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Spezzina</span><span class="dots" aria-hidden="true"></span><span class="dish-price">8&nbsp;&euro;</span></span>
+                <span class="dish-desc">Pesto di prezzemolo, muscoli, pomodori secchi</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="monterosso" data-cat="mare" data-price="8" data-diet="">
+              <button type="button" class="dish" data-slug="monterosso" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Monterosso</span><span class="dots" aria-hidden="true"></span><span class="dish-price">8&nbsp;&euro;</span></span>
+                <span class="dish-desc">Mozzarella di bufala, pomodorini, acciughe, prezzemolo</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="delicata" data-cat="mare" data-price="8" data-diet="">
+              <button type="button" class="dish" data-slug="delicata" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Delicata</span><span class="dots" aria-hidden="true"></span><span class="dish-price">8&nbsp;&euro;</span></span>
+                <span class="dish-desc">Formaggio spalmabile all&#39;erba cipollina, salmone affumicato, pomodori secchi</span>
+              </button>
+            </li>
+          </ul>
+        </section>
+
+        <section class="cat mt-12" id="cat-dolci" data-cat="dolci" data-menu-cat>
+          <h3 class="t-h3">Dolci</h3>
+          <ul class="dish-list mt-4">
+            <li class="dish-li" data-slug="tortino-al-cioccolato" data-cat="dolci" data-price="5" data-diet="">
+              <button type="button" class="dish" data-slug="tortino-al-cioccolato" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Tortino al cioccolato</span><span class="dots" aria-hidden="true"></span><span class="dish-price">5&nbsp;&euro;</span></span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="bruschetta-nutella" data-cat="dolci" data-price="4" data-diet="">
+              <button type="button" class="dish" data-slug="bruschetta-nutella" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Bruschetta nutella e granella di nocciole</span><span class="dots" aria-hidden="true"></span><span class="dish-price">4&nbsp;&euro;</span></span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="cremoso-al-pistacchio" data-cat="dolci" data-price="5" data-diet="">
+              <button type="button" class="dish" data-slug="cremoso-al-pistacchio" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Cremoso al pistacchio</span><span class="dots" aria-hidden="true"></span><span class="dish-price">5&nbsp;&euro;</span></span>
+                <span class="dish-desc">Semifreddo al pistacchio su base di meringa al cacao, topping al cioccolato fondente</span>
+              </button>
+            </li>
+          </ul>
+        </section>
+
+        <section class="cat mt-12" id="cat-a-la-carte" data-cat="a-la-carte" data-menu-cat>
+          <h3 class="t-h3">A la carte</h3>
+          <ul class="dish-list mt-4">
+            <li class="dish-li" data-slug="gnocchetti-al-pesto" data-cat="a-la-carte" data-price="12" data-diet="">
+              <button type="button" class="dish" data-slug="gnocchetti-al-pesto" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Gnocchetti al pesto</span><span class="dots" aria-hidden="true"></span><span class="dish-price">12&nbsp;&euro;</span></span>
+                <span class="dish-desc">Gnocchi con pesto di basilico</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="caprese" data-cat="a-la-carte" data-price="11" data-diet="">
+              <button type="button" class="dish" data-slug="caprese" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Caprese</span><span class="dots" aria-hidden="true"></span><span class="dish-price">11&nbsp;&euro;</span></span>
+                <span class="dish-desc">Mozzarella, pomodoro, origano</span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="bresaola-rucola-pomodorini-grana" data-cat="a-la-carte" data-price="12" data-diet="">
+              <button type="button" class="dish" data-slug="bresaola-rucola-pomodorini-grana" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Bresaola, rucola, pomodorini e grana</span><span class="dots" aria-hidden="true"></span><span class="dish-price">12&nbsp;&euro;</span></span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="lasagna-al-ragu" data-cat="a-la-carte" data-price="14" data-diet="">
+              <button type="button" class="dish" data-slug="lasagna-al-ragu" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Lasagna al rag&ugrave; bolognese</span><span class="dots" aria-hidden="true"></span><span class="dish-price">14&nbsp;&euro;</span></span>
+              </button>
+            </li>
+            <li class="dish-li" data-slug="hamburger" data-cat="a-la-carte" data-price="13" data-diet="">
+              <button type="button" class="dish" data-slug="hamburger" aria-haspopup="dialog">
+                <span class="dish-head"><span class="dish-name">Hamburger con insalata e patatine</span><span class="dots" aria-hidden="true"></span><span class="dish-price">13&nbsp;&euro;</span></span>
+                <span class="dish-desc">Burger di scottona con patatine fritte e insalata</span>
+              </button>
+            </li>
+          </ul>
+        </section>
+
+      </div><!-- /#menu-list -->
+
+      <div class="menu-foot flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p class="t-small">
+          Prezzi aggiornati al <span class="pending">[DATA DA CONFERMARE]</span> &mdash;
+          la carta bevande &egrave; disponibile in sala.
+        </p>
+        <!-- TODO: sostituisci l'href con il PDF vero, es. assets/menu-crazy-bruschetta.pdf -->
+        <a class="btn btn-wood btn-sm shrink-0" href="#" download aria-describedby="pdf-note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Scarica il menu PDF
+        </a>
+        <span class="sr-only" id="pdf-note">Il file PDF non &egrave; ancora stato caricato.</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================================================================== -->
+  <!-- 4. GALLERIA                                                           -->
+  <!-- ===================================================================== -->
+  <section class="section" id="galleria" aria-labelledby="h-galleria" data-reveal>
+    <div class="wrap">
+      <p class="t-eyebrow">Il locale</p>
+      <h2 class="t-h2 mt-3 max-w-[24ch]" id="h-galleria">Pareti blu, giungla dipinta, neon che esagera</h2>
+      <p class="t-lead mt-4 max-w-[48ch]">
+        Dentro si sta stretti nel modo giusto. Fuori c&#39;&egrave; il dehors, che d&#39;estate
+        &egrave; la parte migliore.
+      </p>
+
+      <div class="masonry mt-10" id="gallery">
+        <button type="button" class="masonry-item" data-lb="0">
+          <img src="assets/img/interno-1-600.jpg" srcset="assets/img/interno-1-600.jpg 600w, assets/img/interno-1-1000.jpg 1000w, assets/img/interno-1.jpg 1600w" sizes="(min-width:768px) 33vw, 50vw" width="1600" height="1067" loading="lazy" decoding="async" alt="Sala interna con pareti blu e tavoli in legno chiaro">
+        </button>
+        <button type="button" class="masonry-item" data-lb="1">
+          <img src="assets/img/neon-600.jpg" srcset="assets/img/neon-600.jpg 600w, assets/img/neon-1000.jpg 1000w, assets/img/neon.jpg 1200w" sizes="(min-width:768px) 33vw, 50vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Insegna al neon rosa Crazy in Love sulla parete blu">
+        </button>
+        <button type="button" class="masonry-item" data-lb="2">
+          <img src="assets/img/dehors-600.jpg" srcset="assets/img/dehors-600.jpg 600w, assets/img/dehors-1000.jpg 1000w, assets/img/dehors.jpg 1600w" sizes="(min-width:768px) 33vw, 50vw" width="1600" height="1067" loading="lazy" decoding="async" alt="Il dehors su strada con tavolini e sedie in metallo nero">
+        </button>
+        <button type="button" class="masonry-item" data-lb="3">
+          <img src="assets/img/interno-2-600.jpg" srcset="assets/img/interno-2-600.jpg 600w, assets/img/interno-2-1000.jpg 1000w, assets/img/interno-2.jpg 1200w" sizes="(min-width:768px) 33vw, 50vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Il murale tropicale verde che copre la parete di fondo">
+        </button>
+        <button type="button" class="masonry-item" data-lb="4">
+          <img src="assets/img/interno-3-600.jpg" srcset="assets/img/interno-3-600.jpg 600w, assets/img/interno-3-1000.jpg 1000w, assets/img/interno-3.jpg 1600w" sizes="(min-width:768px) 33vw, 50vw" width="1600" height="1067" loading="lazy" decoding="async" alt="Vassoio lungo di bruschette al metro appena servito al tavolo">
+        </button>
+        <button type="button" class="masonry-item" data-lb="5">
+          <img src="assets/img/interno-4-600.jpg" srcset="assets/img/interno-4-600.jpg 600w, assets/img/interno-4-1000.jpg 1000w, assets/img/interno-4.jpg 1200w" sizes="(min-width:768px) 33vw, 50vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Il bancone in legno chiaro con i calici pronti per l&#39;aperitivo">
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================================================================== -->
+  <!-- 5. RECENSIONI                                                         -->
+  <!-- ===================================================================== -->
+  <section class="section" id="recensioni" aria-labelledby="h-recensioni" data-reveal>
+    <div class="wrap">
+      <p class="t-eyebrow">Lo dicono loro, non noi</p>
+      <h2 class="t-h2 mt-3" id="h-recensioni">4,7 su Google. 9,5 su TheFork.</h2>
+
+      <div class="grid gap-4 mt-6 sm:grid-cols-3 sm:gap-5" data-counters>
+        <p class="t-small"><b class="block t-h3" style="color:var(--rosa-neon)" data-count="4.7" data-decimals="1">4,7</b> su Google, su <b data-count="406" style="color:var(--crema)">406</b> recensioni</p>
+        <p class="t-small"><b class="block t-h3" style="color:var(--rosa-neon)" data-count="9.5" data-decimals="1">9,5</b> su TheFork, su <b data-count="272" style="color:var(--crema)">272</b> recensioni</p>
+        <p class="t-small"><b class="block t-h3" style="color:var(--rosa-neon)"><span data-count="17">17</span>&nbsp;&euro;</b> scontrino medio, bevande escluse</p>
+      </div>
+
+      <!-- ==================================================================
+           DA CONFERMARE: i tre estratti qui sotto sono segnaposto.
+           Incolla recensioni VERE copiate da Google o TheFork, con il nome
+           che compare li'. Non inventarle: sono frasi attribuite a persone
+           reali. Finche' restano segnaposto NON vanno nemmeno nel JSON-LD.
+           ================================================================== -->
+      <div class="grid gap-4 mt-10 md:grid-cols-3 md:gap-5">
+        <figure class="quote" data-reveal-item>
+          <p class="stars" aria-label="5 stelle su 5">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <blockquote class="quote-txt"><p class="pending">[ESTRATTO &mdash; INCOLLA DA GOOGLE]</p></blockquote>
+          <figcaption class="quote-who"><span class="pending">[NOME]</span><span class="t-small">Google</span></figcaption>
+        </figure>
+        <figure class="quote" data-reveal-item>
+          <p class="stars" aria-label="5 stelle su 5">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <blockquote class="quote-txt"><p class="pending">[ESTRATTO &mdash; INCOLLA DA GOOGLE]</p></blockquote>
+          <figcaption class="quote-who"><span class="pending">[NOME]</span><span class="t-small">Google</span></figcaption>
+        </figure>
+        <figure class="quote" data-reveal-item>
+          <p class="stars" aria-label="5 stelle su 5">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <blockquote class="quote-txt"><p class="pending">[ESTRATTO &mdash; INCOLLA DA THEFORK]</p></blockquote>
+          <figcaption class="quote-who"><span class="pending">[NOME]</span><span class="t-small">TheFork</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="flex flex-wrap gap-3 mt-8">
+        <a class="btn btn-primary" href="https://search.google.com/local/writereview?placeid=ChIJQVz-R9391BIRQoFLtdxyY8I" target="_blank" rel="noopener">Lascia una recensione su Google</a>
+        <a class="btn btn-ghost" href="https://www.thefork.it/ristorante/crazy-bruschetta-r745048" target="_blank" rel="noopener">Vedi su TheFork</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================================================================== -->
+  <!-- 6. INFO                                                               -->
+  <!-- ===================================================================== -->
+  <section class="section" id="info" aria-labelledby="h-info" data-reveal>
+    <div class="wrap">
+      <p class="t-eyebrow">Dove e quando</p>
+      <h2 class="t-h2 mt-3" id="h-info">Via Manzoni 39/41, La Spezia</h2>
+
+      <div class="grid gap-4 mt-10 md:grid-cols-2 md:gap-5">
+
+        <div class="card" data-reveal-item>
+          <dl class="dl">
+            <dt>Indirizzo</dt>
+            <dd>Via Alessandro Manzoni 39/41<br>19121 La Spezia (SP)</dd>
+
+            <dt>Telefono e WhatsApp</dt>
+            <dd><a href="tel:+393332708504" style="text-decoration:underline;text-underline-offset:3px">+39 333 270 8504</a></dd>
+
+            <!-- DA CONFERMARE: le fonti online si contraddicono, non inventare gli orari -->
+            <dt>Orari</dt>
+            <dd class="pending">[ORARI DA CONFERMARE]</dd>
+
+            <!-- DA CONFERMARE: nessun dato verificato sui pagamenti accettati.
+                 Quando lo sai, sostituisci con la lista reale, es.:
+                 <dd>Contanti, carte di credito, bancomat</dd> -->
+            <dt>Pagamenti</dt>
+            <dd class="pending">[METODI DI PAGAMENTO DA CONFERMARE]</dd>
+          </dl>
+
+          <div class="flex flex-wrap gap-3 mt-2">
+            <a class="btn btn-primary btn-sm" href="https://wa.me/393332708504?text=Ciao%2C%20vorrei%20prenotare%20un%20tavolo" target="_blank" rel="noopener">Prenota su WhatsApp</a>
+            <a class="btn btn-ghost btn-sm" href="tel:+393332708504">Chiama</a>
+          </div>
+        </div>
+
+        <!-- niente iframe di Maps: sarebbe un tracker di terze parti in home -->
+        <a class="map-card" href="https://www.google.com/maps/place/?q=place_id:ChIJQVz-R9391BIRQoFLtdxyY8I" target="_blank" rel="noopener" data-reveal-item>
+          <span class="map-pin" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+          </span>
+          <span>
+            <span class="t-h4 block">Siamo in centro, a due passi da Corso Cavour</span>
+            <span class="t-small block mt-2">Apri il percorso in Google Maps &rarr;</span>
+          </span>
+        </a>
+
+        <div class="card md:col-span-2" data-reveal-item>
+          <h3 class="t-h4">In sala trovi</h3>
+          <ul class="srv mt-4">
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v3M4.9 4.9l2.1 2.1M2 12h3M19 12h3M17 7l2.1-2.1"/><path d="M6 21h12M12 21v-8"/><path d="M4 13a8 8 0 0 1 16 0Z"/></svg><span>Dehors all&#39;aperto</span></li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M4.2 6.6l15.6 10.8M19.8 6.6 4.2 17.4M12 6l-2.5-2.5M12 6l2.5-2.5M12 18l-2.5 2.5M12 18l2.5 2.5"/></svg><span>Aria condizionata</span></li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 8.8a17 17 0 0 1 20 0M5 12.5a12 12 0 0 1 14 0M8.5 16.2a7 7 0 0 1 7 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg><span>Wi-Fi gratuito</span></li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="8" cy="7" rx="2" ry="2.6"/><ellipse cx="16" cy="7" rx="2" ry="2.6"/><ellipse cx="4.5" cy="12.5" rx="2" ry="2.3"/><ellipse cx="19.5" cy="12.5" rx="2" ry="2.3"/><path d="M12 12c2.6 0 4.8 2.2 5.4 4.4.5 1.9-.9 3.6-2.9 3.6-1 0-1.7-.4-2.5-.4s-1.5.4-2.5.4c-2 0-3.4-1.7-2.9-3.6C7.2 14.2 9.4 12 12 12Z"/></svg><span>Pet friendly</span></li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M10 7v6h5l3 6"/><path d="M14 13a5.5 5.5 0 1 1-5-3"/></svg><span>Locale accessibile</span></li>
+            <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21h16v-6a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3z"/><path d="M8 12V8M12 12V7M16 12V8"/><path d="M8 5.5a1 1 0 1 1 2 0M12 4.5a1 1 0 1 1 2 0M16 5.5a1 1 0 1 1-2 0" /></svg><span>Feste ed eventi</span></li>
+          </ul>
+        </div>
+
+        <!-- sezione dedicata con CTA WhatsApp separata -->
+        <div class="card card-verde md:col-span-2" data-reveal-item>
+          <p class="t-eyebrow" style="color:var(--verde-testo)">Feste ed eventi privati</p>
+          <h3 class="t-h3 mt-3 max-w-[22ch]">Diciottesimi, compleanni, cene di gruppo</h3>
+          <p class="t-body mt-4 max-w-[54ch]">
+            Ci si organizza: si chiude il locale o si tiene una parte di sala, si decide
+            insieme quante bruschette al metro servono e si spara la musica.
+            Scrivici con data e numero di persone e ti diciamo subito se ci stiamo.
+          </p>
+          <a class="btn btn-primary mt-6" href="https://wa.me/393332708504?text=Ciao%2C%20vorrei%20informazioni%20per%20una%20festa%20privata" target="_blank" rel="noopener">
+            Organizza la tua festa su WhatsApp
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================= -->
+<!-- 7. FOOTER                                                               -->
+<!-- ======================================================================= -->
+<footer class="ftr" data-reveal>
+  <div class="wrap" style="padding-block:clamp(3rem,7vw,4.5rem)">
+
+    <div class="grid gap-8 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <p class="brand" style="font-size:1.5rem"><span class="brand-c">Crazy</span><span>Bruschetta</span><span class="brand-r">&reg;</span></p>
+        <p class="t-body mt-3 max-w-[34ch]">
+          Bruschetteria e aperitivo gourmet nel centro della Spezia. Di Anna e Albert.
+        </p>
+        <a class="btn btn-primary mt-6" href="https://wa.me/393332708504?text=Ciao%2C%20vorrei%20prenotare%20un%20tavolo" target="_blank" rel="noopener">Prenota il tavolo</a>
+      </div>
+
+      <div class="md:col-span-3">
+        <p class="t-eyebrow">Contatti</p>
+        <ul class="mt-3 grid gap-2 t-small" style="list-style:none;padding:0;margin:0">
+          <li><a href="tel:+393332708504">+39 333 270 8504</a></li>
+          <li><a href="https://www.google.com/maps/place/?q=place_id:ChIJQVz-R9391BIRQoFLtdxyY8I" target="_blank" rel="noopener">Via Manzoni 39/41<br>19121 La Spezia</a></li>
+          <li><a href="https://www.thefork.it/ristorante/crazy-bruschetta-r745048" target="_blank" rel="noopener">Prenota su TheFork</a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4">
+        <p class="t-eyebrow">Seguici</p>
+        <ul class="social mt-3">
+          <li><a href="https://www.instagram.com/crazybruschetta/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a></li>
+          <li><a href="https://www.tiktok.com/@crazybruschetta" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2 1.5 3.4 3.5 3.6v2.6c-1.3.1-2.5-.3-3.6-1v6.1c0 3.6-2.6 5.9-5.7 5.7-2.9-.2-5-2.6-4.8-5.6.2-2.7 2.4-4.7 5.1-4.6.4 0 .7 0 1.1.1v2.8c-.3-.1-.6-.2-1-.2-1.3 0-2.4 1-2.4 2.3s1 2.4 2.3 2.4c1.3 0 2.4-1 2.4-2.4V3h3.1Z"/></svg></a></li>
+          <li><a href="https://www.facebook.com/crazybruschetta/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.5-1.5H17V3.9c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2V10H8v3h2.5v8h3Z"/></svg></a></li>
+        </ul>
+        <p class="t-small mt-6">
+          <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          4,7 su Google &middot; 9,5 su TheFork
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-10 pt-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between" style="border-top:1px solid var(--bordo)">
+      <p class="t-small">
+        Crazy Bruschetta&reg; &middot; P.IVA <span class="pending">[DA CONFERMARE]</span>
+        <!-- DA CONFERMARE: P.IVA, ragione sociale e sede legale -->
+      </p>
+      <p class="t-small">&copy; <span id="year">2026</span> Crazy Bruschetta. Tutti i diritti riservati.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================================================================= -->
+<!-- 8. BARRA STICKY MOBILE                                                  -->
+<!-- ======================================================================= -->
+<nav class="sticky-bar js-only" id="sticky-bar" aria-label="Azioni rapide">
+  <a class="btn btn-primary" href="https://wa.me/393332708504?text=Ciao%2C%20vorrei%20prenotare%20un%20tavolo" target="_blank" rel="noopener">Prenota</a>
+  <a class="btn btn-ghost" href="tel:+393332708504">Chiama</a>
+</nav>
+
+<!-- ======================================================================= -->
+<!-- DIALOG: dettaglio piatto                                                -->
+<!-- ======================================================================= -->
+<dialog class="dlg" id="dish-dialog" aria-labelledby="dish-dialog-title">
+  <div class="dlg-in" style="position:relative">
+    <button type="button" class="dlg-close" data-close aria-label="Chiudi">&#10005;</button>
+    <img class="dlg-img" id="dish-dialog-img" src="" alt="" width="1200" height="900" loading="lazy" decoding="async">
+    <div class="dlg-body">
+      <p class="t-eyebrow" id="dish-dialog-cat"></p>
+      <h2 class="t-h3" id="dish-dialog-title"></h2>
+      <p class="t-body" id="dish-dialog-desc"></p>
+      <div class="dish-tags" id="dish-dialog-tags"></div>
+      <p class="t-h3" id="dish-dialog-price" style="color:var(--rosa-neon)"></p>
+      <a class="btn btn-primary" id="dish-dialog-wa" href="#" target="_blank" rel="noopener">Ordinalo stasera &rarr; WhatsApp</a>
+      <p class="t-small" style="color:var(--testo-mute)">Ti apriamo la chat con il piatto gi&agrave; scritto. Confermiamo noi la disponibilit&agrave;.</p>
+    </div>
+  </div>
+</dialog>
+
+<!-- ======================================================================= -->
+<!-- DIALOG: lightbox galleria                                               -->
+<!-- ======================================================================= -->
+<dialog class="dlg lb" id="lightbox" aria-label="Foto del locale">
+  <div style="position:relative">
+    <button type="button" class="dlg-close" data-close aria-label="Chiudi">&#10005;</button>
+    <img id="lb-img" src="" alt="" width="1600" height="1067">
+    <div class="lb-nav">
+      <button type="button" class="btn btn-ghost btn-sm" id="lb-prev">&larr; Precedente</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="lb-next">Successiva &rarr;</button>
+    </div>
+  </div>
+</dialog>
+
+
+<!-- ======================================================================= -->
+<!-- DATI MENU                                                               -->
+<!-- ======================================================================= -->
+<script>
+/* ---------------------------------------------------------------------------
+   MENU - sorgente dei dati.
+   Le voci sono anche scritte a mano nell'HTML sopra (cosi' restano leggibili
+   senza JS). Se modifichi un prezzo QUI, la pagina riallinea il DOM da sola
+   allo start e ti scrive in console cosa e' rimasto indietro nell'HTML.
+   Campi: n = nome, p = prezzo in euro, d = descrizione, s = slug (= nome file
+   della foto in assets/img/piatti/), diet = badge dietetici.
+--------------------------------------------------------------------------- */
+const MENU = [
+ {cat:"Antipasti", id:"antipasti", items:[
+  {n:"Tagliere della casa x2", p:12, d:"Salumi e formaggi, per 2 persone", s:"tagliere-della-casa", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Tagliere speciale x2", p:20, d:"Selezione speciale di salumi e formaggi, per 2 persone", s:"tagliere-speciale", diet:[]}]}, // DA CONFERMARE CON IL RISTORANTE
+
+ {cat:"Le classiche", id:"le-classiche", items:[
+  {n:"Semplice", p:5, d:"Pomodorini, olio agliato, origano", s:"semplice", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Cotto e fiordilatte", p:6, d:"Prosciutto cotto, mozzarella", s:"cotto-e-fiordilatte", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Crudo e stracchino", p:6, d:"Prosciutto crudo, stracchino", s:"crudo-e-stracchino", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Viennese", p:6, d:"Mozzarella, würstel, patatine fritte", s:"viennese", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Ligure", p:6, d:"Mozzarella, pesto, noci", s:"ligure", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Diavola", p:6, d:"Mozzarella, passata napoletana, pomodori secchi", s:"diavola", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Contadina", p:6, d:"Verdure miste saltate in padella, mandorle", s:"contadina", diet:[]}]}, // DA CONFERMARE CON IL RISTORANTE
+
+ {cat:"Terra", id:"terra", items:[
+  {n:"Fit", p:7, d:"Rucola, bresaola, pomodorini, grana", s:"fit", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Norma", p:6, d:"Melanzane a funghetto, burrata, menta", s:"norma", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Nerano", p:6, d:"Pesto di zucchine, provolone, zucchine", s:"nerano", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Boscaiola", p:7, d:"Mozzarella, funghi trifolati, salsiccia", s:"boscaiola", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Pistacchiosa", p:8, d:"Pesto di pistacchi, mortadella, burrata, granella di pistacchi", s:"pistacchiosa", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Vesuvio", p:7, d:"Pesto di friarielli, mozzarella di bufala, salsiccia", s:"vesuvio", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Gorgo speck", p:7, d:"Gorgonzola, speck, salsa di noci", s:"gorgo-speck", diet:[]}]}, // DA CONFERMARE CON IL RISTORANTE
+
+ {cat:"Mare", id:"mare", items:[
+  {n:"Tellaro", p:10, d:"Pesto di prezzemolo, crema di patate, polpo", s:"tellaro", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Spezzina", p:8, d:"Pesto di prezzemolo, muscoli, pomodori secchi", s:"spezzina", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Monterosso", p:8, d:"Mozzarella di bufala, pomodorini, acciughe, prezzemolo", s:"monterosso", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Delicata", p:8, d:"Formaggio spalmabile all'erba cipollina, salmone affumicato, pomodori secchi", s:"delicata", diet:[]}]}, // DA CONFERMARE CON IL RISTORANTE
+
+ {cat:"Dolci", id:"dolci", items:[
+  {n:"Tortino al cioccolato", p:5, d:"", s:"tortino-al-cioccolato", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Bruschetta nutella e granella di nocciole", p:4, d:"", s:"bruschetta-nutella", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Cremoso al pistacchio", p:5, d:"Semifreddo al pistacchio su base di meringa al cacao, topping al cioccolato fondente", s:"cremoso-al-pistacchio", diet:[]}]}, // DA CONFERMARE CON IL RISTORANTE
+
+ {cat:"A la carte", id:"a-la-carte", items:[
+  {n:"Gnocchetti al pesto", p:12, d:"Gnocchi con pesto di basilico", s:"gnocchetti-al-pesto", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Caprese", p:11, d:"Mozzarella, pomodoro, origano", s:"caprese", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Bresaola, rucola, pomodorini e grana", p:12, d:"", s:"bresaola-rucola-pomodorini-grana", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Lasagna al ragù bolognese", p:14, d:"", s:"lasagna-al-ragu", diet:[]}, // DA CONFERMARE CON IL RISTORANTE
+  {n:"Hamburger con insalata e patatine", p:13, d:"Burger di scottona con patatine fritte e insalata", s:"hamburger", diet:[]}]} // DA CONFERMARE CON IL RISTORANTE
+];
+
+/* ---------------------------------------------------------------------------
+   BESTSELLERS - i 3 piatti piu' ordinati, marcati con "Il piu' ordinato".
+   LO COMPILA IL TITOLARE. Metti qui gli slug (campo `s`) dei tre piatti.
+   Esempio:  const BESTSELLERS = ["pistacchiosa", "tellaro", "viennese"];
+--------------------------------------------------------------------------- */
+const BESTSELLERS = [];
+
+/* ---------------------------------------------------------------------------
+   DIET - sistema dei badge dietetici, gia' pronto ma non assegnato a nessuno.
+   Per accenderne uno, aggiungi la chiave nell'array `diet` del piatto sopra.
+   Esempio:  {n:"Contadina", ..., diet:["veg"]}
+   NON dedurre mai veg/vegan/senza glutine dagli ingredienti: va confermato
+   dalla cucina, allergeni e contaminazioni non si leggono da una descrizione.
+--------------------------------------------------------------------------- */
+const DIET = {
+  veg:          {label:"Veg",           title:"Vegetariano"},
+  vegan:        {label:"Vegan",         title:"Vegano"},
+  piccante:     {label:"Piccante",      title:"Piccante"},
+  senzaglutine: {label:"Senza glutine", title:"Senza glutine"}
+};
+
+const WA = "https://wa.me/393332708504?text=";
+</script>
+
+
+<!-- ======================================================================= -->
+<!-- APP - filtri, dialog, lightbox. Zero dipendenze.                        -->
+<!-- ======================================================================= -->
+<script>
+(function () {
+  "use strict";
+
+  const $  = (s, c) => (c || document).querySelector(s);
+  const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
+  const eur = n => n.toLocaleString("it-IT") + " €";
+
+  const BY_SLUG = {};
+  MENU.forEach(g => g.items.forEach(it => { BY_SLUG[it.s] = Object.assign({cat:g.cat, catId:g.id}, it); }));
+
+  /* ---------------------------------------------------------------------
+     1. Allinea il DOM statico all'array (l'array vince) e segnala le derive
+     --------------------------------------------------------------------- */
+  (function sync () {
+    const drift = [];
+    $$(".dish-li").forEach(li => {
+      const it = BY_SLUG[li.dataset.slug];
+      if (!it) { drift.push(`slug "${li.dataset.slug}" nell'HTML ma non in MENU`); return; }
+
+      if (Number(li.dataset.price) !== it.p) {
+        drift.push(`${it.n}: HTML ${li.dataset.price} EUR -> MENU ${it.p} EUR`);
+        li.dataset.price = it.p;
+        const el = $(".dish-price", li); if (el) el.textContent = eur(it.p);
+      }
+      const desc = $(".dish-desc", li);
+      const htmlDesc = desc ? desc.textContent.trim() : "";
+      if (htmlDesc !== it.d) {
+        drift.push(`${it.n}: descrizione diversa fra HTML e MENU`);
+        if (it.d && desc) desc.textContent = it.d;
+      }
+      li.dataset.diet = it.diet.join(" ");
+    });
+    if (drift.length) {
+      console.warn("[menu] HTML e array MENU non coincidono. L'array ha la precedenza:\n- " + drift.join("\n- "));
+    }
+  })();
+
+  /* ---------------------------------------------------------------------
+     2. Badge: "Il piu' ordinato" + dietetici. Nessuno dei due e' compilato
+        oggi, quindi in pagina non compare niente finche' non li riempi.
+     --------------------------------------------------------------------- */
+  $$(".dish-li").forEach(li => {
+    const it = BY_SLUG[li.dataset.slug];
+    if (!it) return;
+    const tags = [];
+    if (BESTSELLERS.indexOf(it.s) !== -1) tags.push('<span class="tag tag-best">Il pi&ugrave; ordinato</span>');
+    it.diet.forEach(k => {
+      const d = DIET[k];
+      if (d) tags.push(`<span class="tag tag-diet" title="${d.title}">${d.label}</span>`);
+    });
+    if (!tags.length) return;
+    const box = document.createElement("span");
+    box.className = "dish-tags";
+    box.innerHTML = tags.join("");
+    $(".dish", li).appendChild(box);
+  });
+
+  /* ---------------------------------------------------------------------
+     3. Filtro a chip + FLIP
+     --------------------------------------------------------------------- */
+  const chipsBox  = $("#chips");
+  const chips     = $$(".chip", chipsBox);
+  const items     = $$(".dish-li");
+  const cats      = $$("[data-menu-cat]");
+  const countEl   = $("#menu-count");
+  const emptyEl   = $("#menu-empty");
+  const pill      = $("#filter-pill");
+  const pillLabel = $("#filter-pill-label");
+  const catLinks  = $$("[data-catlink]");
+  const reduce    = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  // "Sotto i 7 EUR" e' stretto: i piatti da 7 EUR restano fuori.
+  const RULES = {
+    tutto:  () => true,
+    terra:  li => li.dataset.cat === "terra",
+    mare:   li => li.dataset.cat === "mare",
+    dolci:  li => li.dataset.cat === "dolci",
+    veg:    li => li.dataset.diet.split(" ").indexOf("veg") !== -1,
+    sotto7: li => Number(li.dataset.price) < 7
+  };
+
+  let current = "tutto";
+
+  function applyFilter (key, animate) {
+    const test = RULES[key] || RULES.tutto;
+
+    // FIRST - misuro tutto quello che si vede adesso
+    const first = new Map();
+    if (animate) items.forEach(li => { if (!li.hidden) first.set(li, li.getBoundingClientRect()); });
+
+    // MUTATE
+    let visible = 0;
+    items.forEach(li => {
+      const on = test(li);
+      li.hidden = !on;
+      if (on) visible++;
+    });
+    cats.forEach(sec => {
+      const any = $$(".dish-li", sec).some(li => !li.hidden);
+      sec.hidden = !any;
+      const link = catLinks.find(a => a.dataset.catlink === sec.dataset.cat);
+      if (link) {
+        link.classList.toggle("is-empty", !any);
+        if (!any) link.setAttribute("aria-disabled", "true"); else link.removeAttribute("aria-disabled");
+      }
+    });
+
+    countEl.textContent = visible === 1 ? "1 piatto" : visible + " piatti";
+    emptyEl.hidden = visible !== 0;
+    pill.hidden = key === "tutto";
+    if (key !== "tutto") {
+      const c = chips.find(b => b.dataset.filter === key);
+      pillLabel.textContent = c ? c.textContent.trim() : key;
+    }
+
+    // LAST + INVERT + PLAY
+    if (animate && !reduce.matches) {
+      items.forEach(li => {
+        if (li.hidden) return;
+        const last = li.getBoundingClientRect();
+        const prev = first.get(li);
+        if (prev) {
+          const dy = prev.top - last.top;
+          if (Math.abs(dy) > 1) {
+            li.animate([{transform:`translateY(${dy}px)`}, {transform:"translateY(0)"}],
+                       {duration:250, easing:"cubic-bezier(.22,.61,.36,1)"});
+          }
+        } else {
+          li.animate([{opacity:0, transform:"scale(.96)"}, {opacity:1, transform:"scale(1)"}],
+                     {duration:250, easing:"cubic-bezier(.22,.61,.36,1)"});
+        }
+      });
+    }
+
+    if (window.ScrollTrigger) setTimeout(() => window.ScrollTrigger.refresh(), 280);
+  }
+
+  function selectChip (btn, animate) {
+    current = btn.dataset.filter;
+    chips.forEach(b => {
+      const on = b === btn;
+      b.classList.toggle("is-on", on);
+      b.setAttribute("aria-checked", on ? "true" : "false");
+      b.tabIndex = on ? 0 : -1;
+    });
+    applyFilter(current, animate);
+  }
+
+  chips.forEach(b => b.addEventListener("click", () => selectChip(b, true)));
+
+  // frecce come da pattern radiogroup
+  chipsBox.addEventListener("keydown", e => {
+    const i = chips.indexOf(document.activeElement);
+    if (i === -1) return;
+    let j = null;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") j = (i + 1) % chips.length;
+    if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   j = (i - 1 + chips.length) % chips.length;
+    if (e.key === "Home") j = 0;
+    if (e.key === "End")  j = chips.length - 1;
+    if (j === null) return;
+    e.preventDefault();
+    chips[j].focus();
+    selectChip(chips[j], true);
+  });
+
+  pill.addEventListener("click", () => {
+    selectChip(chips[0], true);
+    chips[0].focus();
+  });
+
+  applyFilter("tutto", false);
+
+  // Prima categoria attiva gia' al caricamento: senza, la nav sticky parte
+  // senza nessuna voce evidenziata finche' non scrolli (o se GSAP non carica).
+  const firstLink = catLinks[0];
+  if (firstLink) firstLink.classList.add("is-active");
+
+  /* ---------------------------------------------------------------------
+     4. Dettaglio piatto
+     --------------------------------------------------------------------- */
+  const dlg = $("#dish-dialog");
+  let lastFocus = null;
+
+  function openDish (slug) {
+    const it = BY_SLUG[slug];
+    if (!it) return;
+    lastFocus = document.activeElement;
+
+    const img = $("#dish-dialog-img");
+    img.src = "assets/img/piatti/" + it.s + ".jpg";
+    img.alt = it.n + " di Crazy Bruschetta";
+    img.onerror = () => { img.removeAttribute("src"); img.alt = ""; img.style.display = "none"; };
+    img.style.display = "";
+
+    $("#dish-dialog-cat").textContent   = it.cat;
+    $("#dish-dialog-title").textContent = it.n;
+    $("#dish-dialog-price").textContent = eur(it.p);
+
+    const d = $("#dish-dialog-desc");
+    d.textContent = it.d;
+    d.hidden = !it.d;
+
+    const tagBox = $("#dish-dialog-tags");
+    const tags = [];
+    if (BESTSELLERS.indexOf(it.s) !== -1) tags.push('<span class="tag tag-best">Il pi&ugrave; ordinato</span>');
+    it.diet.forEach(k => { if (DIET[k]) tags.push(`<span class="tag tag-diet" title="${DIET[k].title}">${DIET[k].label}</span>`); });
+    tagBox.innerHTML = tags.join("");
+    tagBox.hidden = !tags.length;
+
+    $("#dish-dialog-wa").href = WA + encodeURIComponent("Ciao! Stasera vorrei ordinare: " + it.n + " (" + it.p + " €)");
+
+    if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+  }
+
+  $$(".dish").forEach(b => b.addEventListener("click", () => openDish(b.dataset.slug)));
+
+  /* ---------------------------------------------------------------------
+     5. Lightbox galleria
+     --------------------------------------------------------------------- */
+  const lb = $("#lightbox");
+  const lbImg = $("#lb-img");
+  const shots = $$("#gallery .masonry-item");
+  let lbIndex = 0;
+
+  function showShot (i) {
+    lbIndex = (i + shots.length) % shots.length;
+    const src = $("img", shots[lbIndex]);
+    lbImg.src = src.currentSrc || src.src;
+    lbImg.alt = src.alt;
+    lbImg.width  = src.getAttribute("width");
+    lbImg.height = src.getAttribute("height");
+  }
+
+  shots.forEach((b, i) => b.addEventListener("click", () => {
+    lastFocus = document.activeElement;
+    showShot(i);
+    if (typeof lb.showModal === "function") lb.showModal(); else lb.setAttribute("open", "");
+  }));
+
+  $("#lb-prev").addEventListener("click", () => showShot(lbIndex - 1));
+  $("#lb-next").addEventListener("click", () => showShot(lbIndex + 1));
+  lb.addEventListener("keydown", e => {
+    if (e.key === "ArrowLeft")  showShot(lbIndex - 1);
+    if (e.key === "ArrowRight") showShot(lbIndex + 1);
+  });
+
+  // chiusura comune: bottone X, click sul backdrop, ripristino del focus
+  [dlg, lb].forEach(d => {
+    $("[data-close]", d).addEventListener("click", () => d.close());
+    d.addEventListener("click", e => { if (e.target === d) d.close(); });
+    d.addEventListener("close", () => { if (lastFocus) lastFocus.focus(); });
+  });
+
+  /* ---------------------------------------------------------------------
+     6. Header + barra sticky mobile
+     --------------------------------------------------------------------- */
+  const hdr = $("#hdr");
+  const bar = $("#sticky-bar");
+  const hero = $("#hero");
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => {
+      hdr.classList.toggle("is-stuck", !e.isIntersecting);
+      bar.classList.toggle("is-on", !e.isIntersecting);
+    }, {rootMargin: "-70% 0px 0px 0px"}).observe(hero);
+  } else {
+    hdr.classList.add("is-stuck");
+    bar.classList.add("is-on");
+  }
+
+  $("#year").textContent = new Date().getFullYear();
+})();
+</script>
+
+
+<!-- ======================================================================= -->
+<!-- ANIMAZIONI - GSAP + ScrollTrigger.                                      -->
+<!-- Tutto quello che sta qui e' un di piu': se non carica, la pagina resta   -->
+<!-- identica e completa. Nessun elemento parte da opacity:0 nel CSS.        -->
+<!-- ======================================================================= -->
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer>
+window.addEventListener("load", function () {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+
+  mm.add("(prefers-reduced-motion: no-preference)", () => {
+
+    /* --- hero: titolo a parole, stagger 0.08 ------------------------------ */
+    const h1 = document.getElementById("h1");
+    h1.classList.add("is-masking");
+    gsap.from("#h1 .wi", {
+      yPercent:110, duration:.9, ease:"power3.out", stagger:.08, delay:.1,
+      onComplete: () => h1.classList.remove("is-masking")   // ridai spazio all'alone
+    });
+    gsap.from(".hero-lead, .hero-cta, .hero-badge", {y:24, opacity:0, duration:.7, ease:"power3.out", stagger:.1, delay:.5});
+    gsap.from(".hero-eyebrow", {opacity:0, duration:.6, ease:"power2.out"});
+
+    /* --- parallax hero -----------------------------------------------------
+       L'immagine e' alta il 126% del contenitore e parte a top:-13%, quindi ha
+       13% di margine sopra e 13% sotto. yPercent:10 su un'altezza del 126% fa
+       12,6% del contenitore: sotto il tetto del 15% e senza mai scoprire un
+       bordo. -------------------------------------------------------------- */
+    gsap.fromTo("#hero .hero-media img", {yPercent:0}, {
+      yPercent:10, ease:"none",
+      scrollTrigger:{trigger:"#hero", start:"top top", end:"bottom top", scrub:true}
+    });
+
+    /* --- reveal sezioni: y+40 -> 0 a 80% viewport ------------------------ */
+    gsap.utils.toArray("[data-reveal]").forEach(sec => {
+      const bits = sec.querySelectorAll("[data-reveal-item]");
+      const tl = gsap.timeline({scrollTrigger:{trigger:sec, start:"top 80%", once:true}});
+      tl.from(sec.querySelectorAll(".t-eyebrow, .t-h2, .t-lead"),
+              {y:40, opacity:0, duration:.7, ease:"power3.out", stagger:.09});
+      if (bits.length) tl.from(bits, {y:40, opacity:0, duration:.7, ease:"power3.out", stagger:.1}, "-=.4");
+    });
+
+    /* --- voci menu: stagger 0.04, una categoria per volta ----------------- */
+    gsap.utils.toArray("[data-menu-cat]").forEach(sec => {
+      gsap.from(sec.querySelectorAll(".t-h3, .dish-li"), {
+        y:22, opacity:0, duration:.5, ease:"power2.out", stagger:.04,
+        scrollTrigger:{trigger:sec, start:"top 80%", once:true}
+      });
+    });
+
+    /* --- parallax galleria: sotto il 15% --------------------------------- */
+    gsap.utils.toArray("#gallery .masonry-item img").forEach((img, i) => {
+      gsap.fromTo(img, {yPercent:-5}, {
+        yPercent: i % 2 ? 6 : 4, ease:"none",
+        scrollTrigger:{trigger:"#gallery", start:"top bottom", end:"bottom top", scrub:true}
+      });
+    });
+  });
+
+  /* --- contatori: partono una volta sola, anche con reduced-motion ------- */
+  const counters = document.querySelectorAll("[data-count]");
+  if (counters.length && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    counters.forEach(el => {
+      const to = parseFloat(el.dataset.count);
+      const dec = parseInt(el.dataset.decimals || "0", 10);
+      const proxy = {v:0};
+      ScrollTrigger.create({
+        trigger:el, start:"top 85%", once:true,
+        onEnter: () => gsap.to(proxy, {
+          v:to, duration:1.1, ease:"power2.out",
+          onUpdate: () => { el.textContent = proxy.v.toLocaleString("it-IT", {minimumFractionDigits:dec, maximumFractionDigits:dec}); }
+        })
+      });
+    });
+  }
+
+  /* --- categoria attiva nella nav sticky -------------------------------- */
+  const links = Array.from(document.querySelectorAll("[data-catlink]"));
+  const rail = document.querySelector(".catnav");
+  const setActive = id => {
+    links.forEach(a => a.classList.toggle("is-active", a.dataset.catlink === id));
+    // su mobile la nav scorre in orizzontale: tieni in vista la voce attiva
+    const on = links.find(a => a.dataset.catlink === id);
+    if (on && rail && rail.scrollWidth > rail.clientWidth) {
+      const want = on.offsetLeft - rail.clientWidth / 2 + on.offsetWidth / 2;
+      rail.scrollTo({left: Math.max(0, want), behavior: "smooth"});
+    }
+  };
+  document.querySelectorAll("[data-menu-cat]").forEach(sec => {
+    ScrollTrigger.create({
+      trigger: sec,
+      start: "top 40%",
+      end: "bottom 40%",
+      onToggle: self => { if (self.isActive) setActive(sec.dataset.cat); }
+    });
+  });
+});
+</script>
+
+
+<!-- ======================================================================= -->
+<!-- JSON-LD                                                                 -->
+<!-- Volutamente ASSENTI (nessun dato verificato, meglio niente che sbagliato):
+     - openingHoursSpecification -> gli orari sono [DA CONFERMARE]
+     - geo (lat/lng)             -> stimarle mette il pin nel posto sbagliato
+     - review                    -> non ci sono estratti veri, solo segnaposto
+     Appena hai i dati, aggiungili qui e togli questo commento.               -->
+<!-- ======================================================================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "@id": "https://crazybruschetta.netlify.app/#restaurant",
+  "name": "Crazy Bruschetta",
+  "description": "Bruschetteria e aperitivo gourmet nel centro della Spezia. Bruschette di terra e di mare servite al metro su vassoio lungo, panuozzo napoletano, primi della tradizione e dolci di produzione propria. Opzioni veg e vegan, ingredienti a km 0.",
+  "url": "https://crazybruschetta.netlify.app/",
+  "telephone": "+39 333 270 8504",
+  "image": "https://crazybruschetta.netlify.app/assets/img/og.jpg",
+  "priceRange": "€€",
+  "currenciesAccepted": "EUR",
+  "servesCuisine": ["Italiana", "Ligure", "Bruschetteria"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Via Alessandro Manzoni 39/41",
+    "postalCode": "19121",
+    "addressLocality": "La Spezia",
+    "addressRegion": "SP",
+    "addressCountry": "IT"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.7",
+    "reviewCount": "406",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "amenityFeature": [
+    {"@type": "LocationFeatureSpecification", "name": "Dehors", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Aria condizionata", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Pet friendly", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Accessibile", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Eventi privati", "value": true}
+  ],
+  "sameAs": [
+    "https://www.instagram.com/crazybruschetta/",
+    "https://www.tiktok.com/@crazybruschetta",
+    "https://www.facebook.com/crazybruschetta/",
+    "https://www.thefork.it/ristorante/crazy-bruschetta-r745048"
+  ],
+  "potentialAction": {
+    "@type": "ReserveAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://wa.me/393332708504",
+      "inLanguage": "it-IT",
+      "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
+    },
+    "result": {"@type": "FoodEstablishmentReservation", "name": "Prenota un tavolo"}
+  },
+  "hasMenu": {
+    "@type": "Menu",
+    "name": "Menu Crazy Bruschetta",
+    "inLanguage": "it-IT",
+    "hasMenuSection": [
+      {
+        "@type": "MenuSection",
+        "name": "Antipasti",
+        "hasMenuItem": [
+          {"@type":"MenuItem","name":"Tagliere della casa x2","description":"Salumi e formaggi, per 2 persone","offers":{"@type":"Offer","price":"12.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Tagliere speciale x2","description":"Selezione speciale di salumi e formaggi, per 2 persone","offers":{"@type":"Offer","price":"20.00","priceCurrency":"EUR"}}
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Le classiche",
+        "hasMenuItem": [
+          {"@type":"MenuItem","name":"Semplice","description":"Pomodorini, olio agliato, origano","offers":{"@type":"Offer","price":"5.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Cotto e fiordilatte","description":"Prosciutto cotto, mozzarella","offers":{"@type":"Offer","price":"6.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Crudo e stracchino","description":"Prosciutto crudo, stracchino","offers":{"@type":"Offer","price":"6.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Viennese","description":"Mozzarella, würstel, patatine fritte","offers":{"@type":"Offer","price":"6.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Ligure","description":"Mozzarella, pesto, noci","offers":{"@type":"Offer","price":"6.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Diavola","description":"Mozzarella, passata napoletana, pomodori secchi","offers":{"@type":"Offer","price":"6.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Contadina","description":"Verdure miste saltate in padella, mandorle","offers":{"@type":"Offer","price":"6.00","priceCurrency":"EUR"}}
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Terra",
+        "hasMenuItem": [
+          {"@type":"MenuItem","name":"Fit","description":"Rucola, bresaola, pomodorini, grana","offers":{"@type":"Offer","price":"7.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Norma","description":"Melanzane a funghetto, burrata, menta","offers":{"@type":"Offer","price":"6.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Nerano","description":"Pesto di zucchine, provolone, zucchine","offers":{"@type":"Offer","price":"6.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Boscaiola","description":"Mozzarella, funghi trifolati, salsiccia","offers":{"@type":"Offer","price":"7.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Pistacchiosa","description":"Pesto di pistacchi, mortadella, burrata, granella di pistacchi","offers":{"@type":"Offer","price":"8.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Vesuvio","description":"Pesto di friarielli, mozzarella di bufala, salsiccia","offers":{"@type":"Offer","price":"7.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Gorgo speck","description":"Gorgonzola, speck, salsa di noci","offers":{"@type":"Offer","price":"7.00","priceCurrency":"EUR"}}
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Mare",
+        "hasMenuItem": [
+          {"@type":"MenuItem","name":"Tellaro","description":"Pesto di prezzemolo, crema di patate, polpo","offers":{"@type":"Offer","price":"10.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Spezzina","description":"Pesto di prezzemolo, muscoli, pomodori secchi","offers":{"@type":"Offer","price":"8.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Monterosso","description":"Mozzarella di bufala, pomodorini, acciughe, prezzemolo","offers":{"@type":"Offer","price":"8.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Delicata","description":"Formaggio spalmabile all'erba cipollina, salmone affumicato, pomodori secchi","offers":{"@type":"Offer","price":"8.00","priceCurrency":"EUR"}}
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "Dolci",
+        "hasMenuItem": [
+          {"@type":"MenuItem","name":"Tortino al cioccolato","offers":{"@type":"Offer","price":"5.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Bruschetta nutella e granella di nocciole","offers":{"@type":"Offer","price":"4.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Cremoso al pistacchio","description":"Semifreddo al pistacchio su base di meringa al cacao, topping al cioccolato fondente","offers":{"@type":"Offer","price":"5.00","priceCurrency":"EUR"}}
+        ]
+      },
+      {
+        "@type": "MenuSection",
+        "name": "A la carte",
+        "hasMenuItem": [
+          {"@type":"MenuItem","name":"Gnocchetti al pesto","description":"Gnocchi con pesto di basilico","offers":{"@type":"Offer","price":"12.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Caprese","description":"Mozzarella, pomodoro, origano","offers":{"@type":"Offer","price":"11.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Bresaola, rucola, pomodorini e grana","offers":{"@type":"Offer","price":"12.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Lasagna al ragù bolognese","offers":{"@type":"Offer","price":"14.00","priceCurrency":"EUR"}},
+          {"@type":"MenuItem","name":"Hamburger con insalata e patatine","description":"Burger di scottona con patatine fritte e insalata","offers":{"@type":"Offer","price":"13.00","priceCurrency":"EUR"}}
+        ]
+      }
+    ]
+  }
+}
+</script>
+
+</body>
+</html>

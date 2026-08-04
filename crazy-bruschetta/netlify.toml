@@ -1,0 +1,27 @@
+# Netlify — impostare "Base directory" = crazy-bruschetta nelle impostazioni del sito.
+# Con quella impostata, Netlify legge questo file e pubblica la cartella così com'è.
+
+[build]
+  publish = "."
+  command = ""
+
+# Le immagini vengono sostituite 1:1 quando arrivano le foto vere: niente
+# "immutable", altrimenti chi ha già visitato il sito continua a vedere i
+# placeholder per un anno. Una settimana con revalidate è il compromesso giusto.
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+    X-Frame-Options = "SAMEORIGIN"
