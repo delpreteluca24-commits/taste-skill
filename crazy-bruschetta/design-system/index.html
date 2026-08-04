@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design system — Crazy Bruschetta</title>
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@70..100,400..900&family=Inter:wght@400;500;600;700&display=swap">
+
+<!-- ===========================================================================
+     Qui dentro ci finisce il CSS PRODOTTO, letto a runtime dal blocco <style>
+     di ../index.html. Non e' una copia: e' lo stesso identico CSS che gira sul
+     sito. Se cambi un token li', questa pagina lo mostra al reload, e la
+     matrice di contrasto piu' sotto si ricalcola da sola.
+=========================================================================== -->
+<style id="prod-css"></style>
+
+<style>
+/* CSS di questa sola pagina. Prefisso ds- per non toccare nulla del sito.
+   I colori di fallback servono se il fetch del CSS di produzione fallisce:
+   la pagina resta leggibile invece di diventare nera su nero. */
+:root{ --ds-bg:#0B2634; --ds-fg:#F4EEE4; --ds-line:rgba(244,238,228,.14); }
+.ds{margin:0;background:var(--blu-notte,var(--ds-bg));color:var(--crema,var(--ds-fg));
+    font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+.ds *,.ds *::before,.ds *::after{box-sizing:border-box}
+.ds-wrap{max-width:78rem;margin-inline:auto;padding-inline:clamp(1.125rem,4vw,2.5rem)}
+.ds-sec{padding-block:clamp(2.5rem,6vw,4.5rem);border-top:1px solid var(--bordo,var(--ds-line))}
+.ds-sec:first-of-type{border-top:0}
+.ds-kicker{font:600 .6875rem/1.2 'Inter',sans-serif;letter-spacing:.16em;text-transform:uppercase;
+           color:var(--legno-testo,#D8A97A);margin:0 0 .6rem}
+.ds-h{font-family:'Archivo',sans-serif;font-weight:800;font-stretch:82%;font-size:clamp(1.5rem,3.2vw,2.25rem);
+      line-height:1;letter-spacing:-.02em;margin:0 0 .75rem}
+.ds-p{font-size:.9375rem;line-height:1.6;color:var(--testo-soft,rgba(244,238,228,.72));margin:0 0 1rem;max-width:68ch}
+.ds-note{font-size:.8125rem;line-height:1.55;color:var(--testo-mute,rgba(244,238,228,.56));margin:.5rem 0 0;max-width:72ch}
+.ds-code{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.8125rem;
+         background:rgba(244,238,228,.07);padding:.12em .42em;border-radius:5px;white-space:nowrap}
+.ds-grid{display:grid;gap:1rem}
+.ds-panel{border:1px solid var(--bordo,var(--ds-line));border-radius:16px;padding:clamp(1rem,2.5vw,1.5rem);
+          background:var(--blu-locale,#123B54)}
+.ds-panel--notte{background:var(--blu-notte,#0B2634)}
+.ds-panel--ftr{background:#081E29}
+
+/* --- intestazione ------------------------------------------------------- */
+.ds-top{padding-block:clamp(2.5rem,6vw,4rem) 1.5rem}
+.ds-title{font-family:'Archivo',sans-serif;font-weight:900;font-stretch:78%;
+          font-size:clamp(2.25rem,6vw,4rem);line-height:.92;letter-spacing:-.03em;margin:0}
+.ds-toc{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.5rem;padding:0;list-style:none}
+.ds-toc a{display:inline-block;padding:.4rem .8rem;border:1px solid var(--bordo-forte,rgba(244,238,228,.26));
+          border-radius:999px;font-size:.8125rem;font-weight:600;text-decoration:none;color:inherit}
+.ds-toc a:hover{border-color:var(--rosa-neon,#FF4FA3);color:var(--rosa-neon,#FF4FA3)}
+.ds-banner{border:1px solid #C08A55;border-radius:12px;padding:.9rem 1.1rem;margin-top:1.5rem;
+           background:rgba(192,138,85,.12);font-size:.875rem;line-height:1.5}
+.ds-banner[hidden]{display:none}
+
+/* --- palette ------------------------------------------------------------ */
+.ds-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.75rem}
+.ds-sw{border:1px solid var(--bordo,var(--ds-line));border-radius:14px;overflow:hidden}
+.ds-sw-chip{height:88px;display:block}
+.ds-sw-body{padding:.7rem .8rem}
+.ds-sw-name{font:700 .875rem/1.2 'Archivo',sans-serif;font-stretch:88%}
+.ds-sw-hex{font-family:ui-monospace,monospace;font-size:.75rem;color:var(--testo-mute,rgba(244,238,228,.56));
+           text-transform:uppercase;margin-top:.15rem;display:block}
+.ds-sw-role{font-size:.75rem;color:var(--testo-soft,rgba(244,238,228,.72));margin-top:.45rem;line-height:1.45}
+
+/* --- tabelle ------------------------------------------------------------ */
+.ds-tablewrap{overflow-x:auto;border:1px solid var(--bordo,var(--ds-line));border-radius:14px}
+.ds-table{width:100%;border-collapse:collapse;font-size:.8125rem;min-width:640px}
+.ds-table th,.ds-table td{padding:.6rem .75rem;text-align:left;border-bottom:1px solid var(--bordo,var(--ds-line));
+                          vertical-align:middle;white-space:nowrap}
+.ds-table thead th{font:600 .6875rem/1.2 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;
+                   color:var(--legno-testo,#D8A97A);background:rgba(0,0,0,.18)}
+.ds-table tbody tr:last-child td{border-bottom:0}
+.ds-table td:first-child{font-family:ui-monospace,monospace;font-size:.75rem}
+.ds-ratio{font-family:ui-monospace,monospace;font-weight:700}
+.ds-badge{display:inline-block;padding:.14rem .5rem;border-radius:999px;font-size:.6875rem;font-weight:700;
+          letter-spacing:.04em;border:1px solid currentColor}
+.ds-badge--aaa{color:#8FE3B8}
+.ds-badge--aa{color:#B8DCF0}
+.ds-badge--lg{color:#F0C98A}
+.ds-badge--no{color:#FF9BB8}
+.ds-demo{display:inline-block;padding:.15rem .5rem;border-radius:6px;font-weight:600}
+
+/* --- tipografia --------------------------------------------------------- */
+.ds-typerow{display:grid;gap:.35rem;padding-block:1.1rem;border-bottom:1px solid var(--bordo,var(--ds-line))}
+.ds-typerow:last-child{border-bottom:0}
+.ds-typemeta{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:baseline;
+             font-family:ui-monospace,monospace;font-size:.6875rem;color:var(--testo-mute,rgba(244,238,228,.56))}
+.ds-typemeta b{color:var(--legno-testo,#D8A97A);font-weight:700}
+.ds-sample{overflow:hidden}
+
+/* --- componenti --------------------------------------------------------- */
+.ds-specimen{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center}
+.ds-label{font:600 .6875rem/1.2 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;
+          color:var(--testo-mute,rgba(244,238,228,.56));margin:0 0 .6rem}
+.ds-split{display:grid;gap:1rem}
+@media (min-width:900px){ .ds-split{grid-template-columns:1fr 1fr} .ds-grid--2{grid-template-columns:1fr 1fr} }
+.ds-live{font-family:ui-monospace,monospace;font-size:.75rem;color:var(--legno-testo,#D8A97A)}
+.ds-btnbar{position:sticky;bottom:0;background:rgba(11,38,52,.94);backdrop-filter:blur(8px);
+           border-top:1px solid var(--bordo,var(--ds-line));padding:.6rem 0;margin-top:2rem;z-index:5}
+
+@media (prefers-reduced-motion:reduce){ .ds *{animation-duration:.001ms!important;transition-duration:.001ms!important} }
+</style>
+</head>
+
+<body class="ds page">
+
+<header class="ds-wrap ds-top">
+  <p class="ds-kicker">Crazy Bruschetta &middot; La Spezia</p>
+  <h1 class="ds-title">Design system</h1>
+  <p class="ds-p" style="margin-top:1rem">
+    Non &egrave; una copia dei token: il CSS qui sotto viene letto a runtime dal blocco
+    <span class="ds-code">&lt;style&gt;</span> di <span class="ds-code">../index.html</span>.
+    Quello che vedi &egrave; esattamente quello che gira sul sito. Cambi un token l&igrave;,
+    ricarichi qui, e la matrice di contrasto si ricalcola da sola.
+  </p>
+  <div class="ds-banner" id="banner" hidden></div>
+
+  <ul class="ds-toc">
+    <li><a href="#palette">Palette</a></li>
+    <li><a href="#contrasto">Contrasto</a></li>
+    <li><a href="#regole">Regole d&#39;uso</a></li>
+    <li><a href="#tipografia">Tipografia</a></li>
+    <li><a href="#neon">Neon</a></li>
+    <li><a href="#componenti">Componenti</a></li>
+    <li><a href="#menu">Riga menu</a></li>
+    <li><a href="#spazi">Spazi e raggi</a></li>
+    <li><a href="#movimento">Movimento</a></li>
+  </ul>
+</header>
+
+<main class="ds-wrap">
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="palette">
+    <p class="ds-kicker">01</p>
+    <h2 class="ds-h">Palette</h2>
+    <p class="ds-p">
+      Sei token di identit&agrave;, presi dal locale: pareti blu, murale verde, neon rosa,
+      legno chiaro del bancone. Pi&ugrave; tre varianti chiare che esistono
+      <b>solo per il testo piccolo</b>, dove i token originali non arrivano al
+      contrasto minimo. Le trovi in fondo alla griglia, con il suffisso
+      <span class="ds-code">-testo</span>.
+    </p>
+    <div class="ds-swatches" id="swatches"></div>
+  </section>
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="contrasto">
+    <p class="ds-kicker">02</p>
+    <h2 class="ds-h">Matrice di contrasto</h2>
+    <p class="ds-p">
+      Rapporti WCAG&nbsp;2.1 calcolati adesso, in questa pagina, sui valori veri dei
+      token. Le trasparenze sono composte sul fondo prima del calcolo. Se qualcuno
+      cambia un colore e rompe qualcosa, qui diventa rosso senza che nessuno debba
+      ricordarsi di aggiornare una tabella.
+    </p>
+    <div class="ds-grid" id="matrices"></div>
+    <p class="ds-note">
+      <b>AAA</b> &ge;&nbsp;7:1 &middot; <b>AA</b> &ge;&nbsp;4,5:1 (qualsiasi testo) &middot;
+      <b>Solo grande</b> &ge;&nbsp;3:1 (da 24px, o da 18,7px se in grassetto; vale anche
+      per bordi e icone) &middot; <b>No</b> &lt;&nbsp;3:1, solo decorazione.
+    </p>
+  </section>
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="regole">
+    <p class="ds-kicker">03</p>
+    <h2 class="ds-h">Le cinque regole che non si negoziano</h2>
+    <div class="ds-grid ds-grid--2">
+
+      <div class="ds-panel">
+        <p class="ds-label">Regola 1</p>
+        <p class="ds-p" style="margin:0">
+          <b>Il fondo dominante &egrave; <span class="ds-code">--blu-notte</span>, non
+          <span class="ds-code">--blu-locale</span>.</b><br>
+          &Egrave; l&#39;unico fondo su cui il rosa neon passa AA per il testo (5,14:1 contro
+          3,88:1). <span class="ds-code">--blu-locale</span> resta il blu del locale, ma
+          come superficie sollevata: card, pannelli, nav.
+        </p>
+      </div>
+
+      <div class="ds-panel">
+        <p class="ds-label">Regola 2</p>
+        <p class="ds-p" style="margin:0">
+          <b>Sui bottoni rosa il testo &egrave; blu notte.</b><br>
+          Crema su rosa fa 2,64:1. In <span class="ds-code">index.html</span> c&#39;&egrave; una
+          regola <span class="ds-code">.page a:not(.btn)</span> scritta apposta perch&eacute;
+          i link non riportino il colore chiaro sui bottoni per specificit&agrave;.
+        </p>
+      </div>
+
+      <div class="ds-panel">
+        <p class="ds-label">Regola 3</p>
+        <p class="ds-p" style="margin:0">
+          <b>Rosa su <span class="ds-code">--blu-locale</span> solo da 20px/800 in su.</b><br>
+          A 3,88:1 vale la soglia &ldquo;testo grande&rdquo;. &Egrave; il motivo per cui i prezzi del
+          menu non scendono mai sotto quella misura, e per cui il chip attivo ha
+          fondo rosa e testo blu invece che testo rosa.
+        </p>
+      </div>
+
+      <div class="ds-panel">
+        <p class="ds-label">Regola 4</p>
+        <p class="ds-p" style="margin:0">
+          <b>Tre token dell&#39;identit&agrave; non toccano il testo piccolo.</b><br>
+          Su blu chiaro <span class="ds-code">--legno</span> fa 3,94:1,
+          <span class="ds-code">--verde-mural</span> 2,36:1 e
+          <span class="ds-code">--rosa-neon</span> 3,88:1. Per il testo esistono
+          <span class="ds-code">--legno-testo</span>, <span class="ds-code">--verde-testo</span>
+          e <span class="ds-code">--rosa-testo</span>. Gli originali fanno filetti, bordi,
+          leader dots, fondi dei bottoni e prezzi (che sono sempre &ge;20px/800).
+        </p>
+      </div>
+
+      <div class="ds-panel" style="border-color:rgba(255,79,163,.5)">
+        <p class="ds-label" style="color:#FFC2DE">Regola 5</p>
+        <p class="ds-p" style="margin:0">
+          <b>Il rosa non supera il 5% della superficie.</b><br>
+          &Egrave; un neon, non un tema. Ammesso su: CTA primarie, prezzi, chip attivo,
+          categoria attiva, la parola &ldquo;Crazy&rdquo;, le stelle. Nient&#39;altro. Se stai per
+          usarlo altrove, usa <span class="ds-code">--legno</span> o un bordo.
+        </p>
+      </div>
+
+      <div class="ds-panel ds-panel--notte">
+        <p class="ds-label">Corollario</p>
+        <p class="ds-p" style="margin:0">
+          Il verde non fa mai da fondo, il legno nemmeno. Sono dettagli: il murale e
+          il bancone stanno dentro una stanza blu, non al posto suo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="tipografia">
+    <p class="ds-kicker">04</p>
+    <h2 class="ds-h">Tipografia</h2>
+    <div class="ds-split">
+      <div class="ds-panel">
+        <p class="ds-label">Display</p>
+        <p style="font-family:'Archivo',sans-serif;font-weight:900;font-stretch:78%;font-size:2.5rem;line-height:1;letter-spacing:-.03em;margin:0">Archivo</p>
+        <p class="ds-note">
+          Variabile su due assi: <span class="ds-code">wght 400&ndash;900</span> e
+          <span class="ds-code">wdth 70&ndash;100</span>. Usiamo 700&ndash;900 di peso e
+          78&ndash;88 di larghezza. L&#39;asse di larghezza &egrave; il motivo della scelta:
+          d&agrave; il condensato senza cambiare famiglia.
+        </p>
+      </div>
+      <div class="ds-panel">
+        <p class="ds-label">Testo</p>
+        <p style="font-family:'Inter',sans-serif;font-weight:400;font-size:2.5rem;line-height:1;margin:0">Inter</p>
+        <p class="ds-note">
+          400/500/600/700. Altezza-x alta, cifre tabellari
+          (<span class="ds-code">tabular-nums</span>) per allineare la colonna prezzi.
+          Entrambi con fallback metrici <span class="ds-code">size-adjust</span> per
+          non prendere CLS mentre caricano.
+        </p>
+      </div>
+    </div>
+
+    <p class="ds-p" style="margin-top:1.5rem">
+      Scala fluida. I valori <span class="ds-code">clamp()</span> qui sotto sono risolti
+      alla larghezza attuale della finestra: <b class="ds-live" id="vw">&mdash;</b>.
+      Restringi la finestra e guardali muoversi.
+    </p>
+    <div id="typescale"></div>
+  </section>
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="neon">
+    <p class="ds-kicker">05</p>
+    <h2 class="ds-h">Il neon</h2>
+    <div class="ds-panel ds-panel--notte" style="text-align:center;padding-block:clamp(2rem,6vw,3.5rem)">
+      <p class="t-h1" style="margin:0"><span class="neon" id="neon-demo">Crazy</span></p>
+    </div>
+    <div class="ds-specimen" style="margin-top:1rem">
+      <button type="button" class="btn btn-ghost btn-sm" id="neon-replay">Rigioca il flicker</button>
+    </div>
+    <p class="ds-p" style="margin-top:1rem">
+      Il nucleo &egrave; <span class="ds-code">#FFE3F0</span>, quasi bianco: &egrave; come si comporta
+      un tubo al neon vero, e porta la parola a 7,6:1 anche su una foto sovraesposta.
+      L&#39;alone &egrave; <span class="ds-code">--rosa-neon</span> su sei <span class="ds-code">text-shadow</span>
+      sovrapposti, da 0,02em a 1,8em.
+    </p>
+    <p class="ds-note">
+      Il flicker fa <b>due impulsi e si ferma</b>: <span class="ds-code">animation-iteration-count:1</span>.
+      Un loop infinito su una parola grande diventa fastidioso in tre secondi.
+      Con <span class="ds-code">prefers-reduced-motion</span> non parte affatto e la
+      parola resta a opacit&agrave; piena.<br>
+      La maschera <span class="ds-code">overflow:hidden</span> dell&#39;animazione d&#39;ingresso
+      la mette GSAP solo per la durata del tween: da ferma taglierebbe l&#39;alone,
+      disegnando un rettangolo scuro intorno alla parola.
+    </p>
+  </section>
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="componenti">
+    <p class="ds-kicker">06</p>
+    <h2 class="ds-h">Componenti</h2>
+    <p class="ds-p">Markup identico a quello di produzione. Copiaci sopra.</p>
+
+    <div class="ds-grid" style="gap:1.25rem">
+
+      <div class="ds-panel ds-panel--notte">
+        <p class="ds-label">Bottoni &mdash; su <span class="ds-code">--blu-notte</span></p>
+        <div class="ds-specimen">
+          <a class="btn btn-primary" href="#componenti">Prenota su WhatsApp</a>
+          <a class="btn btn-ghost" href="#componenti">Guarda il menu</a>
+          <a class="btn btn-wood btn-sm" href="#componenti">Scarica il menu PDF</a>
+          <a class="btn btn-primary btn-sm" href="#componenti">Prenota</a>
+        </div>
+        <p class="ds-note">
+          Altezza minima 48px (40 per <span class="ds-code">.btn-sm</span>), area di tocco
+          piena, <span class="ds-code">:active</span> con 1px di affondo. Il primario ha
+          testo blu notte: vedi Regola 2.
+        </p>
+      </div>
+
+      <div class="ds-panel">
+        <p class="ds-label">Bottoni &mdash; su <span class="ds-code">--blu-locale</span></p>
+        <div class="ds-specimen">
+          <a class="btn btn-primary" href="#componenti">Organizza la festa</a>
+          <a class="btn btn-ghost" href="#componenti">Chiama</a>
+        </div>
+      </div>
+
+      <div class="ds-panel ds-panel--notte">
+        <p class="ds-label">Chip filtro</p>
+        <div class="chips">
+          <button type="button" class="chip is-on">Tutto</button>
+          <button type="button" class="chip">Terra</button>
+          <button type="button" class="chip">Mare</button>
+          <button type="button" class="chip">Sotto i 7&nbsp;&euro;</button>
+        </div>
+        <p class="ds-note">
+          Selezione singola tipo radio: <span class="ds-code">role="radiogroup"</span>,
+          <span class="ds-code">aria-checked</span>, tabindex mobile e frecce
+          &larr;&nbsp;&rarr; per navigare. Attivo = fondo rosa, testo blu.
+        </p>
+      </div>
+
+      <div class="ds-panel ds-panel--notte">
+        <p class="ds-label">Badge</p>
+        <div class="dish-tags" style="margin:0">
+          <span class="tag tag-best">Il pi&ugrave; ordinato</span>
+          <span class="tag tag-diet">Veg</span>
+          <span class="tag tag-diet">Vegan</span>
+          <span class="tag tag-diet">Piccante</span>
+          <span class="tag tag-diet">Senza glutine</span>
+        </div>
+        <p class="ds-note">
+          Sul sito <b>nessuno di questi &egrave; assegnato</b>. Il sistema c&#39;&egrave;, gli array
+          <span class="ds-code">diet</span> e <span class="ds-code">BESTSELLERS</span> sono
+          vuoti in attesa della cucina. Gli allergeni non si deducono dagli ingredienti.
+        </p>
+      </div>
+
+      <div class="ds-split">
+        <div class="ds-panel">
+          <p class="ds-label">Card</p>
+          <div class="card">
+            <h3 class="t-h4">Titolo della card</h3>
+            <p class="t-body" style="margin-top:.6rem">
+              Superficie sollevata su <span class="ds-code">--blu-locale</span>, bordo
+              <span class="ds-code">--bordo</span>, raggio <span class="ds-code">--r-lg</span>.
+            </p>
+          </div>
+        </div>
+        <div class="ds-panel">
+          <p class="ds-label">Card &mdash; variante verde</p>
+          <div class="card card-verde">
+            <p class="t-eyebrow" style="color:var(--verde-testo)">Feste ed eventi privati</p>
+            <h3 class="t-h4" style="margin-top:.6rem">Bordo verde, non fondo verde</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-panel">
+        <p class="ds-label">Citazione</p>
+        <figure class="quote">
+          <p class="stars" aria-label="5 stelle su 5">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <blockquote class="quote-txt"><p class="pending">[ESTRATTO &mdash; INCOLLA DA GOOGLE]</p></blockquote>
+          <figcaption class="quote-who"><span class="pending">[NOME]</span><span class="t-small">Google</span></figcaption>
+        </figure>
+        <p class="ds-note">
+          La classe <span class="ds-code">.pending</span> colora in
+          <span class="ds-code">--legno</span> tutto quello che &egrave; ancora segnaposto:
+          orari, P.IVA, pagamenti, recensioni, data prezzi. Cercali con
+          <span class="ds-code">grep -n "DA CONFERMARE" index.html</span>.
+        </p>
+      </div>
+
+      <div class="ds-panel ds-panel--notte">
+        <p class="ds-label">Servizi a icone</p>
+        <ul class="srv">
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M2 8.8a17 17 0 0 1 20 0M5 12.5a12 12 0 0 1 14 0M8.5 16.2a7 7 0 0 1 7 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg><span>Wi-Fi gratuito</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="8" cy="7" rx="2" ry="2.6"/><ellipse cx="16" cy="7" rx="2" ry="2.6"/><ellipse cx="4.5" cy="12.5" rx="2" ry="2.3"/><ellipse cx="19.5" cy="12.5" rx="2" ry="2.3"/><path d="M12 12c2.6 0 4.8 2.2 5.4 4.4.5 1.9-.9 3.6-2.9 3.6-1 0-1.7-.4-2.5-.4s-1.5.4-2.5.4c-2 0-3.4-1.7-2.9-3.6C7.2 14.2 9.4 12 12 12Z"/></svg><span>Pet friendly</span></li>
+          <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M10 7v6h5l3 6"/><path d="M14 13a5.5 5.5 0 1 1-5-3"/></svg><span>Locale accessibile</span></li>
+        </ul>
+        <p class="ds-note">Icone in <span class="ds-code">--verde-testo</span>, mai in <span class="ds-code">--verde-mural</span>: vedi Regola 4.</p>
+      </div>
+
+      <div class="ds-panel ds-panel--ftr">
+        <p class="ds-label">Fondo footer <span class="ds-code">#081E29</span></p>
+        <p class="t-body" style="margin:0">Testo su fondo footer. Pi&ugrave; scuro del blu notte, stessi rapporti o migliori.</p>
+        <p class="t-small" style="margin-top:.5rem">Crazy Bruschetta&reg; &middot; P.IVA <span class="pending">[DA CONFERMARE]</span></p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="menu">
+    <p class="ds-kicker">07</p>
+    <h2 class="ds-h">La riga del menu</h2>
+    <p class="ds-p">
+      Il componente pi&ugrave; usato della pagina: 28 istanze. Nome in display bold,
+      leader dots in <span class="ds-code">--legno</span>, prezzo a destra in rosa e
+      cifre tabellari, ingredienti sotto al 72% di crema.
+    </p>
+    <div class="ds-panel ds-panel--notte">
+      <ul class="dish-list">
+        <li class="dish-li">
+          <button type="button" class="dish">
+            <span class="dish-head"><span class="dish-name">Pistacchiosa</span><span class="dots" aria-hidden="true"></span><span class="dish-price">8&nbsp;&euro;</span></span>
+            <span class="dish-desc">Pesto di pistacchi, mortadella, burrata, granella di pistacchi</span>
+          </button>
+        </li>
+        <li class="dish-li">
+          <button type="button" class="dish">
+            <span class="dish-head"><span class="dish-name">Tellaro</span><span class="dots" aria-hidden="true"></span><span class="dish-price">10&nbsp;&euro;</span></span>
+            <span class="dish-desc">Pesto di prezzemolo, crema di patate, polpo</span>
+          </button>
+        </li>
+        <li class="dish-li">
+          <button type="button" class="dish">
+            <span class="dish-head"><span class="dish-name">Tortino al cioccolato</span><span class="dots" aria-hidden="true"></span><span class="dish-price">5&nbsp;&euro;</span></span>
+          </button>
+        </li>
+      </ul>
+    </div>
+    <p class="ds-note">
+      I dots sono <span class="ds-code">aria-hidden</span> e non sono un carattere
+      ripetuto: sono un <span class="ds-code">border-bottom:1px dotted</span> su un
+      elemento in <span class="ds-code">flex:1</span>. Cos&igrave; si adattano da soli a
+      qualsiasi lunghezza del nome senza mai andare a capo.<br>
+      Tutta la riga &egrave; un <span class="ds-code">&lt;button&gt;</span> che apre il pannello
+      del piatto &mdash; ma nome, ingredienti e prezzo sono gi&agrave; l&igrave;: nel pannello non
+      vive nessuna informazione che non sia gi&agrave; leggibile nella lista.
+    </p>
+  </section>
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="spazi">
+    <p class="ds-kicker">08</p>
+    <h2 class="ds-h">Spazi, raggi, misure</h2>
+    <div class="ds-tablewrap">
+      <table class="ds-table">
+        <thead><tr><th>Token</th><th>Valore</th><th>Risolto ora</th><th>A cosa serve</th></tr></thead>
+        <tbody id="metrics"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================================================================== -->
+  <section class="ds-sec" id="movimento">
+    <p class="ds-kicker">09</p>
+    <h2 class="ds-h">Movimento</h2>
+    <p class="ds-p">
+      GSAP + ScrollTrigger, tutto dentro un
+      <span class="ds-code">gsap.matchMedia("(prefers-reduced-motion: no-preference)")</span>.
+    </p>
+    <div class="ds-tablewrap">
+      <table class="ds-table">
+        <thead><tr><th>Dove</th><th>Cosa fa</th><th>Durata</th><th>Easing</th></tr></thead>
+        <tbody>
+          <tr><td>hero, titolo</td><td>parole dal basso, stagger 0,08</td><td>0,9s</td><td>power3.out</td></tr>
+          <tr><td>hero, neon</td><td>flicker, 2 impulsi poi fermo</td><td>1,5s</td><td>steps(1,end)</td></tr>
+          <tr><td>sezioni</td><td>y +40 &rarr; 0, opacity 0 &rarr; 1, a 80% viewport</td><td>0,7s</td><td>power3.out</td></tr>
+          <tr><td>voci menu</td><td>stagger 0,04 per categoria, non tutte insieme</td><td>0,5s</td><td>power2.out</td></tr>
+          <tr><td>filtri menu</td><td>FLIP: misura, muta, inverte, riproduce</td><td>0,25s</td><td>cubic-bezier(.22,.61,.36,1)</td></tr>
+          <tr><td>contatori</td><td>4,7 / 406 / 9,5 / 272 / 17, una volta sola</td><td>1,1s</td><td>power2.out</td></tr>
+          <tr><td>parallax hero</td><td>yPercent 0 &rarr; 10 su altezza 126% = 12,6%</td><td>scrub</td><td>none</td></tr>
+          <tr><td>parallax galleria</td><td>yPercent &minus;5 &rarr; +6, colonne sfalsate</td><td>scrub</td><td>none</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ds-panel" style="margin-top:1.25rem;border-color:rgba(255,79,163,.5)">
+      <p class="ds-label" style="color:#FFC2DE">La regola che vale pi&ugrave; di tutte</p>
+      <p class="ds-p" style="margin:0">
+        <b>Nessun elemento parte da <span class="ds-code">opacity:0</span> nel CSS.</b>
+        Le posizioni iniziali le imposta GSAP a runtime. Se cade un CDN, se il JS va in
+        errore, se qualcuno naviga senza script &mdash; le 28 voci del menu, i prezzi, gli
+        orari e i contatti restano l&igrave;. Il parallax dell&#39;hero, per lo stesso motivo,
+        usa solo <span class="ds-code">transform</span>: la versione che cambiava
+        <span class="ds-code">height</span> e <span class="ds-code">top</span> al load
+        valeva 0,09 di CLS per un&#39;animazione decorativa.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<div class="ds-btnbar">
+  <div class="ds-wrap ds-specimen" style="justify-content:space-between">
+    <span class="ds-live" id="status">Carico il CSS di produzione&hellip;</span>
+    <a class="btn btn-ghost btn-sm" href="../index.html">&larr; Vai al sito</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const $ = s => document.querySelector(s);
+
+  /* ---------------------------------------------------------------------
+     1. Prendi il CSS vero da ../index.html. Niente copie: se questa pagina
+        e' d'accordo col sito e' perche' e' letteralmente lo stesso CSS.
+     --------------------------------------------------------------------- */
+  fetch("../index.html", {cache: "no-store"})
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(html => {
+      const m = html.match(/<style>([\s\S]*?)<\/style>/);
+      if (!m) throw new Error("blocco <style> non trovato");
+      $("#prod-css").textContent = m[1];
+      $("#status").textContent = "CSS di produzione caricato da ../index.html";
+      build();
+    })
+    .catch(err => {
+      const b = $("#banner");
+      b.hidden = false;
+      b.innerHTML = "<b>Non riesco a leggere ../index.html</b> (" + err.message + ").<br>" +
+        "Succede aprendo questo file con doppio clic: <code>fetch</code> su <code>file://</code> " +
+        "e' bloccato dal browser. Avvia un server dalla cartella <code>crazy-bruschetta/</code> " +
+        "e apri <code>localhost:8000/design-system/</code>:<br>" +
+        "<code>python3 -m http.server 8000</code>";
+      $("#status").textContent = "CSS di produzione non caricato";
+      build();   // le tabelle si costruiscono lo stesso, sui valori di fallback
+    });
+
+  /* ---------------------------------------------------------------------
+     2. Contrasto WCAG, calcolato sui token veri
+     --------------------------------------------------------------------- */
+  const cs = () => getComputedStyle(document.documentElement);
+  const tok = n => cs().getPropertyValue(n).trim();
+
+  const parse = s => {
+    s = (s || "").trim();
+    if (s.startsWith("#")) {
+      const h = s.slice(1);
+      const f = h.length === 3 ? h.split("").map(c => c + c).join("") : h;
+      return [parseInt(f.slice(0,2),16), parseInt(f.slice(2,4),16), parseInt(f.slice(4,6),16), 1];
+    }
+    const n = (s.match(/[\d.]+/g) || []).map(Number);
+    return n.length >= 3 ? [n[0], n[1], n[2], n[3] === undefined ? 1 : n[3]] : null;
+  };
+  const lum = ([r,g,b]) => {
+    const f = c => { c /= 255; return c <= .03928 ? c/12.92 : Math.pow((c+.055)/1.055, 2.4); };
+    return .2126*f(r) + .7152*f(g) + .0722*f(b);
+  };
+  const flatten = (fg, bg) => fg[3] >= 1 ? fg.slice(0,3) : fg.slice(0,3).map((c,i) => c*fg[3] + bg[i]*(1-fg[3]));
+  const ratio = (fg, bg) => {
+    const a = lum(flatten(fg, bg)), b = lum(bg);
+    return (Math.max(a,b) + .05) / (Math.min(a,b) + .05);
+  };
+  const verdict = r =>
+    r >= 7   ? ['AAA',        'ds-badge--aaa', 'testo di qualsiasi misura'] :
+    r >= 4.5 ? ['AA',         'ds-badge--aa',  'testo di qualsiasi misura'] :
+    r >= 3   ? ['Solo grande','ds-badge--lg',  'da 24px, o 18,7px in grassetto. Bordi e icone ok'] :
+               ['No',         'ds-badge--no',  'solo decorazione, mai testo'];
+
+  const FALLBACK = {
+    "--blu-locale":"#123B54", "--blu-notte":"#0B2634", "--rosa-neon":"#FF4FA3",
+    "--verde-mural":"#2E7D5B", "--crema":"#F4EEE4", "--legno":"#C08A55",
+    "--legno-testo":"#D8A97A", "--verde-testo":"#7FC8A3", "--rosa-testo":"#FF8CC4",
+    "--testo-soft":"rgba(244,238,228,.72)", "--testo-mute":"rgba(244,238,228,.56)"
+  };
+  const val = n => tok(n) || FALLBACK[n] || "#888";
+
+  const PALETTE = [
+    ["--blu-notte",   "Fondo dominante di tutta la pagina. L'unico su cui il rosa passa AA per il testo."],
+    ["--blu-locale",  "Il blu delle pareti. Superficie sollevata: card, pannelli, nav sticky."],
+    ["--rosa-neon",   "L'insegna. Solo CTA, prezzi, chip attivo e la parola Crazy. Max 5% della superficie."],
+    ["--crema",       "Tutto il testo principale. 13,6:1 sul blu notte."],
+    ["--legno",       "Il bancone. Leader dots, filetti, bordi. Non per il testo piccolo su blu chiaro."],
+    ["--verde-mural", "Il murale. Bordi e accenti. Mai come fondo, mai come testo piccolo."],
+    ["--legno-testo", "Variante chiara del legno, solo per eyebrow e label piccole."],
+    ["--verde-testo", "Variante chiara del verde, solo per label e icone."],
+    ["--rosa-testo",  "Variante chiara del rosa, solo per testo piccolo: stelle, micro-etichette."]
+  ];
+
+  const BACKGROUNDS = [
+    ["--blu-notte",  "Fondo pagina"],
+    ["--blu-locale", "Card e pannelli"],
+    ["#081E29",      "Footer"],
+    ["--rosa-neon",  "Bottone primario"]
+  ];
+
+  const FOREGROUNDS = [
+    ["--crema",       "testo principale"],
+    ["--testo-soft",  "ingredienti, paragrafi"],
+    ["--testo-mute",  "note secondarie"],
+    ["--rosa-neon",   "prezzi, accenti"],
+    ["--legno",       "dots e filetti"],
+    ["--legno-testo", "eyebrow e label"],
+    ["--rosa-testo",  "stelle, testo piccolo rosa"],
+    ["--verde-mural", "bordi"],
+    ["--verde-testo", "icone e label"],
+    ["--blu-notte",   "testo sui bottoni rosa"]
+  ];
+
+  function build () {
+
+    // --- swatch --------------------------------------------------------
+    $("#swatches").innerHTML = PALETTE.map(([n, role]) => {
+      const v = val(n);
+      return `<div class="ds-sw">
+        <span class="ds-sw-chip" style="background:${v}"></span>
+        <div class="ds-sw-body">
+          <span class="ds-sw-name">${n}</span>
+          <span class="ds-sw-hex">${v}</span>
+          <span class="ds-sw-role">${role}</span>
+        </div></div>`;
+    }).join("");
+
+    // --- matrici -------------------------------------------------------
+    $("#matrices").innerHTML = BACKGROUNDS.map(([bgTok, bgLabel]) => {
+      const bg = parse(bgTok.startsWith("--") ? val(bgTok) : bgTok);
+      const rows = FOREGROUNDS.filter(([fgTok]) => fgTok !== bgTok).map(([fgTok, use]) => {
+        const fg = parse(val(fgTok));
+        if (!fg || !bg) return "";
+        const r = ratio(fg, bg);
+        const [label, cls, when] = verdict(r);
+        const flat = flatten(fg, bg).map(Math.round);
+        return `<tr>
+          <td>${fgTok}</td>
+          <td><span class="ds-demo" style="background:${bgTok.startsWith("--") ? val(bgTok) : bgTok};color:rgb(${flat.join(",")})">Aa 17&nbsp;&euro;</span></td>
+          <td class="ds-ratio">${r.toFixed(2)}:1</td>
+          <td><span class="ds-badge ${cls}">${label}</span></td>
+          <td style="white-space:normal;color:var(--testo-mute,rgba(244,238,228,.56))">${when} &mdash; <i>${use}</i></td>
+        </tr>`;
+      }).join("");
+      return `<div>
+        <p class="ds-label">Su <span class="ds-code">${bgTok}</span> &mdash; ${bgLabel}</p>
+        <div class="ds-tablewrap"><table class="ds-table">
+          <thead><tr><th>Colore</th><th>Anteprima</th><th>Rapporto</th><th>Esito</th><th>Uso ammesso</th></tr></thead>
+          <tbody>${rows}</tbody></table></div></div>`;
+    }).join("");
+
+    // --- scala tipografica --------------------------------------------
+    const SCALE = [
+      [".t-h1",      "clamp(2.75rem, 7.6vw, 6.25rem)", "Archivo 900 / wdth 78", "Non una bruschetta"],
+      [".t-h2",      "clamp(2rem, 5.2vw, 3.5rem)",     "Archivo 800 / wdth 82", "Titolo di sezione"],
+      [".t-h3",      "clamp(1.5rem, 3.5vw, 2.25rem)",  "Archivo 800 / wdth 85", "Le classiche"],
+      [".t-h4",      "clamp(1.125rem, 2.6vw, 1.375rem)","Archivo 800 / wdth 88","Sottotitolo di card"],
+      [".dish-name", "clamp(1.0625rem, 2.5vw, 1.25rem)","Archivo 700 / wdth 88","Pistacchiosa"],
+      [".dish-price","clamp(1.25rem, 3vw, 1.375rem)",  "Archivo 800 &mdash; mai sotto, e' la soglia AA", "8 &euro;"],
+      [".t-lead",    "clamp(1.0625rem, 2.6vw, 1.375rem)","Inter 400",           "Arriva un vassoio lungo, e sopra ci stanno tutte."],
+      [".t-body",    "1rem",                            "Inter 400",           "Corpo del testo, 72% di crema."],
+      [".dish-desc", ".9375rem",                        "Inter 400",           "Pesto di pistacchi, mortadella, burrata."],
+      [".t-small",   ".875rem",                         "Inter 400",           "Nota secondaria."],
+      [".t-eyebrow", ".75rem &middot; tracking .14em",  "Inter 600 maiuscolo", "Come funziona"]
+    ];
+    $("#typescale").innerHTML = SCALE.map(([cls, src, font, txt]) =>
+      `<div class="ds-typerow">
+         <div class="ds-typemeta">
+           <b>${cls}</b><span>${src}</span><span>${font}</span>
+           <span data-px="${cls}">&mdash;</span>
+         </div>
+         <div class="ds-sample"><span class="${cls.slice(1)}">${txt}</span></div>
+       </div>`).join("");
+
+    // --- misure --------------------------------------------------------
+    const METRICS = [
+      ["--gutter",   "clamp(1.125rem, 5vw, 2.5rem)", "Margine laterale di ogni sezione"],
+      ["--maxw",     "74rem",                        "Larghezza massima del contenuto"],
+      ["--r",        "14px",                         "Raggio piccolo: immagini, righe, chip quadrati"],
+      ["--r-lg",     "22px",                         "Raggio grande: card, pannelli, dialog"],
+      ["--h-header", "56px / 64px da 768px",         "Altezza header, base dello scroll-margin"],
+      ["--h-catnav", "52px",                         "Altezza nav categorie sticky"]
+    ];
+    $("#metrics").innerHTML = METRICS.map(([n, v, role]) =>
+      `<tr><td>${n}</td><td style="white-space:normal">${v}</td>
+       <td class="ds-ratio" data-metric="${n}">&mdash;</td>
+       <td style="white-space:normal;color:var(--testo-mute,rgba(244,238,228,.56))">${role}</td></tr>`).join("");
+
+    resolve();
+  }
+
+  /* ---------------------------------------------------------------------
+     3. Risolvi i clamp() alla larghezza attuale e tienili aggiornati
+     --------------------------------------------------------------------- */
+  function resolve () {
+    const vw = $("#vw"); if (vw) vw.textContent = window.innerWidth + "px";
+    document.querySelectorAll("[data-px]").forEach(el => {
+      const target = document.querySelector(el.dataset.px);
+      if (!target) return;
+      const s = getComputedStyle(target);
+      el.textContent = "= " + parseFloat(s.fontSize).toFixed(1) + "px / " + s.fontWeight;
+    });
+    document.querySelectorAll("[data-metric]").forEach(el => {
+      const v = tok(el.dataset.metric);
+      el.textContent = v || "—";
+    });
+  }
+  let t; addEventListener("resize", () => { clearTimeout(t); t = setTimeout(resolve, 120); });
+
+  /* ---------------------------------------------------------------------
+     4. Rigioca il flicker del neon
+     --------------------------------------------------------------------- */
+  const replay = $("#neon-replay");
+  if (replay) replay.addEventListener("click", () => {
+    const n = $("#neon-demo");
+    n.style.animation = "none";
+    void n.offsetWidth;          // forza il reflow, altrimenti non riparte
+    n.style.animation = "";
+  });
+})();
+</script>
+
+</body>
+</html>

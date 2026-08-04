@@ -68,12 +68,14 @@
   --legno:#C08A55;
 
   /* Le due varianti chiare servono al TESTO piccolo, non alla grafica.
-     --legno a 12px su --blu-locale si ferma a 3,94:1 e --verde-mural a 2,36:1:
-     nessuno dei due passa AA. Le versioni sotto stanno a 5,55:1 e 6,01:1 sul
-     blu chiaro e a 7,4:1 / 8,0:1 sul blu notte, e restano legno e verde.
-     I token originali restano quelli dell'identita': filetti, bordi, dots. */
+     Su --blu-locale, a 12-16px: --legno fa 3,94:1, --verde-mural 2,36:1 e
+     --rosa-neon 3,88:1. Nessuno dei tre passa AA. Le versioni sotto stanno a
+     5,55:1, 6,01:1 e 5,51:1 sul blu chiaro, e restano legno, verde e rosa.
+     I token originali restano quelli dell'identita': filetti, bordi, dots,
+     fondi dei bottoni e prezzi (che sono >=20px/800, quindi "testo grande"). */
   --legno-testo:#D8A97A;
   --verde-testo:#7FC8A3;
+  --rosa-testo:#FF8CC4;
 
   /* derivate: il fondo dominante e' --blu-notte perche' e' l'unico sul quale
      il rosa raggiunge 5,14:1 (AA per il testo). Su --blu-locale il rosa si
@@ -172,7 +174,7 @@
 
 /* :not(.btn) e' obbligatorio: senza, questa regola vince per specificita' sui
    .btn-* e i bottoni rosa si ritrovano il testo crema addosso -> 2,64:1. */
-.page a:not(.btn){color:inherit}
+.page a:not(.btn):not(.skip){color:inherit}
 .page :focus-visible{outline:3px solid var(--rosa-neon);outline-offset:3px;border-radius:6px}
 
 /* --- header --------------------------------------------------------------- */
@@ -217,7 +219,7 @@
   padding:.5rem .9rem;border:1px solid var(--bordo-forte);border-radius:999px;
   background:rgba(11,38,52,.5);font-size:.875rem;color:var(--testo-soft);
 }
-.stars{color:var(--rosa-neon);letter-spacing:.06em;font-size:.8125rem}
+.stars{color:var(--rosa-testo);letter-spacing:.06em;font-size:.8125rem}
 .hero-scroll{display:none}
 @media (min-width:900px){
   .hero-scroll{display:block;position:absolute;right:var(--gutter);bottom:2rem;z-index:2;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--testo-mute);writing-mode:vertical-rl}
@@ -231,7 +233,7 @@
 
 /* --- concept -------------------------------------------------------------- */
 .cblock{position:relative;border-radius:var(--r-lg);background:var(--superficie);border:1px solid var(--bordo);padding:clamp(1.5rem,4vw,2.5rem)}
-.cblock-num{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:3rem;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--legno);opacity:.8}
+.cblock-num{font-family:var(--f-display);font-weight:900;font-stretch:75%;font-size:3rem;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--legno-testo);opacity:.9}
 .cblock-accent{position:absolute;left:0;top:clamp(1.5rem,4vw,2.5rem);width:3px;height:2.5rem;background:var(--verde-mural);border-radius:0 3px 3px 0}
 
 /* --- menu ----------------------------------------------------------------- */
@@ -311,7 +313,7 @@
 .quote{background:var(--superficie);border:1px solid var(--bordo);border-radius:var(--r-lg);padding:clamp(1.25rem,3.5vw,1.75rem);height:100%;display:flex;flex-direction:column;gap:.9rem}
 .quote-txt{font-size:1.0625rem;line-height:1.55;color:var(--crema);margin:0}
 .quote-who{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:auto;padding-top:.5rem;border-top:1px solid var(--bordo)}
-.pending{color:var(--legno);font-style:normal}
+.pending{color:var(--legno-testo);font-style:normal}
 
 /* --- info ----------------------------------------------------------------- */
 .card{background:var(--superficie);border:1px solid var(--bordo);border-radius:var(--r-lg);padding:clamp(1.25rem,3.5vw,2rem)}
@@ -1049,7 +1051,8 @@ tailwind.config = {
       <div class="dish-tags" id="dish-dialog-tags"></div>
       <p class="t-h3" id="dish-dialog-price" style="color:var(--rosa-neon)"></p>
       <a class="btn btn-primary" id="dish-dialog-wa" href="#" target="_blank" rel="noopener">Ordinalo stasera &rarr; WhatsApp</a>
-      <p class="t-small" style="color:var(--testo-mute)">Ti apriamo la chat con il piatto gi&agrave; scritto. Confermiamo noi la disponibilit&agrave;.</p>
+      <!-- --testo-mute su --blu-locale fa 4,33:1: sotto AA. Qui va --testo-soft (6,11:1). -->
+      <p class="t-small">Ti apriamo la chat con il piatto gi&agrave; scritto. Confermiamo noi la disponibilit&agrave;.</p>
     </div>
   </div>
 </dialog>

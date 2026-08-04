@@ -11,6 +11,7 @@ crazy-bruschetta/
 ├── index.html            ← tutto: markup, CSS, dati del menu, JS
 ├── netlify.toml          ← configurazione di deploy
 ├── SHOT-LIST.md          ← le foto da chiedere al ristorante
+├── design-system/        ← palette, contrasto, tipografia, componenti
 ├── assets/img/           ← immagini (oggi placeholder grigi)
 │   ├── hero.jpg  hero-800.jpg  hero-1400.jpg
 │   ├── interno-1..4.jpg  dehors.jpg  neon.jpg  (+ derivati -600 / -1000)
@@ -137,11 +138,11 @@ sollevata — card, pannelli, nav — e i prezzi in rosa non scendono mai sotto
 facile da fare qui, e c'è una regola CSS con `:not(.btn)` scritta apposta per
 impedire che i link ereditino il colore chiaro sui bottoni.
 
-**`--legno-testo` e `--verde-testo` esistono solo per il testo piccolo.** I token
-originali dell'identità (`--legno` a 12px su blu chiaro = 3,94:1, `--verde-mural`
-= 2,36:1) non passano AA. Le varianti chiare stanno a 5,55:1 e 6,01:1 e restano
-riconoscibilmente legno e verde. `--legno` e `--verde-mural` continuano a fare
-filetti, bordi e leader dots, dove il contrasto del testo non si applica.
+**Le tre coppie di token.** `--legno` / `--legno-testo`, `--verde-mural` /
+`--verde-testo`, `--rosa-neon` / `--rosa-testo`. A sinistra i colori
+dell'identità: filetti, bordi, leader dots, fondi dei bottoni, prezzi. A destra
+le varianti per il testo piccolo, dove su `--blu-locale` gli originali si
+fermano a 3,94:1, 2,36:1 e 3,88:1. Stessi colori, schiariti quel tanto che basta.
 
 **Niente iframe di Google Maps.** Sarebbe un tracker di terze parti caricato in
 home su ogni visita. Al suo posto c'è una card che apre Maps in una scheda nuova.
@@ -150,6 +151,23 @@ home su ogni visita. Al suo posto c'è una card che apre Maps in una scheda nuov
 esterne sono i font, Tailwind e GSAP.
 
 ---
+
+## Design system
+
+`design-system/` è una pagina viva del sistema visivo: palette, matrice di
+contrasto, scala tipografica, componenti, movimento.
+
+Non contiene una copia dei token: legge il blocco `<style>` da `../index.html`
+a runtime, quindi mostra sempre il CSS che gira davvero, e i rapporti di
+contrasto sono ricalcolati al caricamento invece di essere una tabella che
+invecchia. Se cambi un colore e rompi un accostamento, lì diventa rosso da solo.
+
+Serve un server locale per aprirla (`fetch` su `file://` è bloccato):
+
+```bash
+python3 -m http.server 8000     # dalla cartella crazy-bruschetta/
+# http://localhost:8000/design-system/
+```
 
 ## Verificato
 
@@ -165,4 +183,11 @@ Testato con Chromium headless a 375px e 1440px:
   finale, neon fermo a opacità piena;
 - filtri: Tutto 28 · Terra 7 · Mare 4 · Veg 0 (stato vuoto) · Dolci 3 ·
   Sotto i 7 € 12;
-- nessun overflow orizzontale a 375px.
+- nessun overflow orizzontale a 375px;
+- CLS 0,013 · LCP 184 ms · 567 nodi DOM.
+
+La scansione di contrasto gira su **ogni nodo di testo** della pagina, non su
+una lista di selettori, e in quattro stati: pagina base, pannello piatto aperto,
+lightbox aperta, stato vuoto del filtro Veg. La versione a lista fissa lasciava
+passare quattro casi reali — nota del pannello piatto, stelle, segnaposto
+`[DA CONFERMARE]`, link "Salta al menu" — tutti corretti.
