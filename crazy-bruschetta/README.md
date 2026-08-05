@@ -12,6 +12,7 @@ crazy-bruschetta/
 ├── netlify.toml          ← configurazione di deploy
 ├── SHOT-LIST.md          ← le foto da chiedere al ristorante
 ├── design-system/        ← palette, contrasto, tipografia, componenti
+├── link/                 ← pagina link-in-bio, 25 KB, zero JavaScript
 ├── assets/img/           ← immagini (oggi placeholder grigi)
 │   ├── hero.jpg  hero-800.jpg  hero-1400.jpg
 │   ├── interno-1..4.jpg  dehors.jpg  neon.jpg  (+ derivati -600 / -1000)
@@ -29,6 +30,7 @@ crazy-bruschetta/
 | | |
 |---|---|
 | Sito | https://crazy-bruschetta.vercel.app |
+| Pagina link | https://crazy-bruschetta.vercel.app/link/ |
 | Design system | https://crazy-bruschetta.vercel.app/design-system/ |
 
 Anteprima su Vercel. Il progetto non è collegato a git: un build script scarica
@@ -186,6 +188,26 @@ Serve un server locale per aprirla (`fetch` su `file://` è bloccato):
 python3 -m http.server 8000     # dalla cartella crazy-bruschetta/
 # http://localhost:8000/design-system/
 ```
+
+## La pagina link
+
+`link/` è la pagina da mettere nella bio di Instagram e TikTok, e dietro a un QR
+sui tavoli: tutti i contatti dell'attività in un posto solo.
+
+Ha regole diverse dal sito, perché ha un lavoro diverso — si apre da un telefono,
+in mezzo alla strada, con la connessione che c'è:
+
+- **Zero JavaScript.** Sono link, non serve.
+- **Nessun CDN di framework.** Il CSS sta nel file, sono ~6 KB.
+- **Un solo font, e solo per il logotipo.** Archivo servito con `&text=`, cioè
+  con dentro le sole lettere di "CrazyBruschetta": **4,1 KB invece di 34,7**.
+  Tutto il resto usa i font di sistema, che sono già sul telefono di chi apre il
+  link e costano zero.
+
+**24,9 KB in tutto, 4 richieste, 131 nodi DOM.** Contrasto AA su ogni nodo di
+testo, a 390px e a 1440px. Palette e regole identiche al sito.
+
+`noindex, follow`: non deve competere col sito vero nei risultati di ricerca.
 
 ## Verificato
 

@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B2634">
+
+<!-- ============================================================================
+     Crazy Bruschetta - pagina link
+     Quella che va nella bio di Instagram e TikTok, e dietro al QR sui tavoli.
+
+     Regole che si e' data questa pagina, diverse da quelle del sito:
+       - ZERO JavaScript. Sono link: non serve.
+       - Nessun CDN di framework. Il CSS sta qui, sono ~6 KB.
+       - Un solo font, e solo per il logotipo: Archivo servito con &text=,
+         cioe' con dentro le sole lettere di "CrazyBruschetta" -> 4,1 KB invece
+         di 34,7. Tutto il resto usa i font di sistema, che sono gia' sul
+         telefono di chi apre il link e costano zero.
+     Palette e regole di contrasto sono le stesse del sito: vedi design-system/.
+
+     Cerca "DA CONFERMARE" prima di pubblicare.
+============================================================================= -->
+
+<title>Crazy Bruschetta - tutti i link | Bruschetteria a La Spezia</title>
+<meta name="description" content="Prenota, chiama, guarda il menu, trovaci in Via Manzoni 39/41 a La Spezia. Tutti i link di Crazy Bruschetta in un posto solo.">
+<!-- noindex: questa pagina non deve competere nei risultati col sito vero -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://crazy-bruschetta.vercel.app/link/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Crazy Bruschetta">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Crazy Bruschetta - tutti i link">
+<meta property="og:description" content="Prenota, chiama, guarda il menu, trovaci in Via Manzoni 39/41 a La Spezia.">
+<meta property="og:url" content="https://crazy-bruschetta.vercel.app/link/">
+<meta property="og:image" content="https://crazy-bruschetta.vercel.app/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2634'/%3E%3Ctext x='16' y='23' font-family='Helvetica,Arial,sans-serif' font-size='20' font-weight='bold' fill='%23FF4FA3' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@78,900&text=CrazyBruschetta&display=swap">
+
+<style>
+:root{
+  /* stessi token del sito */
+  --blu-locale:#123B54;
+  --blu-notte:#0B2634;
+  --rosa-neon:#FF4FA3;
+  --verde-mural:#2E7D5B;
+  --crema:#F4EEE4;
+  --legno:#C08A55;
+  /* varianti per il testo piccolo: gli originali su --blu-locale non passano AA */
+  --legno-testo:#D8A97A;
+  --verde-testo:#7FC8A3;
+  --rosa-testo:#FF8CC4;
+
+  --bordo:rgba(244,238,228,.14);
+  --bordo-forte:rgba(244,238,228,.26);
+  --soft:rgba(244,238,228,.72);
+  --mute:rgba(244,238,228,.56);
+
+  --sys:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --mark:'Archivo',var(--sys);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:
+    radial-gradient(120% 70% at 50% -10%, #16465F 0%, transparent 62%),
+    var(--blu-notte);
+  background-attachment:fixed;
+  color:var(--crema);
+  font-family:var(--sys);
+  font-size:16px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  min-height:100svh;
+}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--rosa-neon);outline-offset:3px;border-radius:10px}
+
+.wrap{
+  width:100%;max-width:30rem;margin-inline:auto;
+  padding:clamp(2rem,7vw,3.5rem) clamp(1.125rem,5vw,1.5rem) 3rem;
+}
+
+/* --- testata ------------------------------------------------------------- */
+.mark{
+  font-family:var(--mark);font-weight:900;font-stretch:78%;
+  font-size:clamp(2.5rem,12vw,3.5rem);line-height:.92;letter-spacing:-.03em;
+  margin:0;text-align:center;
+}
+.mark .neon{
+  color:#FFE3F0;
+  text-shadow:
+    0 0 .02em #fff,
+    0 0 .07em var(--rosa-neon),
+    0 0 .18em var(--rosa-neon),
+    0 0 .42em rgba(255,79,163,.78),
+    0 0 .9em rgba(255,79,163,.45),
+    0 0 1.8em rgba(255,79,163,.25);
+  animation:flicker 1.5s steps(1,end) .3s 1 both;
+}
+@keyframes flicker{
+  0%{opacity:.32}  7%{opacity:1}  12%{opacity:.35}
+  19%{opacity:1}   24%{opacity:.6} 30%{opacity:1}
+  100%{opacity:1}
+}
+.tagline{
+  margin:.9rem 0 0;text-align:center;
+  font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--legno-testo);
+}
+
+/* riga di puntini: e' il leader dots del menu, riusato come divisore */
+.dots{
+  height:0;border:0;border-top:1px dotted var(--legno);opacity:.6;
+  margin:1.5rem 0;
+}
+
+/* --- voti ---------------------------------------------------------------- */
+.scores{
+  display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
+  margin:1.25rem 0 0;padding:0;list-style:none;
+}
+.score{
+  background:var(--blu-locale);border:1px solid var(--bordo);border-radius:14px;
+  padding:.7rem .85rem;text-align:center;
+}
+.score b{
+  display:block;font-family:var(--mark);font-weight:900;font-size:1.5rem;line-height:1.1;
+  color:var(--rosa-neon);font-variant-numeric:tabular-nums;
+}
+.score span{display:block;font-size:.8125rem;color:var(--crema);font-weight:600;margin-top:.2rem}
+.score .score-n{font-size:.75rem;font-weight:400;color:var(--soft);margin-top:0}
+.stars{display:block;color:var(--rosa-testo);font-size:.7rem;letter-spacing:.08em;margin-top:.1rem}
+
+/* --- azioni principali --------------------------------------------------- */
+.actions{display:grid;gap:.6rem;margin-top:1.5rem}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:.55rem;
+  min-height:54px;padding:.9rem 1.25rem;border-radius:999px;border:1px solid transparent;
+  font-family:var(--sys);font-weight:700;font-size:1.0625rem;line-height:1;
+  text-decoration:none;
+  transition:transform .15s ease,background-color .15s ease,border-color .15s ease;
+}
+.btn:active{transform:translateY(1px)}
+/* fondo rosa -> testo blu notte: 5,14:1. Crema su rosa sarebbe 2,64:1. */
+.btn-wa{background:var(--rosa-neon);color:var(--blu-notte);box-shadow:0 8px 30px rgba(255,79,163,.26)}
+.btn-wa:hover{background:#FF6BB2}
+.btn-call{background:transparent;color:var(--crema);border-color:var(--bordo-forte);font-weight:600}
+.btn-call:hover{border-color:var(--crema);background:rgba(244,238,228,.06)}
+
+/* --- link ---------------------------------------------------------------- */
+.links{display:grid;gap:.55rem;margin:0;padding:0;list-style:none}
+.link{
+  display:flex;align-items:center;gap:.85rem;
+  min-height:60px;padding:.85rem 1rem;
+  background:var(--blu-locale);border:1px solid var(--bordo);border-radius:16px;
+  text-decoration:none;
+  transition:border-color .15s ease,background-color .15s ease,transform .15s ease;
+}
+.link:hover{border-color:var(--bordo-forte);background:#15455F}
+.link:active{transform:translateY(1px)}
+.link-ico{
+  flex:none;width:38px;height:38px;border-radius:11px;
+  display:grid;place-items:center;
+  background:rgba(244,238,228,.07);border:1px solid var(--bordo);
+  color:var(--legno-testo);
+}
+.link-txt{flex:1;min-width:0}
+.link-name{display:block;font-weight:600;font-size:1rem;line-height:1.25}
+.link-sub{display:block;font-size:.8125rem;color:var(--soft);line-height:1.35;margin-top:.1rem}
+.link-go{flex:none;color:var(--legno-testo)}
+
+/* la voce che conta di piu' non e' uguale alle altre */
+.link-primary{border-color:rgba(255,79,163,.45)}
+.link-primary .link-ico{background:rgba(255,79,163,.14);border-color:rgba(255,79,163,.4);color:var(--rosa-testo)}
+.link-primary .link-go{color:var(--rosa-testo)}
+.link-event .link-ico{background:rgba(46,125,91,.16);border-color:rgba(46,125,91,.5);color:var(--verde-testo)}
+
+/* --- social: riga compatta, non altre tre barre uguali ------------------- */
+.social{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;
+  margin:.55rem 0 0;padding:0;list-style:none;
+}
+.social a{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;
+  min-height:76px;border-radius:16px;
+  background:var(--blu-locale);border:1px solid var(--bordo);
+  text-decoration:none;color:var(--crema);
+  font-size:.75rem;font-weight:600;
+  transition:border-color .15s ease,color .15s ease,background-color .15s ease;
+}
+.social a:hover{border-color:var(--rosa-neon);color:var(--rosa-testo);background:#15455F}
+
+/* --- piede --------------------------------------------------------------- */
+.foot{margin-top:2rem;text-align:center;font-size:.8125rem;color:var(--soft);line-height:1.6}
+.foot a{text-decoration:underline;text-underline-offset:3px}
+.foot .pending{color:var(--legno-testo)}
+.foot .legal{display:block;margin-top:1rem;font-size:.75rem;color:var(--mute)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  .mark .neon{animation:none;opacity:1}
+}
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+  <h1 class="mark"><span class="neon">Crazy</span>Bruschetta</h1>
+  <p class="tagline">Bruschetteria &amp; aperitivo &middot; La Spezia</p>
+
+  <ul class="scores">
+    <li class="score">
+      <b>4,7</b>
+      <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span>Google</span>
+      <span class="score-n">406 recensioni</span>
+    </li>
+    <li class="score">
+      <b>9,5</b>
+      <span class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span>TheFork</span>
+      <span class="score-n">272 recensioni</span>
+    </li>
+  </ul>
+
+  <div class="actions">
+    <a class="btn btn-wa" href="https://wa.me/393332708504?text=Ciao%2C%20vorrei%20prenotare%20un%20tavolo" target="_blank" rel="noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 15l-1.2 4.4 4.5-1.2A10 10 0 1 0 12 2Zm5.6 14.1c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.2.2-3.5-.7-2.9-1.2-4.8-4.2-5-4.4-.1-.2-1.1-1.5-1.1-2.8 0-1.4.7-2 .9-2.3.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.9c.2-.2.3-.2.5-.1l1.9.9c.3.1.4.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+      Prenota su WhatsApp
+    </a>
+    <a class="btn btn-call" href="tel:+393332708504">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+      Chiama +39 333 270 8504
+    </a>
+  </div>
+
+  <hr class="dots">
+
+  <ul class="links">
+
+    <li><a class="link link-primary" href="../">
+      <span class="link-ico" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+      </span>
+      <span class="link-txt">
+        <span class="link-name">Il menu</span>
+        <span class="link-sub">28 voci, prezzi e foto. Bruschette al metro, terra e mare.</span>
+      </span>
+      <svg class="link-go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a></li>
+
+    <li><a class="link" href="https://www.google.com/maps/place/?q=place_id:ChIJQVz-R9391BIRQoFLtdxyY8I" target="_blank" rel="noopener">
+      <span class="link-ico" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+      </span>
+      <span class="link-txt">
+        <span class="link-name">Come arrivare</span>
+        <span class="link-sub">Via Alessandro Manzoni 39/41, La Spezia</span>
+      </span>
+      <svg class="link-go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a></li>
+
+    <li><a class="link" href="https://www.thefork.it/ristorante/crazy-bruschetta-r745048" target="_blank" rel="noopener">
+      <span class="link-ico" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9.5 15.5 1.8 1.8 3.4-3.4"/></svg>
+      </span>
+      <span class="link-txt">
+        <span class="link-name">Prenota su TheFork</span>
+        <span class="link-sub">Se preferisci prenotare senza scrivere</span>
+      </span>
+      <svg class="link-go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a></li>
+
+    <li><a class="link" href="https://search.google.com/local/writereview?placeid=ChIJQVz-R9391BIRQoFLtdxyY8I" target="_blank" rel="noopener">
+      <span class="link-ico" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 5.9 6.6.9-4.8 4.6 1.2 6.5-5.9-3.1-5.9 3.1 1.2-6.5L2.5 9.3l6.6-.9L12 2.5Z"/></svg>
+      </span>
+      <span class="link-txt">
+        <span class="link-name">Lascia una recensione</span>
+        <span class="link-sub">Se sei stato bene, dillo su Google. Ci aiuta davvero.</span>
+      </span>
+      <svg class="link-go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a></li>
+
+    <li><a class="link link-event" href="https://wa.me/393332708504?text=Ciao%2C%20vorrei%20informazioni%20per%20una%20festa%20privata" target="_blank" rel="noopener">
+      <span class="link-ico" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 21v-7h16v7"/><path d="M4 14a2.5 2.5 0 0 1 4 0 2.5 2.5 0 0 0 4 0 2.5 2.5 0 0 1 4 0 2.5 2.5 0 0 0 4 0"/><path d="M8 10V7M12 10V6M16 10V7"/><circle cx="8" cy="5.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="4.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="16" cy="5.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <span class="link-txt">
+        <span class="link-name">Feste ed eventi privati</span>
+        <span class="link-sub">Diciottesimi, compleanni, cene di gruppo</span>
+      </span>
+      <svg class="link-go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </a></li>
+
+  </ul>
+
+  <ul class="social">
+    <li><a href="https://www.instagram.com/crazybruschetta/" target="_blank" rel="noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+      Instagram
+    </a></li>
+    <li><a href="https://www.tiktok.com/@crazybruschetta" target="_blank" rel="noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 3c.3 2 1.5 3.4 3.5 3.6v2.6c-1.3.1-2.5-.3-3.6-1v6.1c0 3.6-2.6 5.9-5.7 5.7-2.9-.2-5-2.6-4.8-5.6.2-2.7 2.4-4.7 5.1-4.6.4 0 .7 0 1.1.1v2.8c-.3-.1-.6-.2-1-.2-1.3 0-2.4 1-2.4 2.3s1 2.4 2.3 2.4c1.3 0 2.4-1 2.4-2.4V3h3.1Z"/></svg>
+      TikTok
+    </a></li>
+    <li><a href="https://www.facebook.com/crazybruschetta/" target="_blank" rel="noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.5-1.5H17V3.9c-.3 0-1.3-.1-2.4-.1-2.4 0-4.1 1.5-4.1 4.2V10H8v3h2.5v8h3Z"/></svg>
+      Facebook
+    </a></li>
+  </ul>
+
+  <hr class="dots">
+
+  <footer class="foot">
+    <p style="margin:0">
+      <a href="https://www.google.com/maps/place/?q=place_id:ChIJQVz-R9391BIRQoFLtdxyY8I" target="_blank" rel="noopener">Via Alessandro Manzoni 39/41 &middot; 19121 La Spezia</a><br>
+      <!-- DA CONFERMARE: le fonti online si contraddicono, non inventare gli orari -->
+      Orari: <span class="pending">[DA CONFERMARE]</span>
+    </p>
+    <p style="margin:.8rem 0 0">Di Anna e Albert. Scontrino medio 17&nbsp;&euro;, bevande escluse.</p>
+    <!-- DA CONFERMARE: P.IVA e ragione sociale -->
+    <span class="legal">Crazy Bruschetta&reg; &middot; P.IVA <span class="pending">[DA CONFERMARE]</span></span>
+  </footer>
+
+</main>
+</body>
+</html>
