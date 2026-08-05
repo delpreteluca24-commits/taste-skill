@@ -24,6 +24,24 @@ crazy-bruschetta/
 
 ---
 
+## Online adesso
+
+| | |
+|---|---|
+| Sito | https://crazy-bruschetta.vercel.app |
+| Design system | https://crazy-bruschetta.vercel.app/design-system/ |
+
+Anteprima su Vercel. Il progetto non è collegato a git: un build script scarica
+il tarball pubblico del repo al commit indicato in `build.js` e lo estrae in
+`public/`. Quindi **non si aggiorna da solo** quando pushi — per aggiornarlo
+cambia `REF` in `build.js` (o passa `SITE_REF` fra le env var del progetto) e
+rifai il deploy.
+
+Per la produzione vera resta Netlify collegato al repo, che si aggiorna a ogni
+push: vedi sotto.
+
+---
+
 ## Deploy su Netlify
 
 1. Collega questo repository al sito Netlify.
