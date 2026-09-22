@@ -1,0 +1,27 @@
+# Label set (create with any label-sync tool or manually)
+- {name: "agent:ceo", color: "5319e7"}
+- {name: "agent:market", color: "1d76db"}
+- {name: "agent:creative", color: "d93f0b"}
+- {name: "agent:story", color: "fbca04"}
+- {name: "agent:production", color: "0e8a16"}
+- {name: "agent:audio", color: "006b75"}
+- {name: "agent:growth", color: "b60205"}
+- {name: "agent:cfo", color: "c2e0c6"}
+- {name: "agent:publishing", color: "bfdadc"}
+- {name: "status:backlog", color: "ededed"}
+- {name: "status:ready", color: "c5def5"}
+- {name: "status:running", color: "0052cc"}
+- {name: "status:review", color: "fef2c0"}
+- {name: "status:blocked", color: "e11d21"}
+- {name: "status:done", color: "0e8a16"}
+- {name: "gate:0", color: "f9d0c4"}
+- {name: "gate:1", color: "f9d0c4"}
+- {name: "gate:2", color: "f9d0c4"}
+- {name: "gate:3", color: "f9d0c4"}
+- {name: "gate:4", color: "f9d0c4"}
+- {name: "gate:5", color: "f9d0c4"}
+- {name: "priority:p0", color: "b60205"}
+- {name: "priority:p1", color: "d93f0b"}
+- {name: "priority:p2", color: "fbca04"}
+- {name: "priority:p3", color: "ededed"}
+- {name: "incident", color: "000000"}

@@ -1,0 +1,18 @@
+# Placeholder: only runs when the founder has connected the YouTube Analytics API (OAuth secrets present).
+# Read-only analytics. Never uploads, publishes or spends.
+name: analytics-sync
+on:
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check authorization
+        env:
+          HAS_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN != '' }}
+        run: |
+          if [ "$HAS_TOKEN" != "true" ]; then echo "::notice::YouTube API not connected - nothing to sync"; exit 0; fi
+          echo "::notice::Sync script not implemented yet (Gate 3)."
