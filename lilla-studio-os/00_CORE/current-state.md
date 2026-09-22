@@ -10,7 +10,7 @@
 ## Integrations
 | Integration | Status | Note |
 |---|---|---|
-| GitHub MCP | ✅ connected | issues/files/PRs work; creating repos → 403 |
+| GitHub MCP | ✅ connected | files and push work · creating repos → 403 · Issues disabled on taste-skill (410) → drafts in `00_CORE/issue-drafts/` |
 | Higgsfield MCP | ❌ not connected | not available in this session. Nothing to spend = safe |
 | YouTube API | ❌ not connected | needs a Google Cloud project + OAuth (founder) |
 | Google Drive | ❌ not connected | only Gmail/Calendar connectors present |
