@@ -2,7 +2,7 @@
 
 An operating system, run with AI help, for building **Lilla** as a children's IP. Lilla is the IP, not the YouTube channel. YouTube is where we distribute and test first.
 
-> **Status (2026-09-22):** Gate 0 completed · Gate 1 in preparation · Autonomy **LEVEL 2** · Spend to date **€0 / €300**
+> **Status (2026-09-29):** Gate 0 completed · Gate 1 in preparation · Autonomy **LEVEL 2** · Spend to date **€0 / €300**
 > See [`00_CORE/current-state.md`](00_CORE/current-state.md).
 
 ## How it works

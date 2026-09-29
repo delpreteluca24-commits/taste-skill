@@ -1,17 +1,17 @@
 # GATE 1 · STEP 1 — Name validation
 Owner: Market Intelligence (01) · Reviewer: CEO (00) · Cost: €0
-**SEARCH DATE:** 2026-09-22
-**Method:** automated web research (desk). **Limits:** TMview/EUIPO could not be queried directly (the egress proxy blocks `tmdn.org`). Instagram and TikTok handles, and domain availability via WHOIS, were **not** checked. **This is not legal advice and gives no legal certainty.**
+**SEARCH DATE:** 2026-09-22 · **RE-RUN:** 2026-09-29 (see [Update 2026-09-29](#update-2026-09-29--re-run))
+**Method:** automated web research (desk). **Limits:** the egress proxy blocks `tmdn.org` (TMview), `euipo.europa.eu`, `branddb.wipo.int`, RDAP/WHOIS, `youtube.com`, `wikipedia.org`, Instagram and TikTok (re-verified 2026-09-29). Only search-engine summaries are reachable. Handles, domains and trademark registers were **not** checked. **This is not legal advice and gives no legal certainty.**
 
 ---
 
 ## Summary
 | Name | Trademark risk | Brand confusion | Search confusion | Music conflict | Handle risk | Overall |
 |---|---|---|---|---|---|---|
-| **Lilla** | UNKNOWN (DB not checked) · weak distinctiveness | MEDIUM | **HIGH** | MEDIUM | HIGH (UNKNOWN) | **MEDIUM – usable as a working name, needs a manual check** |
+| **Lilla** | UNKNOWN (DB not checked) · weak distinctiveness | MEDIUM · **HIGH if the character is a unicorn** (Lily the Unicorn) | **HIGH** | MEDIUM | HIGH (UNKNOWN) | **MEDIUM – usable as a working name, needs a manual check** |
 | **Lila** | UNKNOWN · plus a direct character conflict | **HIGH** | **HIGH** | MEDIUM | HIGH | **REJECT** |
 | **Lylla** | UNKNOWN | **HIGH** (Marvel/Disney) | MEDIUM | LOW | MEDIUM | **REJECT** |
-| **Lilà** | UNKNOWN | LOW–MEDIUM | HIGH (same as "lillà", the flower) | MEDIUM | MEDIUM | not advised (accent causes friction in URLs/handles) |
+| **Lilà** | UNKNOWN | **HIGH in IT** (LìLà Toys, Florence kids' toy/book shop) | HIGH (same as "lillà", the flower) | MEDIUM | MEDIUM | **REJECT** (updated 2026-09-29) |
 | **Lil-la** | UNKNOWN | LOW | MEDIUM ("Lil" prefix, rap slang) | MEDIUM | LOW–MEDIUM | not advised (hyphen = weak brand) |
 | **Lilla's** | same as Lilla | — | — | — | — | only as a sub-brand/possessive form (e.g. "Lilla's Lantern") |
 
@@ -41,6 +41,25 @@ Owner: Market Intelligence (01) · Reviewer: CEO (00) · Cost: €0
 
 ### Lilà / Lil-la / Lilla's
 - No specific kids' brand was found (UNKNOWN; the databases weren't checked). "Lillà" is also the Italian name of the lilac flower ([Treccani](https://www.treccani.it/vocabolario/lilla/)). Spotify artist "Lillà" exists. The accent and hyphen make handles and URLs harder to use.
+- *Superseded for Lilà on 2026-09-29: see LìLà Toys below.*
+
+---
+
+## UPDATE 2026-09-29 — re-run
+Scope: the same six names. New evidence comes from web-search summaries only, because direct page fetches were blocked. Every item below needs to be confirmed by opening the source once.
+
+### New findings
+- **FACT** — *Lily the Unicorn* is a children's animated series produced by **The Jim Henson Company** for Amazon Studios (pilot June 2015). It is based on the HarperCollins picture book by Dallas Clayton, and the main character is Lily, an "anti-sparkle" young unicorn. Source: [PR Newswire](https://www.prnewswire.com/news-releases/lily-the-unicorn-produced-by-the-jim-henson-company-and-based-on-the-book-by-dallas-clayton-debuts-as-part-of-amazon-studios-kids-pilot-season-300106773.html), [IMDb](https://www.imdb.com/title/tt4677842/), [Prime Video](https://www.amazon.com/Lily-the-Unicorn-Season-1/dp/B00Z89JF90).
+- **FACT** — **Prinzessin Lillifee** (Coppenrath Verlag, 2004) is an established German children's brand. It spans books, audio, TV and film (including *Princess Lillifee and the Little Unicorn*, 2011) and wide licensing across toys, apparel and school supplies. It uses a pink and lilac fairy aesthetic. Source: [Coppenrath licensing](https://www.coppenrath.de/lizenzen/markenportfolio/prinzessin-lillifee), [Brandora](https://www.brandora.de/Brand/BrandDetails?BrandID=1683).
+- **FACT** — **LìLà Toys** is a toy, game and children's-book shop in Florence (Via Maggio 78r and Via delle Belle Donne 41r), with a website at lilatoys.it. Source: [lilatoys.it](https://www.lilatoys.it/), [Sky TG24, 2023-09-26](https://tg24.sky.it/cronaca/2023/09/26/firenze-lila-toys-negozio-giocattoli-senza-stereotipi-genere). Whether it holds a trademark is UNKNOWN.
+- **FACT** — *Lilybuds* is a French-British preschool CGI series (Zodiak Kids, 2018, 52 × 11′) broadcast on TiJi, Tiny Pop, Discovery Kids and others. Source: [PreschoolNews](https://www.preschoolnews.net/lilybuds-animation-set-to-bloom-across-europe/), [IMDb](https://www.imdb.com/title/tt8630250/).
+- **FACT** — More kids' YouTube channels sit close to the name: "Lilla Channel", "Lili and Max – Cartoon for Kids", "Just Like Lili – Kids Channel". Their size wasn't checked. Source: YouTube search results ([Lilla Channel](https://www.youtube.com/channel/UCa8H_ufHIXkqXWos845x5sg), [Lili and Max](https://www.youtube.com/channel/UC9_xXsN_FF6Q0lGmfsXajww), [Just Like Lili](https://www.youtube.com/channel/UCokj6_YZOgzSpnXgljbWQdQ)).
+- **FACT** — No children's character or series called exactly "Lilla" turned up in English-language web search on 2026-09-29. This is absence of evidence only; it does not show the name is clear.
+
+### Interpretation
+- **HYPOTHESIS** — "Lilla" + **unicorn** (direction A) lands close to *Lily the Unicorn* in English markets (similar sound, same species, same audience) and to *Lillifee + little unicorn* in German markets. This raises the risk of brand confusion and of losing search results for **direction A only**. Directions B (creature) and C (lantern) don't have this problem.
+- **HYPOTHESIS** — A pink/lilac, fairy/princess visual style would push Lilla towards Lillifee's territory. The Creative agent should steer G1-S2 studies away from those codes.
+- **HYPOTHESIS** — The "Lil-/Lili-" prefix is crowded in kids' YouTube. A distinctive compound brand (Recommendation 3) becomes more important.
 
 ---
 
@@ -49,9 +68,12 @@ Owner: Market Intelligence (01) · Reviewer: CEO (00) · Cost: €0
 2. **Lylla ↔ Marvel/Disney "Lylla"** (animal character in a 2023 film). High.
 3. **Lilla ↔ generic colour word (IT) and "little" (SV)**. Weak distinctiveness, heavy search competition. Medium.
 4. **Lilla ↔ existing US trademarks** "LILLA P", "LILLA DU" (children's apparel, class 25). Their status is UNKNOWN from here. Medium, depending on the classes and territory.
+5. **Lilla (as a unicorn) ↔ *Lily the Unicorn* (Jim Henson Co.)**. Medium–High, for direction A only. *(added 2026-09-29)*
+6. **Lilla ↔ Prinzessin Lillifee (Coppenrath)**. Medium in DE/AT/CH if the style drifts towards pink fairy/princess. *(added 2026-09-29)*
+7. **Lilà ↔ LìLà Toys (Florence)**. High for the accented variant in Italy. *(added 2026-09-29)*
 
 ## RISK
-Overall for **Lilla**: **MEDIUM**. No blocking conflict has been found *yet*, but the most important check (active EUTM, Italian and WIPO marks in classes 9/16/25/28/41) is **UNKNOWN**.
+Overall for **Lilla**: **MEDIUM**. No blocking conflict has been found *yet*, but the most important check (active EUTM, Italian and WIPO marks in classes 9/16/25/28/41) is **UNKNOWN**. *2026-09-29:* the risk is still MEDIUM overall, but **MEDIUM–HIGH if paired with the unicorn direction**.
 
 ## UNKNOWN
 - Active EUIPO / UIBM (IT) / WIPO marks for "LILLA" in classes 9, 16, 25, 28, 41
@@ -62,9 +84,9 @@ Overall for **Lilla**: **MEDIUM**. No blocking conflict has been found *yet*, bu
 ## RECOMMENDATION (CEO + Market)
 1. **Keep "Lilla" as the WORKING name.** Don't rename yet: there is no evidence yet of a blocking conflict.
 2. **The founder runs a manual check (free, about 30 minutes)** before committing to canon:
-   - TMview: https://www.tmdn.org/tmview → search `LILLA`, offices EM, IT, WO; classes 9, 16, 25, 28, 41; status Registered + Filed. Also search `LILA` and `LYLLA`.
+   - TMview: https://www.tmdn.org/tmview → search `LILLA`, offices EM, IT, WO; classes 9, 16, 25, 28, 41; status Registered + Filed. Also search `LILA` and `LYLLA`, and *(added 2026-09-29)* `LILLIFEE`, `LILY THE UNICORN`, `LìLà`/`LILA TOYS`.
    - Also run TMview's "similar/phonetic" search.
-   - Check the handles directly in the Instagram and TikTok apps, and domains at any registrar (check only, **don't buy**).
+   - Check the handles directly in the Instagram and TikTok apps, and domains at any registrar (check only, **don't buy**). If a handle is free, the founder may reserve it at €0. That is a founder action, not an agent action.
    - Paste the results (screenshots or a list) into issue G1-S1 → the Market agent updates this file.
 3. **Strategic suggestion (HYPOTHESIS):** plan the **brand** as a distinctive compound from the start (e.g. "Lilla + a world name", or a stylized logo), while the **character** stays "Lilla". This lowers the descriptiveness risk and improves search. The Creative agent can propose options in Step 2 at no cost.
 4. **Before anything commercial (Gate 4):** a professional clearance search or a trademark attorney (cost UNKNOWN, get a quote). Filing an EUTM for 3 classes costs **ESTIMATE** ≈ €1,050 in official fees ([EUIPO fees](https://www.euipo.europa.eu/en/trade-marks/before-applying/fees-payable-direct-filing), check before acting). That is **above the €300 validation budget**, so it is deliberately left out of the current phase.
