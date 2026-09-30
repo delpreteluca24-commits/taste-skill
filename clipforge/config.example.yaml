@@ -1,0 +1,56 @@
+# Copy to config.yaml and edit. Every CLI flag overrides these values.
+
+lang: null                 # source language (it, en, ...). null = autodetect
+mode: center               # center (MVP). face | sports arrive in phase 2
+output_dir: output
+# cache_dir: ~/.cache/clipforge   # downloads, audio, transcripts, SQLite state
+ffmpeg_path: null          # set if ffmpeg is not on PATH
+max_download_height: 1080
+
+whisper:
+  model: auto              # auto = large-v3-turbo on GPU, small on CPU
+  device: auto             # auto | cpu | cuda
+  compute_type: auto       # auto = float16 on GPU, int8 on CPU
+  beam_size: 5
+  vad: true
+
+llm:
+  provider: ollama:qwen2.5:7b   # gemini:gemini-2.5-flash (GEMINI_API_KEY) | groq:llama-3.3-70b-versatile (GROQ_API_KEY)
+  ollama_host: http://localhost:11434
+  temperature: 0.3
+  timeout_s: 600
+  max_retries: 2
+  num_ctx: 16384
+  window_s: 480            # transcript seconds per LLM call
+  overlap_s: 60
+
+clips:
+  count: 10
+  min_s: 20
+  max_s: 60
+
+captions:
+  style: karaoke           # karaoke | simple | none
+  font: Montserrat ExtraBold
+  font_size: 84
+  max_words: 3
+  uppercase: true
+  text_color: '#FFFFFF'
+  highlight_color: '#FFE600'
+  outline: 6
+  margin_v: 560            # px from bottom (keeps captions above TikTok/Reels UI)
+  hook: true
+  hook_duration_s: 3.0
+  hook_margin_v: 280       # px from top
+  cta_text: null           # e.g. "Seguimi per la parte 2"
+  cta_duration_s: 2.0
+
+render:
+  width: 1080
+  height: 1920
+  crf: 20
+  preset: medium           # faster = quicker, bigger files
+  audio_bitrate: 128k
+  lufs: -14.0
+  true_peak: -1.5
+  lra: 11.0
