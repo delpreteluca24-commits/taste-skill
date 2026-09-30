@@ -115,7 +115,7 @@ def ingest(source: str, cfg) -> MediaInfo:
     media = MediaInfo(
         video_id=video_id, title=title, source=source, url=url, path=str(video_path),
         audio_path=str(audio_path), media_hash=media_hash(video_path),
-        duration=info.duration, width=info.width, height=info.height,
+        duration=info.duration, width=info.width, height=info.height, fps=info.fps,
     )
     write_json(meta_path, media.model_dump())
     return media

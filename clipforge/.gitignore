@@ -5,3 +5,4 @@ __pycache__/
 output/
 config.yaml
 client_secret*.json
+youtube_token.json

@@ -27,6 +27,7 @@ def video(tmp_path_factory):
 
 
 def test_pipeline_end_to_end(video, cfg):
+    cfg.mode = "center"
     cfg.clips.count, cfg.clips.min_s, cfg.clips.max_s = 2, 5, 15
     cfg.render.preset = "ultrafast"
     cfg.captions.cta_text = "Seguimi"
@@ -47,7 +48,7 @@ def test_pipeline_end_to_end(video, cfg):
     metas = sorted(out.glob("clip_*.json"))
     assert len(metas) == 2  # overlapping 3rd clip removed
     m = json.loads(metas[0].read_text())
-    assert m["schema_version"] == 1 and m["files"]["video"] == "clip_01.mp4" and m["score"] == 90
+    assert m["schema_version"] == 2 and m["files"]["video"] == "clip_01.mp4" and m["score"] == 90
     for n in ("clip_01", "clip_02"):
         p = ffmpeg.probe(out / f"{n}.mp4")
         assert (p.width, p.height) == (1080, 1920) and p.has_audio
@@ -58,3 +59,33 @@ def test_pipeline_end_to_end(video, cfg):
     mtime = (out / "clip_01.mp4").stat().st_mtime
     run(str(video), cfg, llm=FakeLLM([]), transcript=tr)
     assert (out / "clip_01.mp4").stat().st_mtime == mtime
+
+
+def _answer(n=1):
+    return json.dumps({"clips": [{"start_seg": 0, "end_seg": 3, "score": 70, "hook_title": "Hook", "title": "T",
+                                  "description": "d", "hashtags": ["x"], "reason": "r"}][:n]})
+
+
+def test_face_mode_gameplay_and_translation(video, cfg, tmp_path):
+    """No faces in testsrc -> face mode falls back to a static crop; gameplay stacked below; EN variant."""
+    cfg.mode = "face"
+    cfg.translate = "en"
+    cfg.clips.count, cfg.clips.min_s, cfg.clips.max_s = 1, 5, 15
+    cfg.render.preset = "ultrafast"
+    cfg.gameplay.path = video  # any video works as gameplay
+    tr = make_transcript([f"questa è la frase numero {i} del video." for i in range(6)], lang="it")
+    translation = json.dumps({"lines": [{"i": i, "text": f"this is sentence number {i} of the video."}
+                                        for i in range(4)],
+                              "hook_title": "Hook EN", "title": "Title EN", "description": "d", "hashtags": ["en"]})
+    llm = FakeLLM([_answer(), translation])
+    report = run(str(video), cfg, llm=llm, transcript=tr)
+    out = report.parent
+    meta = json.loads((out / "clip_01.json").read_text())
+    assert meta["render"]["gameplay"] is True
+    assert meta["render"]["reframe"]["layout"] == "single"
+    assert meta["translations"]["en"]["title"] == "Title EN"
+    assert meta["translations"]["en"]["files"]["video"] == "clip_01.en.mp4"
+    for f in ("clip_01.mp4", "clip_01.en.mp4"):
+        p = ffmpeg.probe(out / f)
+        assert (p.width, p.height) == (1080, 1920)
+    assert "THIS IS" in (out / "clip_01.en.ass").read_text()

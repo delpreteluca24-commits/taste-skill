@@ -72,11 +72,44 @@ class RenderConfig(BaseModel):
     lra: float = 11.0
 
 
+class ReframeConfig(BaseModel):
+    analysis_fps: float = Field(5.0, gt=0, le=30)
+    analysis_width: int = 640  # frames are downscaled to this width for detection
+    min_face_conf: float = 0.5
+    speakers: Literal["auto", "switch", "split", "single"] = "auto"  # 2 people on screen
+    min_shot_s: float = 1.5  # minimum time on one speaker before switching
+    deadzone: float = 0.08  # fraction of crop width the subject can move before the camera follows
+    max_speed: float = 0.5  # max camera pan speed, fraction of source width per second
+    face_model_url: str = (
+        "https://storage.googleapis.com/mediapipe-models/face_detector/"
+        "blaze_face_short_range/float16/latest/blaze_face_short_range.tflite"
+    )
+
+
+class GameplayConfig(BaseModel):
+    path: Optional[Path] = None  # file or folder of gameplay videos
+    top_ratio: float = Field(0.6, gt=0.3, lt=0.9)
+
+
+class WatchConfig(BaseModel):
+    interval_min: float = Field(15, ge=1)
+    max_attempts: int = 3
+
+
+class PublishConfig(BaseModel):
+    client_secret: Path = Path("client_secret.json")  # OAuth desktop client from Google Cloud Console
+    privacy: Literal["private", "unlisted", "public"] = "private"
+    category_id: str = "22"  # People & Blogs
+    daily_quota: int = 10000
+    upload_cost: int = 1600  # videos.insert quota units
+
+
 class Config(BaseModel):
     lang: Optional[str] = None  # None = autodetect
-    mode: Literal["center", "face", "sports"] = "center"
+    mode: Literal["center", "face", "sports"] = "face"
+    translate: Optional[str] = None  # target language for a second, translated render
     output_dir: Path = Path("output")
-    cache_dir: Path = Path.home() / ".cache" / "clipforge"
+    cache_dir: Path = Field(default_factory=lambda: Path.home() / ".cache" / "clipforge")
     db_path: Optional[Path] = None
     ffmpeg_path: Optional[str] = None
     max_download_height: int = 1080
@@ -85,6 +118,10 @@ class Config(BaseModel):
     clips: ClipsConfig = ClipsConfig()
     captions: CaptionsConfig = CaptionsConfig()
     render: RenderConfig = RenderConfig()
+    reframe: ReframeConfig = ReframeConfig()
+    gameplay: GameplayConfig = GameplayConfig()
+    watch: WatchConfig = WatchConfig()
+    publish: PublishConfig = PublishConfig()
 
     @property
     def database(self) -> Path:
@@ -94,18 +131,32 @@ class Config(BaseModel):
         """Hash of every setting that changes the produced clips (not paths)."""
         payload = self.model_dump(
             mode="json",
-            include={"lang", "mode", "whisper", "llm", "clips", "captions", "render"},
+            include={"lang", "mode", "translate", "whisper", "llm", "clips", "captions", "render", "reframe",
+                     "gameplay"},
             exclude={"captions": {"fonts_dir"}, "llm": {"ollama_host", "timeout_s"}},
         )
         return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
 
 
+def _prune(d: dict) -> dict:
+    """Drop None values (unset CLI flags) recursively, and dicts left empty."""
+    out = {}
+    for k, v in d.items():
+        if isinstance(v, dict):
+            v = _prune(v)
+            if v:
+                out[k] = v
+        elif v is not None:
+            out[k] = v
+    return out
+
+
 def _deep_merge(base: dict, over: dict) -> dict:
     out = dict(base)
-    for k, v in over.items():
+    for k, v in _prune(over).items():
         if isinstance(v, dict) and isinstance(out.get(k), dict):
             out[k] = _deep_merge(out[k], v)
-        elif v is not None:
+        else:
             out[k] = v
     return out
 

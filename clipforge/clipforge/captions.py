@@ -73,8 +73,9 @@ def clip_words(words: list[Word], start: float, end: float) -> list[Word]:
     return out
 
 
-def _header(cfg, width: int, height: int) -> str:
+def _header(cfg, width: int, height: int, margin_v: int | None = None) -> str:
     c = cfg
+    mv = c.margin_v if margin_v is None else margin_v
     white, hl = ass_color(c.text_color), ass_color(c.highlight_color)
     black, box = ass_color("#000000"), ass_color("#000000", alpha=0x40)
     hook_size = int(c.font_size * 0.95)
@@ -88,7 +89,7 @@ YCbCr Matrix: TV.709
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Caption,{c.font},{c.font_size},{white},{hl},{black},{black},-1,0,0,0,100,100,0,0,1,{c.outline},2,2,80,80,{c.margin_v},1
+Style: Caption,{c.font},{c.font_size},{white},{hl},{black},{black},-1,0,0,0,100,100,0,0,1,{c.outline},2,2,80,80,{mv},1
 Style: Hook,{c.font},{hook_size},{black},{white},{white},{box},-1,0,0,0,100,100,0,0,3,18,0,8,90,90,{c.hook_margin_v},1
 Style: CTA,{c.font},{hook_size},{black},{white},{white},{box},-1,0,0,0,100,100,0,0,3,18,0,5,90,90,0,1
 
@@ -102,9 +103,10 @@ def _dialogue(start: float, end: float, style: str, text: str, layer: int = 0) -
 
 
 def build_ass(words: list[Word], duration: float, cfg, hook_title: str = "",
-              width: int = 1080, height: int = 1920) -> str:
-    """`words` must already be relative to the clip start (see clip_words)."""
-    lines = [_header(cfg, width, height)]
+              width: int = 1080, height: int = 1920, margin_v: int | None = None) -> str:
+    """`words` must already be relative to the clip start (see clip_words).
+    `margin_v` overrides the caption position (split/gameplay layouts put captions on the seam)."""
+    lines = [_header(cfg, width, height, margin_v)]
     hl = ass_color(cfg.highlight_color)
 
     def fmt(t: str) -> str:

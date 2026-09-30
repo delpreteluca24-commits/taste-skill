@@ -43,6 +43,16 @@ class MediaInfo(BaseModel):
     duration: float
     width: int
     height: int
+    fps: float = 0.0
+
+
+def normalize_hashtags(tags: list[str], limit: int = 10) -> list[str]:
+    out: list[str] = []
+    for t in tags:
+        t = re.sub(r"[^\w]", "", t.strip().lstrip("#"), flags=re.UNICODE)
+        if t and f"#{t}" not in out:
+            out.append(f"#{t}")
+    return out[:limit]
 
 
 # --- LLM contract -----------------------------------------------------------
@@ -62,12 +72,7 @@ class LLMClip(BaseModel):
     @field_validator("hashtags")
     @classmethod
     def _norm_tags(cls, tags: list[str]) -> list[str]:
-        out: list[str] = []
-        for t in tags:
-            t = re.sub(r"[^\w]", "", t.strip().lstrip("#"), flags=re.UNICODE)
-            if t and f"#{t}" not in out:
-                out.append(f"#{t}")
-        return out[:10]
+        return normalize_hashtags(tags)
 
     @field_validator("hook_title", "title")
     @classmethod

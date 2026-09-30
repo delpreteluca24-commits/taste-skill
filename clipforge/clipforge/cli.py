@@ -23,6 +23,16 @@ def _setup_logging(verbose: bool) -> None:
         logging.getLogger(noisy).setLevel(logging.WARNING)
 
 
+def _overrides(clips, min_s, max_s, lang, llm, mode, speakers, translate, gameplay, output) -> dict:
+    return {
+        "lang": lang, "mode": mode, "translate": translate, "output_dir": output,
+        "clips": {"count": clips, "min_s": min_s, "max_s": max_s},
+        "llm": {"provider": llm},
+        "reframe": {"speakers": speakers},
+        "gameplay": {"path": gameplay},
+    }
+
+
 @app.command()
 def run(
     source: str = typer.Argument(..., help="URL (YouTube/Vimeo/Twitch/Kick...) or local video file"),
@@ -32,7 +42,10 @@ def run(
     lang: Optional[str] = typer.Option(None, "--lang", help="Source language (it, en...). Default: autodetect"),
     llm: Optional[str] = typer.Option(None, "--llm", help="ollama:qwen2.5:7b | gemini:<model> | groq:<model>"),
     style: Optional[str] = typer.Option(None, "--style", help="karaoke | simple | none"),
-    mode: Optional[str] = typer.Option(None, "--mode", help="center (face|sports: phase 2)"),
+    mode: Optional[str] = typer.Option(None, "--mode", help="face (default) | sports | center"),
+    speakers: Optional[str] = typer.Option(None, "--speakers", help="2 people on screen: auto|switch|split|single"),
+    translate: Optional[str] = typer.Option(None, "--translate", help="Also render translated captions (en, es...)"),
+    gameplay: Optional[Path] = typer.Option(None, "--gameplay", help="Gameplay video or folder: 60/40 split, muted"),
     whisper_model: Optional[str] = typer.Option(None, "--whisper", help="tiny|base|small|medium|large-v3|large-v3-turbo|auto"),
     cta: Optional[str] = typer.Option(None, "--cta", help="Call-to-action text for the last 2s"),
     no_hook: bool = typer.Option(False, "--no-hook", help="Disable the hook title overlay"),
@@ -45,13 +58,9 @@ def run(
     from .config import load_config
     from .pipeline import run as run_pipeline
 
-    overrides = {
-        "lang": lang, "mode": mode, "output_dir": output,
-        "clips": {"count": clips, "min_s": min_s, "max_s": max_s},
-        "llm": {"provider": llm},
-        "whisper": {"model": whisper_model},
-        "captions": {"style": style, "cta_text": cta, "hook": False if no_hook else None},
-    }
+    overrides = _overrides(clips, min_s, max_s, lang, llm, mode, speakers, translate, gameplay, output)
+    overrides["whisper"] = {"model": whisper_model}
+    overrides["captions"] = {"style": style, "cta_text": cta, "hook": False if no_hook else None}
     try:
         cfg = load_config(config, overrides)
         report = run_pipeline(source, cfg)
@@ -132,6 +141,16 @@ def doctor(config: Optional[Path] = typer.Option(None, "--config", "-c")) -> Non
             check(mod, False, f"pip install {mod.replace('_', '-')}")
     model, device, ct = resolve_whisper(cfg.whisper.model, cfg.whisper.device, cfg.whisper.compute_type)
     check("GPU (CUDA)", True, f"{'yes' if cuda_available() else 'no, CPU mode'} -> whisper {model} on {device}/{ct}")
+    for mod, pkg in (("mediapipe", "mediapipe"), ("cv2", "opencv-python-headless")):
+        try:
+            __import__(mod)
+            if mod == "mediapipe":
+                from mediapipe.tasks.python import vision  # noqa: F401  (loads native libs)
+            check(f"{mod} (face/sports reframe)", True)
+        except ImportError:
+            check(f"{mod} (face/sports reframe)", False, f"pip install {pkg}; --mode center works without it")
+        except OSError as e:
+            check(f"{mod} (face/sports reframe)", False, f"{e}; Linux: apt install libegl1 libgles2")
     check("font", (cfg.captions.fonts_dir / "Montserrat-ExtraBold.ttf").exists(), str(cfg.captions.fonts_dir))
     if cfg.llm.provider.startswith("ollama"):
         import httpx
@@ -149,17 +168,67 @@ def doctor(config: Optional[Path] = typer.Option(None, "--config", "-c")) -> Non
 
 
 @app.command()
-def watch(channel_url: str) -> None:
-    """(phase 2) Poll a YouTube channel RSS and clip new uploads."""
-    console.print("[yellow]`watch` arrives in phase 2.[/]")
-    raise typer.Exit(2)
+def watch(
+    channel_url: str = typer.Argument(..., help="YouTube channel URL (/@handle, /channel/UC..., /c/name)"),
+    backfill: int = typer.Option(0, "--backfill", help="Also clip the N most recent existing uploads"),
+    once: bool = typer.Option(False, "--once", help="Poll once and exit (for cron / Task Scheduler)"),
+    interval: Optional[float] = typer.Option(None, "--interval", help="Minutes between polls (default 15)"),
+    clips: Optional[int] = typer.Option(None, "--clips", "-n"),
+    min_s: Optional[float] = typer.Option(None, "--min"),
+    max_s: Optional[float] = typer.Option(None, "--max"),
+    lang: Optional[str] = typer.Option(None, "--lang"),
+    llm: Optional[str] = typer.Option(None, "--llm"),
+    mode: Optional[str] = typer.Option(None, "--mode"),
+    speakers: Optional[str] = typer.Option(None, "--speakers"),
+    translate: Optional[str] = typer.Option(None, "--translate"),
+    gameplay: Optional[Path] = typer.Option(None, "--gameplay"),
+    output: Optional[Path] = typer.Option(None, "--output", "-o"),
+    config: Optional[Path] = typer.Option(None, "--config", "-c"),
+    verbose: bool = typer.Option(False, "--verbose", "-v"),
+) -> None:
+    """Poll a YouTube channel's RSS every 15 min and clip new uploads (Ctrl+C to stop)."""
+    _setup_logging(verbose)
+    from .config import load_config
+    from .pipeline import run as run_pipeline
+    from .watch import WatchError
+    from .watch import watch as watch_channel
+
+    overrides = _overrides(clips, min_s, max_s, lang, llm, mode, speakers, translate, gameplay, output)
+    overrides["watch"] = {"interval_min": interval}
+    try:
+        cfg = load_config(config, overrides)
+        watch_channel(channel_url, cfg, lambda url: run_pipeline(url, cfg), backfill=backfill, once=once)
+    except KeyboardInterrupt:
+        console.print("[yellow]Watcher stopped.[/]")
+    except WatchError as e:
+        console.print(f"[bold red]Error:[/] {e}")
+        raise typer.Exit(1)
 
 
 @app.command()
-def publish(platform: str, clip_json: Path) -> None:
-    """(phase 2) Upload a clip (YouTube Data API v3)."""
-    console.print("[yellow]`publish` arrives in phase 2.[/]")
-    raise typer.Exit(2)
+def publish(
+    platform: str = typer.Argument(..., help="youtube (TikTok/Instagram: upload manually with the exported metadata)"),
+    clip_json: Path = typer.Argument(..., help="output/<video_id>/clip_XX.json"),
+    variant: str = typer.Option("", "--lang", help="Upload the translated variant (e.g. en) instead"),
+    privacy: Optional[str] = typer.Option(None, "--privacy", help="private (default) | unlisted | public"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Show what would be uploaded, no API call"),
+    config: Optional[Path] = typer.Option(None, "--config", "-c"),
+    verbose: bool = typer.Option(False, "--verbose", "-v"),
+) -> None:
+    """Upload a clip as a YouTube Short (Data API v3, OAuth, quota-aware)."""
+    _setup_logging(verbose)
+    if platform.lower() != "youtube":
+        console.print("[red]Only `youtube` is supported. TikTok/Instagram: upload the mp4 + json metadata manually.[/]")
+        raise typer.Exit(2)
+    from .config import load_config
+    from .publish.youtube import PublishError, publish as publish_youtube
+
+    try:
+        cfg = load_config(config, {"publish": {"privacy": privacy}})
+        publish_youtube(clip_json, cfg, variant=variant, dry_run=dry_run)
+    except (PublishError, FileNotFoundError) as e:
+        console.print(f"[bold red]Error:[/] {e}")
+        raise typer.Exit(1)
 
 
 def main() -> None:  # pragma: no cover

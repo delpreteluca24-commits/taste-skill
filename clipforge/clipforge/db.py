@@ -1,4 +1,4 @@
-"""SQLite job state so a crashed run resumes from the last completed step."""
+"""SQLite state: jobs/steps/clips (resume after crash), watched channels, publications, API quota."""
 from __future__ import annotations
 
 import json
@@ -49,6 +49,39 @@ CREATE TABLE IF NOT EXISTS clips (
   UNIQUE (job_id, idx)
 );
 CREATE INDEX IF NOT EXISTS idx_clips_job ON clips(job_id, status);
+CREATE TABLE IF NOT EXISTS channels (
+  channel_id      TEXT PRIMARY KEY,
+  url             TEXT NOT NULL,
+  title           TEXT,
+  last_checked_at TEXT
+);
+CREATE TABLE IF NOT EXISTS seen_videos (
+  channel_id TEXT NOT NULL REFERENCES channels(channel_id) ON DELETE CASCADE,
+  video_id   TEXT NOT NULL,
+  status     TEXT NOT NULL CHECK (status IN ('seen','queued','done','failed','skipped')),
+  attempts   INTEGER NOT NULL DEFAULT 0,
+  job_report TEXT,
+  error      TEXT,
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (channel_id, video_id)
+);
+CREATE TABLE IF NOT EXISTS publications (
+  clip_id      TEXT NOT NULL,
+  platform     TEXT NOT NULL,
+  variant      TEXT NOT NULL DEFAULT '',   -- '' = original, else translation language
+  remote_id    TEXT,
+  status       TEXT NOT NULL CHECK (status IN ('uploading','done','failed')),
+  quota_cost   INTEGER NOT NULL DEFAULT 0,
+  error        TEXT,
+  published_at TEXT,
+  PRIMARY KEY (clip_id, platform, variant)
+);
+CREATE TABLE IF NOT EXISTS quota_usage (
+  day      TEXT NOT NULL,                  -- quota day in the platform's timezone
+  platform TEXT NOT NULL,
+  units    INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (day, platform)
+);
 """
 
 
@@ -165,3 +198,60 @@ class DB:
             raise ValueError(f"Cannot update clip fields: {bad}")
         sets = ", ".join(f"{k}=?" for k in fields)
         self.conn.execute(f"UPDATE clips SET {sets} WHERE id=?", (*fields.values(), clip_id))
+
+    # --- watch --------------------------------------------------------------
+    def upsert_channel(self, channel_id: str, url: str, title: Optional[str]) -> bool:
+        """Returns True if the channel is new."""
+        new = self.conn.execute("SELECT 1 FROM channels WHERE channel_id=?", (channel_id,)).fetchone() is None
+        self.conn.execute(
+            "INSERT INTO channels(channel_id, url, title) VALUES (?,?,?)"
+            " ON CONFLICT(channel_id) DO UPDATE SET url=excluded.url, title=COALESCE(excluded.title, title)",
+            (channel_id, url, title),
+        )
+        return new
+
+    def touch_channel(self, channel_id: str) -> None:
+        self.conn.execute("UPDATE channels SET last_checked_at=datetime('now') WHERE channel_id=?", (channel_id,))
+
+    def video_row(self, channel_id: str, video_id: str) -> Optional[sqlite3.Row]:
+        return self.conn.execute(
+            "SELECT * FROM seen_videos WHERE channel_id=? AND video_id=?", (channel_id, video_id)
+        ).fetchone()
+
+    def set_video(self, channel_id: str, video_id: str, status: str, error: Optional[str] = None,
+                  job_report: Optional[str] = None, bump: bool = False) -> None:
+        self.conn.execute(
+            "INSERT INTO seen_videos(channel_id, video_id, status, attempts, error, job_report)"
+            " VALUES (?,?,?,?,?,?) ON CONFLICT(channel_id, video_id) DO UPDATE SET status=excluded.status,"
+            " attempts=attempts+?, error=excluded.error, job_report=COALESCE(excluded.job_report, job_report),"
+            " updated_at=datetime('now')",
+            (channel_id, video_id, status, int(bump), error, job_report, int(bump)),
+        )
+
+    # --- publish ------------------------------------------------------------
+    def get_publication(self, clip_id: str, platform: str, variant: str = "") -> Optional[sqlite3.Row]:
+        return self.conn.execute(
+            "SELECT * FROM publications WHERE clip_id=? AND platform=? AND variant=?", (clip_id, platform, variant)
+        ).fetchone()
+
+    def set_publication(self, clip_id: str, platform: str, variant: str, status: str, remote_id: Optional[str] = None,
+                        quota_cost: int = 0, error: Optional[str] = None) -> None:
+        self.conn.execute(
+            "INSERT INTO publications(clip_id, platform, variant, status, remote_id, quota_cost, error, published_at)"
+            " VALUES (?,?,?,?,?,?,?, CASE WHEN ?='done' THEN datetime('now') END)"
+            " ON CONFLICT(clip_id, platform, variant) DO UPDATE SET status=excluded.status,"
+            " remote_id=COALESCE(excluded.remote_id, remote_id), quota_cost=quota_cost+excluded.quota_cost,"
+            " error=excluded.error, published_at=COALESCE(excluded.published_at, published_at)",
+            (clip_id, platform, variant, status, remote_id, quota_cost, error, status),
+        )
+
+    def quota_used(self, day: str, platform: str) -> int:
+        row = self.conn.execute("SELECT units FROM quota_usage WHERE day=? AND platform=?", (day, platform)).fetchone()
+        return row["units"] if row else 0
+
+    def add_quota(self, day: str, platform: str, units: int) -> None:
+        self.conn.execute(
+            "INSERT INTO quota_usage(day, platform, units) VALUES (?,?,?)"
+            " ON CONFLICT(day, platform) DO UPDATE SET units=units+excluded.units",
+            (day, platform, units),
+        )
