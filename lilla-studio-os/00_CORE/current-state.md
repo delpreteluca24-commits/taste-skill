@@ -1,10 +1,11 @@
-# Current state — 2026-09-22
+# Current state — 2026-09-30
 - **Gate:** 0 COMPLETED → Gate 1 PREPARATION
 - **Autonomy:** LEVEL 2 (PREPARE)
 - **Spent:** €0 / €300 (reserve €90 untouched)
 - **Production:** none started. No purchases made.
 - **Active step:** G1-S1 name validation → report written: `07_RESEARCH/ip/name-validation.md`
 - **Blocking decision:** founder must confirm the name (see `founder-decisions.md` FD-001)
+- **New workstream (proposal):** Content Factory architecture v0.1 → `09_PLATFORM/content-factory/ARCHITECTURE.md` · awaiting FD-004…FD-007 · no code, €0 spent
 - **Infra:** OS temporarily inside `taste-skill/lilla-studio-os/` (D-002). GitHub Actions inactive until migrated.
 
 ## Integrations

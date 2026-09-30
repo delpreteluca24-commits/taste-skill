@@ -19,7 +19,7 @@ Speed of production is not the same as business progress.
 | [`07_RESEARCH/ip/name-validation.md`](07_RESEARCH/ip/name-validation.md) | Gate 1 · Step 1 result |
 
 ## Folder map
-`00_CORE` governance · `01_AGENTS` agents · `02_LILLA_IP` canon (owned by the IP agent) · `03_CONTENT` stories and scripts · `04_ASSETS` generated assets (index only; heavy binaries go to Drive) · `05_PRODUCTS` · `06_ANALYTICS` · `07_RESEARCH` · `08_AUTOMATION` · `99_ARCHIVE`.
+`00_CORE` governance · `01_AGENTS` agents · `02_LILLA_IP` canon (owned by the IP agent) · `03_CONTENT` stories and scripts · `04_ASSETS` generated assets (index only; heavy binaries go to Drive) · `05_PRODUCTS` · `06_ANALYTICS` · `07_RESEARCH` · `08_AUTOMATION` · `09_PLATFORM` Content Factory (production platform, proposal stage) · `99_ARCHIVE`.
 
 ## Hard rules
 No automatic spending. No generation loops. No publishing without the required approval. No credentials in files.
