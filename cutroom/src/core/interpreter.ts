@@ -189,7 +189,7 @@ export function interpret(message: string, t: Timeline, ctx: ChatContext): Inten
 
   // ── graphics on a phrase / CTA ──
   const gm = /(?:metti|aggiungi|inserisci|mostra|add|put|show)\s+(?:una?\s+|la\s+|il\s+)?(grafica|scritta|testo|popup|pop-up|titolo|graphic|title|text|lower third|sottopancia|callout|contatore|counter)(?:\s+a\s+schermo\s+intero|\s+full ?screen)?(.*)$/i.exec(text);
-  if (gm && !/\bcta\b|call to action/i.test(low)) {
+  if (gm && !/\bcta\b|call to action/i.test(low) && !ops.some((o) => o.op === 'add_graphic')) {
     const rest = gm[2];
     const kind = /schermo intero|full ?screen/i.test(text) ? 'fullscreen' : /lower third|sottopancia/i.test(gm[1]) ? 'lowerThird' : /contatore|counter/i.test(gm[1]) ? 'counter' : /titolo|title/i.test(gm[1]) ? 'title' : 'keyword';
     const phraseM = /(?:quando\s+(?:parlo|dico|nomino|si parla|parla)\s*(?:di|dei|del|della|delle|degli)?|su|sul|sulla|on|when i (?:say|mention|talk about))\s+(.+)$/i.exec(rest);
@@ -269,6 +269,27 @@ export function interpret(message: string, t: Timeline, ctx: ChatContext): Inten
     said.push(`struttura il racconto in Intro → ${mid} → Finale, in ordine logico (niente teaser all'inizio) con un'etichetta per capitolo`);
   }
 
+  // ── channel slogan / signature intro ──
+  if (/slogan|non saltare (mai )?(la |l')?intro|intro (sempre|fissa)/i.test(low)) {
+    const q = quoted(text);
+    const greet = /\b(w[eè]|u[eè])\s+uagl\w*[,\s]+ci[aà]\b/i.exec(text);
+    const slogan = q ?? (greet ? 'We uagliù, cià!' : t.settings.slogan);
+    if (slogan) {
+      ops.push({ op: 'set_slogan', text: slogan });
+      said.push(`"${slogan}" diventa lo slogan del canale: apre sempre il video, mai tagliato, grande e animato`);
+    }
+  }
+
+  // ── photo cutaway on a spoken name ──
+  if (/\b(foto|fotografia|immagine|photo|picture)\b/i.test(low) && /(quando|nomin|parla di|dice|mention)/i.test(low)) {
+    const name = /(?:foto|immagine|photo) (?:di|del|della|of) ([A-ZÀ-Ý][\p{L}']+(?: [A-ZÀ-Ý][\p{L}']+)?)/u.exec(text)?.[1]
+      ?? /(?:nomina|dice|parla di|mention[s]?) ([A-ZÀ-Ý][\p{L}']+(?: [A-ZÀ-Ý][\p{L}']+)?)/u.exec(text)?.[1];
+    if (name) {
+      ops.push({ op: 'add_graphic', kind: 'photo', text: name, match: name.split(' ')[0], duration: 2.6 });
+      said.push(`la foto compare quando nomini ${name}, con transizione e nome`);
+    }
+  }
+
   // ── noise / voice isolation ──
   if (/(rumor|solo la voce|isola la voce|voce pulita|pulisci (l')?audio|noise|only the voice)/i.test(low)) {
     const off = /(rimetti|lascia|ripristina) (il )?(rumore|audio originale|ambiente)/i.test(low);
@@ -306,7 +327,7 @@ export function interpret(message: string, t: Timeline, ctx: ChatContext): Inten
     };
   }
   // Structure first (it changes what is in the edit), then duration, then the rest.
-  const rank = (o: Op) => (o.op === 'structure_sections' ? 0 : o.op === 'set_duration_range' || o.op === 'set_max_duration' ? 1 : 2);
+  const rank = (o: Op) => (o.op === 'set_slogan' || o.op === 'structure_sections' ? 0 : o.op === 'set_duration_range' || o.op === 'set_max_duration' ? 1 : 2);
   ops.sort((a, b) => rank(a) - rank(b));
   const reply = said.length ? said[0].charAt(0).toUpperCase() + said.join(', ').slice(1) + '.' : 'Applico la modifica.';
   return { kind: 'ops', ops, reply };

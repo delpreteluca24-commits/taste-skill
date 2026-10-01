@@ -2,7 +2,8 @@ import type { ClipItem, EditContext, EditSettings, GraphicItem, Sentence } from 
 import { headline, isNumberLike, isPopupWord, isProperNounCandidate, norm, parseNumber } from '../text';
 import { hashId, round } from '../util';
 import { mapWords } from './subtitle';
-import { srcToOutput } from '../timemap';
+import { mapAnchor, srcToOutput } from '../timemap';
+import { sloganSpan } from './brand';
 import type { HookChoice } from './hook';
 
 const UNITS = new Set(['euro', 'dollari', 'dollars', 'giorni', 'giorno', 'anni', 'anno', 'mesi', 'mese', 'ore', 'ora', 'minuti', 'minuto', 'secondi', 'volte', 'persone', 'clienti', 'km', 'kg', 'grammi', 'litri', 'percento', '%', 'days', 'years', 'months', 'hours', 'minutes', 'times', 'people', 'k', 'mila']);
@@ -17,7 +18,24 @@ export function buildGraphics(ctx: EditContext, clips: ClipItem[], s: EditSettin
   if (duration <= 0) return out;
   const busyUntil = { top: 0 } as Record<string, number>;
 
-  if (s.titleCard && hook?.title && hook.title.split(' ').length >= 2) {
+  const sl = sloganSpan(ctx, s);
+  const slOut = sl ? mapAnchor(clips, sl) : null;
+  if (s.slogan && sl && slOut) {
+    const start = Math.max(0, slOut.start);
+    // Hold a beat after the greeting, but never over the next spoken line (its caption must show).
+    const nextWord = (ctx.analyses[sl.mediaId].raw.transcript?.words ?? []).find((w) => w.start >= sl.srcEnd - 0.05 && !w.flags.includes('hallucination'));
+    const tNext = nextWord ? srcToOutput(clips, sl.mediaId, nextWord.start) : null;
+    let end = slOut.end + 0.45;
+    if (tNext !== null && tNext > start + 1.4) end = Math.min(end, tNext - 0.05);
+    end = Math.min(duration, Math.max(end, start + 1.4));
+    out.push({
+      id: hashId('g', 'slogan'), type: 'graphic', start: round(start), end: round(end), layer: 9,
+      reason: 'Slogan del canale: firma riconoscibile di ogni video',
+      anchor: { mediaId: sl.mediaId, srcStart: sl.srcStart, srcEnd: sl.srcStart + (end - start) },
+      properties: { kind: 'slogan', text: s.slogan.toUpperCase(), position: 'center' },
+    });
+    busyUntil.top = end + 0.3;
+  } else if (s.titleCard && hook?.title && hook.title.split(' ').length >= 2) {
     const end = Math.min(2.4, duration);
     out.push({
       id: hashId('g', 'title'), type: 'graphic', start: 0.1, end: round(end), layer: 5,

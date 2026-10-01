@@ -61,7 +61,7 @@ export async function buildApp() {
     fs.mkdirSync(tmpDir, { recursive: true });
     const files: { filename: string; tmp: string; size: number }[] = [];
     for await (const part of req.files()) {
-      if (!/\.(mp4|mov|webm|m4v|mkv|mp3|wav|m4a|aac|ogg|flac)$/i.test(part.filename)) throw new svc.HttpError(400, `Formato non supportato: ${part.filename}`);
+      if (!/\.(mp4|mov|webm|m4v|mkv|mp3|wav|m4a|aac|ogg|flac|jpe?g|png|webp)$/i.test(part.filename)) throw new svc.HttpError(400, `Formato non supportato: ${part.filename}`);
       const tmp = path.join(tmpDir, newId());
       await pipeline(part.file, createWriteStream(tmp));
       if (part.file.truncated) throw new svc.HttpError(413, `${part.filename} supera il limite di dimensione`);
@@ -148,7 +148,7 @@ export async function buildApp() {
   // ── files (range requests for the Player and the renderer) ──
   app.get('/files/:id/:mediaId/:name', async (req, reply: FastifyReply) => {
     const { id, mediaId, name } = req.params as { id: string; mediaId: string; name: string };
-    if (!ID.test(id) || !ID.test(mediaId) || !['master.mp4', 'preview.mp4', 'music.m4a', 'voice.wav'].includes(name)) throw new svc.HttpError(400, 'file non valido');
+    if (!ID.test(id) || !ID.test(mediaId) || !(['master.mp4', 'preview.mp4', 'music.m4a', 'voice.wav'].includes(name) || /^original\.(jpe?g|png|webp)$/.test(name))) throw new svc.HttpError(400, 'file non valido');
     return reply.sendFile(`${id}/media/${mediaId}/${name}`, store.root);
   });
   app.get('/assets/sfx/:name', async (req, reply) => {

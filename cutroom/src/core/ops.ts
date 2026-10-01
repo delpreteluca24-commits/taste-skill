@@ -31,7 +31,11 @@ export const Op = z.discriminatedUnion('op', [
     match: z.string().optional(),
     at: z.number().min(0).optional(),
     duration: z.number().positive().max(10).optional(),
+    /** photo graphics: which uploaded image (default: the latest one). */
+    mediaId: z.string().optional(),
   }),
+  /** Channel slogan / signature intro (null to remove). */
+  z.object({ op: z.literal('set_slogan'), text: z.string().min(1).max(40).nullable() }),
   z.object({ op: z.literal('add_cta'), text: z.string().min(1).max(60) }),
   z.object({ op: z.literal('add_sfx'), name: SfxName, at: z.number().min(0) }),
   z.object({ op: z.literal('add_zoom'), start: z.number().min(0), end: z.number().min(0), scale: z.number().min(1).max(1.6) }),

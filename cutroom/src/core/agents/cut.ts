@@ -2,6 +2,7 @@ import type { ClipItem, CutItem, CutKind, EditContext, EditSettings, Timeline, V
 import { isAlertWord, isNumberLike } from '../text';
 import { hashId, mergeSpans, overlap, round, subtractSpans, totalLen, type Span } from '../util';
 import { chooseHook, type HookChoice } from './hook';
+import { sloganSpan } from './brand';
 import { focusForSpan, stabilize } from './reframe';
 import { isLeadingFiller, isRemovable } from './transcriptClean';
 import { layoutClips } from '../timemap';
@@ -107,6 +108,7 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
   const keeps: Keep[] = [];
   let firstSpeech = true;
   const hook: HookChoice | null = chooseHook(ctx, s);
+  const slogan = sloganSpan(ctx, s);
 
   for (const mediaId of ctx.order) {
     const a = ctx.analyses[mediaId];
@@ -118,11 +120,16 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
       const r = speechKeeps(a, s, firstSpeech);
       spans = r.keeps;
       removed = r.removed;
+      // The slogan is sacred: always in, whatever the pause/intro rules say.
+      if (slogan?.mediaId === mediaId) {
+        spans = mergeSpans([...spans, { start: slogan.srcStart, end: slogan.srcEnd }], 0.4);
+        removed = removed.filter((x) => x.span.end <= slogan.srcStart || x.span.start >= slogan.srcEnd);
+      }
       firstSpeech = false;
     } else {
       spans = brollKeeps(a, s);
     }
-    const user = userCuts.filter((u) => u.source === mediaId);
+    const user = userCuts.filter((u) => u.source === mediaId && !(slogan?.mediaId === mediaId && u.start < slogan.srcEnd && u.end > slogan.srcStart));
     spans = subtractSpans(spans, user).filter((sp) => sp.end - sp.start >= 0.25);
     // Merge fragments shorter than minShot into a neighbour if they are close, else keep only if ≥ 0.3 s.
     spans = mergeSpans(spans, 0).reduce<Span[]>((acc, sp) => {
@@ -170,7 +177,7 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
     const protectedRoles = new Set(['hook', 'payoff', 'cta']);
     const candidates = keeps
       .map((k, i) => ({ k, i }))
-      .filter(({ k }) => !protectedRoles.has(k.sentenceRole ?? ''))
+      .filter(({ k }) => !protectedRoles.has(k.sentenceRole ?? '') && !(slogan && k.mediaId === slogan.mediaId && k.start < slogan.srcEnd && k.end > slogan.srcStart))
       .sort((x, y) => x.k.score - y.k.score || (y.k.end - y.k.start) - (x.k.end - x.k.start));
     const removedIdx = new Set<number>();
     let running = total();

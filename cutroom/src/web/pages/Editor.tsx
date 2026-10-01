@@ -86,7 +86,8 @@ export const Editor: React.FC<{ projectId: string }> = ({ projectId }) => {
     const out: Record<string, { src: string; voiceSrc?: string; width: number; height: number }> = {};
     for (const m of view?.project.media ?? []) {
       if (m.status !== 'ready') continue;
-      out[m.id] = { src: `/files/${projectId}/${m.id}/${m.kind === 'audio' ? 'music.m4a' : 'preview.mp4'}`, voiceSrc: m.voice ? `/files/${projectId}/${m.id}/voice.wav` : undefined, width: m.width ?? 1080, height: m.height ?? 1920 };
+      const ext = m.filename.match(/\.[a-z0-9]+$/i)?.[0]?.toLowerCase() ?? '.jpg';
+      out[m.id] = { src: `/files/${projectId}/${m.id}/${m.kind === 'audio' ? 'music.m4a' : m.kind === 'image' ? `original${ext}` : 'preview.mp4'}`, voiceSrc: m.voice ? `/files/${projectId}/${m.id}/voice.wav` : undefined, width: m.width ?? 1080, height: m.height ?? 1920 };
     }
     return out;
   }, [view?.project.media, projectId]);
@@ -225,7 +226,7 @@ export const Editor: React.FC<{ projectId: string }> = ({ projectId }) => {
             {leftTab === 'clips' ? (
               <>
                 <SectionTitle right={<Button size="sm" variant="ghost" onClick={() => addInput.current?.click()} disabled={busy}><Plus size={12} /> Aggiungi</Button>}>Ordine narrativo</SectionTitle>
-                <input ref={addInput} type="file" multiple accept="video/*,audio/*" className="hidden" onChange={(e) => { upload(e.target.files); e.target.value = ''; }} />
+                <input ref={addInput} type="file" multiple accept="video/*,audio/*,image/*" className="hidden" onChange={(e) => { upload(e.target.files); e.target.value = ''; }} />
                 <ul className="space-y-1 px-2 pb-3">
                   {[...p.media].sort((a, b) => a.position - b.position).map((m) => {
                     const a = view.analyses[m.id];

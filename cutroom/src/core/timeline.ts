@@ -93,7 +93,7 @@ export type VideoAnalysis = z.infer<typeof VideoAnalysis>;
 export const MediaAsset = z.object({
   id: z.string(),
   filename: z.string(),
-  kind: z.enum(['video', 'audio']),
+  kind: z.enum(['video', 'audio', 'image']),
   position: z.number(),
   size: z.number(),
   status: z.enum(['uploaded', 'processing', 'ready', 'error']),
@@ -164,6 +164,8 @@ export const EditSettings = z.object({
   titleCard: z.boolean(),
   progressBar: z.boolean(),
   ctaText: z.string().nullable(),
+  /** Channel slogan / signature intro: never cut, animated big at the start of every video. */
+  slogan: z.string().nullable().default(null),
   grade: z.enum(['none', 'clean', 'punchy', 'cinematic']),
   accent: z.string(),
   captions: CaptionSettings,
@@ -239,7 +241,7 @@ export const SubtitleItem = z.object({
 });
 export type SubtitleItem = z.infer<typeof SubtitleItem>;
 
-export const GraphicKind = z.enum(['keyword', 'counter', 'title', 'cta', 'lowerThird', 'callout', 'progress', 'fullscreen', 'icon', 'label']);
+export const GraphicKind = z.enum(['keyword', 'counter', 'title', 'cta', 'lowerThird', 'callout', 'progress', 'fullscreen', 'icon', 'label', 'photo', 'slogan']);
 export type GraphicKind = z.infer<typeof GraphicKind>;
 
 export const GraphicItem = z.object({
@@ -251,6 +253,8 @@ export const GraphicItem = z.object({
     subtext: z.string().optional(),
     value: z.number().optional(),
     prefix: z.string().optional(),
+    /** photo: uploaded image shown as a cutaway. */
+    mediaId: z.string().optional(),
     suffix: z.string().optional(),
     icon: z.string().optional(),
     position: z.enum(['top', 'center', 'bottom']),
@@ -347,4 +351,6 @@ export interface EditContext {
   order: string[];
   /** Uploaded background music track, if any. */
   musicId?: string | null;
+  /** Uploaded still images (photo cutaways), newest last. */
+  images?: { id: string; name: string }[];
 }

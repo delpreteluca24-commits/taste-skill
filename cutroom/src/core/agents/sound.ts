@@ -20,8 +20,8 @@ export function buildSfx(s: EditSettings, graphics: GraphicItem[], transitions: 
   for (const g of graphics) {
     const k = g.properties.kind;
     if (k === 'progress') continue;
-    const name: SfxName = k === 'counter' ? 'hit' : k === 'cta' ? 'notification' : k === 'title' ? 'whoosh' : k === 'fullscreen' ? 'impact' : k === 'lowerThird' ? 'swipe' : 'pop';
-    trig.push({ t: g.start, name, priority: k === 'fullscreen' || k === 'cta' ? 3 : 2, why: `Grafica ${k}`, anchor: g.anchor ? { ...g.anchor, srcEnd: g.anchor.srcStart + 0.6 } : undefined, len: 0.6 });
+    const name: SfxName = k === 'counter' ? 'hit' : k === 'cta' ? 'notification' : k === 'title' || k === 'photo' ? 'whoosh' : k === 'fullscreen' || k === 'slogan' ? 'impact' : k === 'lowerThird' ? 'swipe' : 'pop';
+    trig.push({ t: k === 'photo' ? Math.max(0, g.start - 0.12) : g.start, name, priority: k === 'fullscreen' || k === 'cta' || k === 'slogan' || k === 'photo' ? 3 : 2, why: `Grafica ${k}`, anchor: g.anchor ? { ...g.anchor, srcEnd: g.anchor.srcStart + 0.6 } : undefined, len: 0.6 });
     if (k === 'fullscreen' && s.sfxDensity >= 0.6 && g.start > 1.4) {
       trig.push({ t: g.start - 1.2, name: 'riser', priority: 2, why: 'Tensione prima del payoff', len: 1.2 });
     }

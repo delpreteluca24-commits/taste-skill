@@ -30,7 +30,8 @@ const ELEMENT_LAYERS: ElementLayer[] = ['zoom', 'subtitles', 'graphics', 'transi
 function mergeLayer<T extends AnyElement>(current: T[], fresh: T[], suppressed: string[]): T[] {
   const locked = current.filter((x) => x.locked);
   const sup = new Set(suppressed);
-  const auto = fresh.filter((f) => !sup.has(f.id) && !locked.some((l) => l.id === f.id || (l.type === f.type && Math.abs(l.start - f.start) < 0.4)));
+  const kindOf = (x: AnyElement) => (x as { properties?: { kind?: string } }).properties?.kind;
+  const auto = fresh.filter((f) => !sup.has(f.id) && !locked.some((l) => l.id === f.id || (l.type === f.type && kindOf(l) === kindOf(f) && Math.abs(l.start - f.start) < 0.4)));
   return [...locked, ...auto].sort((a, b) => a.start - b.start);
 }
 
@@ -87,7 +88,7 @@ const SETTING_LAYERS: Partial<Record<keyof EditSettings, Layer[]>> = {
   zoomDensity: ['zoom'], jumpcutZoom: ['zoom'], emphasisZoom: ['zoom'], pushIn: ['zoom'],
   graphicsDensity: ['graphics', 'effects'], titleCard: ['graphics'], progressBar: ['graphics'], ctaText: ['graphics'],
   sfxDensity: ['audio'], sfxVolume: ['audio'], transitionStyle: ['transitions', 'effects'],
-  musicVolume: ['music'], duckVolume: ['music'], musicTrack: ['music'], actionPause: ['clips'],
+  musicVolume: ['music'], duckVolume: ['music'], musicTrack: ['music'], actionPause: ['clips'], slogan: ['clips'],
 };
 
 const STYLES = ['cut', 'subtle', 'dynamic'] as const;
@@ -141,7 +142,8 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
     const s = t.settings;
     switch (op.op) {
       case 'apply_preset': {
-        t.settings = presetSettings(op.preset, { ctaText: s.ctaText, seed: s.seed, musicTrack: s.musicTrack ?? null, voiceIsolation: s.voiceIsolation ?? 0.4 });
+        t.settings = presetSettings(op.preset, { ctaText: s.ctaText, seed: s.seed, musicTrack: s.musicTrack ?? null, voiceIsolation: s.voiceIsolation ?? 0.4, slogan: s.slogan ?? null });
+        if (t.settings.slogan) t.settings = { ...t.settings, removeIntro: false, coldOpen: false };
         // A style change never makes the edit longer than it is now (only shorter, for tighter presets).
         const presetMax = t.settings.maxDuration ?? Infinity;
         const keep = s.maxDuration !== presetSettings(s.preset).maxDuration ? s.maxDuration ?? Infinity : Infinity;
@@ -190,6 +192,10 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
         layers.add('audio');
         break;
       }
+      case 'set_slogan':
+        t.settings = { ...t.settings, slogan: op.text, ...(op.text ? { removeIntro: false, coldOpen: false } : {}) };
+        layers.add('clips');
+        break;
       case 'pacing': {
         const k = { low: 0.5, medium: 1, high: 1.6 }[op.intensity];
         const faster = op.direction === 'faster';
@@ -262,6 +268,20 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
         const dur = op.duration ?? (op.kind === 'fullscreen' ? 1 : 1.8);
         const end = Math.min(t.duration, start + dur);
         anchor ??= anchorForOutput(t, start, end);
+        if (op.kind === 'photo') {
+          const img = op.mediaId ?? ctx.images?.[ctx.images.length - 1]?.id;
+          if (!img) { notes.push('Carica prima una foto.'); break; }
+          const pend = Math.min(t.duration, start + (op.duration ?? 2.6));
+          const photo: GraphicItem = {
+            id: hashId('gp', img, start), type: 'graphic', start: round(start), end: round(pend), layer: 8, locked: true,
+            reason: found ? `Foto quando nomini "${op.match}"` : 'Foto richiesta',
+            anchor: anchor ? { ...anchor, srcEnd: anchor.srcStart + (pend - start) } : anchorForOutput(t, start, pend),
+            properties: { kind: 'photo', text: op.text.toUpperCase(), mediaId: img, position: 'center' },
+          };
+          t.graphics = [...t.graphics.filter((x) => !(x.properties.kind === 'photo' && x.start < photo.end && x.end > photo.start)), photo].sort((a, b) => a.start - b.start);
+          layers.add('audio');
+          break;
+        }
         const num = parseFloat(op.text.replace(/[^\d,]/g, '').replace(',', '.'));
         const kind = op.kind === 'keyword' && /\d/.test(op.text) && num >= 10 ? 'counter' : op.kind;
         const g: GraphicItem = {
@@ -388,6 +408,8 @@ function sectionLabels(t: Timeline, ctx: EditContext, labels: string[]): Graphic
   });
   const out: GraphicItem[] = [];
   groups.forEach((ids, gi) => {
+    // With a channel slogan the slogan IS the intro card.
+    if (gi === 0 && t.settings.slogan) return;
     const first = t.clips.find((c) => ids.includes(c.source) && c.properties.role !== 'hook');
     if (!first) return;
     const start = first.start + (gi === 0 ? 0.15 : 0.1);

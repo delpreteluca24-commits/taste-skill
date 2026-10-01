@@ -28,7 +28,7 @@ export function chooseHook(ctx: EditContext, settings: EditSettings): HookChoice
 
   let teaser: HookChoice['teaser'] = null;
   let sentence = first;
-  if (settings.coldOpen && n >= 3) {
+  if (settings.coldOpen && !settings.slogan && n >= 3) {
     const candidates = all
       .map((s, i) => ({ s, i }))
       .filter(({ s, i }) => i >= Math.floor(n * 0.25) && s.role !== 'cta' && s.end - s.start >= 1 && s.end - s.start <= 3.8)

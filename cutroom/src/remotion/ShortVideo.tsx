@@ -107,8 +107,9 @@ export const ShortVideo: React.FC<ShortVideoProps> = ({ timeline, media, assetBa
           })}
         </AbsoluteFill>
         {s.grade === 'cinematic' ? <AbsoluteFill style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)' }} /> : null}
-        <Captions subs={timeline.subtitles} cs={s.captions} t={t} />
-        <Graphics items={timeline.graphics} t={t} accent={s.accent} duration={timeline.duration} />
+        <Graphics items={timeline.graphics} t={t} accent={s.accent} duration={timeline.duration} media={media} />
+        {/* Captions sit above cutaways (speech continues over a photo) and step aside for the slogan, which is the caption. */}
+        {!timeline.graphics.some((g) => g.properties.kind === 'slogan' && t >= g.start && t < g.end) && <Captions subs={timeline.subtitles} cs={s.captions} t={t} />}
         {flash > 0 ? <AbsoluteFill style={{ background: '#fff', opacity: flash }} /> : null}
         {swipe !== null ? <AbsoluteFill style={{ background: s.accent, transform: `translateX(${(swipe - 1) * 100}%)` }} /> : null}
       </div>

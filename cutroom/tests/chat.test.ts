@@ -71,3 +71,22 @@ describe('version history', () => {
     expect(h.head).toBe('v2');
   });
 });
+
+describe('slogan and photo commands', () => {
+  it('maps the creator request to slogan + photo ops', () => {
+    const r = run('Non saltare mai la intro we uaglu cia, deve essere lo slogan del canale. Quando nomina Salvador Danzi fai comparire la foto di Salvador Danzi');
+    if (r.kind !== 'ops') throw new Error(r.reply);
+    expect(r.ops[0]).toEqual({ op: 'set_slogan', text: 'We uagliù, cià!' });
+    expect(r.ops).toContainEqual({ op: 'add_graphic', kind: 'photo', text: 'Salvador Danzi', match: 'Salvador', duration: 2.6 });
+  });
+  it('slogan is never cut and opens the video', () => {
+    const ctx2 = { ...ctx, images: [{ id: 'IMG', name: 'p.jpg' }] };
+    const t2 = applyOps(t, [{ op: 'set_slogan', text: 'Ciao ragazzi' }, { op: 'add_graphic', kind: 'photo', text: 'Forno', match: 'forno' }], ctx2).timeline;
+    const sl = t2.graphics.find((g) => g.properties.kind === 'slogan')!;
+    expect(sl.start).toBeLessThan(0.2);
+    expect(t2.clips[0].properties.srcStart).toBeLessThan(0.6);
+    const ph = t2.graphics.find((g) => g.properties.kind === 'photo')!;
+    expect(ph.properties.mediaId).toBe('IMG');
+    expect(t2.audio.some((a) => a.reason.includes('photo'))).toBe(true);
+  });
+});

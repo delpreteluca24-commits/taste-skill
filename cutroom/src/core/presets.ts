@@ -51,6 +51,7 @@ const base: EditSettings = {
   musicTrack: null,
   voiceIsolation: 0.4,
   actionPause: 0,
+  slogan: null,
   maxDuration: 75,
   titleCard: true,
   progressBar: false,
@@ -107,7 +108,7 @@ const PATCHES: Record<PresetId, Patch> = {
   },
 };
 
-export function presetSettings(preset: PresetId, keep?: Partial<Pick<EditSettings, 'ctaText' | 'seed' | 'musicTrack' | 'voiceIsolation'>>): EditSettings {
+export function presetSettings(preset: PresetId, keep?: Partial<Pick<EditSettings, 'ctaText' | 'seed' | 'musicTrack' | 'voiceIsolation' | 'slogan'>>): EditSettings {
   const p = PATCHES[preset];
   return {
     ...base,
@@ -118,6 +119,7 @@ export function presetSettings(preset: PresetId, keep?: Partial<Pick<EditSetting
     seed: keep?.seed ?? 0,
     musicTrack: keep?.musicTrack ?? base.musicTrack,
     voiceIsolation: keep?.voiceIsolation ?? base.voiceIsolation,
+    slogan: keep?.slogan ?? null,
   };
 }
 

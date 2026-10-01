@@ -1,7 +1,9 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { store, newId, type ChatMessage, type Project, type Proposal, type RenderRecord } from './store';
-import { analyzeProject, buildContext, masterPath } from './analyze';
+import { analyzeProject, buildContext, masterPath, imagePath } from './analyze';
+import { probe } from './media/ffmpeg';
+import { loadBrand, saveBrand } from './brand';
 import { enqueue, activeJob } from './jobs';
 import { renderTimeline, RESOLUTIONS } from './render';
 import { config } from './config';
@@ -64,11 +66,17 @@ export async function addMedia(id: string, files: { filename: string; tmp: strin
     const p = await must(id);
     let pos = p.media.reduce((a, m) => Math.max(a, m.position + 1), 0);
     for (const f of files) {
-      const kind: MediaAsset['kind'] = /\.(mp3|wav|m4a|aac|ogg|flac)$/i.test(f.filename) ? 'audio' : 'video';
+      const kind: MediaAsset['kind'] = /\.(mp3|wav|m4a|aac|ogg|flac)$/i.test(f.filename) ? 'audio' : /\.(jpe?g|png|webp)$/i.test(f.filename) ? 'image' : 'video';
       const m: MediaAsset = { id: newId(), filename: f.filename, kind, position: pos++, size: f.size, status: 'uploaded' };
       const dest = store.mediaDir(id, m.id);
       await fs.mkdir(dest, { recursive: true });
-      await fs.rename(f.tmp, path.join(dest, 'original' + (f.filename.match(/\.[a-z0-9]+$/i)?.[0] ?? '.mp4')));
+      const file = path.join(dest, 'original' + (f.filename.match(/\.[a-z0-9]+$/i)?.[0]?.toLowerCase() ?? '.mp4'));
+      await fs.rename(f.tmp, file);
+      if (kind === 'image') {
+        // Photos need no analysis: ready immediately for cutaways.
+        const pr = await probe(file);
+        Object.assign(m, { status: 'ready', width: pr.width, height: pr.height });
+      }
       p.media.push(m);
     }
     if (p.status === 'ready') p.status = 'new';
@@ -156,7 +164,9 @@ export async function runAutoEdit(id: string, preset: PresetId) {
   const base = await headTimeline(cur);
   const isOriginal = getVersion(cur.history, cur.history.head)?.label === 'Originale';
   // On an existing edit a preset change is an incremental op (user cuts, locked elements, caption fixes survive).
-  const t = base && !isOriginal ? applyOps(base, [{ op: 'apply_preset', preset }], ctx).timeline : autoEdit(ctx, preset);
+  let t = base && !isOriginal ? applyOps(base, [{ op: 'apply_preset', preset }], ctx).timeline : autoEdit(ctx, preset);
+  const brand = await loadBrand();
+  if (brand.slogan && !t.settings.slogan) t = applyOps(t, [{ op: 'set_slogan', text: brand.slogan }], ctx).timeline;
   const summary = describeAutoEdit(t);
   await store.withLock(id, async () => { const q = await must(id); q.preset = preset; await store.save(q); });
   const r = await commitVersion(id, t, `Auto Edit (${PRESET_LABELS[preset]})`, 'ai', summary, [{ op: 'apply_preset', preset }]);
@@ -292,6 +302,8 @@ export async function applyUserOps(id: string, ops: Op[], label = 'Modifica manu
   if (!head) throw new HttpError(400, 'Nessuna timeline');
   const ctx = await buildContext(p);
   const { timeline, notes } = applyOps(head, ops, ctx);
+  // The slogan belongs to the channel: remember it for every future video.
+  for (const o of ops) if (o.op === 'set_slogan') await saveBrand({ ...(await loadBrand()), slogan: o.text });
   const r = await commitVersion(id, timeline, label, 'user', describeChange(head, timeline), ops);
   return { ...r, notes };
 }
@@ -324,7 +336,7 @@ export async function startRender(id: string, resolution: keyof typeof RESOLUTIO
   const media: Record<string, { src: string; voiceSrc?: string; width: number; height: number }> = {};
   for (const m of p.media.filter((x) => x.status === 'ready')) {
     const a = ctx.analyses[m.id];
-    media[m.id] = { src: `${baseUrl}/files/${id}/${m.id}/${path.basename(masterPath(p, m))}`, voiceSrc: m.voice ? `${baseUrl}/files/${id}/${m.id}/voice.wav` : undefined, width: a?.raw.width ?? m.width ?? 1080, height: a?.raw.height ?? m.height ?? 1920 };
+    media[m.id] = { src: `${baseUrl}/files/${id}/${m.id}/${path.basename(m.kind === 'image' ? imagePath(p, m) : masterPath(p, m))}`, voiceSrc: m.voice ? `${baseUrl}/files/${id}/${m.id}/voice.wav` : undefined, width: a?.raw.width ?? m.width ?? 1080, height: a?.raw.height ?? m.height ?? 1920 };
   }
   const setRec = (patch: Partial<RenderRecord>) => store.withLock(id, async () => {
     const r = await store.getRenders(id);

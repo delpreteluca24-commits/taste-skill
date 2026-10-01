@@ -2,6 +2,8 @@ import type { ClipItem, EditContext, EditSettings, EffectItem, TransitionItem, Z
 import { isAlertWord, isNumberLike } from '../text';
 import { hashId, rng, round } from '../util';
 import { mapWords } from './subtitle';
+import { sloganSpan } from './brand';
+import { mapAnchor } from '../timemap';
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
@@ -55,6 +57,15 @@ export function buildZooms(ctx: EditContext, clips: ClipItem[], s: EditSettings,
     }
   });
 
+  const sl = sloganSpan(ctx, s);
+  const slOut = sl ? mapAnchor(clips, sl) : null;
+  if (sl && slOut) {
+    out.push({
+      id: hashId('zs', sl.mediaId), type: 'zoom', start: slOut.start, end: round(slOut.end + 0.3), layer: 3,
+      reason: 'Slogan: punch-in di camera sulla firma del canale', anchor: { ...sl, srcEnd: sl.srcEnd + 0.3 },
+      properties: { kind: 'emphasis', from: 1, to: 1.18, ease: 0.1 },
+    });
+  }
   const minGap = lerp(9, 2.5, s.zoomDensity);
   const r = rng(s.seed + 11);
   let last = -Infinity;

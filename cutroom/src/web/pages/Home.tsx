@@ -34,7 +34,7 @@ export const Home: React.FC = () => {
 
   const add = (list: FileList | null) => {
     if (!list) return;
-    const incoming = [...list].filter((f) => /\.(mp4|mov|webm|m4v|mkv|mp3|wav|m4a|aac)$/i.test(f.name)).sort(natural);
+    const incoming = [...list].filter((f) => /\.(mp4|mov|webm|m4v|mkv|mp3|wav|m4a|aac|jpe?g|png|webp)$/i.test(f.name)).sort(natural);
     setFiles((cur) => [...cur, ...incoming.filter((f) => !cur.some((c) => c.name === f.name && c.size === f.size))]);
     if (!name && incoming[0]) setName(incoming[0].name.replace(/\.[^.]+$/, '').slice(0, 40));
   };
@@ -89,7 +89,7 @@ export const Home: React.FC = () => {
             <Upload className="mx-auto text-ink-400" size={22} />
             <p className="mt-2 text-sm">Trascina qui i video (MP4, MOV, WEBM) e, se vuoi, una musica</p>
             <p className="text-xs text-ink-400">oppure clicca per scegliere i file</p>
-            <input ref={input} type="file" multiple accept="video/*,audio/*" className="hidden" onChange={(e) => { add(e.target.files); e.target.value = ''; }} />
+            <input ref={input} type="file" multiple accept="video/*,audio/*,image/*" className="hidden" onChange={(e) => { add(e.target.files); e.target.value = ''; }} />
           </div>
 
           {files.length > 0 && (

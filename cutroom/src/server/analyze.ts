@@ -23,6 +23,7 @@ function sha256(file: string): Promise<string> {
 export const originalPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + '/original' + (m.filename.match(/\.[a-z0-9]+$/i)?.[0] ?? '.mp4');
 export const masterPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + (m.kind === 'audio' ? '/music.m4a' : '/master.mp4');
 export const voicePath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + '/voice.wav';
+export const imagePath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + '/original' + (m.filename.match(/\.[a-z0-9]+$/i)?.[0]?.toLowerCase() ?? '.jpg');
 export const previewPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + (m.kind === 'audio' ? '/music.m4a' : '/preview.mp4');
 
 /** Media Analysis + Transcription agents for one video file → RawAnalysis (cached by content hash). */
@@ -90,6 +91,7 @@ export async function analyzeProject(projectId: string, job: Job) {
     for (let i = 0; i < media.length; i++) {
       const m = media[i];
       const report = (f: number, step: string) => { job.progress = Math.min(0.97, (i + f) / n); job.step = step; };
+      if (m.kind === 'image') continue;
       await setMedia(projectId, m.id, { status: 'processing', error: undefined });
       try {
         if (m.kind === 'audio') {
@@ -140,5 +142,5 @@ export async function buildContext(p: Project): Promise<EditContext> {
     if (raw) analyses[m.id] = analyzeVideo(m.id, m.filename, raw);
   }
   const music = p.media.find((m) => m.kind === 'audio' && m.status === 'ready');
-  return assignStoryRoles({ analyses, order: videos.filter((m) => analyses[m.id]).map((m) => m.id), musicId: music?.id ?? null });
+  return assignStoryRoles({ analyses, order: videos.filter((m) => analyses[m.id]).map((m) => m.id), musicId: music?.id ?? null, images: p.media.filter((m) => m.kind === 'image' && m.status === 'ready').sort((a, b) => a.position - b.position).map((m) => ({ id: m.id, name: m.filename })) });
 }
