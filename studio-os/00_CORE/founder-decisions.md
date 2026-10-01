@@ -36,3 +36,6 @@ The integration can't create repos (403). The founder creates it (private or pub
 
 ## FD-010 — ClipForge compliance fixes — **OPEN**
 (a) A required rights gate at ingest: download only `user_owned`/`licensed` content; `watch` only on owned or authorized channels (YouTube ToS). (b) Rename "viral score" to `rank_score` (LLM estimate). Small, €0; needs approval because it changes the behavior of existing code.
+
+## FD-011 — One revenue test for Cutroom — **OPEN**
+Recommended: (b) sell "5 short montati a settimana" to 3 local businesses that already film themselves (e.g. pizzerias), using Cutroom internally. Price test, no SaaS build. Needs: a Groq or OpenAI key for better Italian transcription (ESTIMATE: cents per video — re-check pricing before any spend) and optionally `ANTHROPIC_API_KEY` for the chat.

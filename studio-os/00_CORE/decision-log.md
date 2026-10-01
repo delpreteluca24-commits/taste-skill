@@ -79,3 +79,15 @@ REVERSIBILITY: reversible
 FOLLOW-UP DATE: 2026-10-07
 ACTUAL RESULT: —
 LEARNING: Fetch the remote branch before writing: parallel sessions moved the OS (lilla-studio-os → studio-os) while this proposal was being drafted.
+
+## D-007 — Cutroom: AI social video editor, Phase 1 built
+DATE: 2026-10-01 | OWNER: **Founder** (explicit "build it now" in the master prompt) · CTO agent | REASON: The founder asked for a working AI editor that turns 2+ clips into one 9:16 short with chat editing.
+FACTS: Built in `/cutroom` (TypeScript: React + Remotion + Fastify + ffmpeg + transformers.js Whisper). TEST RESULT 2026-10-01 on 5 real phone clips (148 s raw): auto edit → 60 s (Viral), chat "massimo 30 secondi" → 29.2 s, export 1080×1920 H.264 in 143 s on 4 CPU, −14.0 LUFS. 50 automated tests. HuggingFace was blocked in the build sandbox, so only `whisper-base` was tested there: Italian transcripts on noisy kitchen audio are poor.
+ASSUMPTIONS: HYPOTHESIS: local creators/SMBs would pay for "raw clips → publishable short" (links to the local-AI-agency skill). Not validated.
+OPTIONS: (a) keep Cutroom as an internal tool for PROJECT M / clients; (b) sell edited shorts as a service (fastest revenue test); (c) SaaS.
+DECISION: Phase 1 shipped as an internal tool. No SaaS work (auth, billing, Supabase) before FD-011.
+RISK: Fifth initiative in three days (Lilla → PROJECT M → ClipForge → Content Factory → Cutroom). Overlaps ClipForge (long→short clipper, Python): Cutroom is the opposite direction (many short clips → one edit) and the reusable editor UI.
+REVERSIBILITY: reversible (local tool, €0 spent)
+FOLLOW-UP DATE: 2026-10-08
+ACTUAL RESULT: —
+LEARNING: Validate the toolchain in a spike first (model download hosts, codecs in headless Chromium) before building.

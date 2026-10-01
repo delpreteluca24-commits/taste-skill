@@ -1,0 +1,55 @@
+{
+  "name": "cutroom",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "playwright-core": "^1.63.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "@fastify/multipart": "^10.1.2",
+    "@fastify/static": "^10.1.5",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource/montserrat": "^5.3.0",
+    "@huggingface/transformers": "^4.3.0",
+    "@remotion/bundler": "^4.0.532",
+    "@remotion/media-utils": "^4.0.532",
+    "@remotion/player": "^4.0.532",
+    "@remotion/renderer": "^4.0.532",
+    "@tensorflow/tfjs": "^4.22.0",
+    "@tensorflow/tfjs-backend-wasm": "^4.22.0",
+    "@vladmandic/face-api": "^1.7.15",
+    "fastify": "^5.12.5",
+    "lucide-react": "^1.49.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.532",
+    "zod": "^4.6.5"
+  },
+  "description": "Cutroom — AI social video editor: multi-clip upload to a 9:16 short with smart cuts, captions, motion graphics, SFX and chat editing.",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:server": "node --watch --import tsx src/server/index.ts",
+    "dev:web": "vite",
+    "build": "vite build",
+    "start": "node --import tsx src/server/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p .",
+    "sfx": "node scripts/gen-sfx.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
