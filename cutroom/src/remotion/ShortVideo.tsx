@@ -55,7 +55,7 @@ const ClipView: React.FC<{ clip: ClipItem; media: MediaRef; timeline: Timeline; 
       if (tt >= a && tt <= b) return 1;
       near = Math.min(near, Math.abs(tt - a), Math.abs(tt - b));
     }
-    return floor + (1 - floor) * Math.max(0, 1 - near / 0.12);
+    return floor + (1 - floor) * Math.max(0, 1 - near / 0.25);
   };
   return (
     <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: '#000' }}>
@@ -117,7 +117,17 @@ export const ShortVideo: React.FC<ShortVideoProps> = ({ timeline, media, assetBa
   }
 
   // Music ducking: speech spans from the subtitle words.
-  const speech = useMemo(() => timeline.subtitles.flatMap((x) => x.properties.words.map((w) => [w.start - 0.15, w.end + 0.25] as const)), [timeline.subtitles]);
+  // Words merged into phrases: gating/ducking per word pumps audibly between words.
+  const speech = useMemo(() => {
+    const spans = timeline.subtitles.flatMap((x) => x.properties.words.map((w) => [w.start - 0.12, w.end + 0.2] as [number, number])).sort((a, b) => a[0] - b[0]);
+    const out: [number, number][] = [];
+    for (const s of spans) {
+      const last = out[out.length - 1];
+      if (last && s[0] - last[1] < 0.6) last[1] = Math.max(last[1], s[1]);
+      else out.push([s[0], s[1]]);
+    }
+    return out as (readonly [number, number])[];
+  }, [timeline.subtitles]);
 
   return (
     <AbsoluteFill style={{ backgroundColor: '#000' }}>
@@ -157,9 +167,12 @@ export const ShortVideo: React.FC<ShortVideoProps> = ({ timeline, media, assetBa
               loop
               volume={(fr) => {
                 const tt = m.start + fr / fps;
-                const talking = speech.some(([a, b]) => tt >= a && tt <= b);
+                // Smooth ducking: ramps in/out over 0.35 s around phrases instead of switching per word.
+                let near = Infinity;
+                for (const [a, b] of speech) near = Math.min(near, tt >= a && tt <= b ? 0 : Math.min(Math.abs(tt - a), Math.abs(tt - b)));
+                const duck = Math.max(0, 1 - near / 0.35);
                 const fade = Math.min(1, (tt - m.start) / Math.max(0.01, fadeIn), (m.end - tt) / Math.max(0.01, fadeOut));
-                return Math.max(0, (talking ? duckVolume : volume) * fade);
+                return Math.max(0, (volume + (duckVolume - volume) * duck) * fade);
               }}
             />
           </Sequence>

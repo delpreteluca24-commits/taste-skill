@@ -9,6 +9,7 @@ import { buildSubtitles, mapWords } from './agents/subtitle';
 import { buildEffects, buildTransitions, buildZooms } from './agents/camera';
 import { buildGraphics } from './agents/motion';
 import { buildMusic, buildSfx } from './agents/sound';
+import { sloganSpan } from './agents/brand';
 import { clampToDuration, layoutClips, mapAnchor, outputRangeToSource, retimeAnchored, timelineDuration } from './timemap';
 import { norm } from './text';
 import { clamp, hashId, round, subtractSpans } from './util';
@@ -68,7 +69,12 @@ export function rebuild(t0: Timeline, ctx: EditContext, requested: Iterable<Laye
   if (layers.has('audio') || layers.has('graphics') || layers.has('transitions') || layers.has('zoom') || layers.has('effects')) {
     t.audio = mergeLayer(t.audio, buildSfx(s, t.graphics, t.transitions, t.zoom, t.effects), t.suppressed);
   }
-  if (layers.has('music')) t.music = mergeLayer(t.music, buildMusic(s, ctx.musicId ?? null, t.duration), t.suppressed);
+  if (layers.has('music')) {
+    // The channel intro keeps its own audio: music starts right after the slogan.
+    const sl = sloganSpan(ctx, s);
+    const slOut = sl ? mapAnchor(t.clips, sl) : null;
+    t.music = mergeLayer(t.music, buildMusic(s, ctx.musicId ?? null, t.duration, slOut ? slOut.end + 0.1 : 0), t.suppressed);
+  }
   return t;
 }
 
@@ -209,8 +215,19 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
         layers.add('clips');
         break;
       }
+      case 'cut_source': {
+        const r = { source: op.mediaId, start: round(Math.min(op.start, op.end)), end: round(Math.max(op.start, op.end)) };
+        t.userKeeps = (t.userKeeps ?? []).flatMap((u) => (u.source !== r.source || u.end <= r.start || u.start >= r.end ? [u] : subtractSpans([u], [r]).map((x) => ({ source: u.source, ...x }))));
+        t.userCuts = [...t.userCuts, r];
+        layers.add('clips');
+        break;
+      }
       case 'add_insert':
         t.inserts = [...(t.inserts ?? []), { id: hashId('ins', op.mediaId, op.afterMediaId, op.afterSrc), mediaId: op.mediaId, srcStart: op.srcStart, srcEnd: op.srcEnd, afterMediaId: op.afterMediaId, afterSrc: op.afterSrc }];
+        layers.add('clips');
+        break;
+      case 'remove_inserts':
+        t.inserts = (t.inserts ?? []).filter((i) => op.mediaId !== undefined && i.mediaId !== op.mediaId);
         layers.add('clips');
         break;
       case 'add_source_zoom': {
@@ -453,6 +470,9 @@ function sectionLabels(t: Timeline, ctx: EditContext, labels: string[]): Graphic
     // Never stack on another top graphic (ingredient tag, CTA): end just before it.
     const tag = t.graphics.find((g) => g.properties.kind !== 'label' && g.properties.kind !== 'progress' && g.properties.position === 'top' && g.start > start && g.start < end);
     if (tag && tag.start - 0.1 - start >= 1) end = tag.start - 0.1;
+    // A tag already on screen at the chapter start (e.g. the first ingredient) is the chapter marker itself.
+    if (t.graphics.some((g) => g.properties.kind !== 'label' && g.properties.kind !== 'progress' && g.properties.position === 'top' && g.start <= start + 0.3 && g.end > start)) return;
+    if (tag && tag.start - 0.1 - start < 1) return;
     out.push({
       id: hashId('gs', gi, labels[gi]), type: 'graphic', start: round(start), end: round(end), layer: 6, locked: true,
       reason: `Capitolo "${labels[gi]}": rende leggibile la struttura del racconto`,

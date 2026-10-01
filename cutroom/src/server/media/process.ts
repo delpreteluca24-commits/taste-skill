@@ -35,12 +35,23 @@ export async function normalize(input: string, master: string, preview: string, 
   ], (s) => onProgress?.(0.85 + Math.min(0.15, (s / Math.max(0.1, pr.duration)) * 0.15)));
 }
 
-/** Voice isolation: strong spectral + non-local-means denoise, soft gate between words. */
-export const VOICE_ISOLATE = 'highpass=f=110,lowpass=f=7500,afftdn=nr=30:nf=-25:tn=1,anlmdn=s=0.0003:p=0.002:r=0.006:m=15,afftdn=nr=15:nf=-40,agate=threshold=0.02:ratio=4:attack=5:release=250:range=0.1,loudnorm=I=-16:TP=-1.5';
+/**
+ * Voice track: one moderate spectral denoise + presence EQ + gentle compression, from the ORIGINAL audio.
+ * Stacked denoisers (non-local means, double FFT) and a hard gate sounded watery and choppy; the room tone between
+ * phrases is lowered in the composition instead, with slow ramps.
+ */
+export const VOICE_ISOLATE = 'highpass=f=90,lowpass=f=9000,afftdn=nr=14:nf=-35:tn=1,equalizer=f=250:t=q:w=1:g=-2,equalizer=f=3200:t=q:w=1.2:g=2.5,acompressor=threshold=-22dB:ratio=2.5:attack=8:release=200:makeup=1.5,loudnorm=I=-16:TP=-1.5:LRA=9';
 
-export async function voiceTrack(master: string, out: string) {
+export async function voiceTrack(source: string, out: string) {
   // PCM WAV: decodable by every browser engine used for preview and rendering (AAC is not in open-source Chromium).
-  await ffmpeg(['-i', master, '-vn', '-af', VOICE_ISOLATE, '-ar', '48000', '-ac', '1', '-c:a', 'pcm_s16le', out]);
+  await ffmpeg(['-i', source, '-vn', '-af', VOICE_ISOLATE, '-ar', '48000', '-ac', '1', '-c:a', 'pcm_s16le', out]);
+}
+
+/** Untouched original audio, only a static gain to -16 LUFS so it sits at the same level as the voice track. */
+export async function originalTrack(source: string, out: string) {
+  const { integrated } = await loudness(source);
+  const gain = integrated > -60 ? Math.max(-12, Math.min(12, -16 - integrated)) : 0;
+  await ffmpeg(['-i', source, '-vn', '-af', `volume=${gain.toFixed(2)}dB`, '-ac', '2', '-ar', '48000', '-c:a', 'pcm_s16le', out]);
 }
 
 /** Loudness of the ORIGINAL audio (QC: clipping / too quiet). */

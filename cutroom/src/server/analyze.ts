@@ -4,7 +4,7 @@ import { ANALYZER_VERSION, config } from './config';
 import { store, type Project } from './store';
 import type { Job } from './jobs';
 import { ffmpeg, probe } from './media/ffmpeg';
-import { voiceTrack, energyEnvelope, frames, loudness, motionSeries, normalize, pcm16k, silences, visualEvents } from './media/process';
+import { voiceTrack, originalTrack, energyEnvelope, frames, loudness, motionSeries, normalize, pcm16k, silences, visualEvents } from './media/process';
 import { detectFaces } from './vision/faces';
 import { transcribe, sttLabel } from './stt';
 import { correctTranscript } from './llm/transcriptFix';
@@ -28,8 +28,8 @@ export const origPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id
 
 /** Denoised voice track + untouched original audio (used for the channel intro). Idempotent. */
 export async function ensureAudioTracks(p: Project, m: MediaAsset) {
-  if (!existsSync(voicePath(p, m))) await voiceTrack(masterPath(p, m), voicePath(p, m));
-  if (!existsSync(origPath(p, m))) await ffmpeg(['-i', originalPath(p, m), '-vn', '-ac', '2', '-ar', '48000', '-c:a', 'pcm_s16le', origPath(p, m)]);
+  if (!existsSync(voicePath(p, m))) await voiceTrack(originalPath(p, m), voicePath(p, m));
+  if (!existsSync(origPath(p, m))) await originalTrack(originalPath(p, m), origPath(p, m));
 }
 export const previewPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + (m.kind === 'audio' ? '/music.m4a' : '/preview.mp4');
 

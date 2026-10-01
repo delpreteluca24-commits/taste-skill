@@ -233,6 +233,8 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
     idx = -1;
     keeps.forEach((k, i) => { if (k.mediaId === ins.afterMediaId && k.end <= ins.afterSrc + 0.06) idx = i; });
     if (idx >= 0) keeps.splice(idx + 1, 0, item);
+    // Anchored before the first kept span of that clip (e.g. a gag that opens the video): goes right before it.
+    else if ((idx = keeps.findIndex((k) => k.mediaId === ins.afterMediaId)) >= 0) keeps.splice(idx, 0, item);
     else warnings.push('Un inserto non ha trovato il suo punto di aggancio (parte tagliata).');
   }
 
@@ -259,7 +261,7 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
         srcStart: round(k.start),
         srcEnd: round(k.end),
         speed: 1,
-        volume: k.role === 'broll' ? 0.6 : 1,
+        volume: k.role === 'broll' ? 0.6 : k.role === 'insert' ? 0.55 : 1,
         role: k.role,
         crop,
       },

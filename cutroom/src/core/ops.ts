@@ -45,9 +45,13 @@ export const Op = z.discriminatedUnion('op', [
   /** Keep ONLY these source ranges of a clip (null clears). */
   z.object({ op: z.literal('set_selects'), mediaId: z.string(), ranges: z.array(z.object({ start: z.number().min(0), end: z.number().min(0) })).nullable() }),
   /** Force a source range into the edit (also removes manual cuts over it). */
+  /** Cut a source range (e.g. a filler like "vabbè" at an exact instant). */
+  z.object({ op: z.literal('cut_source'), mediaId: z.string(), start: z.number().min(0), end: z.number().min(0) }),
   z.object({ op: z.literal('keep_source'), mediaId: z.string(), start: z.number().min(0), end: z.number().min(0) }),
   z.object({ op: z.literal('add_insert'), mediaId: z.string(), srcStart: z.number().min(0), srcEnd: z.number().min(0), afterMediaId: z.string(), afterSrc: z.number().min(0) }),
   /** Camera move to a point of the frame during a source range (e.g. zoom on the plate). */
+  /** Remove gag inserts (all, or those of one clip). */
+  z.object({ op: z.literal('remove_inserts'), mediaId: z.string().optional() }),
   z.object({ op: z.literal('add_source_zoom'), mediaId: z.string(), srcStart: z.number().min(0), srcEnd: z.number().min(0), scale: z.number().min(1).max(1.8), x: z.number().min(0).max(1), y: z.number().min(0).max(1) }),
   /** Channel slogan / signature intro (null to remove). */
   z.object({ op: z.literal('set_slogan'), text: z.string().min(1).max(40).nullable() }),

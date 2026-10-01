@@ -132,3 +132,13 @@ describe('picked moments, gag inserts, detail zooms', () => {
     expect(back.clips.some((c) => c.source === 'A' && c.properties.srcStart <= 0.6)).toBe(true);
   });
 });
+
+describe('gag insert before the intro', () => {
+  it('anchored at the start of a clip, the insert opens the video', () => {
+    const t1 = applyOps(t, [{ op: 'add_insert', mediaId: 'C', srcStart: 1, srcEnd: 2, afterMediaId: 'A', afterSrc: 0 }], ctx).timeline;
+    expect(t1.clips[0].properties.role).toBe('insert');
+    expect(t1.clips[0].properties.volume).toBeLessThan(1);
+    const t2 = applyOps(t1, [{ op: 'remove_inserts' }], ctx).timeline;
+    expect(t2.clips.some((c) => c.properties.role === 'insert')).toBe(false);
+  });
+});

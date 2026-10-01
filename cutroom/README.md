@@ -64,7 +64,7 @@ the chosen moments of a clip, e.g. each ingredient going on the pizza; a zoom-pu
 `add_insert` (a gag clip such as a rooster call dropped in after a source instant, with whip in/out; mark the clip
 with `PATCH /api/projects/:id/media/:mediaId {"use":"insert"}` so it is not part of the story), `add_source_zoom`
 (punch-in on a point of the frame, e.g. the ingredient plate), `add_graphic` with `src` (a tag pinned to a source
-moment), `keep_source` (bring back a passage) and `set_word_text` (fix a caption word).
+moment), `keep_source` / `cut_source` (bring back or cut an exact source passage), `remove_inserts` and `set_word_text` (fix a caption word).
 
 Each message becomes typed operations (`src/core/ops.ts`) applied incrementally to the current timeline; the
 result is a **proposal** you preview, then **Applica / Annulla / Prova un'altra versione**. Applied changes are
@@ -79,7 +79,7 @@ and the default duration budget (`src/core/presets.ts`). Switching preset keeps 
 ## Tests
 
 ```bash
-npm test         # 58 tests: engine/agents, chat interpreter on the spec commands, history, QC, score, ffmpeg pipeline
+npm test         # 59 tests: engine/agents, chat interpreter on the spec commands, history, QC, score, ffmpeg pipeline
 npm run typecheck
 ```
 
@@ -96,7 +96,9 @@ npm run typecheck
   silence are filtered (`src/core/agents/transcriptClean.ts`).
 - Without `ANTHROPIC_API_KEY`, semantic roles (hook/payoff/CTA) and chat intents use rules (IT/EN), not an LLM.
 - B-roll is kept in narrative order; semantic B-roll overlay on matching phrases is Phase 2.
-- No music library is bundled (licensing): upload your own track, it is ducked under speech automatically.
+- No licensed music is bundled: two built-in tracks are synthesized from scratch (`scripts/gen-music.mjs` tarantella,
+  `scripts/gen-music-pizzeria.mjs` pizzeria: mandolin, musette accordion, guitar, bass). Or upload your own track.
+  Music is ducked smoothly under speech and starts after the channel intro.
 - Render speed on 4 CPU: ≈ 5 s per output second at 1080p (TEST RESULT 2026-10-01). Remotion is free for teams of
   up to 3 people; larger companies need a license.
 - Local single-user app: no auth. Never expose port 5174 publicly.

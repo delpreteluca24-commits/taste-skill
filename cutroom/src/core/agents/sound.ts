@@ -49,14 +49,17 @@ export function buildSfx(s: EditSettings, graphics: GraphicItem[], transitions: 
     }));
 }
 
-export const BUILTIN_MUSIC: Record<string, string> = { tarantella: 'Tarantella (generata, mandolino e chitarra)' };
+export const BUILTIN_MUSIC: Record<string, string> = {
+  tarantella: 'Tarantella (generata, mandolino e chitarra)',
+  pizzeria: 'Pizzeria (generata, mandolino, fisarmonica, chitarra e contrabbasso)',
+};
 
 /** Uploaded track wins; otherwise the chosen built-in track (`builtin:<name>`). */
-export function buildMusic(s: EditSettings, uploadedId: string | null, duration: number): MusicItem[] {
+export function buildMusic(s: EditSettings, uploadedId: string | null, duration: number, start = 0): MusicItem[] {
   const musicMediaId = uploadedId ?? (s.musicTrack && BUILTIN_MUSIC[s.musicTrack] ? `builtin:${s.musicTrack}` : null);
-  if (!musicMediaId || duration <= 0) return [];
+  if (!musicMediaId || duration - start <= 1) return [];
   return [{
-    id: hashId('mus', musicMediaId), type: 'music', source: musicMediaId, start: 0, end: round(duration), layer: 10,
+    id: hashId('mus', musicMediaId), type: 'music', source: musicMediaId, start: round(start), end: round(duration), layer: 10,
     reason: 'Musica di sottofondo con ducking automatico sul parlato',
     properties: { volume: s.musicVolume, duckVolume: s.duckVolume, fadeIn: 0.6, fadeOut: 1.2 },
   }];
