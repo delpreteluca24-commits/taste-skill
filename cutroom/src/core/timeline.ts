@@ -97,6 +97,12 @@ export const MediaAsset = z.object({
   position: z.number(),
   size: z.number(),
   status: z.enum(['uploaded', 'processing', 'ready', 'error']),
+  /** story = part of the narrative order; insert = only used for inserts (gags, cutaways). */
+  use: z.enum(['story', 'insert']).optional(),
+  /** The channel's fixed intro clip, prepended to every project. */
+  brandIntro: z.boolean().optional(),
+  /** Unprocessed original audio available (orig.wav). */
+  orig: z.boolean().optional(),
   error: z.string().optional(),
   duration: z.number().optional(),
   width: z.number().optional(),
@@ -209,13 +215,13 @@ export const ClipItem = z.object({
     srcEnd: z.number(),
     speed: z.number(),
     volume: z.number(),
-    role: z.enum(['aroll', 'broll', 'hook']),
+    role: z.enum(['aroll', 'broll', 'hook', 'select', 'insert']),
     crop: Crop,
   }),
 });
 export type ClipItem = z.infer<typeof ClipItem>;
 
-export const CutKind = z.enum(['silence', 'filler', 'repeat', 'false_start', 'intro', 'hallucination', 'broll_trim', 'duration', 'black', 'user']);
+export const CutKind = z.enum(['silence', 'filler', 'repeat', 'false_start', 'intro', 'hallucination', 'broll_trim', 'duration', 'black', 'user', 'not_selected']);
 export type CutKind = z.infer<typeof CutKind>;
 
 /** Removed source ranges (start/end are SOURCE seconds). */
@@ -297,6 +303,9 @@ export const ZoomItem = z.object({
     to: z.number(),
     /** Seconds of the ease-in (punch = fast). */
     ease: z.number(),
+    /** Optional focus point (normalized, source frame) the camera moves to — e.g. an ingredient plate. */
+    x: z.number().optional(),
+    y: z.number().optional(),
   }),
 });
 export type ZoomItem = z.infer<typeof ZoomItem>;
@@ -319,6 +328,12 @@ export const Timeline = z.object({
   cuts: z.array(CutItem),
   /** Source ranges removed by the user (survive regeneration). */
   userCuts: z.array(z.object({ source: z.string(), start: z.number(), end: z.number() })),
+  /** Source ranges forced into the edit (survive pause/duration rules). */
+  userKeeps: z.array(z.object({ source: z.string(), start: z.number(), end: z.number() })).default([]),
+  /** Hand/vision-picked moments: when a clip has selects, ONLY these ranges are used (e.g. "only when he puts the ingredient on"). */
+  selects: z.record(z.string(), z.array(z.object({ start: z.number(), end: z.number() }))).default({}),
+  /** Short clips dropped in at a source instant of another clip (gags, reactions). */
+  inserts: z.array(z.object({ id: z.string(), mediaId: z.string(), srcStart: z.number(), srcEnd: z.number(), afterMediaId: z.string(), afterSrc: z.number() })).default([]),
   /** Per-word caption text corrections. */
   wordOverrides: z.record(z.string(), z.string()),
   /** Ids of auto-generated elements the user deleted: regeneration must not bring them back. */
@@ -351,6 +366,8 @@ export interface EditContext {
   order: string[];
   /** Uploaded background music track, if any. */
   musicId?: string | null;
+  /** Media holding the channel's fixed intro (prepended), if any. */
+  brandIntroId?: string | null;
   /** Uploaded still images (photo cutaways), newest last. */
   images?: { id: string; name: string }[];
 }

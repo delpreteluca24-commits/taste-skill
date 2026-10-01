@@ -1,9 +1,10 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import { store, newId, type ChatMessage, type Project, type Proposal, type RenderRecord } from './store';
-import { analyzeProject, buildContext, masterPath, imagePath } from './analyze';
+import { analyzeProject, buildContext, masterPath, imagePath, ensureAudioTracks, originalPath } from './analyze';
+import { sloganSpan } from '../core/agents/brand';
 import { probe } from './media/ffmpeg';
-import { loadBrand, saveBrand } from './brand';
+import { loadBrand, saveBrand, saveBrandIntro, brandIntroFile } from './brand';
 import { enqueue, activeJob } from './jobs';
 import { renderTimeline, RESOLUTIONS } from './render';
 import { config } from './config';
@@ -125,6 +126,7 @@ export async function startAnalysis(id: string, preset?: PresetId) {
   if (videos.length < 1) throw new HttpError(400, 'Carica almeno un video');
   const existing = activeJob(id, 'analyze');
   if (existing) return existing;
+  await prependBrandIntro(id);
   await store.withLock(id, async () => {
     const q = await must(id);
     q.status = 'analyzing';
@@ -303,7 +305,15 @@ export async function applyUserOps(id: string, ops: Op[], label = 'Modifica manu
   const ctx = await buildContext(p);
   const { timeline, notes } = applyOps(head, ops, ctx);
   // The slogan belongs to the channel: remember it for every future video.
-  for (const o of ops) if (o.op === 'set_slogan') await saveBrand({ ...(await loadBrand()), slogan: o.text });
+  for (const o of ops) {
+    if (o.op !== 'set_slogan') continue;
+    // The intro is the channel's: save the exact take (original audio) and reuse it identically in every video.
+    const span = o.text ? sloganSpan(ctx, timeline.settings) : null;
+    const host = span ? p.media.find((m) => m.id === span.mediaId) : undefined;
+    const brand = { ...(await loadBrand()), slogan: o.text };
+    if (span && host && !host.brandIntro) brand.intro = await saveBrandIntro(originalPath(p, host), span.srcStart, span.srcEnd);
+    await saveBrand(brand);
+  }
   const r = await commitVersion(id, timeline, label, 'user', describeChange(head, timeline), ops);
   return { ...r, notes };
 }
@@ -333,10 +343,16 @@ export async function startRender(id: string, resolution: keyof typeof RESOLUTIO
   if (resolution === '2160' && maxSide < 3000) throw new HttpError(400, '4K disponibile solo con sorgenti 4K.');
   const rec: RenderRecord = { id: newId(), versionId: p.history.head!, resolution, status: 'queued', progress: 0, createdAt: new Date().toISOString() };
   await store.withLock(id, async () => { const r = await store.getRenders(id); r.unshift(rec); await store.saveRenders(id, r.slice(0, 20)); });
-  const media: Record<string, { src: string; voiceSrc?: string; width: number; height: number }> = {};
+  const media: Record<string, { src: string; voiceSrc?: string; origSrc?: string; width: number; height: number }> = {};
   for (const m of p.media.filter((x) => x.status === 'ready')) {
     const a = ctx.analyses[m.id];
-    media[m.id] = { src: `${baseUrl}/files/${id}/${m.id}/${path.basename(m.kind === 'image' ? imagePath(p, m) : masterPath(p, m))}`, voiceSrc: m.voice ? `${baseUrl}/files/${id}/${m.id}/voice.wav` : undefined, width: a?.raw.width ?? m.width ?? 1080, height: a?.raw.height ?? m.height ?? 1920 };
+    const isVideo = m.kind === 'video';
+    media[m.id] = {
+      src: `${baseUrl}/files/${id}/${m.id}/${path.basename(m.kind === 'image' ? imagePath(p, m) : masterPath(p, m))}`,
+      voiceSrc: isVideo ? `${baseUrl}/files/${id}/${m.id}/voice.wav` : undefined,
+      origSrc: isVideo ? `${baseUrl}/files/${id}/${m.id}/orig.wav` : undefined,
+      width: a?.raw.width ?? m.width ?? 1080, height: a?.raw.height ?? m.height ?? 1920,
+    };
   }
   const setRec = (patch: Partial<RenderRecord>) => store.withLock(id, async () => {
     const r = await store.getRenders(id);
@@ -344,6 +360,8 @@ export async function startRender(id: string, resolution: keyof typeof RESOLUTIO
   });
   const job = enqueue('render', id, async (j) => {
     await setRec({ status: 'rendering' });
+    j.step = 'Tracce audio';
+    for (const m of p.media.filter((x) => x.kind === 'video' && x.status === 'ready')) await ensureAudioTracks(p, m);
     const file = store.dir(id, 'renders', `${rec.id}.mp4`);
     try {
       const { renderMs } = await renderTimeline({ timeline, media, assetBase: `${baseUrl}/assets`, resolution, output: file, job: j });
@@ -356,6 +374,32 @@ export async function startRender(id: string, resolution: keyof typeof RESOLUTIO
     }
   });
   return { ...job, renderId: rec.id, warnings: issues.filter((i) => !i.fixed && i.severity === 'warning').map((i) => i.message) };
+}
+
+/** New projects open with the channel's saved intro (same take, same audio, every video). */
+async function prependBrandIntro(id: string) {
+  const brand = await loadBrand();
+  if (!brand.intro) return;
+  await store.withLock(id, async () => {
+    const p = await must(id);
+    if (p.history.versions.length || p.media.some((m) => m.brandIntro)) return;
+    const m: MediaAsset = { id: newId(), filename: 'intro-canale.mp4', kind: 'video', position: Math.min(0, ...p.media.map((x) => x.position)) - 1, size: 0, status: 'uploaded', brandIntro: true };
+    await fs.mkdir(store.mediaDir(id, m.id), { recursive: true });
+    await fs.copyFile(brandIntroFile(), path.join(store.mediaDir(id, m.id), 'original.mp4'));
+    p.media = [m, ...p.media];
+    await store.save(p);
+  });
+}
+
+export async function setMediaUse(id: string, mediaId: string, use: 'story' | 'insert') {
+  await store.withLock(id, async () => {
+    const p = await must(id);
+    p.media = p.media.map((m) => (m.id === mediaId ? { ...m, use } : m));
+    await store.save(p);
+  });
+  const p = await must(id);
+  if (p.history.head) await commitRebuild(id, use === 'insert' ? 'Clip usata solo come inserto' : 'Clip nel racconto');
+  return p;
 }
 
 export const renderFile = (id: string, rid: string) => store.dir(id, 'renders', `${rid}.mp4`);

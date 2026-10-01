@@ -71,6 +71,12 @@ export async function buildApp() {
     return svc.addMedia(id, files);
   });
   app.put('/api/projects/:id/media/order', async (req) => svc.reorderMedia(pid(req.params), z.object({ order: z.array(z.string()) }).parse(req.body).order));
+  app.patch('/api/projects/:id/media/:mediaId', async (req) => {
+    const { mediaId } = req.params as { mediaId: string };
+    if (!ID.test(mediaId)) throw new svc.HttpError(400, 'id non valido');
+    const body = z.object({ use: z.enum(['story', 'insert']) }).parse(req.body);
+    return svc.setMediaUse(pid(req.params), mediaId, body.use);
+  });
   app.delete('/api/projects/:id/media/:mediaId', async (req) => {
     const { mediaId } = req.params as { mediaId: string };
     if (!ID.test(mediaId)) throw new svc.HttpError(400, 'id non valido');
@@ -148,7 +154,7 @@ export async function buildApp() {
   // ── files (range requests for the Player and the renderer) ──
   app.get('/files/:id/:mediaId/:name', async (req, reply: FastifyReply) => {
     const { id, mediaId, name } = req.params as { id: string; mediaId: string; name: string };
-    if (!ID.test(id) || !ID.test(mediaId) || !(['master.mp4', 'preview.mp4', 'music.m4a', 'voice.wav'].includes(name) || /^original\.(jpe?g|png|webp)$/.test(name))) throw new svc.HttpError(400, 'file non valido');
+    if (!ID.test(id) || !ID.test(mediaId) || !(['master.mp4', 'preview.mp4', 'music.m4a', 'voice.wav', 'orig.wav'].includes(name) || /^original\.(jpe?g|png|webp)$/.test(name))) throw new svc.HttpError(400, 'file non valido');
     return reply.sendFile(`${id}/media/${mediaId}/${name}`, store.root);
   });
   app.get('/assets/sfx/:name', async (req, reply) => {

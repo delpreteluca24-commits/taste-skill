@@ -90,3 +90,45 @@ describe('slogan and photo commands', () => {
     expect(t2.audio.some((a) => a.reason.includes('photo'))).toBe(true);
   });
 });
+
+describe('patch ops', () => {
+  it('update_settings / update_captions only touch the keys they name', () => {
+    const t2 = applyOps(t, [{ op: 'set_slogan', text: 'Ciao ragazzi' }, { op: 'update_captions', patch: { fontSize: 96 } }], ctx).timeline;
+    const [o1, o2] = OpList.parse([{ op: 'update_settings', patch: { maxPause: 0.3 } }, { op: 'update_captions', patch: { maxWords: 3 } }]);
+    expect(Object.keys((o1 as { patch: object }).patch)).toEqual(['maxPause']);
+    const t3 = applyOps(t2, [o1, o2], ctx).timeline;
+    expect(t3.settings.slogan).toBe('Ciao ragazzi');
+    expect(t3.settings.maxPause).toBe(0.3);
+    expect(t3.settings.captions.fontSize).toBe(96);
+    expect(t3.settings.captions.maxWords).toBe(3);
+  });
+});
+
+describe('picked moments, gag inserts, detail zooms', () => {
+  const t0 = applyOps(t, [{ op: 'set_selects', mediaId: 'A', ranges: [{ start: 4.6, end: 7 }, { start: 14.2, end: 17 }] }], ctx).timeline;
+  it('set_selects keeps only the picked ranges, joined by the viral zoom transition', () => {
+    const a = t0.clips.filter((c) => c.source === 'A');
+    expect(a.map((c) => [c.properties.srcStart, c.properties.srcEnd])).toEqual([[4.6, 7], [14.2, 17]]);
+    expect(a.every((c) => c.properties.role === 'select')).toBe(true);
+    expect(t0.transitions.some((x) => x.properties.kind === 'zoom' && Math.abs(x.properties.at - a[1].start) < 0.01)).toBe(true);
+  });
+  it('add_insert splits the host shot and whips in/out; add_source_zoom follows the moment', () => {
+    const t1 = applyOps(t0, [
+      { op: 'add_insert', mediaId: 'C', srcStart: 1, srcEnd: 2, afterMediaId: 'A', afterSrc: 6 },
+      { op: 'add_source_zoom', mediaId: 'A', srcStart: 14.5, srcEnd: 16, scale: 1.3, x: 0.4, y: 0.7 },
+    ], ctx).timeline;
+    const i = t1.clips.findIndex((c) => c.properties.role === 'insert');
+    expect(t1.clips[i - 1].properties.srcEnd).toBe(6);
+    expect(t1.clips[i + 1].properties).toMatchObject({ srcStart: 6, srcEnd: 7 });
+    expect(t1.transitions.filter((x) => x.properties.kind === 'whip').length).toBeGreaterThanOrEqual(2);
+    const z = t1.zoom.find((x) => x.properties.x === 0.4)!;
+    const host = t1.clips.find((c) => c.source === 'A' && c.properties.srcStart === 14.2)!;
+    expect(z.start).toBeCloseTo(host.start + 0.3, 2);
+    expect(z.properties.to).toBe(1.3);
+  });
+  it('keep_source brings back a cut passage', () => {
+    const cut = applyOps(t, [{ op: 'remove_range', start: 0, end: 5 }], ctx).timeline;
+    const back = applyOps(cut, [{ op: 'keep_source', mediaId: 'A', start: 0.5, end: 2.6 }], ctx).timeline;
+    expect(back.clips.some((c) => c.source === 'A' && c.properties.srcStart <= 0.6)).toBe(true);
+  });
+});

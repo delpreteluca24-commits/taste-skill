@@ -22,6 +22,16 @@ export function zoomAt(zooms: ZoomItem[], t: number): number {
   return s;
 }
 
+/** Focus point of the strongest active camera move that has one (e.g. zoom onto the ingredient plate). */
+export function zoomFocusAt(zooms: ZoomItem[], t: number): { x: number; y: number; to: number } | null {
+  let best: { v: number; x: number; y: number } | null = null;
+  for (const z of zooms) {
+    if (t < z.start || t >= z.end || z.properties.x === undefined || z.properties.y === undefined) continue;
+    if (!best || z.properties.to > best.v) best = { v: z.properties.to, x: z.properties.x, y: z.properties.y };
+  }
+  return best ? { x: best.x, y: best.y, to: best.v } : null;
+}
+
 /** Transition overlay state at time t (applied around the cut point). */
 export function transitionAt(trs: TransitionItem[], t: number) {
   for (const tr of trs) {

@@ -52,8 +52,8 @@ export function runQc(t0: Timeline, ctx: EditContext): { timeline: Timeline; iss
     }
   }
 
-  // duplicated frames: same source range used twice outside the cold-open teaser
-  const story = t.clips.filter((c) => c.properties.role !== 'hook');
+  // duplicated frames: same source range used twice outside the cold-open teaser and gag inserts (repeated on purpose)
+  const story = t.clips.filter((c) => c.properties.role !== 'hook' && c.properties.role !== 'insert');
   for (let i = 0; i < story.length; i++) for (let j = i + 1; j < story.length; j++) {
     const a = story[i]; const b = story[j];
     if (a.source === b.source && overlap({ start: a.properties.srcStart, end: a.properties.srcEnd }, { start: b.properties.srcStart, end: b.properties.srcEnd }) > 0.2) {

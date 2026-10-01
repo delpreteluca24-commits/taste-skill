@@ -54,6 +54,18 @@ playhead) · `Rendi il video più dinamico` · `Rendi più dinamico il minuto in
 1.000 euro` · `Fai durare il video massimo 30 secondi` · `Rendi l'hook più forte` · `Usa meno SFX` ·
 `Metti una CTA finale "PRENOTA ORA"` · `Fai una versione più aggressiva` · `annulla`.
 
+**Channel intro.** `Non saltare mai la intro "we uagliù cià", è lo slogan del canale` makes the opening greeting the
+channel slogan: never cut, animated big words, and its audio is the **untouched original** (no denoise, no gating).
+The take is saved once in `data/brand/intro.mp4` and prepended to every new project, so the intro is identical in
+every video.
+
+**Precise edits (ops API / LLM).** Beyond chat rules, `POST /api/projects/:id/ops` accepts: `set_selects` (keep only
+the chosen moments of a clip, e.g. each ingredient going on the pizza; a zoom-punch transition joins them),
+`add_insert` (a gag clip such as a rooster call dropped in after a source instant, with whip in/out; mark the clip
+with `PATCH /api/projects/:id/media/:mediaId {"use":"insert"}` so it is not part of the story), `add_source_zoom`
+(punch-in on a point of the frame, e.g. the ingredient plate), `add_graphic` with `src` (a tag pinned to a source
+moment), `keep_source` (bring back a passage) and `set_word_text` (fix a caption word).
+
 Each message becomes typed operations (`src/core/ops.ts`) applied incrementally to the current timeline; the
 result is a **proposal** you preview, then **Applica / Annulla / Prova un'altra versione**. Applied changes are
 versions (Version 1 Originale, Version 2 Auto Edit, …): undo, redo, or jump to any version.
@@ -67,7 +79,7 @@ and the default duration budget (`src/core/presets.ts`). Switching preset keeps 
 ## Tests
 
 ```bash
-npm test         # 50 tests: engine/agents, chat interpreter on the spec commands, history, QC, score, ffmpeg pipeline
+npm test         # 58 tests: engine/agents, chat interpreter on the spec commands, history, QC, score, ffmpeg pipeline
 npm run typecheck
 ```
 

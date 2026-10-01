@@ -90,8 +90,22 @@ export function buildZooms(ctx: EditContext, clips: ClipItem[], s: EditSettings,
 
 /** Transition Engine: default CUT; transitions only where the scene really changes. */
 export function buildTransitions(clips: ClipItem[], s: EditSettings): TransitionItem[] {
-  if (s.transitionStyle === 'cut') return [];
   const out: TransitionItem[] = [];
+  // Explicit structures get their transition whatever the style: viral zoom between picked moments,
+  // whip in/out of a gag insert.
+  clips.forEach((c, i) => {
+    if (i === 0) return;
+    const prev = clips[i - 1];
+    const ins = prev.properties.role === 'insert' || c.properties.role === 'insert';
+    const sel = prev.properties.role === 'select' && c.properties.role === 'select' && prev.source === c.source && c.properties.srcStart - prev.properties.srcEnd > 0.3;
+    if (!ins && !sel) return;
+    out.push({
+      id: hashId('tr', c.id), type: 'transition', start: round(Math.max(0, c.start - 0.12)), end: round(c.start + 0.14), layer: 4,
+      reason: ins ? 'Gag: whip dentro/fuori dall\'inserto' : 'Transizione virale tra un passaggio e l\'altro',
+      properties: { kind: ins ? 'whip' : 'zoom', at: c.start },
+    });
+  });
+  if (s.transitionStyle === 'cut') return out;
   const kinds = s.transitionStyle === 'dynamic' ? (['whip', 'zoom', 'flash', 'swipe'] as const) : (['zoom', 'blur'] as const);
   const minGap = s.transitionStyle === 'dynamic' ? 3 : 6;
   let last = -Infinity;
@@ -100,6 +114,7 @@ export function buildTransitions(clips: ClipItem[], s: EditSettings): Transition
     if (i === 0) return;
     const prev = clips[i - 1];
     const sceneChange = prev.source !== c.source || prev.properties.role === 'hook';
+    if (out.some((x) => Math.abs(x.properties.at - c.start) < 0.05)) { last = c.start; return; }
     if (!sceneChange || c.start - last < minGap) return;
     const kind = kinds[k++ % kinds.length];
     out.push({

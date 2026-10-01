@@ -4,11 +4,17 @@ import { CaptionSettings, EditSettings, GraphicKind, PresetId, SfxName } from '.
 const LayerName = z.enum(['clips', 'zoom', 'subtitles', 'graphics', 'transitions', 'audio', 'music', 'effects']);
 const Range = z.object({ start: z.number().min(0), end: z.number().min(0) });
 
+/** Partial patch WITHOUT defaults: zod 4's `.partial()` still fills defaulted keys, which would silently reset untouched settings. */
+function patchOf<T extends z.ZodObject>(o: T) {
+  const shape = Object.fromEntries(Object.entries(o.shape).map(([k, v]) => [k, (v instanceof z.ZodDefault ? v.unwrap() : v).optional()]));
+  return z.object(shape) as unknown as ReturnType<T['partial']>;
+}
+
 /** TIMELINE_OPERATION — the only way anything (UI, chat rules, LLM) changes a timeline. */
 export const Op = z.discriminatedUnion('op', [
   z.object({ op: z.literal('apply_preset'), preset: PresetId }),
-  z.object({ op: z.literal('update_settings'), patch: EditSettings.omit({ captions: true }).partial() }),
-  z.object({ op: z.literal('update_captions'), patch: CaptionSettings.partial() }),
+  z.object({ op: z.literal('update_settings'), patch: patchOf(EditSettings.omit({ captions: true })) }),
+  z.object({ op: z.literal('update_captions'), patch: patchOf(CaptionSettings) }),
   /** Remove an output-time range (e.g. "taglia i primi 5 secondi"). */
   z.object({ op: z.literal('remove_range'), ...Range.shape }),
   z.object({ op: z.literal('restore_cuts') }),
@@ -33,7 +39,16 @@ export const Op = z.discriminatedUnion('op', [
     duration: z.number().positive().max(10).optional(),
     /** photo graphics: which uploaded image (default: the latest one). */
     mediaId: z.string().optional(),
+    /** Pin to a source range instead of a phrase/time (e.g. an ingredient tag). */
+    src: z.object({ mediaId: z.string(), start: z.number(), end: z.number() }).optional(),
   }),
+  /** Keep ONLY these source ranges of a clip (null clears). */
+  z.object({ op: z.literal('set_selects'), mediaId: z.string(), ranges: z.array(z.object({ start: z.number().min(0), end: z.number().min(0) })).nullable() }),
+  /** Force a source range into the edit (also removes manual cuts over it). */
+  z.object({ op: z.literal('keep_source'), mediaId: z.string(), start: z.number().min(0), end: z.number().min(0) }),
+  z.object({ op: z.literal('add_insert'), mediaId: z.string(), srcStart: z.number().min(0), srcEnd: z.number().min(0), afterMediaId: z.string(), afterSrc: z.number().min(0) }),
+  /** Camera move to a point of the frame during a source range (e.g. zoom on the plate). */
+  z.object({ op: z.literal('add_source_zoom'), mediaId: z.string(), srcStart: z.number().min(0), srcEnd: z.number().min(0), scale: z.number().min(1).max(1.8), x: z.number().min(0).max(1), y: z.number().min(0).max(1) }),
   /** Channel slogan / signature intro (null to remove). */
   z.object({ op: z.literal('set_slogan'), text: z.string().min(1).max(40).nullable() }),
   z.object({ op: z.literal('add_cta'), text: z.string().min(1).max(60) }),

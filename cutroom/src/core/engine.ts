@@ -9,15 +9,15 @@ import { buildSubtitles, mapWords } from './agents/subtitle';
 import { buildEffects, buildTransitions, buildZooms } from './agents/camera';
 import { buildGraphics } from './agents/motion';
 import { buildMusic, buildSfx } from './agents/sound';
-import { clampToDuration, layoutClips, outputRangeToSource, retimeAnchored, timelineDuration } from './timemap';
+import { clampToDuration, layoutClips, mapAnchor, outputRangeToSource, retimeAnchored, timelineDuration } from './timemap';
 import { norm } from './text';
-import { clamp, hashId, round } from './util';
+import { clamp, hashId, round, subtractSpans } from './util';
 
 export function emptyTimeline(preset: PresetId, ctx: EditContext): Timeline {
   return {
     version: 1, fps: 30, width: 1080, height: 1920, duration: 0,
     settings: presetSettings(preset),
-    clips: [], cuts: [], userCuts: [], wordOverrides: {}, suppressed: [],
+    clips: [], cuts: [], userCuts: [], userKeeps: [], selects: {}, inserts: [], wordOverrides: {}, suppressed: [],
     subtitles: [], graphics: [], transitions: [], audio: [], music: [], effects: [], zoom: [],
     metadata: { title: '', sourceOrder: [...ctx.order], hookSentenceId: null, warnings: [] },
   };
@@ -44,7 +44,7 @@ export function rebuild(t0: Timeline, ctx: EditContext, requested: Iterable<Laye
   const t: Timeline = { ...t0, metadata: { ...t0.metadata, sourceOrder: [...ctx.order], warnings: [] } };
   let hook: HookChoice | null;
   if (layers.has('clips')) {
-    const r = buildClips(ctx, t.settings, t.userCuts);
+    const r = buildClips(ctx, t.settings, t.userCuts, { userKeeps: t.userKeeps ?? [], selects: t.selects ?? {}, inserts: t.inserts ?? [] });
     t.clips = r.clips;
     t.cuts = r.cuts;
     hook = r.hook;
@@ -192,6 +192,37 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
         layers.add('audio');
         break;
       }
+      case 'set_selects': {
+        const sel = { ...(t.selects ?? {}) };
+        if (op.ranges?.length) sel[op.mediaId] = op.ranges.map((r) => ({ start: round(Math.min(r.start, r.end)), end: round(Math.max(r.start, r.end)) })).sort((a, b) => a.start - b.start);
+        else delete sel[op.mediaId];
+        t.selects = sel;
+        // Picked moments replace manual cuts on that clip.
+        t.userCuts = t.userCuts.filter((u) => u.source !== op.mediaId);
+        layers.add('clips');
+        break;
+      }
+      case 'keep_source': {
+        const r = { source: op.mediaId, start: round(Math.min(op.start, op.end)), end: round(Math.max(op.start, op.end)) };
+        t.userCuts = t.userCuts.flatMap((u) => (u.source !== r.source || u.end <= r.start || u.start >= r.end ? [u] : subtractSpans([u], [r]).map((x) => ({ source: u.source, ...x }))));
+        t.userKeeps = [...(t.userKeeps ?? []), r];
+        layers.add('clips');
+        break;
+      }
+      case 'add_insert':
+        t.inserts = [...(t.inserts ?? []), { id: hashId('ins', op.mediaId, op.afterMediaId, op.afterSrc), mediaId: op.mediaId, srcStart: op.srcStart, srcEnd: op.srcEnd, afterMediaId: op.afterMediaId, afterSrc: op.afterSrc }];
+        layers.add('clips');
+        break;
+      case 'add_source_zoom': {
+        const z: ZoomItem = {
+          id: hashId('zf', op.mediaId, op.srcStart), type: 'zoom', start: 0, end: 0, layer: 3, locked: true,
+          reason: 'Zoom sul dettaglio richiesto', anchor: { mediaId: op.mediaId, srcStart: op.srcStart, srcEnd: op.srcEnd },
+          properties: { kind: 'manual', from: 1, to: op.scale, ease: 0.25, x: op.x, y: op.y },
+        };
+        t.zoom = [...t.zoom.filter((x) => x.id !== z.id), z];
+        layers.add('clips');
+        break;
+      }
       case 'set_slogan':
         t.settings = { ...t.settings, slogan: op.text, ...(op.text ? { removeIntro: false, coldOpen: false } : {}) };
         layers.add('clips');
@@ -256,6 +287,11 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
         let start = op.at ?? 0;
         let anchor = undefined as GraphicItem['anchor'];
         let found = false;
+        if (op.src) {
+          anchor = { mediaId: op.src.mediaId, srcStart: op.src.start, srcEnd: op.src.end };
+          const m = mapAnchor(t.clips, anchor);
+          if (m) { start = m.start; found = true; }
+        }
         if (op.match) {
           const hit = findPhrase(ctx, t, op.match);
           if (hit) {
@@ -413,7 +449,10 @@ function sectionLabels(t: Timeline, ctx: EditContext, labels: string[]): Graphic
     const first = t.clips.find((c) => ids.includes(c.source) && c.properties.role !== 'hook');
     if (!first) return;
     const start = first.start + (gi === 0 ? 0.15 : 0.1);
-    const end = Math.min(first.end + 1.5, start + 2.2, t.duration);
+    let end = Math.min(first.end + 1.5, start + 2.2, t.duration);
+    // Never stack on another top graphic (ingredient tag, CTA): end just before it.
+    const tag = t.graphics.find((g) => g.properties.kind !== 'label' && g.properties.kind !== 'progress' && g.properties.position === 'top' && g.start > start && g.start < end);
+    if (tag && tag.start - 0.1 - start >= 1) end = tag.start - 0.1;
     out.push({
       id: hashId('gs', gi, labels[gi]), type: 'graphic', start: round(start), end: round(end), layer: 6, locked: true,
       reason: `Capitolo "${labels[gi]}": rende leggibile la struttura del racconto`,

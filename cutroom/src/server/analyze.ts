@@ -24,6 +24,13 @@ export const originalPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, 
 export const masterPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + (m.kind === 'audio' ? '/music.m4a' : '/master.mp4');
 export const voicePath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + '/voice.wav';
 export const imagePath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + '/original' + (m.filename.match(/\.[a-z0-9]+$/i)?.[0]?.toLowerCase() ?? '.jpg');
+export const origPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + '/orig.wav';
+
+/** Denoised voice track + untouched original audio (used for the channel intro). Idempotent. */
+export async function ensureAudioTracks(p: Project, m: MediaAsset) {
+  if (!existsSync(voicePath(p, m))) await voiceTrack(masterPath(p, m), voicePath(p, m));
+  if (!existsSync(origPath(p, m))) await ffmpeg(['-i', originalPath(p, m), '-vn', '-ac', '2', '-ar', '48000', '-c:a', 'pcm_s16le', origPath(p, m)]);
+}
 export const previewPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + (m.kind === 'audio' ? '/music.m4a' : '/preview.mp4');
 
 /** Media Analysis + Transcription agents for one video file → RawAnalysis (cached by content hash). */
@@ -101,13 +108,11 @@ export async function analyzeProject(projectId: string, job: Job) {
           continue;
         }
         const raw = await analyzeOne(p0, m, report);
-        if (!existsSync(voicePath(p0, m))) {
-          report(0.98, `${m.filename}: isolo la voce`);
-          await voiceTrack(masterPath(p0, m), voicePath(p0, m));
-        }
+        report(0.98, `${m.filename}: tracce audio (voce isolata + originale)`);
+        await ensureAudioTracks(p0, m);
         await store.saveRaw(projectId, m.id, raw);
         await store.saveAnalysis(projectId, m.id, analyzeVideo(m.id, m.filename, raw));
-        await setMedia(projectId, m.id, { status: 'ready', voice: true, duration: raw.duration, width: raw.width, height: raw.height, fps: raw.fps });
+        await setMedia(projectId, m.id, { status: 'ready', voice: true, orig: true, duration: raw.duration, width: raw.width, height: raw.height, fps: raw.fps });
       } catch (e: any) {
         await setMedia(projectId, m.id, { status: 'error', error: String(e?.message ?? e) });
         throw e;
@@ -135,6 +140,8 @@ async function setMedia(projectId: string, mediaId: string, patch: Partial<Media
 /** EditContext for the engine: ready video analyses in narrative order + story roles across the whole project. */
 export async function buildContext(p: Project): Promise<EditContext> {
   const videos = p.media.filter((m) => m.kind === 'video' && m.status === 'ready').sort((a, b) => a.position - b.position);
+  // Insert-only media (gags, reactions) are analysed but are not part of the narrative order.
+  const story = videos.filter((m) => m.use !== 'insert');
   const analyses: EditContext['analyses'] = {};
   for (const m of videos) {
     // Semantic analysis is cheap and pure: recompute from the raw measurements so engine fixes apply to old projects.
@@ -142,5 +149,5 @@ export async function buildContext(p: Project): Promise<EditContext> {
     if (raw) analyses[m.id] = analyzeVideo(m.id, m.filename, raw);
   }
   const music = p.media.find((m) => m.kind === 'audio' && m.status === 'ready');
-  return assignStoryRoles({ analyses, order: videos.filter((m) => analyses[m.id]).map((m) => m.id), musicId: music?.id ?? null, images: p.media.filter((m) => m.kind === 'image' && m.status === 'ready').sort((a, b) => a.position - b.position).map((m) => ({ id: m.id, name: m.filename })) });
+  return assignStoryRoles({ analyses, order: story.filter((m) => analyses[m.id]).map((m) => m.id), brandIntroId: story.find((m) => m.brandIntro)?.id ?? null, musicId: music?.id ?? null, images: p.media.filter((m) => m.kind === 'image' && m.status === 'ready').sort((a, b) => a.position - b.position).map((m) => ({ id: m.id, name: m.filename })) });
 }

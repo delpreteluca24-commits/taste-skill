@@ -5,9 +5,9 @@ import { cropWindow } from '../core/agents/reframe';
 import { Captions } from './Captions';
 import { Graphics } from './Graphics';
 import { loadCaptionFonts } from './fonts';
-import { GRADE_FILTER, transitionAt, zoomAt } from './math';
+import { GRADE_FILTER, transitionAt, zoomAt, zoomFocusAt } from './math';
 
-export interface MediaRef { src: string; voiceSrc?: string; width: number; height: number }
+export interface MediaRef { src: string; voiceSrc?: string; origSrc?: string; width: number; height: number }
 
 export interface ShortVideoProps {
   timeline: Timeline;
@@ -26,12 +26,28 @@ const ClipView: React.FC<{ clip: ClipItem; media: MediaRef; timeline: Timeline; 
   const { fps } = useVideoConfig();
   const t = clip.start + frame / fps;
   const scale = zoomAt(timeline.zoom, t);
-  const win = cropWindow(media.width, media.height, clip.properties.crop, scale);
+  // Camera travels toward a zoom's focus point (e.g. the ingredient plate) as the zoom builds up.
+  const zf = zoomFocusAt(timeline.zoom, t);
+  const base = clip.properties.crop;
+  const k = zf ? Math.min(1, Math.max(0, (scale - 1) / Math.max(0.01, zf.to - 1))) : 0;
+  const focus = zf ? { x: base.x + (zf.x - base.x) * k, y: base.y + (zf.y - base.y) * k, mode: 'manual' as const } : base;
+  const win = cropWindow(media.width, media.height, focus, scale);
   const vw = W / win.w;
   const vh = H / win.h;
   // Voice isolation: play the denoised voice track and close it between phrases (only the speaker is heard).
   const iso = timeline.settings.voiceIsolation ?? 0;
-  const isolate = iso > 0 && !!media.voiceSrc;
+  const role = clip.properties.role;
+  // Inserts (gags) keep their own sound: the rooster must be heard.
+  const isolate = iso > 0 && !!media.voiceSrc && role !== 'insert';
+  // The channel intro plays its ORIGINAL audio, untouched, every time.
+  const slogan = timeline.graphics.find((g) => g.properties.kind === 'slogan');
+  const useOrig = !!slogan && !!media.origSrc && clip.start < slogan.end && clip.end > slogan.start;
+  const inSlogan = (tt: number) => {
+    if (!slogan) return 0;
+    const ramp = 0.04;
+    if (tt < slogan.start - ramp || tt > slogan.end + ramp) return 0;
+    return Math.min(1, (tt - (slogan.start - ramp)) / ramp, (slogan.end + ramp - tt) / ramp);
+  };
   const floor = 1 - 0.97 * iso;
   const gate = (tt: number) => {
     let near = Infinity;
@@ -47,7 +63,7 @@ const ClipView: React.FC<{ clip: ClipItem; media: MediaRef; timeline: Timeline; 
         src={media.src}
         trimBefore={Math.max(0, Math.round(clip.properties.srcStart * fps))}
         playbackRate={clip.properties.speed}
-        volume={isolate ? 0 : clip.properties.volume}
+        volume={isolate ? 0 : (fr: number) => clip.properties.volume * (useOrig ? 1 - inSlogan(clip.start + fr / fps) : 1)}
         muted={isolate}
         pauseWhenBuffering
         style={{ position: 'absolute', width: vw, height: vh, left: -win.x * vw, top: -win.y * vh, maxWidth: 'none', objectFit: 'fill' }}
@@ -57,7 +73,18 @@ const ClipView: React.FC<{ clip: ClipItem; media: MediaRef; timeline: Timeline; 
           src={media.voiceSrc!}
           trimBefore={Math.max(0, Math.round(clip.properties.srcStart * fps))}
           playbackRate={clip.properties.speed}
-          volume={(f) => clip.properties.volume * (clip.properties.role === 'broll' ? floor : gate(clip.start + f / fps))}
+          volume={(f) => {
+            const tt = clip.start + f / fps;
+            return clip.properties.volume * (1 - (useOrig ? inSlogan(tt) : 0)) * (role === 'broll' ? floor : gate(tt));
+          }}
+        />
+      )}
+      {useOrig && (
+        <Html5Audio
+          src={media.origSrc!}
+          trimBefore={Math.max(0, Math.round(clip.properties.srcStart * fps))}
+          playbackRate={clip.properties.speed}
+          volume={(f) => clip.properties.volume * inSlogan(clip.start + f / fps)}
         />
       )}
     </AbsoluteFill>

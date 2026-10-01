@@ -9,7 +9,7 @@ import { layoutClips } from '../timemap';
 
 interface Keep extends Span {
   mediaId: string;
-  role: 'aroll' | 'broll' | 'hook';
+  role: 'aroll' | 'broll' | 'hook' | 'select' | 'insert';
   /** Story weight of the span (for duration trimming). */
   score: number;
   sentenceRole?: string;
@@ -102,7 +102,13 @@ const sentenceAt = (a: VideoAnalysis, sp: Span) => {
 };
 
 /** Cut Agent: all clips for the timeline + the record of every removed range and why. */
-export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline['userCuts']) {
+export interface ClipDirectives {
+  userKeeps: Timeline['userKeeps'];
+  selects: Timeline['selects'];
+  inserts: Timeline['inserts'];
+}
+
+export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline['userCuts'], dir: ClipDirectives = { userKeeps: [], selects: {}, inserts: [] }) {
   const cuts: CutItem[] = [];
   const warnings: string[] = [];
   const keeps: Keep[] = [];
@@ -116,7 +122,13 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
     const d = a.raw.duration;
     let spans: Span[];
     let removed: { span: Span; kind: CutKind }[] = [];
-    if (a.kind === 'aroll') {
+    const sel = dir.selects[mediaId];
+    const isSelect = !!sel?.length;
+    if (isSelect) {
+      // Picked moments only (e.g. hands putting the ingredient on): nothing else of this clip survives.
+      spans = subtractSpans(mergeSpans(sel.map((r) => ({ start: Math.max(0, r.start), end: Math.min(d, r.end) })), 0), a.raw.black);
+      if (a.kind === 'aroll') firstSpeech = false;
+    } else if (a.kind === 'aroll') {
       const r = speechKeeps(a, s, firstSpeech);
       spans = r.keeps;
       removed = r.removed;
@@ -125,10 +137,20 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
         spans = mergeSpans([...spans, { start: slogan.srcStart, end: slogan.srcEnd }], 0.4);
         removed = removed.filter((x) => x.span.end <= slogan.srcStart || x.span.start >= slogan.srcEnd);
       }
+      // A fixed channel intro already opens the video: drop the creator's repeated greeting in the first take.
+      if (firstSpeech && ctx.brandIntroId && ctx.brandIntroId !== mediaId && s.slogan) {
+        const first = a.sentences[0];
+        if (first && first.start < 3.5 && first.wordIds.length <= s.slogan.split(/\s+/).length + 2) {
+          spans = subtractSpans(spans, [{ start: 0, end: first.end + 0.05 }]);
+          removed.push({ span: { start: first.start, end: first.end }, kind: 'intro' });
+        }
+      }
       firstSpeech = false;
     } else {
       spans = brollKeeps(a, s);
     }
+    const forced = dir.userKeeps.filter((k) => k.source === mediaId);
+    if (forced.length) spans = mergeSpans([...spans, ...forced], 0.05);
     const user = userCuts.filter((u) => u.source === mediaId && !(slogan?.mediaId === mediaId && u.start < slogan.srcEnd && u.end > slogan.srcStart));
     spans = subtractSpans(spans, user).filter((sp) => sp.end - sp.start >= 0.25);
     // Merge fragments shorter than minShot into a neighbour if they are close, else keep only if ≥ 0.3 s.
@@ -140,13 +162,13 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
     }, []);
     for (const sp of spans) {
       const st = sentenceAt(a, sp);
-      keeps.push({ ...sp, mediaId, role: a.kind, score: st?.score ?? (a.kind === 'broll' ? 0.45 : 0.4), sentenceRole: st?.role });
+      keeps.push({ ...sp, mediaId, role: isSelect ? 'select' : a.kind, score: st?.score ?? (a.kind === 'broll' ? 0.45 : 0.4), sentenceRole: st?.role });
     }
     // Record removed ranges with the most specific reason.
     const gaps = subtractSpans([{ start: 0, end: d }], spans).filter((g) => g.end - g.start > 0.05);
     for (const g of gaps) {
       const isUser = user.some((u) => overlap(u, g) > 0.05);
-      const base: CutKind = isUser ? 'user' : a.kind === 'broll' ? 'broll_trim' : a.raw.black.some((b) => overlap(b, g) > 0.1) ? 'black' : 'silence';
+      const base: CutKind = isUser ? 'user' : isSelect ? 'not_selected' : a.kind === 'broll' ? 'broll_trim' : a.raw.black.some((b) => overlap(b, g) > 0.1) ? 'black' : 'silence';
       // Split the gap by reason: removed words keep their own kind, the rest is pause/black/user.
       const segs: { start: number; end: number; kind: CutKind }[] = [];
       for (const r of removed.filter((x) => overlap(x.span, g) > 0).sort((x, y) => x.span.start - y.span.start)) {
@@ -177,7 +199,7 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
     const protectedRoles = new Set(['hook', 'payoff', 'cta']);
     const candidates = keeps
       .map((k, i) => ({ k, i }))
-      .filter(({ k }) => !protectedRoles.has(k.sentenceRole ?? '') && !(slogan && k.mediaId === slogan.mediaId && k.start < slogan.srcEnd && k.end > slogan.srcStart))
+      .filter(({ k }) => !protectedRoles.has(k.sentenceRole ?? '') && k.role !== 'select' && !dir.userKeeps.some((u) => u.source === k.mediaId && overlap(u, k) > 0.1) && !(slogan && k.mediaId === slogan.mediaId && k.start < slogan.srcEnd && k.end > slogan.srcStart))
       .sort((x, y) => x.k.score - y.k.score || (y.k.end - y.k.start) - (x.k.end - x.k.start));
     const removedIdx = new Set<number>();
     let running = total();
@@ -195,6 +217,25 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
     if (total() > s.maxDuration + 1) warnings.push(`Durata ${Math.round(total())}s oltre il massimo di ${s.maxDuration}s: i passaggi rimasti sono tutti essenziali.`);
   }
 
+  // Inserts (gags, reactions): split the host shot at the anchor instant and drop the insert in.
+  for (const ins of dir.inserts) {
+    if (!ctx.analyses[ins.mediaId]) continue;
+    const item: Keep = { start: ins.srcStart, end: ins.srcEnd, mediaId: ins.mediaId, role: 'insert', score: 1 };
+    let idx = keeps.findIndex((k) => k.mediaId === ins.afterMediaId && ins.afterSrc > k.start + 0.05 && ins.afterSrc < k.end - 0.05);
+    if (idx >= 0) {
+      const host = keeps[idx];
+      const head = { ...host, end: ins.afterSrc };
+      const tail = { ...host, start: ins.afterSrc };
+      keeps.splice(idx, 1, head, item, ...(tail.end - tail.start >= 0.25 ? [tail] : []));
+      continue;
+    }
+    // Anchor at a cut point (or cut away): insert after the last kept span that ends before it.
+    idx = -1;
+    keeps.forEach((k, i) => { if (k.mediaId === ins.afterMediaId && k.end <= ins.afterSrc + 0.06) idx = i; });
+    if (idx >= 0) keeps.splice(idx + 1, 0, item);
+    else warnings.push('Un inserto non ha trovato il suo punto di aggancio (parte tagliata).');
+  }
+
   if (hook?.teaser) keeps.unshift({ start: hook.teaser.srcStart, end: hook.teaser.srcEnd, mediaId: hook.teaser.mediaId, role: 'hook', score: 1 });
 
   // Reframing per clip, stabilized across jump cuts of the same take.
@@ -207,13 +248,13 @@ export function buildClips(ctx: EditContext, s: EditSettings, userCuts: Timeline
     prevCrop = crop;
     prevMedia = k.mediaId;
     return {
-      id: hashId('clip', k.mediaId, k.start, k.role),
+      id: hashId('clip', k.mediaId, k.start, k.end, k.role),
       type: 'clip' as const,
       source: k.mediaId,
       start: 0,
       end: 0,
       layer: 0,
-      reason: k.role === 'hook' ? 'Cold open: anticipa il momento più forte' : k.role === 'broll' ? 'B-roll: finestra visiva più dinamica' : 'Parlato utile (pause e ripetizioni rimosse)',
+      reason: k.role === 'hook' ? 'Cold open: anticipa il momento più forte' : k.role === 'select' ? 'Momento scelto: azione + parola, senza tempi morti' : k.role === 'insert' ? 'Inserto (gag) nel momento divertente' : k.role === 'broll' ? 'B-roll: finestra visiva più dinamica' : 'Parlato utile (pause e ripetizioni rimosse)',
       properties: {
         srcStart: round(k.start),
         srcEnd: round(k.end),
@@ -238,4 +279,5 @@ export const CUT_REASON: Record<CutKind, string> = {
   duration: 'Rimosso per rispettare la durata massima',
   black: 'Frame neri',
   user: 'Tagliato su tua richiesta',
+  not_selected: 'Tempo morto: movimento senza azione utile',
 };
