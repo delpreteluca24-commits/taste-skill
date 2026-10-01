@@ -158,6 +158,8 @@ export const EditSettings = z.object({
   musicTrack: z.string().nullable().default(null),
   /** 0..1: how much non-voice sound is removed (denoised voice track + gate outside speech). */
   voiceIsolation: z.number().default(0.4),
+  /** Pauses showing visible action (hands at work, product) may be kept up to this length (s). 0 = off. */
+  actionPause: z.number().default(0),
   maxDuration: z.number().nullable(),
   titleCard: z.boolean(),
   progressBar: z.boolean(),

@@ -87,7 +87,7 @@ const SETTING_LAYERS: Partial<Record<keyof EditSettings, Layer[]>> = {
   zoomDensity: ['zoom'], jumpcutZoom: ['zoom'], emphasisZoom: ['zoom'], pushIn: ['zoom'],
   graphicsDensity: ['graphics', 'effects'], titleCard: ['graphics'], progressBar: ['graphics'], ctaText: ['graphics'],
   sfxDensity: ['audio'], sfxVolume: ['audio'], transitionStyle: ['transitions', 'effects'],
-  musicVolume: ['music'], duckVolume: ['music'], musicTrack: ['music'],
+  musicVolume: ['music'], duckVolume: ['music'], musicTrack: ['music'], actionPause: ['clips'],
 };
 
 const STYLES = ['cut', 'subtle', 'dynamic'] as const;
@@ -367,6 +367,7 @@ function fitDuration(t0: Timeline, ctx: EditContext, lo: number, hi: number, not
       emphasisPause: round(Math.min(0.6, s.emphasisPause + 0.05), 3),
       brollShot: round(Math.min(3.5, s.brollShot + 0.3), 2),
       brollMaxTotal: round(Math.min(hi * 0.3, s.brollMaxTotal + 3), 2),
+      actionPause: round(Math.min(4, (s.actionPause ?? 0) + 0.8), 2),
     };
     best = rebuild({ ...t0, settings: s }, ctx, ['clips']);
   }

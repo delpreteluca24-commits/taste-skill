@@ -247,3 +247,14 @@ describe('user graphics make room without breaking the frame', () => {
     expect(t2.end).toBeLessThanOrEqual(title.start + 1.2);
   });
 });
+
+describe('templated hallucination loops', () => {
+  it('flags a run of same-frame sentences, keeps real speech', () => {
+    const text = 'Poi prendiamo la salsiccia. e la nostra domanda è che la nostra città è stata scoperta. La nostra cattà è scopata. La nostra domana è scomposta. La nostra storia è scombata. Un bacio!';
+    let t = 0;
+    const ws = words('Z', text.split(' ').map((w) => { const x: [string, number, number] = [w, t, t + 0.3]; t += 0.35; return x; }));
+    const out = cleanTranscript(ws, [], 60);
+    const shown = out.filter((w) => !w.flags.includes('hallucination')).map((w) => w.text).join(' ');
+    expect(shown).toBe('Poi prendiamo la salsiccia. Un bacio!');
+  });
+});

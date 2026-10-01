@@ -14,6 +14,16 @@ interface Keep extends Span {
   sentenceRole?: string;
 }
 
+export function meanMotion(a: VideoAnalysis, from: number, to: number): number {
+  const fps = a.raw.sampleFps || 2;
+  const i0 = Math.max(0, Math.floor(from * fps));
+  const i1 = Math.min(a.raw.motion.length - 1, Math.ceil(to * fps));
+  if (i1 < i0) return 0;
+  let s = 0;
+  for (let i = i0; i <= i1; i++) s += a.raw.motion[i];
+  return s / (i1 - i0 + 1);
+}
+
 /** Keep spans of a talking clip: words + padding, pauses longer than maxPause removed. */
 export function speechKeeps(a: VideoAnalysis, s: EditSettings, isFirstSpeech: boolean): { keeps: Span[]; removed: { span: Span; kind: CutKind }[] } {
   const words = a.raw.transcript?.words ?? [];
@@ -40,7 +50,9 @@ export function speechKeeps(a: VideoAnalysis, s: EditSettings, isFirstSpeech: bo
     const w = kept[i];
     const next = kept[i + 1];
     const emphasisNext = next && (isNumberLike(next.text) || isAlertWord(next.text));
-    const allowed = s.maxPause + (emphasisNext ? s.emphasisPause : 0) + (/[.!?]$/.test(w.text) ? s.emphasisPause * 0.5 : 0);
+    let allowed = s.maxPause + (emphasisNext ? s.emphasisPause : 0) + (/[.!?]$/.test(w.text) ? s.emphasisPause * 0.5 : 0);
+    // Action pauses: silence over visible work (hands, product) is content, not dead air.
+    if ((s.actionPause ?? 0) > allowed && next && meanMotion(a, w.end, next.start) >= 0.3) allowed = s.actionPause;
     const cur = spans[spans.length - 1];
     const span = { start: Math.max(0, w.start - s.padBefore), end: Math.min(a.raw.duration, w.end + s.padAfter) };
     const prevWord = kept[i - 1];

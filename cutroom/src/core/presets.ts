@@ -50,6 +50,7 @@ const base: EditSettings = {
   duckVolume: 0.08,
   musicTrack: null,
   voiceIsolation: 0.4,
+  actionPause: 0,
   maxDuration: 75,
   titleCard: true,
   progressBar: false,

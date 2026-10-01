@@ -56,6 +56,32 @@ export function cleanTranscript(words: Word[], silences: Range[], duration: numb
   }
   ws = ws.map((w, i) => (flagged.has(i) ? addFlag(w, 'hallucination') : w));
 
+  // 1b) Templated loops: Whisper on noise often emits the same sentence frame again and again with different
+  //     fillers ("La nostra città è scoperta. La nostra domanda è scomposta. …"). Three or more consecutive short
+  //     sentences opening with the same two words → the whole run is hallucinated (the first included).
+  {
+    const sents: { from: number; to: number; key: string }[] = [];
+    let from = 0;
+    ws.forEach((w, i) => {
+      if (/[.!?]$/.test(w.text) || i === ws.length - 1) {
+        const k = keys.slice(from, Math.min(from + 2, i + 1)).join(' ');
+        sents.push({ from, to: i, key: k });
+        from = i + 1;
+      }
+    });
+    for (let a = 0; a < sents.length; a++) {
+      let b = a;
+      while (b + 1 < sents.length && sents[b + 1].key === sents[a].key && sents[b + 1].to - sents[b + 1].from <= 8) b++;
+      if (b - a + 1 >= 3 && sents[a].key.split(' ').length === 2) {
+        // The sentence just before often already contains the frame ("e la nostra domanda …").
+        const prev = sents[a - 1];
+        const start = prev && keys.slice(prev.from, prev.to + 1).join(' ').includes(sents[a].key) ? prev.from : sents[a].from;
+        for (let k = start; k <= sents[b].to; k++) ws[k] = addFlag(ws[k], 'hallucination');
+        a = b;
+      }
+    }
+  }
+
   // 2) Words that sit (≥ 80 %) inside detected silence were not spoken.
   ws = ws.map((w) => {
     const len = Math.max(0.01, w.end - w.start);

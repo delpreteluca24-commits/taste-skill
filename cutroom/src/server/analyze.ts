@@ -7,6 +7,7 @@ import { ffmpeg, probe } from './media/ffmpeg';
 import { voiceTrack, energyEnvelope, frames, loudness, motionSeries, normalize, pcm16k, silences, visualEvents } from './media/process';
 import { detectFaces } from './vision/faces';
 import { transcribe, sttLabel } from './stt';
+import { correctTranscript } from './llm/transcriptFix';
 import { analyzeVideo, assignStoryRoles } from '../core/agents/story';
 import type { EditContext, MediaAsset, RawAnalysis } from '../core/timeline';
 
@@ -54,6 +55,14 @@ async function analyzeOne(p: Project, m: MediaAsset, report: (frac: number, step
   let transcript = null;
   if (pr.hasAudio && loud.integrated > -60) {
     transcript = await transcribe(m.id, pcm, master);
+    if (config.anthropicKey && transcript.words.length) {
+      report(0.9, `${m.filename}: correzione sottotitoli (Claude)`);
+      try {
+        transcript = (await correctTranscript(transcript, `video "${p.name}", file ${m.filename}`)).transcript;
+      } catch (e) {
+        console.warn('[transcript] correction skipped:', (e as Error).message);
+      }
+    }
   }
   const raw: RawAnalysis = {
     duration: mp.duration, fps: mp.fps, width: mp.width, height: mp.height, hasAudio: pr.hasAudio,
