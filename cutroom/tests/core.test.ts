@@ -235,3 +235,15 @@ describe('edits never surprise on duration', () => {
     expect(h2.metadata.hookSentenceId).not.toBe(h1.metadata.hookSentenceId);
   });
 });
+
+describe('user graphics make room without breaking the frame', () => {
+  it('shortens the title, keeps the progress bar', () => {
+    const ctx = demoContext();
+    const v = autoEdit(ctx, 'viral');
+    const title = v.graphics.find((g) => g.properties.kind === 'title')!;
+    const { timeline: t } = applyOps(v, [{ op: 'add_graphic', kind: 'keyword', text: 'TEST', at: title.start + 1.2 }], ctx);
+    expect(t.graphics.find((g) => g.properties.kind === 'progress')!.end).toBeCloseTo(t.duration, 2);
+    const t2 = t.graphics.find((g) => g.properties.kind === 'title')!;
+    expect(t2.end).toBeLessThanOrEqual(title.start + 1.2);
+  });
+});

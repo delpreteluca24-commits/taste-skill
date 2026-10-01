@@ -260,7 +260,7 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
         // Auto graphics in the same slot make room: shortened if ≥ 0.8 s remains before the new one, else removed.
         t.graphics = [
           ...t.graphics.flatMap((x) => {
-            if (x.locked || x.properties.position !== g.properties.position || !(x.start < g.end && x.end > g.start)) return [x];
+            if (x.locked || x.properties.kind === 'progress' || x.properties.position !== g.properties.position || !(x.start < g.end && x.end > g.start)) return [x];
             return g.start - 0.1 - x.start >= 0.8 ? [{ ...x, end: round(g.start - 0.1) }] : [];
           }),
           g,
