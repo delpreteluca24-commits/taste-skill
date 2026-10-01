@@ -87,7 +87,7 @@ const SETTING_LAYERS: Partial<Record<keyof EditSettings, Layer[]>> = {
   zoomDensity: ['zoom'], jumpcutZoom: ['zoom'], emphasisZoom: ['zoom'], pushIn: ['zoom'],
   graphicsDensity: ['graphics', 'effects'], titleCard: ['graphics'], progressBar: ['graphics'], ctaText: ['graphics'],
   sfxDensity: ['audio'], sfxVolume: ['audio'], transitionStyle: ['transitions', 'effects'],
-  musicVolume: ['music'], duckVolume: ['music'],
+  musicVolume: ['music'], duckVolume: ['music'], musicTrack: ['music'],
 };
 
 const STYLES = ['cut', 'subtle', 'dynamic'] as const;
@@ -141,7 +141,7 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
     const s = t.settings;
     switch (op.op) {
       case 'apply_preset': {
-        t.settings = presetSettings(op.preset, { ctaText: s.ctaText, seed: s.seed });
+        t.settings = presetSettings(op.preset, { ctaText: s.ctaText, seed: s.seed, musicTrack: s.musicTrack ?? null, voiceIsolation: s.voiceIsolation ?? 0.4 });
         // A style change never makes the edit longer than it is now (only shorter, for tighter presets).
         const presetMax = t.settings.maxDuration ?? Infinity;
         const keep = s.maxDuration !== presetSettings(s.preset).maxDuration ? s.maxDuration ?? Infinity : Infinity;
@@ -176,6 +176,20 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
         if (op.seconds) t.settings.brollMaxTotal = Math.min(s.brollMaxTotal, Math.max(op.seconds * 0.15, s.brollShot));
         layers.add('clips');
         break;
+      case 'set_duration_range': {
+        const lo = Math.min(op.min, op.max);
+        const hi = Math.max(op.min, op.max);
+        t = fitDuration(t, ctx, lo, hi, notes);
+        break;
+      }
+      case 'structure_sections': {
+        // Logical order beats a teaser: no cold open, keep the speaker's own intro.
+        t.settings = { ...t.settings, coldOpen: false, removeIntro: false, titleCard: false };
+        t = rebuild(t, ctx, ['clips']);
+        t.graphics = [...t.graphics.filter((g) => !(g.properties.kind === 'label' && g.locked)), ...sectionLabels(t, ctx, op.labels)].sort((a, b) => a.start - b.start);
+        layers.add('audio');
+        break;
+      }
       case 'pacing': {
         const k = { low: 0.5, medium: 1, high: 1.6 }[op.intensity];
         const faster = op.direction === 'faster';
@@ -336,6 +350,55 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
     if (layers.size) t = rebuild(t, ctx, layers);
   }
   return { timeline: t, notes };
+}
+
+/**
+ * Duration fitting: the cut agent only ever shortens (story budget), so to reach a minimum we keep more of the
+ * material — longer pauses/breaths, more B-roll — step by step, and stop at the first edit inside the range.
+ */
+function fitDuration(t0: Timeline, ctx: EditContext, lo: number, hi: number, notes: string[]): Timeline {
+  let s = { ...t0.settings, maxDuration: hi, brollMaxTotal: Math.max(t0.settings.brollMaxTotal, 6) };
+  let best = rebuild({ ...t0, settings: s }, ctx, ['clips']);
+  for (let i = 0; i < 8 && best.duration < lo; i++) {
+    s = {
+      ...s,
+      maxPause: round(Math.min(1.2, s.maxPause * 1.35 + 0.05), 3),
+      padAfter: round(Math.min(0.3, s.padAfter + 0.03), 3),
+      emphasisPause: round(Math.min(0.6, s.emphasisPause + 0.05), 3),
+      brollShot: round(Math.min(3.5, s.brollShot + 0.3), 2),
+      brollMaxTotal: round(Math.min(hi * 0.3, s.brollMaxTotal + 3), 2),
+    };
+    best = rebuild({ ...t0, settings: s }, ctx, ['clips']);
+  }
+  if (best.duration < lo) notes.push(`Con il materiale utile arrivo a ${Math.round(best.duration)}s: per superare ${lo}s servirebbe più parlato o B-roll.`);
+  return best;
+}
+
+/** Chapter labels at the first shot of each section (sections split the story clips in narrative order). */
+function sectionLabels(t: Timeline, ctx: EditContext, labels: string[]): GraphicItem[] {
+  const order = ctx.order.filter((id) => t.clips.some((c) => c.source === id));
+  if (!order.length) return [];
+  const n = labels.length;
+  // first media → first label, last media → last label, the rest share the middle labels.
+  const groups: string[][] = Array.from({ length: n }, () => []);
+  order.forEach((id, i) => {
+    const g = i === 0 ? 0 : i === order.length - 1 ? n - 1 : Math.min(n - 2, 1 + Math.floor(((i - 1) / Math.max(1, order.length - 2)) * (n - 2)));
+    groups[order.length === 1 ? 0 : g].push(id);
+  });
+  const out: GraphicItem[] = [];
+  groups.forEach((ids, gi) => {
+    const first = t.clips.find((c) => ids.includes(c.source) && c.properties.role !== 'hook');
+    if (!first) return;
+    const start = first.start + (gi === 0 ? 0.15 : 0.1);
+    const end = Math.min(first.end + 1.5, start + 2.2, t.duration);
+    out.push({
+      id: hashId('gs', gi, labels[gi]), type: 'graphic', start: round(start), end: round(end), layer: 6, locked: true,
+      reason: `Capitolo "${labels[gi]}": rende leggibile la struttura del racconto`,
+      anchor: { mediaId: first.source, srcStart: first.properties.srcStart + (start - first.start), srcEnd: first.properties.srcStart + (end - first.start) },
+      properties: { kind: 'label', text: labels[gi].toUpperCase(), position: 'top' },
+    });
+  });
+  return out;
 }
 
 /** Removing material must make the edit shorter: lower the duration budget so trimmed spans don't come back. */

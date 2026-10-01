@@ -321,10 +321,10 @@ export async function startRender(id: string, resolution: keyof typeof RESOLUTIO
   if (resolution === '2160' && maxSide < 3000) throw new HttpError(400, '4K disponibile solo con sorgenti 4K.');
   const rec: RenderRecord = { id: newId(), versionId: p.history.head!, resolution, status: 'queued', progress: 0, createdAt: new Date().toISOString() };
   await store.withLock(id, async () => { const r = await store.getRenders(id); r.unshift(rec); await store.saveRenders(id, r.slice(0, 20)); });
-  const media: Record<string, { src: string; width: number; height: number }> = {};
+  const media: Record<string, { src: string; voiceSrc?: string; width: number; height: number }> = {};
   for (const m of p.media.filter((x) => x.status === 'ready')) {
     const a = ctx.analyses[m.id];
-    media[m.id] = { src: `${baseUrl}/files/${id}/${m.id}/${path.basename(masterPath(p, m))}`, width: a?.raw.width ?? m.width ?? 1080, height: a?.raw.height ?? m.height ?? 1920 };
+    media[m.id] = { src: `${baseUrl}/files/${id}/${m.id}/${path.basename(masterPath(p, m))}`, voiceSrc: m.voice ? `${baseUrl}/files/${id}/${m.id}/voice.wav` : undefined, width: a?.raw.width ?? m.width ?? 1080, height: a?.raw.height ?? m.height ?? 1920 };
   }
   const setRec = (patch: Partial<RenderRecord>) => store.withLock(id, async () => {
     const r = await store.getRenders(id);

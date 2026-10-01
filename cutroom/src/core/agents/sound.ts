@@ -49,7 +49,11 @@ export function buildSfx(s: EditSettings, graphics: GraphicItem[], transitions: 
     }));
 }
 
-export function buildMusic(s: EditSettings, musicMediaId: string | null, duration: number): MusicItem[] {
+export const BUILTIN_MUSIC: Record<string, string> = { tarantella: 'Tarantella (generata, mandolino e chitarra)' };
+
+/** Uploaded track wins; otherwise the chosen built-in track (`builtin:<name>`). */
+export function buildMusic(s: EditSettings, uploadedId: string | null, duration: number): MusicItem[] {
+  const musicMediaId = uploadedId ?? (s.musicTrack && BUILTIN_MUSIC[s.musicTrack] ? `builtin:${s.musicTrack}` : null);
   if (!musicMediaId || duration <= 0) return [];
   return [{
     id: hashId('mus', musicMediaId), type: 'music', source: musicMediaId, start: 0, end: round(duration), layer: 10,

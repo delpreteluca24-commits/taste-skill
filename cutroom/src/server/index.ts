@@ -1,3 +1,7 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { ffmpeg } from './media/ffmpeg';
+import { ROOT } from './config';
 import { buildApp } from './app';
 import { config } from './config';
 import { store } from './store';
@@ -14,6 +18,15 @@ for (const p of await store.list()) {
   const renders = await store.getRenders(p.id);
   if (renders.some((r) => r.status === 'queued' || r.status === 'rendering')) {
     await store.saveRenders(p.id, renders.map((r) => (r.status === 'queued' || r.status === 'rendering' ? { ...r, status: 'error', error: 'Interrotto dal riavvio del server' } : r)));
+  }
+}
+
+// Built-in music ships compressed (m4a); serve it as WAV so every browser engine can decode it.
+{
+  const dir = path.join(ROOT, 'public/music');
+  for (const f of fs.existsSync(dir) ? fs.readdirSync(dir) : []) {
+    const wav = path.join(dir, f.replace(/\.m4a$/, '.wav'));
+    if (f.endsWith('.m4a') && !fs.existsSync(wav)) await ffmpeg(['-i', path.join(dir, f), '-c:a', 'pcm_s16le', '-ar', '48000', wav]);
   }
 }
 

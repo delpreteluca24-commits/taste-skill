@@ -7,7 +7,7 @@ import { Graphics } from './Graphics';
 import { loadCaptionFonts } from './fonts';
 import { GRADE_FILTER, transitionAt, zoomAt } from './math';
 
-export interface MediaRef { src: string; width: number; height: number }
+export interface MediaRef { src: string; voiceSrc?: string; width: number; height: number }
 
 export interface ShortVideoProps {
   timeline: Timeline;
@@ -21,7 +21,7 @@ export interface ShortVideoProps {
 const W = 1080;
 const H = 1920;
 
-const ClipView: React.FC<{ clip: ClipItem; media: MediaRef; timeline: Timeline }> = ({ clip, media, timeline }) => {
+const ClipView: React.FC<{ clip: ClipItem; media: MediaRef; timeline: Timeline; speech: (readonly [number, number])[] }> = ({ clip, media, timeline, speech }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const t = clip.start + frame / fps;
@@ -29,16 +29,37 @@ const ClipView: React.FC<{ clip: ClipItem; media: MediaRef; timeline: Timeline }
   const win = cropWindow(media.width, media.height, clip.properties.crop, scale);
   const vw = W / win.w;
   const vh = H / win.h;
+  // Voice isolation: play the denoised voice track and close it between phrases (only the speaker is heard).
+  const iso = timeline.settings.voiceIsolation ?? 0;
+  const isolate = iso > 0 && !!media.voiceSrc;
+  const floor = 1 - 0.97 * iso;
+  const gate = (tt: number) => {
+    let near = Infinity;
+    for (const [a, b] of speech) {
+      if (tt >= a && tt <= b) return 1;
+      near = Math.min(near, Math.abs(tt - a), Math.abs(tt - b));
+    }
+    return floor + (1 - floor) * Math.max(0, 1 - near / 0.12);
+  };
   return (
     <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: '#000' }}>
       <OffthreadVideo
         src={media.src}
         trimBefore={Math.max(0, Math.round(clip.properties.srcStart * fps))}
         playbackRate={clip.properties.speed}
-        volume={clip.properties.volume}
+        volume={isolate ? 0 : clip.properties.volume}
+        muted={isolate}
         pauseWhenBuffering
         style={{ position: 'absolute', width: vw, height: vh, left: -win.x * vw, top: -win.y * vh, maxWidth: 'none', objectFit: 'fill' }}
       />
+      {isolate && (
+        <Html5Audio
+          src={media.voiceSrc!}
+          trimBefore={Math.max(0, Math.round(clip.properties.srcStart * fps))}
+          playbackRate={clip.properties.speed}
+          volume={(f) => clip.properties.volume * (clip.properties.role === 'broll' ? floor : gate(clip.start + f / fps))}
+        />
+      )}
     </AbsoluteFill>
   );
 };
@@ -80,7 +101,7 @@ export const ShortVideo: React.FC<ShortVideoProps> = ({ timeline, media, assetBa
             if (!m) return null;
             return (
               <Sequence key={c.id} from={f(c.start)} durationInFrames={Math.max(1, f(c.end) - f(c.start))} premountFor={Math.round(fps * 0.8)}>
-                <ClipView clip={c} media={m} timeline={timeline} />
+                <ClipView clip={c} media={m} timeline={timeline} speech={speech} />
               </Sequence>
             );
           })}
@@ -98,7 +119,7 @@ export const ShortVideo: React.FC<ShortVideoProps> = ({ timeline, media, assetBa
         </Sequence>
       ))}
       {timeline.music.map((m) => {
-        const src = media[m.source]?.src;
+        const src = m.source.startsWith('builtin:') ? `${assetBase}/music/${m.source.slice(8)}.wav` : media[m.source]?.src;
         if (!src) return null;
         const { volume, duckVolume, fadeIn, fadeOut } = m.properties;
         return (

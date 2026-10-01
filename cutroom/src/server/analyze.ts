@@ -4,7 +4,7 @@ import { ANALYZER_VERSION, config } from './config';
 import { store, type Project } from './store';
 import type { Job } from './jobs';
 import { ffmpeg, probe } from './media/ffmpeg';
-import { energyEnvelope, frames, loudness, motionSeries, normalize, pcm16k, silences, visualEvents } from './media/process';
+import { voiceTrack, energyEnvelope, frames, loudness, motionSeries, normalize, pcm16k, silences, visualEvents } from './media/process';
 import { detectFaces } from './vision/faces';
 import { transcribe, sttLabel } from './stt';
 import { analyzeVideo, assignStoryRoles } from '../core/agents/story';
@@ -21,6 +21,7 @@ function sha256(file: string): Promise<string> {
 
 export const originalPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + '/original' + (m.filename.match(/\.[a-z0-9]+$/i)?.[0] ?? '.mp4');
 export const masterPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + (m.kind === 'audio' ? '/music.m4a' : '/master.mp4');
+export const voicePath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + '/voice.wav';
 export const previewPath = (p: Project, m: MediaAsset) => store.mediaDir(p.id, m.id) + (m.kind === 'audio' ? '/music.m4a' : '/preview.mp4');
 
 /** Media Analysis + Transcription agents for one video file → RawAnalysis (cached by content hash). */
@@ -89,9 +90,13 @@ export async function analyzeProject(projectId: string, job: Job) {
           continue;
         }
         const raw = await analyzeOne(p0, m, report);
+        if (!existsSync(voicePath(p0, m))) {
+          report(0.98, `${m.filename}: isolo la voce`);
+          await voiceTrack(masterPath(p0, m), voicePath(p0, m));
+        }
         await store.saveRaw(projectId, m.id, raw);
         await store.saveAnalysis(projectId, m.id, analyzeVideo(m.id, m.filename, raw));
-        await setMedia(projectId, m.id, { status: 'ready', duration: raw.duration, width: raw.width, height: raw.height, fps: raw.fps });
+        await setMedia(projectId, m.id, { status: 'ready', voice: true, duration: raw.duration, width: raw.width, height: raw.height, fps: raw.fps });
       } catch (e: any) {
         await setMedia(projectId, m.id, { status: 'error', error: String(e?.message ?? e) });
         throw e;

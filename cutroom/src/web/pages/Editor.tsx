@@ -83,10 +83,10 @@ export const Editor: React.FC<{ projectId: string }> = ({ projectId }) => {
   const seek = (t: number) => { const f = Math.max(0, Math.round(t * fps)); player.current?.seekTo(f); setFrame(f); };
 
   const media = useMemo(() => {
-    const out: Record<string, { src: string; width: number; height: number }> = {};
+    const out: Record<string, { src: string; voiceSrc?: string; width: number; height: number }> = {};
     for (const m of view?.project.media ?? []) {
       if (m.status !== 'ready') continue;
-      out[m.id] = { src: `/files/${projectId}/${m.id}/${m.kind === 'audio' ? 'music.m4a' : 'preview.mp4'}`, width: m.width ?? 1080, height: m.height ?? 1920 };
+      out[m.id] = { src: `/files/${projectId}/${m.id}/${m.kind === 'audio' ? 'music.m4a' : 'preview.mp4'}`, voiceSrc: m.voice ? `/files/${projectId}/${m.id}/voice.wav` : undefined, width: m.width ?? 1080, height: m.height ?? 1920 };
     }
     return out;
   }, [view?.project.media, projectId]);

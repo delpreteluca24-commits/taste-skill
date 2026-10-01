@@ -13,6 +13,10 @@ export const Op = z.discriminatedUnion('op', [
   z.object({ op: z.literal('remove_range'), ...Range.shape }),
   z.object({ op: z.literal('restore_cuts') }),
   z.object({ op: z.literal('set_max_duration'), seconds: z.number().positive().nullable() }),
+  /** Land the edit inside [min, max] seconds (shortens with the story budget, lengthens by keeping more breath/B-roll). */
+  z.object({ op: z.literal('set_duration_range'), min: z.number().positive(), max: z.number().positive() }),
+  /** Narrative sections in upload order: first clip = intro, middle = body, last = ending; chapter labels on screen. */
+  z.object({ op: z.literal('structure_sections'), labels: z.array(z.string().min(1).max(30)).min(2).max(4) }),
   /** Pacing: global (no range) changes settings; with a range it tightens pauses + adds camera moves there only. */
   z.object({ op: z.literal('pacing'), direction: z.enum(['faster', 'slower']), intensity: z.enum(['low', 'medium', 'high']).default('medium'), range: Range.optional() }),
   z.object({ op: z.literal('zoom_amount'), direction: z.enum(['more', 'less']) }),

@@ -148,13 +148,18 @@ export async function buildApp() {
   // ── files (range requests for the Player and the renderer) ──
   app.get('/files/:id/:mediaId/:name', async (req, reply: FastifyReply) => {
     const { id, mediaId, name } = req.params as { id: string; mediaId: string; name: string };
-    if (!ID.test(id) || !ID.test(mediaId) || !['master.mp4', 'preview.mp4', 'music.m4a'].includes(name)) throw new svc.HttpError(400, 'file non valido');
+    if (!ID.test(id) || !ID.test(mediaId) || !['master.mp4', 'preview.mp4', 'music.m4a', 'voice.wav'].includes(name)) throw new svc.HttpError(400, 'file non valido');
     return reply.sendFile(`${id}/media/${mediaId}/${name}`, store.root);
   });
   app.get('/assets/sfx/:name', async (req, reply) => {
     const { name } = req.params as { name: string };
     if (!/^[a-z]+\.wav$/.test(name)) throw new svc.HttpError(400, 'asset non valido');
     return reply.sendFile(`sfx/${name}`, path.join(ROOT, 'public'));
+  });
+  app.get('/assets/music/:name', async (req, reply) => {
+    const { name } = req.params as { name: string };
+    if (!/^[a-z]+\.wav$/.test(name)) throw new svc.HttpError(400, 'asset non valido');
+    return reply.sendFile(`music/${name}`, path.join(ROOT, 'public'));
   });
   const fontDir = path.join(path.dirname(require.resolve('@fontsource/montserrat/package.json')), 'files');
   app.get('/assets/fonts/montserrat/:name', async (req, reply) => {

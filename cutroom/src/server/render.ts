@@ -38,7 +38,7 @@ async function masterAudio(input: string, output: string) {
 
 export async function renderTimeline(opts: {
   timeline: Timeline;
-  media: Record<string, { src: string; width: number; height: number }>;
+  media: Record<string, { src: string; voiceSrc?: string; width: number; height: number }>;
   assetBase: string;
   resolution: keyof typeof RESOLUTIONS;
   output: string;

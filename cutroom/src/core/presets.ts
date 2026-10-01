@@ -48,6 +48,8 @@ const base: EditSettings = {
   transitionStyle: 'subtle',
   musicVolume: 0.22,
   duckVolume: 0.08,
+  musicTrack: null,
+  voiceIsolation: 0.4,
   maxDuration: 75,
   titleCard: true,
   progressBar: false,
@@ -104,7 +106,7 @@ const PATCHES: Record<PresetId, Patch> = {
   },
 };
 
-export function presetSettings(preset: PresetId, keep?: Pick<EditSettings, 'ctaText' | 'seed'>): EditSettings {
+export function presetSettings(preset: PresetId, keep?: Partial<Pick<EditSettings, 'ctaText' | 'seed' | 'musicTrack' | 'voiceIsolation'>>): EditSettings {
   const p = PATCHES[preset];
   return {
     ...base,
@@ -113,6 +115,8 @@ export function presetSettings(preset: PresetId, keep?: Pick<EditSettings, 'ctaT
     captions: { ...base.captions, ...(p.captions ?? {}) },
     ctaText: keep?.ctaText ?? p.ctaText ?? base.ctaText,
     seed: keep?.seed ?? 0,
+    musicTrack: keep?.musicTrack ?? base.musicTrack,
+    voiceIsolation: keep?.voiceIsolation ?? base.voiceIsolation,
   };
 }
 

@@ -35,6 +35,14 @@ export async function normalize(input: string, master: string, preview: string, 
   ], (s) => onProgress?.(0.85 + Math.min(0.15, (s / Math.max(0.1, pr.duration)) * 0.15)));
 }
 
+/** Voice isolation: strong spectral + non-local-means denoise, soft gate between words. */
+export const VOICE_ISOLATE = 'highpass=f=110,lowpass=f=7500,afftdn=nr=30:nf=-25:tn=1,anlmdn=s=0.0003:p=0.002:r=0.006:m=15,afftdn=nr=15:nf=-40,agate=threshold=0.02:ratio=4:attack=5:release=250:range=0.1,loudnorm=I=-16:TP=-1.5';
+
+export async function voiceTrack(master: string, out: string) {
+  // PCM WAV: decodable by every browser engine used for preview and rendering (AAC is not in open-source Chromium).
+  await ffmpeg(['-i', master, '-vn', '-af', VOICE_ISOLATE, '-ar', '48000', '-ac', '1', '-c:a', 'pcm_s16le', out]);
+}
+
 /** Loudness of the ORIGINAL audio (QC: clipping / too quiet). */
 export async function loudness(input: string): Promise<{ integrated: number; truePeak: number; lra: number }> {
   const r = await run('ffmpeg', ['-hide_banner', '-nostats', '-i', input, '-vn', '-af', 'loudnorm=print_format=json', '-f', 'null', '-']);

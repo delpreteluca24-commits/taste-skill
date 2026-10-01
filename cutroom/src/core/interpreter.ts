@@ -29,6 +29,20 @@ function durationFrom(text: string): number | null {
   return /min/i.test(m[2]) ? v * 60 : v;
 }
 
+/** Every duration in the text, in seconds: "1 min", "1 min 15 s", "1:15", "75 secondi". */
+export function allDurations(text: string): number[] {
+  const out: number[] = [];
+  const re = /(\d+(?:[.,]\d+)?)\s*(?:min(?:uto|uti|ute|utes)?\b|m\b)(?:\s*(?:e\s*)?(\d+)\s*(?:s\b|sec\w*))?|(\d+):(\d{2})|(\d+(?:[.,]\d+)?)\s*(?:s\b|sec\w*)/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text))) {
+    if (m[1]) out.push(parseFloat(m[1].replace(',', '.')) * 60 + (m[2] ? parseInt(m[2], 10) : 0));
+    else if (m[3]) out.push(parseInt(m[3], 10) * 60 + parseInt(m[4], 10));
+    else if (m[5]) out.push(parseFloat(m[5].replace(',', '.')));
+  }
+  return out;
+}
+const fmtDur = (s: number) => (s >= 60 ? `${Math.floor(s / 60)} min${s % 60 ? ` ${Math.round(s % 60)}s` : ''}` : `${Math.round(s)}s`);
+
 const PRESET_WORDS: [RegExp, PresetId][] = [
   [/premium|elegante|professional/i, 'premium'],
   [/\bviral[ei]?\b/i, 'viral'],
@@ -122,8 +136,19 @@ export function interpret(message: string, t: Timeline, ctx: ChatContext): Inten
     said.push('ripristino le parti tagliate a mano');
   }
 
+  // ── duration range ("1 min / 1 min 15 s", "tra 60 e 75 secondi") ──
+  const spans = allDurations(low);
+  if (spans.length >= 2 && /(dur|lung|long|minut|second|tra |between)/i.test(low)) {
+    const lo = Math.min(spans[0], spans[1]);
+    const hi = Math.max(spans[0], spans[1]);
+    if (hi >= 5) {
+      ops.push({ op: 'set_duration_range', min: lo, max: hi });
+      said.push(`porto il video tra ${fmtDur(lo)} e ${fmtDur(hi)}`);
+    }
+  }
+
   // ── duration ──
-  if (/(massimo|max|al massimo|non più di|meno di|entro|at most|under|durare|dura|lungo)/i.test(low) && !/(zoom|sottotitol)/i.test(low)) {
+  if (!ops.some((o) => o.op === 'set_duration_range') && /(massimo|max|al massimo|non più di|meno di|entro|at most|under|durare|dura|lungo)/i.test(low) && !/(zoom|sottotitol)/i.test(low)) {
     const sec = durationFrom(low);
     if (sec && sec >= 5 && !ops.some((o) => o.op === 'remove_range')) {
       ops.push({ op: 'set_max_duration', seconds: sec });
@@ -237,7 +262,30 @@ export function interpret(message: string, t: Timeline, ctx: ChatContext): Inten
     said.push(`${faster ? 'aumento' : 'rallento'} il ritmo${range ? ` tra ${range.start.toFixed(0)}s e ${range.end.toFixed(0)}s` : ''}`);
   }
 
+  // ── structure: intro / body / ending ──
+  if (/\bintro\b|introduzione|inizio/i.test(low) && /(finale|fine\b|chiusura|ending|outro)/i.test(low) && /(prepara|sviluppo|corpo|parte centrale|ricetta|procedimento|body|middle)/i.test(low)) {
+    const mid = /prepara/i.test(low) ? 'La preparazione' : /ricetta/i.test(low) ? 'La ricetta' : 'Il cuore';
+    ops.push({ op: 'structure_sections', labels: ['Intro', mid, 'Il finale'] });
+    said.push(`struttura il racconto in Intro → ${mid} → Finale, in ordine logico (niente teaser all'inizio) con un'etichetta per capitolo`);
+  }
+
+  // ── noise / voice isolation ──
+  if (/(rumor|solo la voce|isola la voce|voce pulita|pulisci (l')?audio|noise|only the voice)/i.test(low)) {
+    const off = /(rimetti|lascia|ripristina) (il )?(rumore|audio originale|ambiente)/i.test(low);
+    ops.push({ op: 'update_settings', patch: { voiceIsolation: off ? 0 : 1 } });
+    said.push(off ? 'rimetto il suono ambiente originale' : 'isolo la voce: riduzione rumore forte e silenzio tra le frasi (resta la musica)');
+  }
+
   // ── music ──
+  if (/(musica|music|canzon|sottofondo|soundtrack|jingle|tarantella)/i.test(low)) {
+    if (/(togli|rimuovi|senza|niente)\s+(la\s+)?(musica|canzon|sottofondo)/i.test(low)) {
+      ops.push({ op: 'update_settings', patch: { musicTrack: null } });
+      said.push('tolgo la musica');
+    } else if (/(metti|aggiungi|inserisci|usa|add|put)/i.test(low) || /tarantella/i.test(low)) {
+      ops.push({ op: 'update_settings', patch: { musicTrack: 'tarantella', musicVolume: Math.max(t.settings.musicVolume, 0.22), duckVolume: 0.1 } });
+      said.push('aggiungo una tarantella di sottofondo (mandolino e chitarra, generata e libera da diritti) che si abbassa quando parli');
+    }
+  }
   if (/(musica|music)/i.test(low)) {
     const v = t.settings.musicVolume;
     if (/(alza|più alta|louder|aumenta)/i.test(low)) { ops.push({ op: 'update_settings', patch: { musicVolume: round(clamp(v * 1.3, 0.05, 0.35), 2) } }); said.push('alzo un po\' la musica (resta sotto la voce)'); }
@@ -257,6 +305,9 @@ export function interpret(message: string, t: Timeline, ctx: ChatContext): Inten
         'Non ho capito la modifica. Esempi: "Taglia i primi 5 secondi", "Rendi il video più dinamico", "Fai i sottotitoli più grandi", "Metti una grafica quando parlo dei 1.000 euro", "Fai durare il video massimo 30 secondi", "Rendi l\'hook più forte", "Usa meno SFX", "Metti una CTA finale".',
     };
   }
+  // Structure first (it changes what is in the edit), then duration, then the rest.
+  const rank = (o: Op) => (o.op === 'structure_sections' ? 0 : o.op === 'set_duration_range' || o.op === 'set_max_duration' ? 1 : 2);
+  ops.sort((a, b) => rank(a) - rank(b));
   const reply = said.length ? said[0].charAt(0).toUpperCase() + said.join(', ').slice(1) + '.' : 'Applico la modifica.';
   return { kind: 'ops', ops, reply };
 }

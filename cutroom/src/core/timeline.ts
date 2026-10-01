@@ -102,6 +102,8 @@ export const MediaAsset = z.object({
   width: z.number().optional(),
   height: z.number().optional(),
   fps: z.number().optional(),
+  /** Denoised voice-only track available (voice.m4a). */
+  voice: z.boolean().optional(),
 });
 export type MediaAsset = z.infer<typeof MediaAsset>;
 
@@ -152,6 +154,10 @@ export const EditSettings = z.object({
   transitionStyle: z.enum(['cut', 'subtle', 'dynamic']),
   musicVolume: z.number(),
   duckVolume: z.number(),
+  /** Built-in background track (public/music/<name>.m4a), used when no music was uploaded. */
+  musicTrack: z.string().nullable().default(null),
+  /** 0..1: how much non-voice sound is removed (denoised voice track + gate outside speech). */
+  voiceIsolation: z.number().default(0.4),
   maxDuration: z.number().nullable(),
   titleCard: z.boolean(),
   progressBar: z.boolean(),
