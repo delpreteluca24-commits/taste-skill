@@ -38,3 +38,10 @@ Formato: data · problema · opzioni · decisione · motivazione · conseguenza.
 ## D-007 · 2026-10-02 · Stack (se validato)
 - **Decisione:** Next.js + TypeScript + Tailwind + shadcn/ui; Supabase (Postgres, Auth, Storage, RLS); Stripe; Resend; cron Supabase/Vercel; LLM solo per estrazione date/classificazione documenti.
 - **Motivazione:** stack richiesto dall'owner; costo quasi nullo sotto 100 clienti; RLS nativa per multi-tenant.
+
+## D-008 · 2026-10-02 · Approvazione owner e canale di acquisizione
+- **Problema:** l'owner ha approvato tutte le azioni in sospeso e propone di contattare i clienti solo via email di massa.
+- **Opzioni:** (a) email di massa e attesa; (b) email mirate a basso volume + telefono + partner consulenti/CSE.
+- **Decisione:** (b). Email 30–40/giorno per casella su dominio secondario con warm-up; telefono come canale principale; consulenti sicurezza come canale di leva.
+- **Motivazione:** deliverability di un dominio nuovo, rischio art. 130 Codice Privacy sulle email non richieste di massa, titolari edili raggiungibili soprattutto al telefono.
+- **Conseguenza:** playbook in docs/sales/go-to-market-playbook.md. Le azioni su account dell'owner (dominio, caselle, Stripe, invii) le esegue l'owner: la sessione non ha accesso a quei servizi.
