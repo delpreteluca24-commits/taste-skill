@@ -276,7 +276,7 @@ export const TransitionItem = z.object({
 });
 export type TransitionItem = z.infer<typeof TransitionItem>;
 
-export const SfxName = z.enum(['whoosh', 'pop', 'click', 'hit', 'riser', 'impact', 'swipe', 'notification', 'ding']);
+export const SfxName = z.enum(['whoosh', 'pop', 'click', 'hit', 'riser', 'impact', 'swipe', 'notification', 'ding', 'ting']);
 export type SfxName = z.infer<typeof SfxName>;
 
 export const SfxItem = z.object({

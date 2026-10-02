@@ -1,7 +1,7 @@
 import type { EditSettings, EffectItem, GraphicItem, MusicItem, SfxItem, SfxName, TransitionItem, ZoomItem } from '../timeline';
 import { hashId, round } from '../util';
 
-const GAIN: Record<SfxName, number> = { whoosh: 0.7, pop: 0.8, click: 0.7, hit: 0.75, riser: 0.5, impact: 0.8, swipe: 0.7, notification: 0.6, ding: 0.6 };
+const GAIN: Record<SfxName, number> = { whoosh: 0.7, pop: 0.8, click: 0.7, hit: 0.75, riser: 0.5, impact: 0.8, swipe: 0.7, notification: 0.6, ding: 0.6, ting: 0.6 };
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 interface Trigger { t: number; name: SfxName; priority: number; why: string; anchor?: SfxItem['anchor']; len: number }
