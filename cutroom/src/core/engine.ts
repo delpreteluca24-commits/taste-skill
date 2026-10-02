@@ -1,7 +1,7 @@
 import type { Op } from './ops';
 import { presetSettings } from './presets';
 import type {
-  AnyElement, EditContext, EditSettings, GraphicItem, Layer, PresetId, SfxItem, Timeline, ZoomItem,
+  AnyElement, EditContext, EditSettings, GraphicItem, Layer, PresetId, SfxItem, Timeline, TransitionItem, ZoomItem,
 } from './timeline';
 import { buildClips } from './agents/cut';
 import { chooseHook, type HookChoice } from './agents/hook';
@@ -359,6 +359,16 @@ export function applyOps(t0: Timeline, ops: Op[], ctx: EditContext): ApplyResult
         t.settings = { ...s, ctaText: op.text };
         layers.add('graphics');
         break;
+      case 'add_transition': {
+        const half = (op.duration ?? 0.4) / 2;
+        const tr: TransitionItem = {
+          id: hashId('tru', op.kind, op.at), type: 'transition', start: round(Math.max(0, op.at - half)), end: round(Math.min(t.duration, op.at + half)), layer: 4, locked: true,
+          reason: 'Richiesta utente', anchor: anchorForOutput(t, Math.max(0, op.at - half), Math.min(t.duration, op.at + half)), properties: { kind: op.kind, at: round(op.at) },
+        };
+        t.transitions = [...t.transitions.filter((x) => Math.abs(x.properties.at - op.at) > 0.05), tr].sort((a, b) => a.start - b.start);
+        layers.add('audio');
+        break;
+      }
       case 'add_sfx': {
         const sfx: SfxItem = {
           id: hashId('sfxu', op.name, op.at), type: 'sfx', start: round(op.at), end: round(op.at + 0.6), layer: 9, locked: true,

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CaptionSettings, EditSettings, GraphicKind, PresetId, SfxName } from './timeline';
+import { CaptionSettings, EditSettings, GraphicKind, PresetId, SfxName, TransitionKind } from './timeline';
 
 const LayerName = z.enum(['clips', 'zoom', 'subtitles', 'graphics', 'transitions', 'audio', 'music', 'effects']);
 const Range = z.object({ start: z.number().min(0), end: z.number().min(0) });
@@ -56,6 +56,8 @@ export const Op = z.discriminatedUnion('op', [
   /** Channel slogan / signature intro (null to remove). */
   z.object({ op: z.literal('set_slogan'), text: z.string().min(1).max(40).nullable() }),
   z.object({ op: z.literal('add_cta'), text: z.string().min(1).max(60) }),
+  /** A chosen transition at a cut (output time), e.g. oven in → oven out. */
+  z.object({ op: z.literal('add_transition'), at: z.number().min(0), kind: TransitionKind, duration: z.number().min(0.1).max(1.2).optional() }),
   z.object({ op: z.literal('add_sfx'), name: SfxName, at: z.number().min(0) }),
   z.object({ op: z.literal('add_zoom'), start: z.number().min(0), end: z.number().min(0), scale: z.number().min(1).max(1.6) }),
   z.object({ op: z.literal('strengthen_hook') }),
