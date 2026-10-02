@@ -19,8 +19,9 @@ const sfx = {
   impact: ['-f', 'lavfi', '-i', `aevalsrc='0.9*sin(2*PI*(38+100*exp(-9*t))*t)*exp(-3.5*t)+0.35*(random(0)*2-1)*exp(-14*t)':s=${SR}:d=1.1`, '-af', 'lowpass=f=3500,aecho=0.8:0.6:60|120:0.25|0.15'],
   riser: ['-f', 'lavfi', '-i', `aevalsrc='0.35*sin(2*PI*(180*t+380*t*t))*pow(t/1.2,2)+0.25*(random(0)*2-1)*pow(t/1.2,3)':s=${SR}:d=1.2`, '-af', 'highpass=f=200,afade=t=out:st=1.12:d=0.08'],
   notification: ['-f', 'lavfi', '-i', `aevalsrc='0.6*(lt(t,0.13)*sin(2*PI*988*t)*exp(-14*t)+gte(t,0.13)*sin(2*PI*1319*(t-0.13))*exp(-8*(t-0.13)))':s=${SR}:d=0.7`],
-  // Viral "ting": bright metallic glint, inharmonic partials, fast decay.
-  ting: ['-f', 'lavfi', '-i', `aevalsrc='0.5*sin(2*PI*2637*t)*exp(-6*t)+0.32*sin(2*PI*3951*t)*exp(-9*t)+0.2*sin(2*PI*5920*t)*exp(-13*t)+0.12*sin(2*PI*7459*t)*exp(-18*t)':s=${SR}:d=0.9`],
+  // Viral "ting": glassy bell strike (bell partials, slight detune shimmer) + an octave-up sparkle 70 ms later,
+  // a tiny noise glint on the attack and a short room. Peaks within 3 ms so it lands exactly on the frame.
+  ting: ['-f', 'lavfi', '-i', `aevalsrc='(0.42*sin(2*PI*1976*t)+0.30*sin(2*PI*1981*t)+0.22*sin(2*PI*3952*t)*exp(-3*t)+0.16*sin(2*PI*5454*t)*exp(-6*t)+0.07*sin(2*PI*10670*t)*exp(-20*t))*exp(-3.2*t)*min(1,t/0.002)+gte(t,0.07)*(0.28*sin(2*PI*3952*(t-0.07))+0.12*sin(2*PI*7904*(t-0.07))*exp(-8*(t-0.07)))*exp(-5*(t-0.07))*min(1,(t-0.07)/0.002)+0.05*(random(0)*2-1)*exp(-t/0.006)':s=${SR}:d=1.3`, '-af', 'highpass=f=900,aecho=0.8:0.35:23|41:0.25|0.15,afade=t=out:st=1.05:d=0.25'],
   ding: ['-f', 'lavfi', '-i', `aevalsrc='0.55*sin(2*PI*1568*t)*exp(-4.5*t)+0.22*sin(2*PI*3136*t)*exp(-7*t)':s=${SR}:d=1.0`],
 };
 
