@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
 import { formatCount, formatRelative, formatScore, humanize, platformLabel } from "@/lib/dashboard/format";
 import { CONTENT_STAGE_ORDER } from "@/lib/content/stages";
@@ -25,7 +27,9 @@ export function OpportunityList({ items, empty }: { items: OpportunityRow[]; emp
         <li key={o.id} className="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
           <ScoreChip value={o.opportunity_score} label="Opportunity score" />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[13px]">{o.title}</p>
+            <Link href={`/opportunities/${o.id}`} className="block truncate text-[13px] hover:underline">
+              {o.title}
+            </Link>
             <p className="truncate text-[11px] text-muted-foreground">
               {[o.competition, humanize(o.status), formatRelative(o.created_at)].filter(Boolean).join(" · ")}
             </p>
@@ -38,7 +42,7 @@ export function OpportunityList({ items, empty }: { items: OpportunityRow[]; emp
 
 export function TrendList({ items }: { items: TrendRow[] }) {
   if (items.length === 0) {
-    return <EmptyState>No active trends. Trends appear once source connectors run (Milestone 2).</EmptyState>;
+    return <EmptyState>No active trends yet. Add a feed in Radar → Sources & connectors; trends appear after the worker fetches it.</EmptyState>;
   }
   return (
     <ul className="divide-y">
@@ -46,7 +50,9 @@ export function TrendList({ items }: { items: TrendRow[] }) {
         <li key={t.id} className="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
           <ScoreChip value={t.trend_score} label="Trend score" />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[13px]">{t.title}</p>
+            <Link href={`/trends?id=${t.id}`} className="block truncate text-[13px] hover:underline">
+              {t.title}
+            </Link>
             <p className="truncate text-[11px] text-muted-foreground">
               {humanize(t.status)} · seen {formatRelative(t.last_seen_at)}
             </p>
@@ -72,7 +78,9 @@ export function ContentList({
       {items.map((c) => (
         <li key={c.id} className="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[13px]">{c.title}</p>
+            <Link href={`/content/${c.id}`} className="block truncate text-[13px] hover:underline">
+              {c.title}
+            </Link>
             <p className="truncate text-[11px] text-muted-foreground">
               {timeField === "scheduled_at" && !c.scheduled_at ? "Not scheduled" : formatRelative(c[timeField])}
               {c.target_platforms?.length ? ` · ${c.target_platforms.map(platformLabel).join(", ")}` : ""}

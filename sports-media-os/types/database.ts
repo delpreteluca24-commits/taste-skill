@@ -1264,6 +1264,11 @@ isOneToOne: false
       } },
 "requeue_stale_jobs":
 { Args: { "p_timeout"?: string }; Returns: number
+                           },
+"start_production":
+{ Args: { "p_opportunity_id": string }; Returns: {
+              "content_item_id": string,"existing": boolean,"story_id": string
+            }[]
                            }
           }
           Enums: {

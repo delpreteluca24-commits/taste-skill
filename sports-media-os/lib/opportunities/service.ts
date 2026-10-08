@@ -695,9 +695,9 @@ export async function decideOpportunity(
 
 /**
  * APPROVED opportunity → story + content item (stage 'research', format 'short'),
- * opportunity → 'production'. The status flip happens first and only from
- * 'approved', so two concurrent clicks cannot create two stories; if a later
- * step fails the status is put back to 'approved'.
+ * opportunity → 'production', atomically in public.start_production (row lock:
+ * two concurrent clicks land on the same content item; no orphan stories).
+ * Calling it again once production started returns the existing item.
  */
 export async function startProduction(
   db: Db,
@@ -705,91 +705,14 @@ export async function startProduction(
 ): Promise<ServiceResult<{ contentItemId: string; storyId: string | null; existing: boolean }>> {
   return guarded<{ contentItemId: string; storyId: string | null; existing: boolean }>("opportunities.start_production_failed", async () => {
     const { projectId, id } = args;
-    const opp = must(
-      await db.from("opportunities").select("id, title, description, why_now, angle, hook, status").eq("id", id).eq("project_id", projectId).maybeSingle(),
-    );
+    const opp = must(await db.from("opportunities").select("id, status").eq("id", id).eq("project_id", projectId).maybeSingle());
     if (!opp) return notFound("opportunity");
-
-    const findExisting = async () =>
-      must(
-        await db
-          .from("content_items")
-          .select("id, story_id")
-          .eq("opportunity_id", id)
-          .eq("project_id", projectId)
-          .order("created_at")
-          .limit(1)
-          .maybeSingle(),
-      );
-
-    if (IN_PRODUCTION.includes(opp.status)) {
-      const item = await findExisting();
-      if (item) return success({ contentItemId: item.id, storyId: item.story_id, existing: true });
-      return failure({ code: "PRODUCTION_STARTING", userMessage: "Production is already starting. Refresh in a moment." });
-    }
-    if (opp.status !== "approved") {
+    if (opp.status !== "approved" && !IN_PRODUCTION.includes(opp.status)) {
       return failure({ code: "NOT_APPROVED", userMessage: "Approve the opportunity before starting production." });
     }
-
-    const claimed = must(
-      await db
-        .from("opportunities")
-        .update({ status: "production" })
-        .eq("id", id)
-        .eq("project_id", projectId)
-        .eq("status", "approved")
-        .select("id")
-        .maybeSingle(),
-    );
-    if (!claimed) {
-      const item = await findExisting();
-      if (item) return success({ contentItemId: item.id, storyId: item.story_id, existing: true });
-      return failure({ code: "PRODUCTION_STARTING", userMessage: "Production could not start (status changed). Refresh and retry." });
-    }
-
-    const revert = async (reason: string, error: ServiceError) => {
-      logger.error("opportunities.start_production_step_failed", { opportunityId: id, step: reason, code: error.code, message: error.message });
-      const { error: revertError } = await db
-        .from("opportunities")
-        .update({ status: "approved" })
-        .eq("id", id)
-        .eq("project_id", projectId)
-        .eq("status", "production");
-      if (revertError) logger.error("opportunities.start_production_revert_failed", { opportunityId: id, code: revertError.code });
-      return failure(error);
-    };
-
-    const story = await db
-      .from("stories")
-      .insert({
-        project_id: projectId,
-        opportunity_id: id,
-        title: opp.title,
-        logline: (opp.description ?? opp.why_now)?.slice(0, 1000) ?? null,
-        angle: opp.angle,
-        created_by: args.userId,
-        metadata: { created_from: "opportunity", hook: opp.hook } as { [key: string]: Json },
-      })
-      .select("id")
-      .single();
-    if (story.error) return revert("story", story.error);
-
-    const item = await db
-      .from("content_items")
-      .insert({
-        project_id: projectId,
-        opportunity_id: id,
-        story_id: story.data.id,
-        title: opp.title,
-        description: opp.description,
-        format: "short",
-        stage: "research",
-        created_by: args.userId,
-      })
-      .select("id")
-      .single();
-    if (item.error) return revert("content_item", item.error);
-
-    return success({ contentItemId: item.data.id, storyId: story.data.id, existing: false });
+    const rows = must(await db.rpc("start_production", { p_opportunity_id: id }));
+    const row = rows?.[0];
+    if (!row) throw new QueryFailed({ message: "start_production returned no row" });
+    return success({ contentItemId: row.content_item_id, storyId: row.story_id, existing: row.existing });
   });
 }
