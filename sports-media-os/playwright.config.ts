@@ -30,7 +30,12 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
       testIgnore: /responsive\.spec\.ts/,
     },
-    { name: "mobile", use: { ...devices["Pixel 7"] }, testMatch: /responsive\.spec\.ts/ },
+    {
+      name: "mobile",
+      use: { ...devices["Pixel 7"] },
+      testMatch: /responsive\.spec\.ts/,
+      dependencies: ["desktop"],
+    },
   ],
   webServer: {
     command: `npm run start -- -p ${PORT}`,

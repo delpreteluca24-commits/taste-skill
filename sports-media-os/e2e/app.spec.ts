@@ -11,6 +11,8 @@ async function login(page: Page, password = user().password) {
   await page.getByLabel("Email").fill(user().email);
   await page.getByLabel("Password").fill(password);
   await page.getByRole("button", { name: "Sign in" }).click();
+  // wait for the session cookie + redirect before navigating anywhere else
+  if (password === user().password) await page.waitForURL(/\/(dashboard|welcome)$/);
 }
 
 test.describe.configure({ mode: "serial" });
@@ -23,7 +25,8 @@ test("anonymous users are sent to login, keeping the target", async ({ page }) =
 
 test("wrong password shows a generic error (no account enumeration)", async ({ page }) => {
   await login(page, "definitely-wrong-password");
-  await expect(page.getByRole("alert")).toHaveText("Invalid email or password.");
+  // scoped to the form: Next.js' route announcer also carries role="alert"
+  await expect(page.locator("form").getByRole("alert")).toHaveText("Invalid email or password.");
   await expect(page).toHaveURL(/\/login/);
 });
 

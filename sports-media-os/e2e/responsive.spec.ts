@@ -10,16 +10,16 @@ test("mobile: login page and navigation menu work at phone width", async ({ page
   await page.getByLabel("Email").fill(user.email);
   await page.getByLabel("Password").fill(user.password);
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page).toHaveURL(/\/(welcome|dashboard)$/);
+  // runs after the desktop project (playwright.config dependencies): the user already has projects
+  await expect(page).toHaveURL(/\/dashboard$/);
+  await expect(page.getByRole("heading", { name: "Control room" })).toBeVisible();
 
   // no horizontal scroll at phone width
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(1);
 
-  if (page.url().endsWith("/dashboard")) {
-    await expect(page.getByRole("navigation", { name: "Main" })).toBeHidden();
-    await page.getByRole("button", { name: "Open navigation" }).click();
-    await page.getByRole("menuitem", { name: "Settings" }).click();
-    await expect(page).toHaveURL(/\/settings$/);
-  }
+  await expect(page.getByRole("navigation", { name: "Main" })).toBeHidden();
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  await page.getByRole("menuitem", { name: "Settings" }).click();
+  await expect(page).toHaveURL(/\/settings$/);
 });
