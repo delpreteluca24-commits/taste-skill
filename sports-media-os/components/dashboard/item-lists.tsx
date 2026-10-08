@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { formatCount, formatRelative, formatScore, humanize } from "@/lib/dashboard/format";
+import { formatCount, formatRelative, formatScore, humanize, platformLabel } from "@/lib/dashboard/format";
 import type { ContentRow, OpportunityRow, TrendRow } from "@/lib/dashboard/types";
 
 import { EmptyState } from "./section-card";
@@ -74,7 +74,7 @@ export function ContentList({
             <p className="truncate text-[13px]">{c.title}</p>
             <p className="truncate text-[11px] text-muted-foreground">
               {timeField === "scheduled_at" && !c.scheduled_at ? "Not scheduled" : formatRelative(c[timeField])}
-              {c.target_platforms?.length ? ` · ${c.target_platforms.map(humanize).join(", ")}` : ""}
+              {c.target_platforms?.length ? ` · ${c.target_platforms.map(platformLabel).join(", ")}` : ""}
             </p>
           </div>
           <Badge variant="outline">{humanize(c.stage)}</Badge>

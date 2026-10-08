@@ -62,3 +62,10 @@ export function humanize(value: string): string {
   const s = value.replace(/_/g, " ");
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+
+const PLATFORM_LABELS: Record<string, string> = { youtube: "YouTube", tiktok: "TikTok", instagram: "Instagram" };
+
+/** Brand-correct platform names ("youtube" → "YouTube"). */
+export function platformLabel(platform: string): string {
+  return PLATFORM_LABELS[platform] ?? humanize(platform);
+}

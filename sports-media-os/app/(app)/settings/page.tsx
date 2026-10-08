@@ -6,10 +6,12 @@ import { PageHeader } from "@/components/common/page-header";
 import { SectionCard } from "@/components/dashboard/section-card";
 import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
+import { platformLabel } from "@/lib/dashboard/format";
 import { configuredAIProviders } from "@/lib/env.server";
 import { getActiveProject } from "@/lib/projects/service";
 import { getWorkspaceSettings } from "@/lib/settings/service";
 import { createClient } from "@/lib/supabase/server";
+import { Constants } from "@/types/database";
 
 import {
   AiSettingsForm,
@@ -21,12 +23,7 @@ import {
 
 export const metadata: Metadata = { title: "Settings" };
 
-const PLATFORMS = ["youtube", "tiktok", "instagram"] as const;
-const PLATFORM_LABEL: Record<(typeof PLATFORMS)[number], string> = {
-  youtube: "YouTube",
-  tiktok: "TikTok",
-  instagram: "Instagram",
-};
+const PLATFORMS = Constants.public.Enums.platform;
 
 export default async function SettingsPage() {
   const user = await requireUser();
@@ -83,7 +80,7 @@ export default async function SettingsPage() {
             return (
               <li key={platform} className="flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0">
                 <div>
-                  <p className="text-[13px]">{PLATFORM_LABEL[platform]}</p>
+                  <p className="text-[13px]">{platformLabel(platform)}</p>
                   <p className="text-[11px] text-muted-foreground">
                     {connected ? account?.account_name : "Manual export available · API adapter in Milestone 5"}
                   </p>

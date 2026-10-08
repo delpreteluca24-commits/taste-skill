@@ -113,7 +113,7 @@ export function TranscriptionSettingsForm({
     <SectionForm section="transcription" disabled={disabled}>
       {(errors) => (
         <Field id="whisperModel" label="faster-whisper model" errors={errors?.whisperModel}>
-          <NativeSelect id="whisperModel" name="whisperModel" defaultValue={value.whisperModel} className="sm:max-w-xs">
+          <NativeSelect id="whisperModel" name="whisperModel" defaultValue={value.whisperModel}>
             {WHISPER_MODELS.map((m) => (
               <option key={m} value={m}>
                 {m}

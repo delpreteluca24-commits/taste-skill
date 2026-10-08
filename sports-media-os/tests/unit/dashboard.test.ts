@@ -7,6 +7,7 @@ import {
   formatRelative,
   formatScore,
   humanize,
+  platformLabel,
   scoreBand,
 } from "@/lib/dashboard/format";
 import { dashboardSchema } from "@/lib/dashboard/types";
@@ -46,8 +47,9 @@ describe("formatters", () => {
     expect(formatRelative(null, now)).toBe("—");
   });
 
-  it("humanizes enum values", () => {
+  it("humanizes enum values and brand names", () => {
     expect(humanize("fact_checker")).toBe("Fact checker");
+    expect(["youtube", "tiktok", "instagram"].map(platformLabel)).toEqual(["YouTube", "TikTok", "Instagram"]);
   });
 });
 
