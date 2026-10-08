@@ -24,14 +24,14 @@ README/docs update → list what is missing. A milestone with a broken feature i
 **Delivered**
 - Next.js 16 (App Router, `proxy.ts`), TypeScript strict, Tailwind v4, shadcn/ui components (Radix).
 - Supabase: SSR auth (cookie session refreshed in `proxy.ts`, re-verified in the DAL on every page/action), no public sign-up (owner created with `npm run create-owner`).
-- Database foundation: 9 migrations — all spec tables + `project_members`, `trend_sources`, `approvals`, `jobs`; enums, domains, indexes, composite FKs, RLS, storage buckets/policies.
+- Database foundation: 10 migrations — all spec tables + `project_members`, `trend_sources`, `approvals`, `jobs`; enums, domains, indexes, composite FKs, RLS, storage buckets/policies.
 - DB-enforced guardrails: READY gate (unconfirmed critical facts / RED-unchecked rights), rights gate on clip production, rights status derived only from audited checks, immutable script versions, API publishing only after READY.
 - Persistent job queue (Postgres, `FOR UPDATE SKIP LOCKED`, retries with backoff, lease recovery).
 - Control-room layout (sidebar with the 13 modules, project switcher, user menu, mobile nav).
 - Dashboard from a single RPC (`get_dashboard`): 6 KPIs, pipeline, today's/top opportunities, trending stories, production, ready, published, performing content, 14-day views chart, agent status. Real data only, explicit empty states.
 - Multi-project: onboarding, create, switch (cookie validated against RLS).
 - Settings: AI provider/model, Whisper model, caption preset, aspect ratio, clip duration, thresholds, auto-publish (default OFF), platform connections (NOT CONNECTED), storage.
-- Tests: 41 unit, 21 DB integration (real Postgres + RLS), 8 E2E (desktop + mobile). CI workflow.
+- Tests: 41 unit, 23 DB integration (real Postgres + RLS), 8 E2E (desktop + mobile). CI workflow.
 
 **Not in M1 (by design):** AI provider implementation, any data ingestion, video processing.
 

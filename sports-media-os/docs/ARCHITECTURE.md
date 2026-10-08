@@ -45,7 +45,7 @@ sports-media-os/
 ├── agents/registry.ts         agent identities (full definitions in M6)
 ├── supabase/
 │   ├── config.toml            local stack (sign-up disabled)
-│   └── migrations/            0100…0900, ordered
+│   └── migrations/            0100…1000, ordered
 ├── types/database.ts          generated (`npm run db:types`)
 ├── scripts/create-owner.mts   owner account (service role)
 ├── tests/unit|integration/    Vitest
@@ -100,6 +100,9 @@ another project's row (RLS doesn't protect FK targets; this does).
   | `rights_status` written directly instead of via `rights_checks` | `RIGHTS_BLOCKED` |
   | editing a script version | `SCRIPT_IMMUTABLE` |
   | API publishing job for content not past READY | `PUBLISH_BLOCKED` |
+
+  Audit stamps: `facts.checked_by/at` and `rights_checks.checked_by/at` are set by the
+  database from the session, never taken from the client payload.
 
 - **Secrets**: only `NEXT_PUBLIC_SUPABASE_URL` and the publishable key reach the
   browser. AI keys and the Supabase secret key are server-only (`lib/env.server.ts`

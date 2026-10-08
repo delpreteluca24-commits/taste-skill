@@ -158,6 +158,24 @@ describe("script versions", () => {
       expect(after.map((r) => r.id)).toEqual([v1.id]);
     }));
 
+  it("lets a story be deleted even when another story's script descends from it", () =>
+    tx(async (db) => {
+      const a = await setup(db);
+      const other = await db.one<{ id: string }>("insert into public.stories (project_id, title) values ($1, 'Other') returning id", [a.project]);
+      const parent = await db.one<{ id: string }>(
+        "insert into public.scripts (project_id, story_id, hook, is_current) values ($1, $2, 'p', true) returning id",
+        [a.project, a.story],
+      );
+      const child = await db.one<{ id: string }>(
+        "insert into public.scripts (project_id, story_id, hook, is_current, parent_script_id) values ($1, $2, 'c', true, $3) returning id",
+        [a.project, other.id, parent.id],
+      );
+      await db.fails("update public.scripts set parent_script_id = $2 where id = $1", [parent.id, child.id], /SCRIPT_IMMUTABLE/);
+      await db.q("delete from public.stories where id = $1", [a.story]);
+      const after = await db.one<{ parent_script_id: string | null }>("select parent_script_id from public.scripts where id = $1", [child.id]);
+      expect(after.parent_script_id).toBeNull();
+    }));
+
   it("keeps a single selected title per content item", () =>
     tx(async (db) => {
       const s = await setup(db);
@@ -165,6 +183,35 @@ describe("script versions", () => {
       await db.q("insert into public.titles (project_id, content_item_id, text, is_selected) values ($1, $2, 'B', true)", [s.project, s.content]);
       const selected = await db.q<{ text: string }>("select text from public.titles where content_item_id = $1 and is_selected", [s.content]);
       expect(selected.map((r) => r.text)).toEqual(["B"]);
+    }));
+});
+
+describe("audit stamps", () => {
+  it("stamps who checked a fact or a rights item from the session, not the payload", () =>
+    tx(async (db) => {
+      const s = await setup(db);
+      const someoneElse = await db.createUser();
+      await db.as(s.user);
+      const fact = await db.one<{ id: string; checked_by: string; checked_at: Date }>(
+        "insert into public.facts (project_id, opportunity_id, claim, status, checked_by) values ($1, $2, 'c', 'confirmed', $3) returning id, checked_by, checked_at",
+        [s.project, s.opp, someoneElse],
+      );
+      expect(fact.checked_by).toBe(s.user);
+      expect(fact.checked_at).not.toBeNull();
+
+      // audit fields cannot be rewritten without a verification change
+      await db.q("update public.facts set checked_by = $2, notes = 'n' where id = $1", [fact.id, someoneElse]);
+      expect((await db.one<{ checked_by: string }>("select checked_by from public.facts where id = $1", [fact.id])).checked_by).toBe(s.user);
+
+      const video = await db.one<{ id: string }>("insert into public.videos (project_id, title, storage_path) values ($1, 'v', $2) returning id", [
+        s.project,
+        `${s.project}/v.mp4`,
+      ]);
+      const check = await db.one<{ checked_by: string; checked_by_agent: string | null }>(
+        "insert into public.rights_checks (project_id, video_id, status, checked_by, checked_by_agent) values ($1, $2, 'yellow', $3, 'rights') returning checked_by, checked_by_agent",
+        [s.project, video.id, someoneElse],
+      );
+      expect(check).toEqual({ checked_by: s.user, checked_by_agent: null });
     }));
 });
 

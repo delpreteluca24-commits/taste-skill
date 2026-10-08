@@ -60,7 +60,7 @@ Video/agent workers (M3+) run on a container host, not on Vercel.
 - Control-room dashboard with real data only (empty states until data exists).
 - Settings: AI provider/model, Whisper model, caption preset, aspect ratio, clip duration, score thresholds, auto-publish (off by default), platform connections shown as NOT CONNECTED.
 - Database with RLS and DB-enforced guardrails (fact-check READY gate, rights gate, immutable scripts, publish gate), job queue, private storage.
-- Tests: 41 unit · 21 DB integration · 8 E2E.
+- Tests: 41 unit · 23 DB integration · 8 E2E.
 
 ## What is missing (next milestones)
 
