@@ -12,7 +12,12 @@ export type GuardCode =
   | "SCRIPT_IMMUTABLE"
   | "JOB_NOT_RUNNING"
   | "JOB_NOT_CANCELLABLE"
-  | "NOT_FOUND";
+  | "NOT_FOUND"
+  | "CLAIM_UNSOURCED"
+  | "APPROVAL_REQUIRED"
+  | "APPROVAL_REQUIRES_HUMAN"
+  | "RIGHTS_APPROVAL_INVALID"
+  | "SCRIPT_NOT_APPROVED";
 
 const GUARD_CODES: readonly GuardCode[] = [
   "CONTENT_NOT_READY",
@@ -22,6 +27,11 @@ const GUARD_CODES: readonly GuardCode[] = [
   "JOB_NOT_RUNNING",
   "JOB_NOT_CANCELLABLE",
   "NOT_FOUND",
+  "CLAIM_UNSOURCED",
+  "APPROVAL_REQUIRED",
+  "APPROVAL_REQUIRES_HUMAN",
+  "RIGHTS_APPROVAL_INVALID",
+  "SCRIPT_NOT_APPROVED",
 ];
 
 export function parseGuardError(error: DbErrorLike): { code: GuardCode; detail: string } | null {
@@ -48,6 +58,16 @@ export function toUserMessage(error: DbErrorLike, fallback = "Something went wro
         return "Script versions are read-only. Create a new version instead.";
       case "NOT_FOUND":
         return "Not found or you don't have access.";
+      case "CLAIM_UNSOURCED":
+        return "Link at least one supporting source before confirming this critical claim.";
+      case "APPROVAL_REQUIRED":
+        return "This change needs a human approval decision.";
+      case "APPROVAL_REQUIRES_HUMAN":
+        return "Approvals must be recorded by a signed-in person.";
+      case "RIGHTS_APPROVAL_INVALID":
+        return `Rights approval not possible: ${guard.detail}.`;
+      case "SCRIPT_NOT_APPROVED":
+        return "Approve the current script before moving to production.";
       default:
         return guard.detail || fallback;
     }
