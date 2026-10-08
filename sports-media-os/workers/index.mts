@@ -7,6 +7,7 @@
  * serverless request. Safe to run several copies: jobs are claimed with
  * FOR UPDATE SKIP LOCKED.
  */
+import { createServer } from "node:http";
 import { hostname } from "node:os";
 
 import { config } from "dotenv";
@@ -25,8 +26,19 @@ const concurrency = Math.max(1, Math.min(8, Number(process.env.WORKER_CONCURRENC
 const idleMs = Math.max(500, Number(process.env.WORKER_POLL_MS ?? 2000));
 
 let stopping = false;
+let lastPollAt = Date.now();
 process.on("SIGTERM", () => (stopping = true));
 process.on("SIGINT", () => (stopping = true));
+
+// Optional liveness endpoint for container orchestrators (and E2E): GET /health
+const healthPort = Number(process.env.WORKER_HEALTH_PORT ?? 0);
+const health = healthPort
+  ? createServer((req, res) => {
+      const stale = Date.now() - lastPollAt > 5 * 60_000;
+      res.writeHead(req.url === "/health" && !stale ? 200 : 503, { "content-type": "application/json" });
+      res.end(JSON.stringify({ status: stale ? "stale" : "ok", workerId }));
+    }).listen(healthPort, "127.0.0.1")
+  : null;
 
 logger.info("worker.started", { workerId, concurrency, handlers: Object.keys(handlers) });
 
@@ -40,7 +52,9 @@ while (!stopping) {
     if (requeued || scheduled) logger.info("worker.maintenance", { requeued, scheduled });
   }
   const ran = await pollOnce(db, handlers, workerId, concurrency);
+  lastPollAt = Date.now();
   if (ran === 0) await new Promise((r) => setTimeout(r, idleMs));
 }
 
+health?.close();
 logger.info("worker.stopped", { workerId });

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- E2E FIXTURE — fictional clubs and players, not real news. -->
+<rss version="2.0">
+  <channel>
+    <title>Fixture Sports Wire</title>
+    <link>https://fixture-sports-wire.test/</link>
+    <description>Fictional fixture feed for end-to-end tests</description>
+    <item>
+      <title>Northbridge FC stun Castellan United in record comeback derby</title>
+      <link>https://fixture-sports-wire.test/news/northbridge-comeback-derby?utm_source=rss</link>
+      <guid>fixture-1</guid>
+      <pubDate>__NOW_MINUS_1H__</pubDate>
+      <description><![CDATA[<p>Northbridge FC came back from three goals down to beat Castellan United, the first ever comeback of its kind in the derby.</p>]]></description>
+    </item>
+    <item>
+      <title>Record derby comeback: Northbridge FC upset Castellan United</title>
+      <link>https://fixture-sports-wire.test/news/northbridge-upset-castellan</link>
+      <guid>fixture-2</guid>
+      <pubDate>__NOW_MINUS_2H__</pubDate>
+      <description>Northbridge FC upset Castellan United in the derby with a record second-half comeback.</description>
+    </item>
+    <item>
+      <title>Castellan United coach slams VAR after Northbridge FC derby defeat</title>
+      <link>https://fixture-sports-wire.test/news/castellan-coach-var</link>
+      <guid>fixture-3</guid>
+      <pubDate>__NOW_MINUS_3H__</pubDate>
+      <description>The Castellan United coach criticised a VAR decision after the derby against Northbridge FC.</description>
+    </item>
+  </channel>
+</rss>

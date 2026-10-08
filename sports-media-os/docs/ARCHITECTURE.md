@@ -3,133 +3,185 @@
 ## 1. Shape of the system
 
 ```
-Browser ──► Next.js 16 (Vercel)          ──► Supabase (Postgres + Auth + Storage)
-            • RSC pages, server actions        • RLS on every table
-            • proxy.ts: session refresh        • business-rule triggers
-            • no secrets in the client         • job queue (jobs table)
-                                                       ▲
-Workers (container, NOT serverless) ───────────────────┘
-            • video: FFmpeg, faster-whisper, OpenCV   (Milestone 3)
-            • agents: orchestrator + AI providers      (Milestone 6)
+Browser ──► Next.js 16 (Vercel)            ──► Supabase (Postgres + Auth + Storage)
+            • RSC pages, server actions          • RLS on every table
+            • proxy.ts: session refresh          • business-rule triggers (rights, facts, approvals)
+            • enqueues jobs, never calls AI      • job queue (jobs table) + AI ledger (ai_usage)
+                                                         ▲
+Worker (npm run worker — container/VPS, NOT serverless) ─┘
+            • connector.fetch   RSS / JSON API → sources/events (SSRF-safe fetch)
+            • trends.detect     signals, clustering, radar metrics
+            • opportunity.ai_score / research.suggest / factcheck.assist
+            • script.generate / hooks.generate / script.transform
+            • (M3) video: FFmpeg, faster-whisper, OpenCV
 ```
 
-Long work (transcription, rendering, agent runs) never runs in a request: the app
-inserts a `jobs` row, a worker claims it with `claim_jobs()` and reports back with
-`complete_job()` / `fail_job()`. Serverless timeouts never matter.
+Long work (AI calls, fetching, later transcription/rendering) never runs in a
+request: the app inserts a `jobs` row, the worker claims it with
+`claim_jobs()` (`FOR UPDATE SKIP LOCKED`) and reports back with
+`complete_job()` / `fail_job()` (retry with backoff, permanent failures for bad
+input). The UI polls job status (`<JobStatus>`). Serverless timeouts never matter.
 
 ## 2. Folder structure
 
 ```
 sports-media-os/
 ├── app/
-│   ├── (auth)/login/          login page + signIn action
-│   ├── (onboarding)/welcome/  first project
-│   ├── (app)/                 authenticated shell (sidebar + topbar)
-│   │   ├── dashboard/         control room
-│   │   ├── settings/          workspace settings (+ actions)
-│   │   ├── projects/new/
-│   │   └── radar|trends|opportunities|research|content|clips|editor|
-│   │       thumbnails|calendar|analytics|agents/   (roadmap placeholders)
-│   └── api/health/            uptime probe
-├── components/
-│   ├── ui/                    shadcn/ui primitives (Radix + Tailwind)
-│   ├── layout/ dashboard/ projects/ common/
+│   ├── (auth)/login/            login
+│   ├── (onboarding)/welcome/    first project
+│   ├── (app)/                   authenticated shell
+│   │   ├── dashboard/           control room
+│   │   ├── radar/               Sports Radar board (+ /radar/connectors)
+│   │   ├── trends/              trend list + explanation
+│   │   ├── opportunities/       list, detail (explained score, approval)
+│   │   ├── research/            per-opportunity workspace + fact check
+│   │   ├── rights/              Rights Center (assets, classification, approvals)
+│   │   ├── content/             Kanban + item detail (Script Studio, Hook Studio)
+│   │   ├── settings/            AI routing per task, usage ledger, defaults
+│   │   └── clips|editor|thumbnails|calendar|analytics|agents/  (later milestones)
+│   └── api/health/
+├── components/                  ui/ primitives + one folder per module
 ├── lib/
-│   ├── auth/                  DAL (getCurrentUser/requireUser), paths, signOut
-│   ├── supabase/              server client, proxy session refresh
-│   ├── projects/ settings/ dashboard/   domain services (server-only) + schemas
-│   ├── db/errors.ts           DB guard errors → user messages
-│   ├── navigation.ts          modules, groups, milestones
-│   ├── env.ts / env.server.ts validated env (secrets server-only)
-│   └── logger.ts              structured JSON logs
-├── agents/registry.ts         agent identities (full definitions in M6)
-├── supabase/
-│   ├── config.toml            local stack (sign-up disabled)
-│   └── migrations/            0100…1000, ordered
-├── types/database.ts          generated (`npm run db:types`)
-├── scripts/create-owner.mts   owner account (service role)
-├── tests/unit|integration/    Vitest
-├── e2e/                       Playwright
-└── docs/
+│   ├── ai/                      provider abstraction, routing, pricing, providers/
+│   ├── scoring/                 opportunity score (explained), hook score
+│   ├── rights/                  classifier, editorial alternatives, service
+│   ├── connectors/ net/         RSS/JSON parsing, normalisation, SSRF-safe fetch
+│   ├── radar/ trends/           signals, clustering, metrics, board queries
+│   ├── opportunities/ research/ factcheck/ content/ scripts/   domain services
+│   ├── jobs/                    job contracts, enqueue, status actions
+│   └── auth/ supabase/ db/ settings/ projects/ dashboard/ …
+├── prompts/                     versioned system prompts + builders per task
+├── workers/                     runner, context (project-scoped access), handlers/
+├── agents/registry.ts           agent identities
+├── supabase/migrations/         M1 0100…1000, M2 20261009 0100…0300
+├── tests/unit|integration/      Vitest (unit + real Postgres)
+└── e2e/                         Playwright
 ```
 
-Planned additions: `lib/ai/`, `lib/scoring/`, `lib/research/`, `lib/rights/` (M2),
-`lib/video/`, `lib/transcription/`, `workers/video/` (M3), `lib/analytics/` (M5),
-`agents/<name>/`, `prompts/` (M6).
+Layering rules:
+- **UI never talks to the database directly.** Pages call `lib/<domain>/service.ts`;
+  mutations go through server actions that validate with zod, call a service and
+  map DB errors with `lib/db/errors.ts`.
+- **Services take the DB client as a parameter** (`Db`), so the same code runs as
+  the signed-in user (RLS) and inside the worker (service role).
+- **The worker bypasses RLS**, so it loads every payload id with
+  `ctx.loadOwned(table, id)` (scoped to the job's project) and filters every other
+  query by `project_id`. A job can never touch another project's data, whatever
+  ids its payload holds (tested in `tests/integration/worker.test.ts`).
 
-Layering rule: **UI components never talk to the database**. Pages call
-`lib/*/service.ts` (server-only), mutations go through server actions that
-validate with zod, call a service, and map errors with `lib/db/errors.ts`.
+## 3. RIGHTS-FIRST content engine
 
-## 3. Data model
+The system is **not** a downloader/reposter of highlights. It finds editorial
+opportunities and turns them into original, monetizable content.
 
-| Area | Tables |
+**Rights belong to assets, never to stories.** An asset is a `source` (external
+URL: article, video link, social post, image) or a `video` (uploaded file). Each
+asset carries its latest classification (`rights_checks`):
+
+| Field | Column |
 |---|---|
-| Identity | `users` (mirror of `auth.users`, app role), `projects`, `project_members` (viewer < editor < admin < owner) |
-| Reference | `sports` |
-| Intelligence | `events`, `sources`, `trends`, `trend_sources`, `opportunities`, `research_items`, `facts`, `rights_checks` |
-| Story | `stories`, `scripts` (immutable versions), `hooks` |
-| Media | `videos`, `video_segments` (transcript / scene / candidate), `clips`, `captions` |
-| Packaging | `thumbnails`, `titles` |
-| Production | `content_items` (Kanban unit: idea → … → analyzing) |
-| Distribution | `platform_accounts`, `publishing_jobs`, `analytics` (snapshots) |
-| Agents | `agent_runs`, `agent_tasks`, `approvals` (human checkpoints) |
-| System | `settings`, `activity_logs` (append-only), `jobs` (queue) |
+| ownership | `ownership` (owned · licensed · authorized · creator_provided · public_domain · third_party · unknown) |
+| source | `source_detail` |
+| license | `license` |
+| commercial use | `commercial_use` (null = unknown) |
+| authorization | `authorization_details` |
+| transformation required | `transformation_required` |
+| risk | `risk` |
+| rights status | `status` → mirrored on the asset as `rights_status` |
+| evidence | `evidence_url` |
+| notes | `notes` |
 
-Conventions: UUID PKs, `created_at`/`updated_at` (trigger), scores as domain
-`score` (0–100), probabilities as `probability` (0–1), enums for stable states,
-JSONB only for genuinely unstructured metadata, `unique (id, project_id)` on
-every project table so children use **composite FKs** — a row can never reference
-another project's row (RLS doesn't protect FK targets; this does).
+| Status | Meaning | Enforced by |
+|---|---|---|
+| GREEN | may enter production under the recorded conditions | DB check: commercial use + real ownership basis + evidence (unless owned / public domain) |
+| YELLOW | needs human review / documentation | usable only after `record_approval('rights', …)` on the latest check; **never** by automated workers |
+| RED | never enters production | clip gate, READY gate |
 
-## 4. Security model
+`videos/sources.usable_in_production` is derived (read-only for every writer).
+The production gate distinguishes **automated** writers (no `auth.uid()`:
+workers, agents → GREEN only) from **humans** (GREEN or approved YELLOW).
 
-- **Auth**: Supabase Auth, email + password, public sign-up disabled. `proxy.ts`
-  refreshes the session and redirects anonymous users; every page/action
-  re-verifies via `requireUser()` (never trust the proxy alone).
-- **RLS everywhere**: membership-based policies generated from one template
-  (`project_id in (select private.project_ids_for_role('editor'))` — evaluated once
-  per statement). `anon` has no grants. Column-level grants stop role
-  escalation (`users.role`) and ownership changes (`projects.owner_id`).
-- **Guardrails in the database** (apply to UI, agents, workers and SQL alike):
+**STORY ≠ FOOTAGE.** Story approval never depends on footage. When footage is
+missing or not cleared, `lib/rights/alternatives.ts` suggests original formats
+(commentary, voiceover, statistics, graphics, timeline, animation, maps,
+original visuals) and documented ones (authorized/licensed footage, creator
+material, compatible public sources, screenshots only when appropriate). The
+chosen plan is stored in `stories.production_formats` and feeds Rights Safety in
+the opportunity score.
 
-  | Rule | Error |
-  |---|---|
-  | content → READY/SCHEDULED/PUBLISHED with unconfirmed critical facts or RED/unchecked clip sources | `CONTENT_NOT_READY` |
-  | clip → approved/rendering/rendered from a RED or unchecked video | `RIGHTS_BLOCKED` |
-  | `rights_status` written directly instead of via `rights_checks` | `RIGHTS_BLOCKED` |
-  | editing a script version | `SCRIPT_IMMUTABLE` |
-  | API publishing job for content not past READY | `PUBLISH_BLOCKED` |
+## 4. Editorial pipeline and human checkpoints
 
-  Audit stamps: `facts.checked_by/at` and `rights_checks.checked_by/at` are set by the
-  database from the session, never taken from the client payload.
+```
+connectors ─► sources ─► trends (signals, radar score, sweet spot)
+                              │ create opportunity
+                              ▼
+                       opportunities ── score (explained) ── OPPORTUNITY → APPROVAL
+                              │ start production
+                              ▼
+            research workspace (sources, claims↔sources, timeline, quotes, media,
+            competitors, questions) ── fact check (human confirms; AI only suggests)
+                              │
+                              ▼
+            story ── scripts (immutable versions, ≥3 angles) + 5 hooks
+                              │ SCRIPT → APPROVAL
+                              ▼
+            Kanban: IDEA · RESEARCH · SCRIPT · REVIEW · PRODUCTION · READY · SCHEDULED · PUBLISHED · ANALYZING
+```
 
-- **Secrets**: only `NEXT_PUBLIC_SUPABASE_URL` and the publishable key reach the
-  browser. AI keys and the Supabase secret key are server-only (`lib/env.server.ts`
-  imports `server-only`); the secret key is used by scripts/workers, not the web app.
-- **Storage**: private buckets, path `<project_id>/…`, policies mirror RLS.
-- **Headers**: X-Frame-Options DENY, nosniff, strict referrer, permissions policy, HSTS in production. CSP with nonces is planned for M7.
+| Rule (DB-enforced) | Error |
+|---|---|
+| opportunity/story → approved/rejected without a matching human decision | `APPROVAL_REQUIRED` |
+| approvals recorded without a signed-in person | `APPROVAL_REQUIRES_HUMAN` |
+| content → PRODUCTION+ without an approved **current** script | `SCRIPT_NOT_APPROVED` |
+| content → READY+ with unconfirmed critical claims or uncleared clip material | `CONTENT_NOT_READY` |
+| critical claim → confirmed without a supporting source | `CLAIM_UNSOURCED` (removing the last source downgrades it) |
+| clip → production from RED / unchecked / unapproved YELLOW (automated: non-GREEN) | `RIGHTS_BLOCKED` |
+| YELLOW approval on a stale or non-YELLOW check | `RIGHTS_APPROVAL_INVALID` |
+| editing a script version | `SCRIPT_IMMUTABLE` |
+| API publishing before READY | `PUBLISH_BLOCKED` |
 
-## 5. AI provider abstraction (M2)
+Auto-publishing stays off (M5 adds publishing behind its own approval).
+
+## 5. AI layer and cost control
 
 ```ts
-interface AIProvider {
+interface AIProvider {            // lib/ai/types.ts
   id: "anthropic" | "openai";
-  generateText(input: { system: string; messages: Msg[]; model: string; maxTokens?: number }): Promise<{ text: string; usage: Usage }>;
-  generateObject<T>(input: { …; schema: z.ZodType<T> }): Promise<{ object: T; usage: Usage }>;
+  isConfigured(): boolean;
+  complete(model, request, zodSchema?): Promise<{ text, usage, servedModel, latencyMs }>;
 }
+router.generateObject(task, request, zodSchema)   // lib/ai/router.ts
 ```
 
-Agents depend on the interface; `getProvider(settings.ai)` picks the
-implementation. Anthropic uses the official SDK (structured outputs, adaptive
-thinking on current models); default model `claude-opus-5-5`, switchable in
-Settings. Usage and cost are written to `agent_runs`.
+- **Per-task routing** (`lib/ai/models.ts`): discovery, scoring, research, script,
+  fact_check. Precedence: Settings → env (`DISCOVERY_MODEL` … `FACT_CHECK_MODEL`)
+  → code defaults. Defaults: Haiku 5.5 for high-volume discovery/scoring, Sonnet 5.5
+  for research/script/fact check; Opus/Fable are opt-in per task.
+- **Fallback chain**: primary → task fallback → `AI_FALLBACK_MODEL`. Unconfigured
+  providers are skipped; rate limits, outages, refusals and invalid output move to
+  the next model; every attempt is recorded.
+- **Anthropic** via the official SDK: structured outputs (`output_config.format`),
+  `effort` per task, adaptive thinking (default on 5.x), server-side refusal
+  fallback (`fallbacks: "default"`) on models that support it.
+- **Ledger**: every call → `ai_usage` (task, model, tokens, cost, latency, status);
+  `ai_usage_summary()` feeds Settings. Prices in `lib/ai/pricing.ts` (unknown
+  models are *unpriced*, never guessed).
+- **Batch guard**: batch jobs estimate cost first; above `ai.batchCostLimitUsd`
+  they need explicit confirmation. See `docs/AI_COST_CONTROL.md`.
+- **Never invent facts**: prompts receive only stored facts/sources with ids;
+  outputs are validated (ids must be in the provided set); AI claims start
+  `uncertain`, AI links are `mentions` only, and AI never confirms or approves.
 
-## 6. Video pipeline (M3)
+## 6. Security model
 
-Worker container: Node job runner + Python tools (reusing `clipforge/`).
-Cost control: the AI never receives the full video — only transcript windows and
-a few sampled frames of the top-N heuristic candidates.
+- **Auth**: Supabase Auth, sign-up disabled; `proxy.ts` refreshes sessions; every
+  page/action re-verifies with `requireUser()`.
+- **RLS everywhere**, generated from one template; composite FKs prevent
+  cross-project links; `anon` has no grants; column grants stop role escalation.
+- **Worker isolation**: service role + `loadOwned` + project filters (see §2).
+- **SSRF**: connectors fetch user-provided URLs through `lib/net/safe-fetch.ts`
+  (public IPs only, validated at connect time, redirects re-validated, size/time caps).
+- **Secrets** server-only; storage private with project-folder policies; security headers.
 
 ## 7. Deployment
 
@@ -137,27 +189,28 @@ a few sampled frames of the top-N heuristic candidates.
 |---|---|---|
 | Web app | Vercel (or Netlify) | standard Next.js hosting |
 | DB/Auth/Storage | Supabase | migrations via `supabase db push` |
-| Workers | any container host (Fly.io, Railway, Hetzner VPS, a local machine) | FFmpeg/Whisper need minutes of CPU/GPU, not serverless |
+| Worker | any container host (Fly.io, Railway, Hetzner VPS, a local machine) | AI/fetch jobs now; FFmpeg/Whisper in M3 |
 
 ## 8. Decisions log
 
 | # | Decision | Reason |
 |---|---|---|
-| D1 | Cache Components / Partial Prefetching **off** | every screen is per-user live data behind auth; simpler and robust. Revisit in M7. |
-| D2 | Postgres job queue instead of Redis/BullMQ | one less service to run and pay for; SKIP LOCKED is enough at this scale; swap later if needed. |
-| D3 | Intel data (events/sources/trends) is project-scoped | uniform RLS; cross-project duplication is acceptable for V1. |
-| D4 | No public sign-up; owner via script | single-owner V1, no attack surface from open registration. |
-| D5 | Guardrails as DB triggers, not only app code | agents and workers write too; rules must hold for every writer. |
-| D6 | shadcn components written locally | the shadcn registry is unreachable from this build environment; same source, same API — `components.json` kept for local CLI use. |
-| D7 | Reuse `clipforge/` for M3/M4 | it already implements transcription, reframe and captions; weeks saved. |
+| D1 | Cache Components / Partial Prefetching **off** | per-user live data behind auth; revisit in M7 |
+| D2 | Postgres job queue | no extra service; SKIP LOCKED is enough at this scale |
+| D3 | Intel data is project-scoped | uniform RLS; duplication acceptable for V1 |
+| D4 | No public sign-up | single-owner V1 |
+| D5 | Guardrails as DB triggers | agents and workers write too |
+| D6 | shadcn components written locally | registry unreachable from the build environment |
+| D7 | Reuse `clipforge/` in M3/M4 | transcription, reframe, captions already exist |
+| D8 | Rights on assets, not stories (STORY ≠ FOOTAGE) | great stories must not die for lack of footage; production defaults to original formats |
+| D9 | AI only in the worker, routed per task | cost control, no request timeouts, one ledger |
+| D10 | Automated vs human distinguished by `auth.uid()` in DB gates | YELLOW can never be used by an automated workflow, even after approval |
 
 ## 9. Known limits / risks
 
-- **Copyright is the #1 business risk.** Clips of league broadcasts are routinely
-  claimed or struck. The Rights Center blocks RED material, but it is a guard, not
-  a license: the content strategy must rely on owned, licensed or clearly permitted
-  footage, original commentary, data and graphics.
-- **Storage cost**: hosted Supabase Free caps uploads at 50 MB/file; long-form video
-  needs Pro + resumable uploads (or worker-local/R2 storage). Decide before M3.
-- **AI cost**: the default model is the most capable Opus; bulk steps (segment
-  scoring) may justify a cheaper model per task — measure first in M3.
+- **Copyright is the #1 business risk.** The Rights Center is a guard, not a license.
+- **Storage cost** for long video (M3): Supabase Free caps uploads at 50 MB/file.
+- **AI quality/cost** not yet measured with real keys in this environment — run
+  `npm run ai:benchmark` before switching any batch task to a pricier model.
+- **Competition estimate** is a proxy (publisher saturation in our own sources);
+  platform-level competition data (YouTube search) arrives with M5 adapters.
