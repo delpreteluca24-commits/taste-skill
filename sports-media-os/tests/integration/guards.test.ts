@@ -97,6 +97,26 @@ describe("rights gate", () => {
       expect((await db.one<{ rights_status: string }>("select rights_status from public.videos where id = $1", [video.id])).rights_status).toBe("green");
     }));
 
+  it("derives rights status from rights checks only (no direct writes)", () =>
+    tx(async (db) => {
+      const s = await setup(db);
+      await db.fails(
+        "insert into public.videos (project_id, title, storage_path, rights_status) values ($1, 'v', $2, 'green')",
+        [s.project, `${s.project}/v.mp4`],
+        /RIGHTS_BLOCKED: rights status starts as unchecked/,
+      );
+      const video = await db.one<{ id: string }>(
+        "insert into public.videos (project_id, title, storage_path) values ($1, 'v', $2) returning id",
+        [s.project, `${s.project}/v.mp4`],
+      );
+      await db.fails("update public.videos set rights_status = 'green' where id = $1", [video.id], /RIGHTS_BLOCKED: .*only through a rights check/);
+      // other columns stay editable
+      await db.q("update public.videos set title = 'renamed' where id = $1", [video.id]);
+      // the service role is bound by the same rule
+      await db.asAdmin();
+      await db.fails("update public.videos set rights_status = 'green' where id = $1", [video.id], /RIGHTS_BLOCKED/);
+    }));
+
   it("refuses API publishing before the READY gate", () =>
     tx(async (db) => {
       const s = await setup(db);
