@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="https://tennis.example.org/">
+  <title type="text">Example Tennis Wire</title>
+  <id>urn:uuid:7c1f0d4e-0000-4000-8000-000000000001</id>
+  <updated>2026-10-07T18:00:00Z</updated>
+  <link rel="self" href="https://tennis.example.org/feed.atom"/>
+
+  <entry>
+    <title type="html">Qualifier &amp;amp; wildcard reach semi-final</title>
+    <id>tag:tennis.example.org,2026:entry-101</id>
+    <link rel="enclosure" type="audio/mpeg" href="https://tennis.example.org/podcast/101.mp3"/>
+    <link rel="alternate" type="text/html" href="/2026/10/07/qualifier-semi-final"/>
+    <published>2026-10-07T16:45:00+02:00</published>
+    <updated>2026-10-07T17:05:00+02:00</updated>
+    <author><name>Jordan Court</name><email>jordan@tennis.example.org</email></author>
+    <category term="atp-250" label="ATP 250"/>
+    <category term="upsets"/>
+    <summary type="html">&lt;p&gt;The world No. 212 saved four match points.&lt;/p&gt;</summary>
+    <content type="html">&lt;p&gt;FULL BODY NOT STORED…&lt;/p&gt;</content>
+  </entry>
+
+  <entry>
+    <title>Record: fastest serve of the season</title>
+    <id>https://tennis.example.org/2026/10/06/fastest-serve</id>
+    <updated>2026-10-06T12:00:00Z</updated>
+    <content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>A <strong>247 km/h</strong> serve was recorded in the second set.</p></div></content>
+  </entry>
+
+  <entry>
+    <title>No link at all</title>
+    <id>tag:tennis.example.org,2026:entry-103</id>
+    <summary>This entry has neither a link nor a URL id.</summary>
+  </entry>
+</feed>
