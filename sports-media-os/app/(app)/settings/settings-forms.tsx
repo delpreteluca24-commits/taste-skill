@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState, type ReactNode } from "react";
+import { useActionState, type ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 
 import { FieldError, FormMessage } from "@/components/common/form-feedback";
@@ -10,10 +10,8 @@ import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Switch } from "@/components/ui/switch";
 import {
-  AI_PROVIDERS,
   ASPECT_RATIOS,
   CAPTION_PRESETS,
-  SUGGESTED_MODELS,
   WHISPER_MODELS,
   type SettingsSection,
   type WorkspaceSettings,
@@ -62,41 +60,13 @@ function Field({ id, label, errors, children }: { id: string; label: string; err
 }
 
 export function AiSettingsForm({ value, disabled }: { value: WorkspaceSettings["ai"]; disabled: boolean }) {
-  const [provider, setProvider] = useState(value.provider);
+  // placeholder until the per-task routing UI lands (M2 Settings module)
   return (
     <SectionForm section="ai" disabled={disabled}>
       {(errors) => (
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Field id="provider" label="Provider" errors={errors?.provider}>
-            <NativeSelect
-              id="provider"
-              name="provider"
-              value={provider}
-              onChange={(e) => setProvider(e.target.value as typeof provider)}
-            >
-              {AI_PROVIDERS.map((p) => (
-                <option key={p} value={p}>
-                  {p === "anthropic" ? "Anthropic (Claude)" : "OpenAI"}
-                </option>
-              ))}
-            </NativeSelect>
-          </Field>
-          <Field id="model" label="Model" errors={errors?.model}>
-            <Input
-              id="model"
-              name="model"
-              list="model-suggestions"
-              defaultValue={value.model}
-              placeholder={provider === "openai" ? "OpenAI model id" : "claude-opus-5-5"}
-              autoComplete="off"
-            />
-            <datalist id="model-suggestions">
-              {SUGGESTED_MODELS[provider].map((m) => (
-                <option key={m} value={m} />
-              ))}
-            </datalist>
-          </Field>
-        </div>
+        <Field id="batchCostLimitUsd" label="Batch cost limit (USD)" errors={errors?.batchCostLimitUsd}>
+          <Input id="batchCostLimitUsd" name="batchCostLimitUsd" type="number" min={0} step="0.01" defaultValue={value.batchCostLimitUsd} />
+        </Field>
       )}
     </SectionForm>
   );

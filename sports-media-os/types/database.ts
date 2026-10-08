@@ -113,6 +113,38 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"ai_usage": {
+                  Row: {
+                    "agent_run_id": string | null,"attempt": number,"cache_read_tokens": number,"cache_write_tokens": number,"cost_usd": number | null,"created_at": string,"error_code": string | null,"id": string,"input_tokens": number,"job_id": string | null,"latency_ms": number | null,"model": string,"output_tokens": number,"project_id": string | null,"provider": string,"status": string,"task": Database["public"]['Enums']["ai_task"]
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "agent_run_id"?: string | null,"attempt"?: number,"cache_read_tokens"?: number,"cache_write_tokens"?: number,"cost_usd"?: number | null,"created_at"?: string,"error_code"?: string | null,"id"?: string,"input_tokens"?: number,"job_id"?: string | null,"latency_ms"?: number | null,"model": string,"output_tokens"?: number,"project_id"?: string | null,"provider": string,"status": string,"task": Database["public"]['Enums']["ai_task"]
+                  }
+                  Update: {
+                    "agent_run_id"?: string | null,"attempt"?: number,"cache_read_tokens"?: number,"cache_write_tokens"?: number,"cost_usd"?: number | null,"created_at"?: string,"error_code"?: string | null,"id"?: string,"input_tokens"?: number,"job_id"?: string | null,"latency_ms"?: number | null,"model"?: string,"output_tokens"?: number,"project_id"?: string | null,"provider"?: string,"status"?: string,"task"?: Database["public"]['Enums']["ai_task"]
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "ai_usage_agent_run_id_fkey"
+      columns: ["agent_run_id"]
+isOneToOne: false
+      referencedRelation: "agent_runs"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ai_usage_job_id_fkey"
+      columns: ["job_id"]
+isOneToOne: false
+      referencedRelation: "jobs"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "ai_usage_project_id_fkey"
+      columns: ["project_id"]
+isOneToOne: false
+      referencedRelation: "projects"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"analytics": {
                   Row: {
                     "avg_percentage_viewed": number | null,"captured_at": string,"comments": number | null,"content_item_id": string,"created_at": string,"ctr": number | null,"id": string,"likes": number | null,"platform": Database["public"]['Enums']["platform"],"project_id": string,"publishing_job_id": string | null,"raw": Json | null,"shares": number | null,"subscribers_gained": number | null,"views": number | null,"watch_time_sec": number | null
@@ -235,6 +267,38 @@ isOneToOne: false
       referencedColumns: ["id","project_id"]
     }
                   ]
+                },"connectors": {
+                  Row: {
+                    "config": NonNullable<Json>,"created_at": string,"created_by": string | null,"credibility": number | null,"default_license": Database["public"]['Enums']["license_status"],"enabled": boolean,"etag": string | null,"fetch_interval_minutes": number,"id": string,"kind": Database["public"]['Enums']["connector_kind"],"last_error": string | null,"last_fetched_at": string | null,"last_item_count": number | null,"last_modified": string | null,"last_status": string | null,"name": string,"project_id": string,"sport_id": string | null,"target": string,"updated_at": string,"url": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "config"?: NonNullable<Json>,"created_at"?: string,"created_by"?: string | null,"credibility"?: number | null,"default_license"?: Database["public"]['Enums']["license_status"],"enabled"?: boolean,"etag"?: string | null,"fetch_interval_minutes"?: number,"id"?: string,"kind": Database["public"]['Enums']["connector_kind"],"last_error"?: string | null,"last_fetched_at"?: string | null,"last_item_count"?: number | null,"last_modified"?: string | null,"last_status"?: string | null,"name": string,"project_id": string,"sport_id"?: string | null,"target"?: string,"updated_at"?: string,"url": string
+                  }
+                  Update: {
+                    "config"?: NonNullable<Json>,"created_at"?: string,"created_by"?: string | null,"credibility"?: number | null,"default_license"?: Database["public"]['Enums']["license_status"],"enabled"?: boolean,"etag"?: string | null,"fetch_interval_minutes"?: number,"id"?: string,"kind"?: Database["public"]['Enums']["connector_kind"],"last_error"?: string | null,"last_fetched_at"?: string | null,"last_item_count"?: number | null,"last_modified"?: string | null,"last_status"?: string | null,"name"?: string,"project_id"?: string,"sport_id"?: string | null,"target"?: string,"updated_at"?: string,"url"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "connectors_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "users"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "connectors_project_id_fkey"
+      columns: ["project_id"]
+isOneToOne: false
+      referencedRelation: "projects"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "connectors_sport_id_fkey"
+      columns: ["sport_id"]
+isOneToOne: false
+      referencedRelation: "sports"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"content_items": {
                   Row: {
                     "created_at": string,"created_by": string | null,"description": string | null,"format": Database["public"]['Enums']["content_format"],"id": string,"metadata": NonNullable<Json>,"opportunity_id": string | null,"position": number,"predicted_score": number | null,"project_id": string,"published_at": string | null,"scheduled_at": string | null,"stage": Database["public"]['Enums']["content_stage"],"stage_changed_at": string,"story_id": string | null,"target_platforms": (Database["public"]['Enums']["platform"])[],"title": string,"updated_at": string
@@ -275,17 +339,23 @@ isOneToOne: false
                   ]
                 },"events": {
                   Row: {
-                    "competition": string | null,"created_at": string,"description": string | null,"ends_at": string | null,"external_id": string | null,"id": string,"importance": number | null,"metadata": NonNullable<Json>,"project_id": string,"sport_id": string | null,"starts_at": string | null,"status": Database["public"]['Enums']["event_status"],"title": string,"updated_at": string,"venue": string | null
+                    "competition": string | null,"connector_id": string | null,"created_at": string,"description": string | null,"ends_at": string | null,"external_id": string | null,"id": string,"importance": number | null,"metadata": NonNullable<Json>,"project_id": string,"sport_id": string | null,"starts_at": string | null,"status": Database["public"]['Enums']["event_status"],"title": string,"updated_at": string,"venue": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "competition"?: string | null,"created_at"?: string,"description"?: string | null,"ends_at"?: string | null,"external_id"?: string | null,"id"?: string,"importance"?: number | null,"metadata"?: NonNullable<Json>,"project_id": string,"sport_id"?: string | null,"starts_at"?: string | null,"status"?: Database["public"]['Enums']["event_status"],"title": string,"updated_at"?: string,"venue"?: string | null
+                    "competition"?: string | null,"connector_id"?: string | null,"created_at"?: string,"description"?: string | null,"ends_at"?: string | null,"external_id"?: string | null,"id"?: string,"importance"?: number | null,"metadata"?: NonNullable<Json>,"project_id": string,"sport_id"?: string | null,"starts_at"?: string | null,"status"?: Database["public"]['Enums']["event_status"],"title": string,"updated_at"?: string,"venue"?: string | null
                   }
                   Update: {
-                    "competition"?: string | null,"created_at"?: string,"description"?: string | null,"ends_at"?: string | null,"external_id"?: string | null,"id"?: string,"importance"?: number | null,"metadata"?: NonNullable<Json>,"project_id"?: string,"sport_id"?: string | null,"starts_at"?: string | null,"status"?: Database["public"]['Enums']["event_status"],"title"?: string,"updated_at"?: string,"venue"?: string | null
+                    "competition"?: string | null,"connector_id"?: string | null,"created_at"?: string,"description"?: string | null,"ends_at"?: string | null,"external_id"?: string | null,"id"?: string,"importance"?: number | null,"metadata"?: NonNullable<Json>,"project_id"?: string,"sport_id"?: string | null,"starts_at"?: string | null,"status"?: Database["public"]['Enums']["event_status"],"title"?: string,"updated_at"?: string,"venue"?: string | null
                   }
                   Relationships: [
                     {
+      foreignKeyName: "events_connector_fk"
+      columns: ["connector_id","project_id"]
+isOneToOne: false
+      referencedRelation: "connectors"
+      referencedColumns: ["id","project_id"]
+    },{
       foreignKeyName: "events_project_id_fkey"
       columns: ["project_id"]
 isOneToOne: false
@@ -299,16 +369,54 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
-                },"facts": {
+                },"fact_sources": {
                   Row: {
-                    "checked_at": string | null,"checked_by": string | null,"checked_by_agent": Database["public"]['Enums']["agent_key"] | null,"claim": string,"confidence": number | null,"content_item_id": string | null,"created_at": string,"id": string,"is_critical": boolean,"notes": string | null,"opportunity_id": string | null,"project_id": string,"source_id": string | null,"status": Database["public"]['Enums']["fact_status"],"story_id": string | null,"updated_at": string
+                    "created_at": string,"created_by": string | null,"excerpt": string | null,"fact_id": string,"locator": string | null,"project_id": string,"relation": Database["public"]['Enums']["claim_relation"],"source_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "checked_at"?: string | null,"checked_by"?: string | null,"checked_by_agent"?: Database["public"]['Enums']["agent_key"] | null,"claim": string,"confidence"?: number | null,"content_item_id"?: string | null,"created_at"?: string,"id"?: string,"is_critical"?: boolean,"notes"?: string | null,"opportunity_id"?: string | null,"project_id": string,"source_id"?: string | null,"status"?: Database["public"]['Enums']["fact_status"],"story_id"?: string | null,"updated_at"?: string
+                    "created_at"?: string,"created_by"?: string | null,"excerpt"?: string | null,"fact_id": string,"locator"?: string | null,"project_id": string,"relation"?: Database["public"]['Enums']["claim_relation"],"source_id": string
                   }
                   Update: {
-                    "checked_at"?: string | null,"checked_by"?: string | null,"checked_by_agent"?: Database["public"]['Enums']["agent_key"] | null,"claim"?: string,"confidence"?: number | null,"content_item_id"?: string | null,"created_at"?: string,"id"?: string,"is_critical"?: boolean,"notes"?: string | null,"opportunity_id"?: string | null,"project_id"?: string,"source_id"?: string | null,"status"?: Database["public"]['Enums']["fact_status"],"story_id"?: string | null,"updated_at"?: string
+                    "created_at"?: string,"created_by"?: string | null,"excerpt"?: string | null,"fact_id"?: string,"locator"?: string | null,"project_id"?: string,"relation"?: Database["public"]['Enums']["claim_relation"],"source_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "fact_sources_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "users"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "fact_sources_fact_id_project_id_fkey"
+      columns: ["fact_id","project_id"]
+isOneToOne: false
+      referencedRelation: "facts"
+      referencedColumns: ["id","project_id"]
+    },{
+      foreignKeyName: "fact_sources_project_id_fkey"
+      columns: ["project_id"]
+isOneToOne: false
+      referencedRelation: "projects"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "fact_sources_source_id_project_id_fkey"
+      columns: ["source_id","project_id"]
+isOneToOne: false
+      referencedRelation: "sources"
+      referencedColumns: ["id","project_id"]
+    }
+                  ]
+                },"facts": {
+                  Row: {
+                    "ai_suggestion": Json | null,"checked_at": string | null,"checked_by": string | null,"checked_by_agent": Database["public"]['Enums']["agent_key"] | null,"claim": string,"confidence": number | null,"content_item_id": string | null,"created_at": string,"id": string,"is_critical": boolean,"notes": string | null,"opportunity_id": string | null,"project_id": string,"status": Database["public"]['Enums']["fact_status"],"story_id": string | null,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "ai_suggestion"?: Json | null,"checked_at"?: string | null,"checked_by"?: string | null,"checked_by_agent"?: Database["public"]['Enums']["agent_key"] | null,"claim": string,"confidence"?: number | null,"content_item_id"?: string | null,"created_at"?: string,"id"?: string,"is_critical"?: boolean,"notes"?: string | null,"opportunity_id"?: string | null,"project_id": string,"status"?: Database["public"]['Enums']["fact_status"],"story_id"?: string | null,"updated_at"?: string
+                  }
+                  Update: {
+                    "ai_suggestion"?: Json | null,"checked_at"?: string | null,"checked_by"?: string | null,"checked_by_agent"?: Database["public"]['Enums']["agent_key"] | null,"claim"?: string,"confidence"?: number | null,"content_item_id"?: string | null,"created_at"?: string,"id"?: string,"is_critical"?: boolean,"notes"?: string | null,"opportunity_id"?: string | null,"project_id"?: string,"status"?: Database["public"]['Enums']["fact_status"],"story_id"?: string | null,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -336,12 +444,6 @@ isOneToOne: false
       referencedRelation: "projects"
       referencedColumns: ["id"]
     },{
-      foreignKeyName: "facts_source_id_project_id_fkey"
-      columns: ["source_id","project_id"]
-isOneToOne: false
-      referencedRelation: "sources"
-      referencedColumns: ["id","project_id"]
-    },{
       foreignKeyName: "facts_story_id_project_id_fkey"
       columns: ["story_id","project_id"]
 isOneToOne: false
@@ -351,14 +453,14 @@ isOneToOne: false
                   ]
                 },"hooks": {
                   Row: {
-                    "created_at": string,"hook_type": Database["public"]['Enums']["hook_type"],"id": string,"is_selected": boolean,"model": string | null,"opportunity_id": string | null,"project_id": string,"provider": string | null,"score": number | null,"score_explanation": Json | null,"script_id": string | null,"story_id": string | null,"text": string,"updated_at": string
+                    "angle": Database["public"]['Enums']["script_angle"] | null,"created_at": string,"hook_type": Database["public"]['Enums']["hook_type"],"id": string,"is_selected": boolean,"model": string | null,"opportunity_id": string | null,"project_id": string,"provider": string | null,"score": number | null,"score_explanation": Json | null,"script_id": string | null,"story_id": string | null,"text": string,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"hook_type": Database["public"]['Enums']["hook_type"],"id"?: string,"is_selected"?: boolean,"model"?: string | null,"opportunity_id"?: string | null,"project_id": string,"provider"?: string | null,"score"?: number | null,"score_explanation"?: Json | null,"script_id"?: string | null,"story_id"?: string | null,"text": string,"updated_at"?: string
+                    "angle"?: Database["public"]['Enums']["script_angle"] | null,"created_at"?: string,"hook_type": Database["public"]['Enums']["hook_type"],"id"?: string,"is_selected"?: boolean,"model"?: string | null,"opportunity_id"?: string | null,"project_id": string,"provider"?: string | null,"score"?: number | null,"score_explanation"?: Json | null,"script_id"?: string | null,"story_id"?: string | null,"text": string,"updated_at"?: string
                   }
                   Update: {
-                    "created_at"?: string,"hook_type"?: Database["public"]['Enums']["hook_type"],"id"?: string,"is_selected"?: boolean,"model"?: string | null,"opportunity_id"?: string | null,"project_id"?: string,"provider"?: string | null,"score"?: number | null,"score_explanation"?: Json | null,"script_id"?: string | null,"story_id"?: string | null,"text"?: string,"updated_at"?: string
+                    "angle"?: Database["public"]['Enums']["script_angle"] | null,"created_at"?: string,"hook_type"?: Database["public"]['Enums']["hook_type"],"id"?: string,"is_selected"?: boolean,"model"?: string | null,"opportunity_id"?: string | null,"project_id"?: string,"provider"?: string | null,"score"?: number | null,"score_explanation"?: Json | null,"script_id"?: string | null,"story_id"?: string | null,"text"?: string,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -415,14 +517,14 @@ isOneToOne: false
                   ]
                 },"opportunities": {
                   Row: {
-                    "angle": string | null,"audience_score": number | null,"competition": string | null,"competition_gap_score": number | null,"created_at": string,"created_by": string | null,"curiosity_score": number | null,"description": string | null,"event_id": string | null,"hook": string | null,"id": string,"metadata": NonNullable<Json>,"monetization_score": number | null,"opportunity_score": number | null,"originality_score": number | null,"production_feasibility_score": number | null,"project_id": string,"rights_score": number | null,"score_explanation": Json | null,"scored_at": string | null,"sport_id": string | null,"status": Database["public"]['Enums']["opportunity_status"],"timeliness_score": number | null,"title": string,"trend_id": string | null,"trend_score": number | null,"updated_at": string,"why_now": string | null
+                    "angle": string | null,"audience_score": number | null,"competition": string | null,"competition_gap_score": number | null,"competition_level": Database["public"]['Enums']["competition_level"] | null,"created_at": string,"created_by": string | null,"curiosity_score": number | null,"description": string | null,"event_id": string | null,"hook": string | null,"id": string,"is_sweet_spot": boolean,"metadata": NonNullable<Json>,"monetization_score": number | null,"opportunity_score": number | null,"originality_score": number | null,"production_feasibility_score": number | null,"project_id": string,"rights_score": number | null,"score_coverage": number | null,"score_explanation": Json | null,"scored_at": string | null,"scoring_version": string | null,"signals": (Database["public"]['Enums']["radar_signal"])[],"sport_id": string | null,"status": Database["public"]['Enums']["opportunity_status"],"timeliness_score": number | null,"title": string,"trend_id": string | null,"trend_score": number | null,"updated_at": string,"why_now": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "angle"?: string | null,"audience_score"?: number | null,"competition"?: string | null,"competition_gap_score"?: number | null,"created_at"?: string,"created_by"?: string | null,"curiosity_score"?: number | null,"description"?: string | null,"event_id"?: string | null,"hook"?: string | null,"id"?: string,"metadata"?: NonNullable<Json>,"monetization_score"?: number | null,"opportunity_score"?: number | null,"originality_score"?: number | null,"production_feasibility_score"?: number | null,"project_id": string,"rights_score"?: number | null,"score_explanation"?: Json | null,"scored_at"?: string | null,"sport_id"?: string | null,"status"?: Database["public"]['Enums']["opportunity_status"],"timeliness_score"?: number | null,"title": string,"trend_id"?: string | null,"trend_score"?: number | null,"updated_at"?: string,"why_now"?: string | null
+                    "angle"?: string | null,"audience_score"?: number | null,"competition"?: string | null,"competition_gap_score"?: number | null,"competition_level"?: Database["public"]['Enums']["competition_level"] | null,"created_at"?: string,"created_by"?: string | null,"curiosity_score"?: number | null,"description"?: string | null,"event_id"?: string | null,"hook"?: string | null,"id"?: string,"is_sweet_spot"?: boolean,"metadata"?: NonNullable<Json>,"monetization_score"?: number | null,"opportunity_score"?: number | null,"originality_score"?: number | null,"production_feasibility_score"?: number | null,"project_id": string,"rights_score"?: number | null,"score_coverage"?: number | null,"score_explanation"?: Json | null,"scored_at"?: string | null,"scoring_version"?: string | null,"signals"?: (Database["public"]['Enums']["radar_signal"])[],"sport_id"?: string | null,"status"?: Database["public"]['Enums']["opportunity_status"],"timeliness_score"?: number | null,"title": string,"trend_id"?: string | null,"trend_score"?: number | null,"updated_at"?: string,"why_now"?: string | null
                   }
                   Update: {
-                    "angle"?: string | null,"audience_score"?: number | null,"competition"?: string | null,"competition_gap_score"?: number | null,"created_at"?: string,"created_by"?: string | null,"curiosity_score"?: number | null,"description"?: string | null,"event_id"?: string | null,"hook"?: string | null,"id"?: string,"metadata"?: NonNullable<Json>,"monetization_score"?: number | null,"opportunity_score"?: number | null,"originality_score"?: number | null,"production_feasibility_score"?: number | null,"project_id"?: string,"rights_score"?: number | null,"score_explanation"?: Json | null,"scored_at"?: string | null,"sport_id"?: string | null,"status"?: Database["public"]['Enums']["opportunity_status"],"timeliness_score"?: number | null,"title"?: string,"trend_id"?: string | null,"trend_score"?: number | null,"updated_at"?: string,"why_now"?: string | null
+                    "angle"?: string | null,"audience_score"?: number | null,"competition"?: string | null,"competition_gap_score"?: number | null,"competition_level"?: Database["public"]['Enums']["competition_level"] | null,"created_at"?: string,"created_by"?: string | null,"curiosity_score"?: number | null,"description"?: string | null,"event_id"?: string | null,"hook"?: string | null,"id"?: string,"is_sweet_spot"?: boolean,"metadata"?: NonNullable<Json>,"monetization_score"?: number | null,"opportunity_score"?: number | null,"originality_score"?: number | null,"production_feasibility_score"?: number | null,"project_id"?: string,"rights_score"?: number | null,"score_coverage"?: number | null,"score_explanation"?: Json | null,"scored_at"?: string | null,"scoring_version"?: string | null,"signals"?: (Database["public"]['Enums']["radar_signal"])[],"sport_id"?: string | null,"status"?: Database["public"]['Enums']["opportunity_status"],"timeliness_score"?: number | null,"title"?: string,"trend_id"?: string | null,"trend_score"?: number | null,"updated_at"?: string,"why_now"?: string | null
                   }
                   Relationships: [
                     {
@@ -607,14 +709,14 @@ isOneToOne: false
                   ]
                 },"rights_checks": {
                   Row: {
-                    "authorization_details": string | null,"checked_at": string,"checked_by": string | null,"checked_by_agent": Database["public"]['Enums']["agent_key"] | null,"commercial_use": boolean | null,"created_at": string,"expires_at": string | null,"id": string,"license": string | null,"notes": string | null,"origin": string | null,"owner": string | null,"project_id": string,"risk": string | null,"source_id": string | null,"status": Database["public"]['Enums']["rights_status"],"updated_at": string,"video_id": string | null
+                    "authorization_details": string | null,"checked_at": string,"checked_by": string | null,"checked_by_agent": Database["public"]['Enums']["agent_key"] | null,"commercial_use": boolean | null,"created_at": string,"evidence_url": string | null,"expires_at": string | null,"id": string,"license": string | null,"notes": string | null,"owner": string | null,"ownership": Database["public"]['Enums']["asset_ownership"],"project_id": string,"risk": string | null,"source_detail": string | null,"source_id": string | null,"status": Database["public"]['Enums']["rights_status"],"transformation_required": boolean,"updated_at": string,"video_id": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "authorization_details"?: string | null,"checked_at"?: string,"checked_by"?: string | null,"checked_by_agent"?: Database["public"]['Enums']["agent_key"] | null,"commercial_use"?: boolean | null,"created_at"?: string,"expires_at"?: string | null,"id"?: string,"license"?: string | null,"notes"?: string | null,"origin"?: string | null,"owner"?: string | null,"project_id": string,"risk"?: string | null,"source_id"?: string | null,"status": Database["public"]['Enums']["rights_status"],"updated_at"?: string,"video_id"?: string | null
+                    "authorization_details"?: string | null,"checked_at"?: string,"checked_by"?: string | null,"checked_by_agent"?: Database["public"]['Enums']["agent_key"] | null,"commercial_use"?: boolean | null,"created_at"?: string,"evidence_url"?: string | null,"expires_at"?: string | null,"id"?: string,"license"?: string | null,"notes"?: string | null,"owner"?: string | null,"ownership"?: Database["public"]['Enums']["asset_ownership"],"project_id": string,"risk"?: string | null,"source_detail"?: string | null,"source_id"?: string | null,"status": Database["public"]['Enums']["rights_status"],"transformation_required"?: boolean,"updated_at"?: string,"video_id"?: string | null
                   }
                   Update: {
-                    "authorization_details"?: string | null,"checked_at"?: string,"checked_by"?: string | null,"checked_by_agent"?: Database["public"]['Enums']["agent_key"] | null,"commercial_use"?: boolean | null,"created_at"?: string,"expires_at"?: string | null,"id"?: string,"license"?: string | null,"notes"?: string | null,"origin"?: string | null,"owner"?: string | null,"project_id"?: string,"risk"?: string | null,"source_id"?: string | null,"status"?: Database["public"]['Enums']["rights_status"],"updated_at"?: string,"video_id"?: string | null
+                    "authorization_details"?: string | null,"checked_at"?: string,"checked_by"?: string | null,"checked_by_agent"?: Database["public"]['Enums']["agent_key"] | null,"commercial_use"?: boolean | null,"created_at"?: string,"evidence_url"?: string | null,"expires_at"?: string | null,"id"?: string,"license"?: string | null,"notes"?: string | null,"owner"?: string | null,"ownership"?: Database["public"]['Enums']["asset_ownership"],"project_id"?: string,"risk"?: string | null,"source_detail"?: string | null,"source_id"?: string | null,"status"?: Database["public"]['Enums']["rights_status"],"transformation_required"?: boolean,"updated_at"?: string,"video_id"?: string | null
                   }
                   Relationships: [
                     {
@@ -645,14 +747,14 @@ isOneToOne: false
                   ]
                 },"scripts": {
                   Row: {
-                    "context": string | null,"created_at": string,"created_by": string | null,"cta": string | null,"escalation": string | null,"full_text": string | null,"hook": string | null,"id": string,"is_current": boolean,"model": string | null,"operation": Database["public"]['Enums']["script_operation"],"parent_script_id": string | null,"payoff": string | null,"project_id": string,"provider": string | null,"reveal": string | null,"story_id": string,"target_duration_sec": number | null,"tone": string | null,"version": number,"word_count": number | null
+                    "angle": Database["public"]['Enums']["script_angle"] | null,"context": string | null,"created_at": string,"created_by": string | null,"cta": string | null,"escalation": string | null,"facts_used": (string)[],"full_text": string | null,"hook": string | null,"id": string,"is_current": boolean,"language": string | null,"model": string | null,"operation": Database["public"]['Enums']["script_operation"],"parent_script_id": string | null,"payoff": string | null,"project_id": string,"provider": string | null,"reveal": string | null,"story_id": string,"target_duration_sec": number | null,"tone": string | null,"version": number,"warnings": (string)[],"word_count": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "context"?: string | null,"created_at"?: string,"created_by"?: string | null,"cta"?: string | null,"escalation"?: string | null,"full_text"?: string | null,"hook"?: string | null,"id"?: string,"is_current"?: boolean,"model"?: string | null,"operation"?: Database["public"]['Enums']["script_operation"],"parent_script_id"?: string | null,"payoff"?: string | null,"project_id": string,"provider"?: string | null,"reveal"?: string | null,"story_id": string,"target_duration_sec"?: number | null,"tone"?: string | null,"version": number,"word_count"?: number | null
+                    "angle"?: Database["public"]['Enums']["script_angle"] | null,"context"?: string | null,"created_at"?: string,"created_by"?: string | null,"cta"?: string | null,"escalation"?: string | null,"facts_used"?: (string)[],"full_text"?: string | null,"hook"?: string | null,"id"?: string,"is_current"?: boolean,"language"?: string | null,"model"?: string | null,"operation"?: Database["public"]['Enums']["script_operation"],"parent_script_id"?: string | null,"payoff"?: string | null,"project_id": string,"provider"?: string | null,"reveal"?: string | null,"story_id": string,"target_duration_sec"?: number | null,"tone"?: string | null,"version": number,"warnings"?: (string)[],"word_count"?: number | null
                   }
                   Update: {
-                    "context"?: string | null,"created_at"?: string,"created_by"?: string | null,"cta"?: string | null,"escalation"?: string | null,"full_text"?: string | null,"hook"?: string | null,"id"?: string,"is_current"?: boolean,"model"?: string | null,"operation"?: Database["public"]['Enums']["script_operation"],"parent_script_id"?: string | null,"payoff"?: string | null,"project_id"?: string,"provider"?: string | null,"reveal"?: string | null,"story_id"?: string,"target_duration_sec"?: number | null,"tone"?: string | null,"version"?: number,"word_count"?: number | null
+                    "angle"?: Database["public"]['Enums']["script_angle"] | null,"context"?: string | null,"created_at"?: string,"created_by"?: string | null,"cta"?: string | null,"escalation"?: string | null,"facts_used"?: (string)[],"full_text"?: string | null,"hook"?: string | null,"id"?: string,"is_current"?: boolean,"language"?: string | null,"model"?: string | null,"operation"?: Database["public"]['Enums']["script_operation"],"parent_script_id"?: string | null,"payoff"?: string | null,"project_id"?: string,"provider"?: string | null,"reveal"?: string | null,"story_id"?: string,"target_duration_sec"?: number | null,"tone"?: string | null,"version"?: number,"warnings"?: (string)[],"word_count"?: number | null
                   }
                   Relationships: [
                     {
@@ -709,17 +811,23 @@ isOneToOne: false
                   ]
                 },"sources": {
                   Row: {
-                    "author": string | null,"content_hash": string | null,"created_at": string,"credibility": number | null,"event_id": string | null,"id": string,"license_status": Database["public"]['Enums']["license_status"],"metadata": NonNullable<Json>,"name": string,"project_id": string,"published_at": string | null,"retrieved_at": string,"rights_status": Database["public"]['Enums']["rights_status"],"source_type": Database["public"]['Enums']["source_type"],"sport_id": string | null,"summary": string | null,"title": string | null,"updated_at": string,"url": string
+                    "author": string | null,"connector_id": string | null,"content_hash": string | null,"created_at": string,"credibility": number | null,"event_id": string | null,"id": string,"language": string | null,"license_status": Database["public"]['Enums']["license_status"],"metadata": NonNullable<Json>,"name": string,"project_id": string,"published_at": string | null,"retrieved_at": string,"rights_check_id": string | null,"rights_status": Database["public"]['Enums']["rights_status"],"signals": (Database["public"]['Enums']["radar_signal"])[],"source_type": Database["public"]['Enums']["source_type"],"sport_id": string | null,"summary": string | null,"title": string | null,"updated_at": string,"url": string,"usable_in_production": boolean
                   }
                   ComputedFields: never
                   Insert: {
-                    "author"?: string | null,"content_hash"?: string | null,"created_at"?: string,"credibility"?: number | null,"event_id"?: string | null,"id"?: string,"license_status"?: Database["public"]['Enums']["license_status"],"metadata"?: NonNullable<Json>,"name": string,"project_id": string,"published_at"?: string | null,"retrieved_at"?: string,"rights_status"?: Database["public"]['Enums']["rights_status"],"source_type"?: Database["public"]['Enums']["source_type"],"sport_id"?: string | null,"summary"?: string | null,"title"?: string | null,"updated_at"?: string,"url": string
+                    "author"?: string | null,"connector_id"?: string | null,"content_hash"?: string | null,"created_at"?: string,"credibility"?: number | null,"event_id"?: string | null,"id"?: string,"language"?: string | null,"license_status"?: Database["public"]['Enums']["license_status"],"metadata"?: NonNullable<Json>,"name": string,"project_id": string,"published_at"?: string | null,"retrieved_at"?: string,"rights_check_id"?: string | null,"rights_status"?: Database["public"]['Enums']["rights_status"],"signals"?: (Database["public"]['Enums']["radar_signal"])[],"source_type"?: Database["public"]['Enums']["source_type"],"sport_id"?: string | null,"summary"?: string | null,"title"?: string | null,"updated_at"?: string,"url": string,"usable_in_production"?: boolean
                   }
                   Update: {
-                    "author"?: string | null,"content_hash"?: string | null,"created_at"?: string,"credibility"?: number | null,"event_id"?: string | null,"id"?: string,"license_status"?: Database["public"]['Enums']["license_status"],"metadata"?: NonNullable<Json>,"name"?: string,"project_id"?: string,"published_at"?: string | null,"retrieved_at"?: string,"rights_status"?: Database["public"]['Enums']["rights_status"],"source_type"?: Database["public"]['Enums']["source_type"],"sport_id"?: string | null,"summary"?: string | null,"title"?: string | null,"updated_at"?: string,"url"?: string
+                    "author"?: string | null,"connector_id"?: string | null,"content_hash"?: string | null,"created_at"?: string,"credibility"?: number | null,"event_id"?: string | null,"id"?: string,"language"?: string | null,"license_status"?: Database["public"]['Enums']["license_status"],"metadata"?: NonNullable<Json>,"name"?: string,"project_id"?: string,"published_at"?: string | null,"retrieved_at"?: string,"rights_check_id"?: string | null,"rights_status"?: Database["public"]['Enums']["rights_status"],"signals"?: (Database["public"]['Enums']["radar_signal"])[],"source_type"?: Database["public"]['Enums']["source_type"],"sport_id"?: string | null,"summary"?: string | null,"title"?: string | null,"updated_at"?: string,"url"?: string,"usable_in_production"?: boolean
                   }
                   Relationships: [
                     {
+      foreignKeyName: "sources_connector_fk"
+      columns: ["connector_id","project_id"]
+isOneToOne: false
+      referencedRelation: "connectors"
+      referencedColumns: ["id","project_id"]
+    },{
       foreignKeyName: "sources_event_id_project_id_fkey"
       columns: ["event_id","project_id"]
 isOneToOne: false
@@ -755,14 +863,14 @@ isOneToOne: false
                   ]
                 },"stories": {
                   Row: {
-                    "angle": string | null,"created_at": string,"created_by": string | null,"id": string,"logline": string | null,"metadata": NonNullable<Json>,"opportunity_id": string | null,"project_id": string,"status": Database["public"]['Enums']["story_status"],"title": string,"updated_at": string
+                    "angle": string | null,"created_at": string,"created_by": string | null,"id": string,"logline": string | null,"metadata": NonNullable<Json>,"opportunity_id": string | null,"production_formats": (Database["public"]['Enums']["editorial_format"])[],"project_id": string,"status": Database["public"]['Enums']["story_status"],"title": string,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "angle"?: string | null,"created_at"?: string,"created_by"?: string | null,"id"?: string,"logline"?: string | null,"metadata"?: NonNullable<Json>,"opportunity_id"?: string | null,"project_id": string,"status"?: Database["public"]['Enums']["story_status"],"title": string,"updated_at"?: string
+                    "angle"?: string | null,"created_at"?: string,"created_by"?: string | null,"id"?: string,"logline"?: string | null,"metadata"?: NonNullable<Json>,"opportunity_id"?: string | null,"production_formats"?: (Database["public"]['Enums']["editorial_format"])[],"project_id": string,"status"?: Database["public"]['Enums']["story_status"],"title": string,"updated_at"?: string
                   }
                   Update: {
-                    "angle"?: string | null,"created_at"?: string,"created_by"?: string | null,"id"?: string,"logline"?: string | null,"metadata"?: NonNullable<Json>,"opportunity_id"?: string | null,"project_id"?: string,"status"?: Database["public"]['Enums']["story_status"],"title"?: string,"updated_at"?: string
+                    "angle"?: string | null,"created_at"?: string,"created_by"?: string | null,"id"?: string,"logline"?: string | null,"metadata"?: NonNullable<Json>,"opportunity_id"?: string | null,"production_formats"?: (Database["public"]['Enums']["editorial_format"])[],"project_id"?: string,"status"?: Database["public"]['Enums']["story_status"],"title"?: string,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -877,14 +985,14 @@ isOneToOne: false
                   ]
                 },"trends": {
                   Row: {
-                    "created_at": string,"description": string | null,"event_id": string | null,"first_seen_at": string,"id": string,"keywords": (string)[],"last_seen_at": string,"metadata": NonNullable<Json>,"project_id": string,"sport_id": string | null,"status": Database["public"]['Enums']["trend_status"],"title": string,"trend_score": number | null,"updated_at": string,"velocity": number | null,"volume": number | null
+                    "competition_level": Database["public"]['Enums']["competition_level"] | null,"created_at": string,"curiosity_score": number | null,"description": string | null,"event_id": string | null,"first_seen_at": string,"id": string,"is_sweet_spot": boolean,"keywords": (string)[],"last_seen_at": string,"metadata": NonNullable<Json>,"project_id": string,"publisher_count": number | null,"radar_explanation": Json | null,"radar_score": number | null,"signals": (Database["public"]['Enums']["radar_signal"])[],"source_count": number | null,"sport_id": string | null,"status": Database["public"]['Enums']["trend_status"],"title": string,"trend_score": number | null,"updated_at": string,"velocity": number | null,"volume": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"description"?: string | null,"event_id"?: string | null,"first_seen_at"?: string,"id"?: string,"keywords"?: (string)[],"last_seen_at"?: string,"metadata"?: NonNullable<Json>,"project_id": string,"sport_id"?: string | null,"status"?: Database["public"]['Enums']["trend_status"],"title": string,"trend_score"?: number | null,"updated_at"?: string,"velocity"?: number | null,"volume"?: number | null
+                    "competition_level"?: Database["public"]['Enums']["competition_level"] | null,"created_at"?: string,"curiosity_score"?: number | null,"description"?: string | null,"event_id"?: string | null,"first_seen_at"?: string,"id"?: string,"is_sweet_spot"?: boolean,"keywords"?: (string)[],"last_seen_at"?: string,"metadata"?: NonNullable<Json>,"project_id": string,"publisher_count"?: number | null,"radar_explanation"?: Json | null,"radar_score"?: number | null,"signals"?: (Database["public"]['Enums']["radar_signal"])[],"source_count"?: number | null,"sport_id"?: string | null,"status"?: Database["public"]['Enums']["trend_status"],"title": string,"trend_score"?: number | null,"updated_at"?: string,"velocity"?: number | null,"volume"?: number | null
                   }
                   Update: {
-                    "created_at"?: string,"description"?: string | null,"event_id"?: string | null,"first_seen_at"?: string,"id"?: string,"keywords"?: (string)[],"last_seen_at"?: string,"metadata"?: NonNullable<Json>,"project_id"?: string,"sport_id"?: string | null,"status"?: Database["public"]['Enums']["trend_status"],"title"?: string,"trend_score"?: number | null,"updated_at"?: string,"velocity"?: number | null,"volume"?: number | null
+                    "competition_level"?: Database["public"]['Enums']["competition_level"] | null,"created_at"?: string,"curiosity_score"?: number | null,"description"?: string | null,"event_id"?: string | null,"first_seen_at"?: string,"id"?: string,"is_sweet_spot"?: boolean,"keywords"?: (string)[],"last_seen_at"?: string,"metadata"?: NonNullable<Json>,"project_id"?: string,"publisher_count"?: number | null,"radar_explanation"?: Json | null,"radar_score"?: number | null,"signals"?: (Database["public"]['Enums']["radar_signal"])[],"source_count"?: number | null,"sport_id"?: string | null,"status"?: Database["public"]['Enums']["trend_status"],"title"?: string,"trend_score"?: number | null,"updated_at"?: string,"velocity"?: number | null,"volume"?: number | null
                   }
                   Relationships: [
                     {
@@ -949,14 +1057,14 @@ isOneToOne: false
                   ]
                 },"videos": {
                   Row: {
-                    "audio_path": string | null,"container": string | null,"created_at": string,"duration_sec": number | null,"error_message": string | null,"fps": number | null,"has_audio": boolean | null,"height": number | null,"id": string,"language": string | null,"metadata": NonNullable<Json>,"mime_type": string | null,"original_filename": string | null,"project_id": string,"rights_status": Database["public"]['Enums']["rights_status"],"size_bytes": number | null,"source_id": string | null,"status": Database["public"]['Enums']["video_status"],"storage_bucket": string,"storage_path": string,"title": string,"transcript_path": string | null,"updated_at": string,"uploaded_by": string | null,"width": number | null
+                    "audio_path": string | null,"container": string | null,"created_at": string,"duration_sec": number | null,"error_message": string | null,"fps": number | null,"has_audio": boolean | null,"height": number | null,"id": string,"language": string | null,"metadata": NonNullable<Json>,"mime_type": string | null,"original_filename": string | null,"project_id": string,"rights_check_id": string | null,"rights_status": Database["public"]['Enums']["rights_status"],"size_bytes": number | null,"source_id": string | null,"status": Database["public"]['Enums']["video_status"],"storage_bucket": string,"storage_path": string,"title": string,"transcript_path": string | null,"updated_at": string,"uploaded_by": string | null,"usable_in_production": boolean,"width": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "audio_path"?: string | null,"container"?: string | null,"created_at"?: string,"duration_sec"?: number | null,"error_message"?: string | null,"fps"?: number | null,"has_audio"?: boolean | null,"height"?: number | null,"id"?: string,"language"?: string | null,"metadata"?: NonNullable<Json>,"mime_type"?: string | null,"original_filename"?: string | null,"project_id": string,"rights_status"?: Database["public"]['Enums']["rights_status"],"size_bytes"?: number | null,"source_id"?: string | null,"status"?: Database["public"]['Enums']["video_status"],"storage_bucket"?: string,"storage_path": string,"title": string,"transcript_path"?: string | null,"updated_at"?: string,"uploaded_by"?: string | null,"width"?: number | null
+                    "audio_path"?: string | null,"container"?: string | null,"created_at"?: string,"duration_sec"?: number | null,"error_message"?: string | null,"fps"?: number | null,"has_audio"?: boolean | null,"height"?: number | null,"id"?: string,"language"?: string | null,"metadata"?: NonNullable<Json>,"mime_type"?: string | null,"original_filename"?: string | null,"project_id": string,"rights_check_id"?: string | null,"rights_status"?: Database["public"]['Enums']["rights_status"],"size_bytes"?: number | null,"source_id"?: string | null,"status"?: Database["public"]['Enums']["video_status"],"storage_bucket"?: string,"storage_path": string,"title": string,"transcript_path"?: string | null,"updated_at"?: string,"uploaded_by"?: string | null,"usable_in_production"?: boolean,"width"?: number | null
                   }
                   Update: {
-                    "audio_path"?: string | null,"container"?: string | null,"created_at"?: string,"duration_sec"?: number | null,"error_message"?: string | null,"fps"?: number | null,"has_audio"?: boolean | null,"height"?: number | null,"id"?: string,"language"?: string | null,"metadata"?: NonNullable<Json>,"mime_type"?: string | null,"original_filename"?: string | null,"project_id"?: string,"rights_status"?: Database["public"]['Enums']["rights_status"],"size_bytes"?: number | null,"source_id"?: string | null,"status"?: Database["public"]['Enums']["video_status"],"storage_bucket"?: string,"storage_path"?: string,"title"?: string,"transcript_path"?: string | null,"updated_at"?: string,"uploaded_by"?: string | null,"width"?: number | null
+                    "audio_path"?: string | null,"container"?: string | null,"created_at"?: string,"duration_sec"?: number | null,"error_message"?: string | null,"fps"?: number | null,"has_audio"?: boolean | null,"height"?: number | null,"id"?: string,"language"?: string | null,"metadata"?: NonNullable<Json>,"mime_type"?: string | null,"original_filename"?: string | null,"project_id"?: string,"rights_check_id"?: string | null,"rights_status"?: Database["public"]['Enums']["rights_status"],"size_bytes"?: number | null,"source_id"?: string | null,"status"?: Database["public"]['Enums']["video_status"],"storage_bucket"?: string,"storage_path"?: string,"title"?: string,"transcript_path"?: string | null,"updated_at"?: string,"uploaded_by"?: string | null,"usable_in_production"?: boolean,"width"?: number | null
                   }
                   Relationships: [
                     {
@@ -982,7 +1090,15 @@ isOneToOne: false
                 }
           }
           Views: {
-            "content_latest_metrics": {
+            "asset_rights": {
+                  Row: {
+                    "asset_id": string | null,"asset_type": string | null,"authorization_details": string | null,"awaiting_approval": boolean | null,"check_id": string | null,"checked_at": string | null,"checked_by": string | null,"checked_by_agent": Database["public"]['Enums']["agent_key"] | null,"commercial_use": boolean | null,"created_at": string | null,"evidence_url": string | null,"expires_at": string | null,"kind": string | null,"license": string | null,"license_status": Database["public"]['Enums']["license_status"] | null,"notes": string | null,"owner": string | null,"ownership": Database["public"]['Enums']["asset_ownership"] | null,"project_id": string | null,"publisher": string | null,"rights_status": Database["public"]['Enums']["rights_status"] | null,"risk": string | null,"source_detail": string | null,"title": string | null,"transformation_required": boolean | null,"url": string | null,"usable_in_production": boolean | null
+                  }
+                  ComputedFields: never
+                  Relationships: [
+                    
+                  ]
+                },"content_latest_metrics": {
                   Row: {
                     "avg_percentage_viewed": number | null,"captured_at": string | null,"comments": number | null,"content_item_id": string | null,"ctr": number | null,"likes": number | null,"platform": Database["public"]['Enums']["platform"] | null,"project_id": string | null,"shares": number | null,"subscribers_gained": number | null,"views": number | null,"watch_time_sec": number | null
                   }
@@ -1005,7 +1121,12 @@ isOneToOne: false
                 }
           }
           Functions: {
-            "cancel_job":
+            "ai_usage_summary":
+{ Args: { "p_days"?: number,"p_project_id": string }; Returns: {
+              "calls": number,"cost_usd": number,"errors": number,"input_tokens": number,"model": string,"output_tokens": number,"provider": string,"task": Database["public"]['Enums']["ai_task"]
+            }[]
+                           },
+"cancel_job":
 { Args: { "p_job_id": string }; Returns: {
               "attempts": number,
 "created_at": string,
@@ -1123,12 +1244,30 @@ isOneToOne: false
 "get_dashboard":
 { Args: { "p_project_id": string }; Returns: Json
                            },
+"record_approval":
+{ Args: { "p_checkpoint": Database["public"]['Enums']["approval_checkpoint"],"p_decision": Database["public"]['Enums']["approval_decision"],"p_entity_id": string,"p_notes"?: string }; Returns: {
+              "checkpoint": Database["public"]['Enums']["approval_checkpoint"],
+"created_at": string,
+"decided_by": string,
+"decision": Database["public"]['Enums']["approval_decision"],
+"entity_id": string,
+"entity_type": string,
+"id": string,
+"notes": string | null,
+"project_id": string
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "approvals"
+        isOneToOne: true
+        isSetofReturn: false
+      } },
 "requeue_stale_jobs":
 { Args: { "p_timeout"?: string }; Returns: number
                            }
           }
           Enums: {
-            "actor_type": "user"|"agent"|"system","agent_key": "orchestrator"|"sports_radar"|"trend_hunter"|"researcher"|"fact_checker"|"rights"|"story"|"hook"|"editor"|"thumbnail"|"publisher"|"analytics"|"ceo","app_role": "member"|"admin"|"owner","approval_checkpoint": "opportunity"|"story"|"production"|"publishing","approval_decision": "approved"|"rejected","caption_format": "srt"|"ass","caption_preset": "clean"|"bold"|"creator","clip_status": "candidate"|"approved"|"rejected"|"rendering"|"rendered"|"failed","connection_status": "not_connected"|"connected"|"expired"|"error","content_format": "short"|"long"|"post","content_stage": "idea"|"research"|"script"|"production"|"review"|"ready"|"scheduled"|"published"|"analyzing","event_status": "scheduled"|"live"|"finished"|"postponed"|"cancelled","fact_status": "confirmed"|"probable"|"uncertain"|"false","hook_type": "curiosity"|"controversial"|"shock"|"mystery"|"story"|"statistical","job_status": "pending"|"running"|"completed"|"failed"|"cancelled","license_status": "unknown"|"owned"|"licensed"|"public_domain"|"creative_commons"|"fair_use_review"|"restricted","log_status": "info"|"success"|"warning"|"failed","member_role": "viewer"|"editor"|"admin"|"owner","opportunity_status": "new"|"researching"|"approved"|"rejected"|"production"|"ready"|"published"|"archived","platform": "youtube"|"tiktok"|"instagram","project_status": "active"|"paused"|"archived","publish_mode": "manual_export"|"api","reframe_mode": "speaker"|"face"|"subject"|"center","research_item_type": "article"|"video"|"quote"|"timeline"|"note"|"question"|"context","rights_status": "unchecked"|"green"|"yellow"|"red","run_trigger": "manual"|"schedule"|"orchestrator"|"event","script_operation": "generate"|"regenerate"|"shorten"|"expand"|"rewrite_hook"|"change_tone"|"manual","segment_type": "transcript"|"scene"|"candidate","source_type": "news"|"rss"|"api"|"social"|"video"|"official"|"press_release"|"other","story_status": "draft"|"review"|"approved"|"rejected","task_status": "pending"|"running"|"waiting_approval"|"completed"|"failed"|"cancelled","thumbnail_status": "concept"|"selected"|"generated"|"rejected","trend_status": "emerging"|"rising"|"peaking"|"declining"|"expired","video_status": "uploaded"|"processing"|"analyzed"|"failed"
+            "actor_type": "user"|"agent"|"system","agent_key": "orchestrator"|"sports_radar"|"trend_hunter"|"researcher"|"fact_checker"|"rights"|"story"|"hook"|"editor"|"thumbnail"|"publisher"|"analytics"|"ceo","ai_task": "discovery"|"scoring"|"research"|"script"|"fact_check","app_role": "member"|"admin"|"owner","approval_checkpoint": "opportunity"|"story"|"production"|"publishing"|"script"|"rights","approval_decision": "approved"|"rejected","asset_ownership": "owned"|"licensed"|"authorized"|"creator_provided"|"public_domain"|"third_party"|"unknown","caption_format": "srt"|"ass","caption_preset": "clean"|"bold"|"creator","claim_relation": "supports"|"contradicts"|"mentions","clip_status": "candidate"|"approved"|"rejected"|"rendering"|"rendered"|"failed","competition_level": "low"|"medium"|"high","connection_status": "not_connected"|"connected"|"expired"|"error","connector_kind": "rss"|"json_api","content_format": "short"|"long"|"post","content_stage": "idea"|"research"|"script"|"production"|"review"|"ready"|"scheduled"|"published"|"analyzing","editorial_format": "original_commentary"|"voiceover"|"statistics"|"graphics"|"timeline"|"animation"|"map"|"original_visuals"|"authorized_footage"|"licensed_footage"|"screenshots"|"public_sources"|"creator_provided","event_status": "scheduled"|"live"|"finished"|"postponed"|"cancelled","fact_status": "confirmed"|"probable"|"uncertain"|"false","hook_type": "curiosity"|"controversial"|"shock"|"mystery"|"story"|"statistical","job_status": "pending"|"running"|"completed"|"failed"|"cancelled","license_status": "unknown"|"owned"|"licensed"|"public_domain"|"creative_commons"|"fair_use_review"|"restricted","log_status": "info"|"success"|"warning"|"failed","member_role": "viewer"|"editor"|"admin"|"owner","opportunity_status": "new"|"researching"|"approved"|"rejected"|"production"|"ready"|"published"|"archived","platform": "youtube"|"tiktok"|"instagram","project_status": "active"|"paused"|"archived","publish_mode": "manual_export"|"api","radar_signal": "upcoming_event"|"just_finished"|"breaking"|"upset"|"record"|"rivalry"|"controversy"|"statement"|"unusual_stat"|"injury"|"transfer"|"rising_trend","reframe_mode": "speaker"|"face"|"subject"|"center","research_item_type": "article"|"video"|"quote"|"timeline"|"note"|"question"|"context"|"media"|"competitor","rights_status": "unchecked"|"green"|"yellow"|"red","run_trigger": "manual"|"schedule"|"orchestrator"|"event","script_angle": "breaking_news"|"storytelling"|"analysis"|"controversy"|"unexpected_fact","script_operation": "generate"|"regenerate"|"shorten"|"expand"|"rewrite_hook"|"change_tone"|"manual","segment_type": "transcript"|"scene"|"candidate","source_type": "news"|"rss"|"api"|"social"|"video"|"official"|"press_release"|"other","story_status": "draft"|"review"|"approved"|"rejected","task_status": "pending"|"running"|"waiting_approval"|"completed"|"failed"|"cancelled","thumbnail_status": "concept"|"selected"|"generated"|"rejected","trend_status": "emerging"|"rising"|"peaking"|"declining"|"expired","video_status": "uploaded"|"processing"|"analyzed"|"failed"
           }
           CompositeTypes: {
             [_ in never]: never
@@ -1248,7 +1387,7 @@ export const Constants = {
           }
         },"public": {
           Enums: {
-            "actor_type": ["user", "agent", "system"],"agent_key": ["orchestrator", "sports_radar", "trend_hunter", "researcher", "fact_checker", "rights", "story", "hook", "editor", "thumbnail", "publisher", "analytics", "ceo"],"app_role": ["member", "admin", "owner"],"approval_checkpoint": ["opportunity", "story", "production", "publishing"],"approval_decision": ["approved", "rejected"],"caption_format": ["srt", "ass"],"caption_preset": ["clean", "bold", "creator"],"clip_status": ["candidate", "approved", "rejected", "rendering", "rendered", "failed"],"connection_status": ["not_connected", "connected", "expired", "error"],"content_format": ["short", "long", "post"],"content_stage": ["idea", "research", "script", "production", "review", "ready", "scheduled", "published", "analyzing"],"event_status": ["scheduled", "live", "finished", "postponed", "cancelled"],"fact_status": ["confirmed", "probable", "uncertain", "false"],"hook_type": ["curiosity", "controversial", "shock", "mystery", "story", "statistical"],"job_status": ["pending", "running", "completed", "failed", "cancelled"],"license_status": ["unknown", "owned", "licensed", "public_domain", "creative_commons", "fair_use_review", "restricted"],"log_status": ["info", "success", "warning", "failed"],"member_role": ["viewer", "editor", "admin", "owner"],"opportunity_status": ["new", "researching", "approved", "rejected", "production", "ready", "published", "archived"],"platform": ["youtube", "tiktok", "instagram"],"project_status": ["active", "paused", "archived"],"publish_mode": ["manual_export", "api"],"reframe_mode": ["speaker", "face", "subject", "center"],"research_item_type": ["article", "video", "quote", "timeline", "note", "question", "context"],"rights_status": ["unchecked", "green", "yellow", "red"],"run_trigger": ["manual", "schedule", "orchestrator", "event"],"script_operation": ["generate", "regenerate", "shorten", "expand", "rewrite_hook", "change_tone", "manual"],"segment_type": ["transcript", "scene", "candidate"],"source_type": ["news", "rss", "api", "social", "video", "official", "press_release", "other"],"story_status": ["draft", "review", "approved", "rejected"],"task_status": ["pending", "running", "waiting_approval", "completed", "failed", "cancelled"],"thumbnail_status": ["concept", "selected", "generated", "rejected"],"trend_status": ["emerging", "rising", "peaking", "declining", "expired"],"video_status": ["uploaded", "processing", "analyzed", "failed"]
+            "actor_type": ["user", "agent", "system"],"agent_key": ["orchestrator", "sports_radar", "trend_hunter", "researcher", "fact_checker", "rights", "story", "hook", "editor", "thumbnail", "publisher", "analytics", "ceo"],"ai_task": ["discovery", "scoring", "research", "script", "fact_check"],"app_role": ["member", "admin", "owner"],"approval_checkpoint": ["opportunity", "story", "production", "publishing", "script", "rights"],"approval_decision": ["approved", "rejected"],"asset_ownership": ["owned", "licensed", "authorized", "creator_provided", "public_domain", "third_party", "unknown"],"caption_format": ["srt", "ass"],"caption_preset": ["clean", "bold", "creator"],"claim_relation": ["supports", "contradicts", "mentions"],"clip_status": ["candidate", "approved", "rejected", "rendering", "rendered", "failed"],"competition_level": ["low", "medium", "high"],"connection_status": ["not_connected", "connected", "expired", "error"],"connector_kind": ["rss", "json_api"],"content_format": ["short", "long", "post"],"content_stage": ["idea", "research", "script", "production", "review", "ready", "scheduled", "published", "analyzing"],"editorial_format": ["original_commentary", "voiceover", "statistics", "graphics", "timeline", "animation", "map", "original_visuals", "authorized_footage", "licensed_footage", "screenshots", "public_sources", "creator_provided"],"event_status": ["scheduled", "live", "finished", "postponed", "cancelled"],"fact_status": ["confirmed", "probable", "uncertain", "false"],"hook_type": ["curiosity", "controversial", "shock", "mystery", "story", "statistical"],"job_status": ["pending", "running", "completed", "failed", "cancelled"],"license_status": ["unknown", "owned", "licensed", "public_domain", "creative_commons", "fair_use_review", "restricted"],"log_status": ["info", "success", "warning", "failed"],"member_role": ["viewer", "editor", "admin", "owner"],"opportunity_status": ["new", "researching", "approved", "rejected", "production", "ready", "published", "archived"],"platform": ["youtube", "tiktok", "instagram"],"project_status": ["active", "paused", "archived"],"publish_mode": ["manual_export", "api"],"radar_signal": ["upcoming_event", "just_finished", "breaking", "upset", "record", "rivalry", "controversy", "statement", "unusual_stat", "injury", "transfer", "rising_trend"],"reframe_mode": ["speaker", "face", "subject", "center"],"research_item_type": ["article", "video", "quote", "timeline", "note", "question", "context", "media", "competitor"],"rights_status": ["unchecked", "green", "yellow", "red"],"run_trigger": ["manual", "schedule", "orchestrator", "event"],"script_angle": ["breaking_news", "storytelling", "analysis", "controversy", "unexpected_fact"],"script_operation": ["generate", "regenerate", "shorten", "expand", "rewrite_hook", "change_tone", "manual"],"segment_type": ["transcript", "scene", "candidate"],"source_type": ["news", "rss", "api", "social", "video", "official", "press_release", "other"],"story_status": ["draft", "review", "approved", "rejected"],"task_status": ["pending", "running", "waiting_approval", "completed", "failed", "cancelled"],"thumbnail_status": ["concept", "selected", "generated", "rejected"],"trend_status": ["emerging", "rising", "peaking", "declining", "expired"],"video_status": ["uploaded", "processing", "analyzed", "failed"]
           }
         }
 } as const

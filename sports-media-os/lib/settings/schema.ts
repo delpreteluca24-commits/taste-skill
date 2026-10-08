@@ -1,34 +1,33 @@
 import { z } from "zod";
 
+import { taskOverrideSchema } from "@/lib/ai/models";
+import { AI_TASKS } from "@/lib/ai/types";
+
 /**
  * Workspace settings: defaults live here (versioned with the code); the
  * `settings` table stores only overrides, one row per section key.
  * Secrets never belong here — API keys stay in server env.
  */
 
-export const AI_PROVIDERS = ["anthropic", "openai"] as const;
-export type AIProviderId = (typeof AI_PROVIDERS)[number];
-
-/** Suggestions shown in the UI; any model id is accepted (validated by the provider at call time). */
-export const SUGGESTED_MODELS: Record<AIProviderId, readonly string[]> = {
-  anthropic: ["claude-opus-5-5", "claude-sonnet-5-5", "claude-haiku-5-5", "claude-fable-5-1"],
-  openai: [],
-};
+/** Suggestions shown in the UI ("provider:model"); any valid id is accepted. Cheapest first. */
+export const SUGGESTED_MODELS: readonly string[] = [
+  "anthropic:claude-haiku-5-5",
+  "anthropic:claude-sonnet-5-5",
+  "anthropic:claude-opus-5-5",
+  "anthropic:claude-fable-5-1",
+];
 
 export const WHISPER_MODELS = ["tiny", "base", "small", "medium", "large-v3", "large-v3-turbo"] as const;
 export const CAPTION_PRESETS = ["clean", "bold", "creator"] as const;
 export const ASPECT_RATIOS = ["9:16", "1:1", "4:5", "16:9"] as const;
 
-const modelId = z
-  .string()
-  .trim()
-  .min(1, { message: "Enter a model id" })
-  .max(100)
-  .regex(/^[A-Za-z0-9._:\-/]+$/, { message: "Invalid model id" });
-
+/**
+ * AI cost control: per-task overrides (unset = env var → code default, see
+ * lib/ai/models.ts) and a ceiling above which batch jobs need explicit confirmation.
+ */
 export const aiSettingsSchema = z.object({
-  provider: z.enum(AI_PROVIDERS).default("anthropic"),
-  model: modelId.default("claude-opus-5-5"),
+  tasks: z.partialRecord(z.enum(AI_TASKS), taskOverrideSchema).default({}),
+  batchCostLimitUsd: z.coerce.number().min(0).max(1000).default(1),
 });
 
 export const transcriptionSettingsSchema = z.object({

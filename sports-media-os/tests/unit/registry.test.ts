@@ -29,6 +29,7 @@ describe("navigation", () => {
       "Trends",
       "Opportunities",
       "Research",
+      "Rights Center",
       "Content",
       "Clips",
       "Editor",
@@ -50,6 +51,7 @@ describe("navigation", () => {
     const dashboard = MODULES.find((m) => m.key === "dashboard")!;
     const clips = MODULES.find((m) => m.key === "clips")!;
     expect(isModuleAvailable(dashboard)).toBe(true);
+    expect(CURRENT_MILESTONE).toBe(2);
     expect(isModuleAvailable(clips, CURRENT_MILESTONE)).toBe(false);
     expect(isModuleAvailable(clips, 3)).toBe(true);
   });

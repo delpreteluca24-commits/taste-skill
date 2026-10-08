@@ -12,6 +12,7 @@ import {
   Radar,
   Scissors,
   Settings,
+  ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -23,6 +24,7 @@ export const MODULE_ICONS: Record<ModuleKey, LucideIcon> = {
   trends: Flame,
   opportunities: Lightbulb,
   research: FileSearch,
+  rights: ShieldCheck,
   content: KanbanSquare,
   clips: Scissors,
   editor: Clapperboard,

@@ -4,7 +4,11 @@ import { defineConfig } from "vitest/config";
 config({ path: ".env.local", quiet: true });
 
 export default defineConfig({
-  resolve: { tsconfigPaths: true },
+  resolve: {
+    tsconfigPaths: true,
+    // server-only throws outside React Server Components; tests import server modules directly
+    alias: { "server-only": new URL("./tests/support/server-only-stub.ts", import.meta.url).pathname },
+  },
   test: {
     projects: [
       {

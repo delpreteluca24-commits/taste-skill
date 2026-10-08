@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { formatCount, formatRelative, formatScore, humanize, platformLabel } from "@/lib/dashboard/format";
+import { CONTENT_STAGE_ORDER } from "@/lib/content/stages";
 import type { ContentRow, OpportunityRow, TrendRow } from "@/lib/dashboard/types";
 
 import { EmptyState } from "./section-card";
@@ -85,7 +86,7 @@ export function ContentList({
 }
 
 export function PipelineStrip({ pipeline }: { pipeline: Record<string, number> }) {
-  const stages = ["idea", "research", "script", "production", "review", "ready", "scheduled", "published", "analyzing"];
+  const stages = CONTENT_STAGE_ORDER;
   return (
     <ol className="grid grid-cols-3 gap-px overflow-hidden rounded-md border bg-border sm:grid-cols-9" data-testid="pipeline">
       {stages.map((stage) => (

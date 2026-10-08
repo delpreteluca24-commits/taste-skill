@@ -8,6 +8,7 @@ export type ModuleKey =
   | "trends"
   | "opportunities"
   | "research"
+  | "rights"
   | "content"
   | "clips"
   | "editor"
@@ -36,9 +37,11 @@ export const MODULES: readonly ModuleDefinition[] = [
   { key: "opportunities", href: "/opportunities", label: "Opportunities", group: "intel", milestone: 2,
     description: "Scored content opportunities with why-now, angle, hook and explained score." },
   { key: "research", href: "/research", label: "Research", group: "intel", milestone: 2,
-    description: "Research workspace per opportunity: sources, facts, timeline, fact check, rights." },
+    description: "Research workspace per opportunity: sources, claims, timeline, quotes, media, competitors, questions." },
+  { key: "rights", href: "/rights", label: "Rights Center", group: "intel", milestone: 2,
+    description: "Rights-first asset classification (GREEN / YELLOW / RED) and usage approvals." },
   { key: "content", href: "/content", label: "Content", group: "produce", milestone: 2,
-    description: "Production pipeline from idea to analyzing, with scripts and hooks." },
+    description: "Kanban from idea to analyzing, with Script Studio and Hook Studio." },
   { key: "clips", href: "/clips", label: "Clips", group: "produce", milestone: 3,
     description: "Long-form ingestion, transcription, scene detection and ranked clip candidates." },
   { key: "editor", href: "/editor", label: "Editor", group: "produce", milestone: 4,
@@ -64,7 +67,7 @@ export const NAV_GROUPS: { key: ModuleDefinition["group"]; label: string }[] = [
 ];
 
 /** Milestone currently delivered — modules above it render their roadmap placeholder. */
-export const CURRENT_MILESTONE = 1;
+export const CURRENT_MILESTONE = 2;
 
 export function getModule(key: ModuleKey): ModuleDefinition {
   const found = MODULES.find((m) => m.key === key);

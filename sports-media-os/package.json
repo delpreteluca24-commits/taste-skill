@@ -18,15 +18,20 @@
     "db:reset": "supabase db reset",
     "db:lint": "supabase db lint --level warning --fail-on warning",
     "db:types": "supabase gen types typescript --local > types/database.ts",
-    "create-owner": "tsx scripts/create-owner.mts"
+    "create-owner": "tsx scripts/create-owner.mts",
+    "worker": "tsx --conditions=react-server workers/index.mts",
+    "ai:benchmark": "tsx --conditions=react-server scripts/ai-benchmark.mts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.132.1",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "fast-xml-parser": "^5.11.2",
     "lucide-react": "^1.52.0",
     "next": "16.4.0",
+    "openai": "^7.30.0",
     "radix-ui": "^1.7.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",

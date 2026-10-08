@@ -17,7 +17,17 @@ async function setup(db: Db) {
     "insert into public.content_items (project_id, opportunity_id, story_id, title) values ($1, $2, $3, 'Short') returning id",
     [project, opp.id, story.id],
   );
-  return { user, project, opp: opp.id, story: story.id, content: content.id };
+  // production needs an APPROVED current script (human checkpoint)
+  const script = await db.one<{ id: string }>(
+    "insert into public.scripts (project_id, story_id, hook, is_current) values ($1, $2, 'Hook', true) returning id",
+    [project, story.id],
+  );
+  await db.q("select public.record_approval('script', $1, 'approved', 'ok')", [script.id]);
+  const source = await db.one<{ id: string }>(
+    "insert into public.sources (project_id, name, url) values ($1, 'Agency', $2) returning id",
+    [project, `https://example.test/${project}`],
+  );
+  return { user, project, opp: opp.id, story: story.id, content: content.id, script: script.id, source: source.id };
 }
 
 describe("fact-check READY gate", () => {
@@ -39,6 +49,7 @@ describe("fact-check READY gate", () => {
         s.project,
         s.story,
       ]);
+      await db.q("insert into public.fact_sources (project_id, fact_id, source_id) values ($1, $2, $3)", [s.project, fact.id, s.source]);
       await db.q("update public.facts set status = 'confirmed' where id = $1", [fact.id]);
       await db.q("update public.content_items set stage = 'ready' where id = $1", [s.content]);
 
@@ -76,11 +87,11 @@ describe("rights gate", () => {
       );
 
       await db.fails("update public.clips set status = 'approved' where id = $1", [clip.id], /RIGHTS_BLOCKED: .*unchecked/);
-      await db.fails("update public.content_items set stage = 'ready' where id = $1", [s.content], /RED or unchecked rights/);
+      await db.fails("update public.content_items set stage = 'ready' where id = $1", [s.content], /not cleared for production/);
 
       // a GREEN check unlocks production…
       await db.q(
-        "insert into public.rights_checks (project_id, video_id, owner, license, commercial_use, status, checked_at) values ($1, $2, 'Club', 'Licensed', true, 'green', now() - interval '1 hour')",
+        "insert into public.rights_checks (project_id, video_id, owner, ownership, license, commercial_use, evidence_url, status) values ($1, $2, 'Club', 'licensed', 'Licensed', true, 'https://example.test/license.pdf', 'green')",
         [s.project, video.id],
       );
       expect((await db.one<{ rights_status: string }>("select rights_status from public.videos where id = $1", [video.id])).rights_status).toBe("green");
@@ -145,7 +156,8 @@ describe("script versions", () => {
         "insert into public.scripts (project_id, story_id, hook, is_current, operation, parent_script_id) values ($1, $2, 'Hook v2', true, 'rewrite_hook', $3) returning id, version",
         [s.project, s.story, v1.id],
       );
-      expect([v1.version, v2.version]).toEqual([1, 2]);
+      // setup() already created version 1 → these are 2 and 3
+      expect([v1.version, v2.version]).toEqual([2, 3]);
       const current = await db.q<{ id: string }>("select id from public.scripts where story_id = $1 and is_current", [s.story]);
       expect(current.map((r) => r.id)).toEqual([v2.id]);
 
@@ -193,7 +205,7 @@ describe("audit stamps", () => {
       const someoneElse = await db.createUser();
       await db.as(s.user);
       const fact = await db.one<{ id: string; checked_by: string; checked_at: Date }>(
-        "insert into public.facts (project_id, opportunity_id, claim, status, checked_by) values ($1, $2, 'c', 'confirmed', $3) returning id, checked_by, checked_at",
+        "insert into public.facts (project_id, opportunity_id, claim, status, checked_by) values ($1, $2, 'c', 'probable', $3) returning id, checked_by, checked_at",
         [s.project, s.opp, someoneElse],
       );
       expect(fact.checked_by).toBe(s.user);

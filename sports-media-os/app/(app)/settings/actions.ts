@@ -14,7 +14,7 @@ import { saveWorkspaceSection } from "@/lib/settings/service";
 function readSection(section: string, formData: FormData): Record<string, unknown> {
   switch (section) {
     case "ai":
-      return { provider: formData.get("provider"), model: formData.get("model") };
+      return { tasks: {}, batchCostLimitUsd: formData.get("batchCostLimitUsd") };
     case "transcription":
       return { whisperModel: formData.get("whisperModel") };
     case "production":
