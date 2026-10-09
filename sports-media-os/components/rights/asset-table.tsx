@@ -28,6 +28,7 @@ export function AssetTable({ rows }: { rows: AssetTableRow[] }) {
       <TableHeader>
         <TableRow>
           <TableHead>Asset</TableHead>
+          <TableHead>Type</TableHead>
           <TableHead>Rights</TableHead>
           <TableHead>Production</TableHead>
           <TableHead>Ownership</TableHead>
@@ -46,8 +47,7 @@ export function AssetTable({ rows }: { rows: AssetTableRow[] }) {
                   {r.title}
                 </Link>
                 <p className="flex flex-wrap items-center gap-x-1.5 text-[11px] text-muted-foreground">
-                  <span>{assetKindLabel(r.assetType, r.kind)}</span>
-                  {r.publisher ? <span>· {r.publisher}</span> : null}
+                  {r.publisher ? <span>{r.publisher}</span> : null}
                   {r.url && host ? (
                     <a
                       href={r.url}
@@ -56,12 +56,14 @@ export function AssetTable({ rows }: { rows: AssetTableRow[] }) {
                       className="inline-flex items-center gap-0.5 hover:text-foreground hover:underline"
                       aria-label={`Open ${host} in a new tab`}
                     >
-                      · {host}
+                      {r.publisher ? "· " : ""}
+                      {host}
                       <ExternalLink className="size-3" aria-hidden />
                     </a>
                   ) : null}
                 </p>
               </TableCell>
+              <TableCell className="text-xs whitespace-nowrap text-muted-foreground">{assetKindLabel(r.assetType, r.kind)}</TableCell>
               <TableCell>
                 <span className="flex flex-wrap items-center gap-1">
                   <RightsStatusBadge status={r.rightsStatus} />

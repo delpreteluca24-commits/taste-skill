@@ -331,8 +331,8 @@ export async function getAsset(db: Db, projectId: string, assetType: AssetType, 
             .eq("checkpoint", "rights")
             .eq("entity_type", "rights_check")
             .in("entity_id", checkIds)
-            .order("created_at", { ascending: false })
-            .order("id", { ascending: false }),
+            // insertion order: the same "latest decision" the DB gates read (approvals.seq)
+            .order("seq", { ascending: false }),
         ) ?? [])
       : [];
 
@@ -667,31 +667,33 @@ export async function loadStoryAlternatives(db: Db, projectId: string, storyId: 
     if (!story) return notFound("story");
     const oppId = story.opportunity_id;
 
-    const [opp, contentItems, items, facts] = await Promise.all([
+    const [opp, contentItems, items] = await Promise.all([
       oppId
         ? db.from("opportunities").select("id, title, event_id").eq("id", oppId).eq("project_id", projectId).maybeSingle()
         : Promise.resolve({ data: null, error: null }),
-      db.from("content_items").select("id").eq("story_id", storyId).eq("project_id", projectId),
+      db.from("content_items").select("id").eq("story_id", story.id).eq("project_id", projectId),
       oppId
         ? db.from("research_items").select("item_type, source_id, title, content").eq("opportunity_id", oppId).eq("project_id", projectId)
         : Promise.resolve({ data: [], error: null }),
-      db
-        .from("facts")
-        .select("claim")
-        .eq("project_id", projectId)
-        .eq("status", "confirmed")
-        .or(oppId ? `story_id.eq.${storyId},opportunity_id.eq.${oppId}` : `story_id.eq.${storyId}`),
     ]);
     const opportunity = must(opp);
     const itemRows = must(items) ?? [];
-    const claims = (must(facts) ?? []).map((f) => f.claim);
-
-    // videos cut into the story's clips (rejected clips don't use the footage)
     const itemIds = (must(contentItems) ?? []).map((c) => c.id);
-    const clips = itemIds.length
-      ? (must(await db.from("clips").select("video_id").eq("project_id", projectId).in("content_item_id", itemIds).neq("status", "rejected")) ?? [])
-      : [];
-    const videoIds = uniq(clips.map((c) => c.video_id));
+
+    // confirmed facts of the story, its opportunity and its content items (ids come from the DB, safe in the filter)
+    const factScopes = [`story_id.eq.${story.id}`];
+    if (oppId) factScopes.push(`opportunity_id.eq.${oppId}`);
+    if (itemIds.length) factScopes.push(`content_item_id.in.(${itemIds.join(",")})`);
+
+    const [facts, clipRows] = await Promise.all([
+      db.from("facts").select("claim").eq("project_id", projectId).eq("status", "confirmed").or(factScopes.join(",")),
+      // videos cut into the story's clips (rejected clips don't use the footage)
+      itemIds.length
+        ? db.from("clips").select("video_id").eq("project_id", projectId).in("content_item_id", itemIds).neq("status", "rejected")
+        : Promise.resolve({ data: [], error: null }),
+    ]);
+    const claims = (must(facts) ?? []).map((f) => f.claim);
+    const videoIds = uniq((must(clipRows) ?? []).map((c) => c.video_id));
 
     // sources gathered in research as video / media / article
     const linked = itemRows.filter((i) => i.source_id && (FOOTAGE_ITEM_TYPES.includes(i.item_type) || i.item_type === "article"));

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import type { Enums } from "@/lib/db/client";
-import { EDITORIAL_FORMATS, type EditorialFormat } from "@/lib/rights/alternatives";
+import { EDITORIAL_FORMATS, type EditorialFormat, type FootageStatus, type FormatSuggestion } from "@/lib/rights/alternatives";
 import { greenBasisMissing, OWNERSHIP_OPTIONS, type Ownership, type RightsFacts } from "@/lib/rights/classify";
 
 /**
@@ -268,6 +268,65 @@ export const productionFormatsSchema = z.object({
     .max(EDITORIAL_FORMAT_VALUES.length)
     .transform((list) => EDITORIAL_FORMAT_VALUES.filter((f) => list.includes(f))), // unique, catalogue order
 });
+
+export type FormatRisk = (typeof EDITORIAL_FORMATS)[number]["risk"];
+
+/** One row of the production-plan form. */
+export type FormatOption = {
+  format: EditorialFormat;
+  label: string;
+  /** engine score 0–100; null = chosen earlier but not suggested for the current material */
+  score: number | null;
+  reason: string | null;
+  caution?: string;
+  /** rights exposure of the format itself */
+  risk: FormatRisk;
+};
+
+/**
+ * Ranked suggestions (engine order) + any format already chosen for the story
+ * that the engine no longer suggests (e.g. maps without locations), so a saved
+ * plan is never silently dropped from the form.
+ */
+export function productionFormatOptions(
+  suggestions: readonly Pick<FormatSuggestion, "format" | "label" | "score" | "reason" | "caution">[],
+  selected: readonly string[],
+): FormatOption[] {
+  const riskOf = (f: EditorialFormat): FormatRisk => EDITORIAL_FORMATS.find((x) => x.value === f)!.risk;
+  const out: FormatOption[] = suggestions.map((s) => ({
+    format: s.format,
+    label: s.label,
+    score: s.score,
+    reason: s.reason,
+    ...(s.caution ? { caution: s.caution } : {}),
+    risk: riskOf(s.format),
+  }));
+  for (const f of EDITORIAL_FORMATS) {
+    if (selected.includes(f.value) && !out.some((o) => o.format === f.value)) {
+      out.push({ format: f.value, label: f.label, score: null, reason: null, risk: f.risk });
+    }
+  }
+  return out;
+}
+
+export const FOOTAGE_STATUS_LABELS: Record<FootageStatus, string> = {
+  usable: "Footage cleared",
+  partial: "Some footage cleared",
+  unavailable: "No usable footage",
+  none: "No footage linked",
+};
+
+/**
+ * Footage headline for a story. The engine's wording assumes an approved story
+ * ("the story stays approved"); for a story not approved yet the same point is
+ * made without claiming an approval that doesn't exist.
+ */
+export function footageHeadline(status: FootageStatus, engineHeadline: string, storyStatus: string): string {
+  if (status === "unavailable" && storyStatus !== "approved") {
+    return "No usable footage — that never blocks the story. Produce it with original formats.";
+  }
+  return engineHeadline;
+}
 
 /* ------------------------------------------------------------------------- */
 /* list filters                                                              */
