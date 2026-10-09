@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { fieldErrorsByPath, friendlyAiFieldErrors, readAiSettingsForm } from "@/components/settings/ai-routing";
 import { fail, ok, type ActionResult } from "@/lib/actions";
 import { requireUser } from "@/lib/auth/dal";
 import { toUserMessage } from "@/lib/db/errors";
@@ -10,11 +11,15 @@ import { logger } from "@/lib/logger";
 import { isSettingsSection, SETTINGS_SECTIONS } from "@/lib/settings/schema";
 import { saveWorkspaceSection } from "@/lib/settings/service";
 
-/** Reads the raw form values for one section (checkboxes → booleans). */
+/**
+ * Reads the raw form values for one section (checkboxes → booleans).
+ * AI: tasks.<task>.model | fallback | effort (empty = inherit env/default, omitted)
+ * and batchCostLimitUsd — see components/settings/ai-routing.ts.
+ */
 function readSection(section: string, formData: FormData): Record<string, unknown> {
   switch (section) {
     case "ai":
-      return { tasks: {}, batchCostLimitUsd: formData.get("batchCostLimitUsd") };
+      return readAiSettingsForm(formData);
     case "transcription":
       return { whisperModel: formData.get("whisperModel") };
     case "production":
@@ -45,7 +50,9 @@ export async function saveSettingsSection(_prev: ActionResult | null, formData: 
   const schema = SETTINGS_SECTIONS[section] as z.ZodType<Record<string, unknown>>;
   const parsed = schema.safeParse(readSection(section, formData));
   if (!parsed.success) {
-    return fail("Check the highlighted fields.", z.flattenError(parsed.error).fieldErrors);
+    // keyed by dotted path so nested fields (tasks.scoring.model) get their own message
+    const fieldErrors = fieldErrorsByPath(parsed.error);
+    return fail("Check the highlighted fields.", section === "ai" ? friendlyAiFieldErrors(fieldErrors) : fieldErrors);
   }
 
   const { error } = await saveWorkspaceSection(section, parsed.data as never, user.id);

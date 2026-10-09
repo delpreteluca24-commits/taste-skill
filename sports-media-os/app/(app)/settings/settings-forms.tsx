@@ -4,6 +4,8 @@ import { useActionState, type ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 
 import { FieldError, FormMessage } from "@/components/common/form-feedback";
+import type { ModelSuggestion, TaskRoutingView } from "@/components/settings/ai-routing";
+import { ModelSuggestionList, TaskRoutingRows } from "@/components/settings/ai-routing-fields";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -59,14 +61,45 @@ function Field({ id, label, errors, children }: { id: string; label: string; err
   );
 }
 
-export function AiSettingsForm({ value, disabled }: { value: WorkspaceSettings["ai"]; disabled: boolean }) {
-  // placeholder until the per-task routing UI lands (M2 Settings module)
+export function AiSettingsForm({
+  value,
+  routing,
+  suggestions,
+  disabled,
+}: {
+  value: WorkspaceSettings["ai"];
+  /** effective per-task routing, resolved on the server (env is server-only) */
+  routing: TaskRoutingView[];
+  suggestions: ModelSuggestion[];
+  disabled: boolean;
+}) {
   return (
     <SectionForm section="ai" disabled={disabled}>
       {(errors) => (
-        <Field id="batchCostLimitUsd" label="Batch cost limit (USD)" errors={errors?.batchCostLimitUsd}>
-          <Input id="batchCostLimitUsd" name="batchCostLimitUsd" type="number" min={0} step="0.01" defaultValue={value.batchCostLimitUsd} />
-        </Field>
+        <>
+          <ModelSuggestionList suggestions={suggestions} />
+          <TaskRoutingRows routing={routing} errors={errors} />
+          <Field id="batchCostLimitUsd" label="Batch cost limit (USD)" errors={errors?.batchCostLimitUsd}>
+            <Input
+              id="batchCostLimitUsd"
+              name="batchCostLimitUsd"
+              type="number"
+              min={0}
+              max={1000}
+              step="0.01"
+              required
+              className="sm:max-w-40"
+              defaultValue={value.batchCostLimitUsd}
+              aria-describedby="batchCostLimitUsd-hint"
+              aria-invalid={errors?.batchCostLimitUsd ? true : undefined}
+            />
+            <p id="batchCostLimitUsd-hint" className="text-[11px] text-muted-foreground">
+              Batch jobs (e.g. AI scoring of a selection) estimate their cost before they are queued. Above this limit, or with
+              an unpriced model, they run only after you confirm the estimate; the worker stops spending at the limit (or at
+              the amount you confirmed). 0 = always ask.
+            </p>
+          </Field>
+        </>
       )}
     </SectionForm>
   );

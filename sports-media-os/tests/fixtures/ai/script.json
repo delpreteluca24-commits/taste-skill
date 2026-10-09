@@ -1,0 +1,104 @@
+{
+  "fixture": true,
+  "notice": "FIXTURE DATA for scripts/ai-benchmark.mts. Every team, league, person, publisher, number, quote and event below is INVENTED and clearly fictional ('(fixture)' publishers). Not real news, not copyrighted text. Never use as facts.",
+  "task": "script",
+  "cases": [
+    {
+      "id": "script-01-breaking-original-only",
+      "description": "Breaking-news angle, original formats only (no footage), confirmed + uncertain facts and one quote",
+      "input": {
+        "angle": "breaking_news",
+        "context": {
+          "story": {
+            "title": "The cheapest squad ends the longest unbeaten run",
+            "logline": "Promoted Harbor City Gulls beat leaders Northvale Rovers away from home.",
+            "angle": "How a promoted side planned the upset."
+          },
+          "opportunity": {
+            "title": "Harbor City Gulls stun Northvale Rovers in the Fixture Premier Division",
+            "description": "The newly promoted Gulls beat the unbeaten league leaders away from home.",
+            "whyNow": "Result came in last night.",
+            "angle": "How a promoted side with the smallest budget in the league planned the upset.",
+            "hook": "The cheapest squad in the league just ended the longest unbeaten run.",
+            "competition": "Fixture Premier Division"
+          },
+          "facts": [
+            { "id": "00000000-0000-4000-e000-000000000101", "claim": "Harbor City Gulls won 2-1 at Northvale Rovers on 4 October.", "status": "confirmed", "isCritical": true, "sourceIds": ["00000000-0000-4000-e000-000000000111"] },
+            { "id": "00000000-0000-4000-e000-000000000102", "claim": "The winning goal came in the 88th minute.", "status": "confirmed", "isCritical": false, "sourceIds": ["00000000-0000-4000-e000-000000000111"] },
+            { "id": "00000000-0000-4000-e000-000000000103", "claim": "Rovers had been unbeaten in their first 11 league matches.", "status": "confirmed", "isCritical": true, "sourceIds": ["00000000-0000-4000-e000-000000000111"] },
+            { "id": "00000000-0000-4000-e000-000000000104", "claim": "Harbor City Gulls had the lowest wage bill of the 18 clubs before the season.", "status": "probable", "isCritical": false, "sourceIds": ["00000000-0000-4000-e000-000000000113"] }
+          ],
+          "sources": [
+            { "id": "00000000-0000-4000-e000-000000000111", "title": "Gulls end Rovers' unbeaten run with late winner", "publisher": "Example Sports Wire (fixture)" },
+            { "id": "00000000-0000-4000-e000-000000000112", "title": "Northvale coach Teodor Vask: 'We were second best tonight'", "publisher": "Sample Gazette (fixture)" },
+            { "id": "00000000-0000-4000-e000-000000000113", "title": "Gulls were promoted with the league's lowest wage bill", "publisher": "Demo Club Media (fixture)" }
+          ],
+          "quotes": [
+            { "id": "00000000-0000-4000-e000-000000000121", "speaker": "Teodor Vask", "text": "We were second best tonight.", "sourceId": "00000000-0000-4000-e000-000000000112" }
+          ],
+          "productionFormats": ["voiceover", "graphics", "statistics"],
+          "language": "en"
+        }
+      }
+    },
+    {
+      "id": "script-02-analysis-thin",
+      "description": "Analysis angle with thin research: the model should write around gaps and list what is missing",
+      "input": {
+        "angle": "analysis",
+        "context": {
+          "story": { "title": "Twelve matches without a first-half goal", "logline": null, "angle": "The shape behind Northvale's first halves." },
+          "opportunity": null,
+          "facts": [
+            { "id": "00000000-0000-4000-e000-000000000201", "claim": "Northvale Rovers have not conceded a first-half goal in their last twelve league matches.", "status": "confirmed", "isCritical": true, "sourceIds": ["00000000-0000-4000-e000-000000000211"] },
+            { "id": "00000000-0000-4000-e000-000000000202", "claim": "Analysts describe Rovers' first-half defensive shape as unusually compact.", "status": "uncertain", "isCritical": false, "sourceIds": ["00000000-0000-4000-e000-000000000212"] }
+          ],
+          "sources": [
+            { "id": "00000000-0000-4000-e000-000000000211", "title": "Rovers' first-half wall: twelve matches without conceding", "publisher": "Example Sports Wire (fixture)" },
+            { "id": "00000000-0000-4000-e000-000000000212", "title": "Analysis: the shape behind Northvale's first halves", "publisher": "Sample Gazette (fixture)" }
+          ],
+          "quotes": [],
+          "productionFormats": [],
+          "language": "en"
+        }
+      }
+    },
+    {
+      "id": "script-03-controversy-footage-planned",
+      "description": "Controversy angle with contradicting sources and licensed footage planned (must still work as narration)",
+      "input": {
+        "angle": "controversy",
+        "context": {
+          "story": {
+            "title": "Would Quillon really cross the bay?",
+            "logline": "Reports of talks between the Sharks and the Gulls' top scorer, denied by the Sharks.",
+            "angle": "Why the move would divide both fan bases."
+          },
+          "opportunity": {
+            "title": "Mara Quillon linked with a move from Harbor City Gulls to rivals Port Amberly Sharks",
+            "description": "One outlet reports early talks; the Sharks deny contact.",
+            "whyNow": "Transfer window opens next week.",
+            "angle": "Why the move would divide both fan bases.",
+            "hook": null,
+            "competition": "Fixture Premier Division"
+          },
+          "facts": [
+            { "id": "00000000-0000-4000-e000-000000000301", "claim": "Unnamed sources say the Sharks have held early talks with Quillon's agent.", "status": "uncertain", "isCritical": true, "sourceIds": ["00000000-0000-4000-e000-000000000311"] },
+            { "id": "00000000-0000-4000-e000-000000000302", "claim": "A Sharks spokesperson said the club has had no contact with the player or her representatives.", "status": "confirmed", "isCritical": true, "sourceIds": ["00000000-0000-4000-e000-000000000312"] },
+            { "id": "00000000-0000-4000-e000-000000000303", "claim": "Quillon scored in both league matches against the Sharks last season.", "status": "probable", "isCritical": false, "sourceIds": ["00000000-0000-4000-e000-000000000313"] }
+          ],
+          "sources": [
+            { "id": "00000000-0000-4000-e000-000000000311", "title": "Sharks in early talks over Gulls striker Quillon, sources say", "publisher": "Example Sports Wire (fixture)" },
+            { "id": "00000000-0000-4000-e000-000000000312", "title": "Port Amberly Sharks deny contact with Mara Quillon's agent", "publisher": "Demo Club Media (fixture)" },
+            { "id": "00000000-0000-4000-e000-000000000313", "title": "Season review: Quillon's derby goals", "publisher": "Sample Gazette (fixture)" }
+          ],
+          "quotes": [
+            { "id": "00000000-0000-4000-e000-000000000321", "speaker": "Sharks spokesperson", "text": "The club has had no contact with the player or her representatives.", "sourceId": "00000000-0000-4000-e000-000000000312" }
+          ],
+          "productionFormats": ["original_commentary", "licensed_footage", "timeline"],
+          "language": "en"
+        }
+      }
+    }
+  ]
+}

@@ -4,11 +4,17 @@ import { CheckCircle2, CircleSlash } from "lucide-react";
 
 import { PageHeader } from "@/components/common/page-header";
 import { SectionCard } from "@/components/dashboard/section-card";
+import { modelSuggestions, presentAllTaskRouting } from "@/components/settings/ai-routing";
+import { fetchAiUsageSummary, USAGE_WINDOW_DAYS } from "@/components/settings/ai-usage";
+import { AiUsagePanel } from "@/components/settings/ai-usage-panel";
+import { CostControlExplainer } from "@/components/settings/cost-control-explainer";
 import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
 import { platformLabel } from "@/lib/dashboard/format";
 import { configuredAIProviders } from "@/lib/env.server";
+import { logger } from "@/lib/logger";
 import { getActiveProject } from "@/lib/projects/service";
+import { SUGGESTED_MODELS } from "@/lib/settings/schema";
 import { getWorkspaceSettings } from "@/lib/settings/service";
 import { createClient } from "@/lib/supabase/server";
 import { Constants } from "@/types/database";
@@ -31,12 +37,17 @@ export default async function SettingsPage() {
   if (!project) redirect("/welcome");
 
   const supabase = await createClient();
-  const [settings, accounts] = await Promise.all([
+  const [settings, accounts, usage] = await Promise.all([
     getWorkspaceSettings(),
     supabase.from("platform_accounts").select("platform, status, account_name").eq("project_id", project.id),
+    fetchAiUsageSummary(supabase, project.id, USAGE_WINDOW_DAYS),
   ]);
+  if (usage.error) logger.error("settings.ai_usage_read_failed", { code: usage.error.code, message: usage.error.message });
   const keys = configuredAIProviders();
   const readOnly = user.role === "member";
+  // Effective routing is resolved here: the env (model ids, keys) never reaches the client;
+  // the form only receives model ids, sources, prices and estimates.
+  const routing = presentAllTaskRouting(settings.ai.tasks, process.env, keys);
 
   return (
     <div className="grid max-w-4xl gap-4">
@@ -47,12 +58,33 @@ export default async function SettingsPage() {
         </p>
       ) : null}
 
-      <SectionCard title="AI provider" description="Provider-agnostic: agents call the AIProvider interface, never a vendor SDK directly.">
+      <SectionCard
+        title="AI model routing"
+        description="One model per task, cheapest that fits. Provider-agnostic: agents call the AI router, never a vendor SDK directly. Workspace-wide."
+        testId="ai-routing"
+      >
         <div className="mb-3 flex flex-wrap gap-2 text-xs">
           <KeyStatus label="ANTHROPIC_API_KEY" configured={keys.anthropic} />
           <KeyStatus label="OPENAI_API_KEY" configured={keys.openai} />
         </div>
-        <AiSettingsForm value={settings.ai} disabled={readOnly} />
+        <AiSettingsForm
+          value={settings.ai}
+          routing={routing}
+          suggestions={modelSuggestions(SUGGESTED_MODELS)}
+          disabled={readOnly}
+        />
+      </SectionCard>
+
+      <SectionCard
+        title={`AI usage · ${project.name}`}
+        description={`Last ${USAGE_WINDOW_DAYS} days, per task and model, from the ai_usage ledger.`}
+        testId="ai-usage-panel"
+      >
+        <AiUsagePanel summary={usage.data} />
+      </SectionCard>
+
+      <SectionCard title="How AI cost is controlled" testId="ai-cost-control">
+        <CostControlExplainer />
       </SectionCard>
 
       <div className="grid gap-4 md:grid-cols-2">
