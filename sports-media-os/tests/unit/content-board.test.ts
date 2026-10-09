@@ -224,7 +224,11 @@ describe("gates and blockers explained", () => {
     const facts = explainBlocker("2 critical fact(s) not confirmed", { opportunityId: "opp-1" });
     expect(facts).toMatchObject({ kind: "facts", count: 2, title: "2 critical claims not confirmed" });
     expect(facts.action).toEqual({ label: "Open claims in research", href: "/research/opp-1?tab=claims" });
-    expect(explainBlocker("1 critical fact(s) not confirmed", { opportunityId: null }).action).toBeNull();
+    expect(facts.explanation).toMatch(/research workspace/);
+    const ideaFacts = explainBlocker("1 critical fact(s) not confirmed", { opportunityId: null });
+    expect(ideaFacts.action).toBeNull();
+    // an item born as an idea has no research workspace: never point there
+    expect(ideaFacts.explanation).toMatch(/no research workspace/);
 
     const clips = explainBlocker(
       "1 clip(s) use material not cleared for production (RED, unchecked or unapproved YELLOW)",

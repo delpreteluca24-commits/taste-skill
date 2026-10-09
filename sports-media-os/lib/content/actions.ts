@@ -87,11 +87,13 @@ export async function moveContentItem(input: { id: string; stage: string; index?
   const { id, stage, index } = parsed.data;
   const res = await move(ctx.db, { projectId: ctx.project.id, id, stage, index });
   if (res.error) return fail(errorMessage(res.error, "Could not move the item. Please retry."));
+  const label = STAGE_LABELS[res.data.stage];
+  if (!res.data.changed) return ok(res.data, `Already in ${label}.`);
   if (res.data.from !== res.data.stage) {
     logger.info("content.moved", { projectId: ctx.project.id, contentItemId: id, from: res.data.from, to: res.data.stage, userId: ctx.user.id });
   }
   revalidateContent(id);
-  return ok(res.data, res.data.from === res.data.stage ? "Order saved." : `Moved to ${STAGE_LABELS[res.data.stage]}.`);
+  return ok(res.data, res.data.from === res.data.stage ? "Order saved." : `Moved to ${label}.`);
 }
 
 export async function updateContentItem(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {

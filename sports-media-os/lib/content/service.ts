@@ -253,13 +253,23 @@ export async function createIdea(
   });
 }
 
-export type MoveResult = { id: string; stage: ContentStage; from: ContentStage; position: number; renumbered: number };
+export type MoveResult = {
+  id: string;
+  stage: ContentStage;
+  from: ContentStage;
+  position: number;
+  renumbered: number;
+  /** false when the card was already there (same stage, no placement asked) */
+  changed: boolean;
+};
 
 /**
  * Move a card to `stage`. Placement: an explicit `position`, else the drop
  * `index` in the target column (computed from the column as stored now, so a
  * stale client cannot corrupt the order), else the end of the column. A move
- * within the same column only rewrites the position (gates are not re-run).
+ * within the same column only rewrites the position (gates are not re-run);
+ * the same stage without a placement (e.g. the stage selector left on the
+ * current stage) changes nothing.
  *
  * The DB enforces the gates; a refusal comes back as an error whose
  * `userMessage` explains it (e.g. "Approve the current script before moving
@@ -271,13 +281,18 @@ export async function move(
 ): Promise<ServiceResult<MoveResult>> {
   return guarded<MoveResult>("content.move_failed", async () => {
     const { projectId, id, stage } = args;
-    const item = must(await db.from("content_items").select("id, stage").eq("id", id).eq("project_id", projectId).maybeSingle());
+    const item = must(await db.from("content_items").select("id, stage, position").eq("id", id).eq("project_id", projectId).maybeSingle());
     if (!item) return notFound("content item");
+    const from = item.stage as ContentStage;
+    const hasPosition = typeof args.position === "number" && Number.isFinite(args.position);
+    if (from === stage && !hasPosition && args.index === undefined) {
+      return success({ id, stage, from, position: item.position, renumbered: 0, changed: false });
+    }
 
     let position: number;
     let rebalance: { id: string; position: number }[] = [];
-    if (typeof args.position === "number" && Number.isFinite(args.position)) {
-      position = args.position;
+    if (hasPosition) {
+      position = args.position!;
     } else {
       const column =
         must(
@@ -296,7 +311,6 @@ export async function move(
       rebalance = plan.rebalance;
     }
 
-    const from = item.stage as ContentStage;
     const changes = from === stage ? { position } : { stage, position };
     const { data, error } = await db
       .from("content_items")
@@ -318,7 +332,7 @@ export async function move(
       // order stays valid (ties fall back to creation time); the next drop renumbers again
       if (res.error) logger.warn("content.rebalance_failed", { projectId, contentItemId: r.id, code: res.error.code, message: res.error.message });
     }
-    return success({ id, stage: data.stage as ContentStage, from, position: data.position, renumbered: rebalance.length });
+    return success({ id, stage: data.stage as ContentStage, from, position: data.position, renumbered: rebalance.length, changed: true });
   });
 }
 

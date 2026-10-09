@@ -39,8 +39,11 @@ export function explainBlocker(text: string, ctx: { opportunityId: string | null
       title: `${count} critical claim${count === 1 ? "" : "s"} not confirmed`,
       explanation:
         "Every critical claim of this item, its story or its opportunity must be confirmed by a person against at least one supporting source. " +
-        "Probable, uncertain and false critical claims all block READY. Confirm each one against a source; a claim that cannot be verified " +
-        "must not be stated as fact — reword it as an open question or take it out of the script, then update it in the research workspace.",
+        "Probable, uncertain and false critical claims all block READY. A claim that cannot be verified must not be stated as fact: " +
+        "reword it as an open question or take it out of the script. " +
+        (ctx.opportunityId
+          ? "Confirm or update each claim in the research workspace."
+          : "This item started as an idea, so it has no research workspace; the claims are listed below."),
       action: ctx.opportunityId
         ? { label: "Open claims in research", href: `/research/${ctx.opportunityId}?tab=claims` }
         : null,
