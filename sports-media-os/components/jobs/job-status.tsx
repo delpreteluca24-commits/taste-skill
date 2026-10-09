@@ -24,19 +24,31 @@ export function JobStatus({
 }) {
   const router = useRouter();
   const [job, setJob] = useState<JobStatusView | null>(null);
-  const doneRef = useRef(false);
+  // latest callback without restarting polling when the parent re-renders
+  const onDoneRef = useRef(onDone);
+  useEffect(() => {
+    onDoneRef.current = onDone;
+  }, [onDone]);
 
   useEffect(() => {
     let cancelled = false;
+    let done = false;
     let timer: ReturnType<typeof setTimeout> | undefined;
     async function tick() {
-      const next = await getJobStatus(jobId);
+      let next: JobStatusView | null;
+      try {
+        next = await getJobStatus(jobId);
+      } catch {
+        // transient (network / server restart): try again a bit later
+        if (!cancelled) timer = setTimeout(tick, 5000);
+        return;
+      }
       if (cancelled) return;
       setJob(next);
       if (next && TERMINAL.has(next.status)) {
-        if (!doneRef.current) {
-          doneRef.current = true;
-          onDone?.(next);
+        if (!done) {
+          done = true;
+          onDoneRef.current?.(next);
           router.refresh();
         }
         return;
@@ -48,7 +60,7 @@ export function JobStatus({
       cancelled = true;
       if (timer) clearTimeout(timer);
     };
-  }, [jobId, onDone, router]);
+  }, [jobId, router]);
 
   const status = job?.status ?? "pending";
   const view = {
