@@ -30,14 +30,17 @@ test("wrong password shows a generic error (no account enumeration)", async ({ p
   await expect(page).toHaveURL(/\/login/);
 });
 
-test("first login → onboarding → control room", async ({ page }) => {
+test("first login → onboarding → control room", async ({ page }, testInfo) => {
   await login(page);
-  await expect(page).toHaveURL(/\/welcome$/);
-
-  await page.getByLabel("Project / channel name").fill("Football Shorts E2E");
-  await page.getByLabel("Primary sport").selectOption({ label: "Football (Soccer)" });
-  await page.getByLabel("Timezone").selectOption("Europe/Rome");
-  await page.getByRole("button", { name: "Create project" }).click();
+  // a serial-mode retry re-runs this test after the first attempt created the project
+  const onboarded = testInfo.retry > 0 && /\/dashboard$/.test(page.url());
+  if (!onboarded) {
+    await expect(page).toHaveURL(/\/welcome$/);
+    await page.getByLabel("Project / channel name").fill("Football Shorts E2E");
+    await page.getByLabel("Primary sport").selectOption({ label: "Football (Soccer)" });
+    await page.getByLabel("Timezone").selectOption("Europe/Rome");
+    await page.getByRole("button", { name: "Create project" }).click();
+  }
 
   await expect(page).toHaveURL(/\/dashboard$/);
   await expect(page.getByRole("heading", { name: "Control room" })).toBeVisible();
