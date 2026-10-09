@@ -52,18 +52,22 @@ export function buildAngleMessages(ctx: StoryPromptContext, angle: ScriptAngle):
   ];
 }
 
-const section = (max: number) => z.string().trim().min(1).max(max);
+/** no transforms (structured output); the worker trims and caps (lib/scripts/generate.ts) */
+const section = (max: number) => z.string().min(1).max(max);
 
-/** shared by generate and transform: the six sections + what the model says it used */
+/**
+ * Shared by generate and transform: the six sections + what the model says it
+ * used. Ids are free strings here: grounding drops any that were not provided.
+ */
 export const scriptOutputSchema = z.object({
-  hook: section(300),
-  context: section(1500),
-  escalation: section(1500),
-  reveal: section(1500),
-  payoff: section(1500),
-  cta: section(300),
+  hook: section(400),
+  context: section(2000),
+  escalation: section(2000),
+  reveal: section(2000),
+  payoff: section(2000),
+  cta: section(400),
   facts_used: z.array(z.string().max(64)).max(60),
   quote_ids: z.array(z.string().max(64)).max(20),
-  missing: z.array(z.string().trim().max(300)).max(10),
+  missing: z.array(z.string().max(300)).max(10),
 });
 export type ScriptOutput = z.infer<typeof scriptOutputSchema>;

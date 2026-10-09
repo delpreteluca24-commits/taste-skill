@@ -29,6 +29,7 @@ export const WARNING_KINDS = [
   "unbacked_quote",
   "unknown_quote",
   "no_facts",
+  "empty_section",
   "missing_info",
 ] as const;
 export type WarningKind = (typeof WARNING_KINDS)[number];
@@ -41,6 +42,7 @@ export const WARNING_LABELS: Record<ScriptWarning["kind"], { label: string; seve
   unknown_quote: { label: "Unknown quote reference", severity: "warning" },
   unconfirmed_fact: { label: "Unconfirmed facts", severity: "warning" },
   no_facts: { label: "No facts used", severity: "warning" },
+  empty_section: { label: "Empty section", severity: "warning" },
   missing_info: { label: "Missing information", severity: "info" },
   note: { label: "Note", severity: "info" },
 };
@@ -52,6 +54,7 @@ export function formatWarning(w: ScriptWarning): string {
 export function parseWarning(value: string): ScriptWarning {
   const m = /^([a-z_]+):\s*([\s\S]*)$/.exec(value);
   if (m && (WARNING_KINDS as readonly string[]).includes(m[1])) return { kind: m[1] as WarningKind, message: m[2] };
+  if (m && m[1] === "note") return { kind: "note", message: m[2] };
   return { kind: "note", message: value };
 }
 

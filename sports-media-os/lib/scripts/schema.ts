@@ -111,6 +111,11 @@ const sectionText = (label: string, max: number) =>
 
 export const manualVersionSchema = z.object({
   storyId: uuid,
+  /** used only when the story has no current version (otherwise the current one's angle is kept) */
+  angle: z
+    .enum(SCRIPT_ANGLES, { error: "Unknown angle" })
+    .nullish()
+    .transform((v) => v ?? null),
   hook: sectionText("Hook", 300),
   context: sectionText("Context", 1500),
   escalation: sectionText("Escalation", 1500),
@@ -140,6 +145,13 @@ export const scriptDecisionSchema = z.object({
 export const manualHookSchema = z.object({
   storyId: uuid,
   hookType: z.enum(HOOK_TYPES, { error: "Pick a hook type" }),
-  text: z.string({ error: "Write the hook" }).trim().min(1, "Write the hook").max(300, "Keep the hook under 300 characters"),
+  text: z
+    .string({ error: "Write the hook" })
+    .trim()
+    .min(1, "Write the hook")
+    .max(300, "Keep the hook under 300 characters")
+    .transform((v) => v.replace(/\s+/g, " ")),
 });
 export type ManualHookInput = z.infer<typeof manualHookSchema>;
+
+export const selectHookSchema = z.object({ hookId: uuid, selected: z.boolean() });
