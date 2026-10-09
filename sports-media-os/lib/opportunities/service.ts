@@ -546,7 +546,7 @@ export async function getOpportunityDetail(db: Db, projectId: string, id: string
         .eq("entity_type", "opportunity")
         .eq("entity_id", id)
         .eq("checkpoint", "opportunity")
-        .order("created_at", { ascending: false })
+        .order("seq", { ascending: false })
         .order("id", { ascending: false })
         .limit(1)
         .maybeSingle(),

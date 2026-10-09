@@ -179,14 +179,14 @@ isOneToOne: false
                   ]
                 },"approvals": {
                   Row: {
-                    "checkpoint": Database["public"]['Enums']["approval_checkpoint"],"created_at": string,"decided_by": string,"decision": Database["public"]['Enums']["approval_decision"],"entity_id": string,"entity_type": string,"id": string,"notes": string | null,"project_id": string
+                    "checkpoint": Database["public"]['Enums']["approval_checkpoint"],"created_at": string,"decided_by": string,"decision": Database["public"]['Enums']["approval_decision"],"entity_id": string,"entity_type": string,"id": string,"notes": string | null,"project_id": string,"seq": number
                   }
                   ComputedFields: never
                   Insert: {
-                    "checkpoint": Database["public"]['Enums']["approval_checkpoint"],"created_at"?: string,"decided_by": string,"decision": Database["public"]['Enums']["approval_decision"],"entity_id": string,"entity_type": string,"id"?: string,"notes"?: string | null,"project_id": string
+                    "checkpoint": Database["public"]['Enums']["approval_checkpoint"],"created_at"?: string,"decided_by": string,"decision": Database["public"]['Enums']["approval_decision"],"entity_id": string,"entity_type": string,"id"?: string,"notes"?: string | null,"project_id": string,"seq"?: never
                   }
                   Update: {
-                    "checkpoint"?: Database["public"]['Enums']["approval_checkpoint"],"created_at"?: string,"decided_by"?: string,"decision"?: Database["public"]['Enums']["approval_decision"],"entity_id"?: string,"entity_type"?: string,"id"?: string,"notes"?: string | null,"project_id"?: string
+                    "checkpoint"?: Database["public"]['Enums']["approval_checkpoint"],"created_at"?: string,"decided_by"?: string,"decision"?: Database["public"]['Enums']["approval_decision"],"entity_id"?: string,"entity_type"?: string,"id"?: string,"notes"?: string | null,"project_id"?: string,"seq"?: never
                   }
                   Relationships: [
                     {
@@ -1254,7 +1254,8 @@ isOneToOne: false
 "entity_type": string,
 "id": string,
 "notes": string | null,
-"project_id": string
+"project_id": string,
+"seq": number
             }
                           SetofOptions: {
         from: "*"
