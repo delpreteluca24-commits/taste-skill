@@ -607,7 +607,7 @@ export async function decideRights(
 export async function setProductionFormats(
   db: Db,
   args: { projectId: string; storyId: string; formats: EditorialFormat[] },
-): Promise<ServiceResult<{ formats: EditorialFormat[] }>> {
+): Promise<ServiceResult<{ formats: EditorialFormat[]; opportunityId: string | null }>> {
   return guarded("rights.production_formats_failed", async () => {
     const row = must(
       await db
@@ -615,11 +615,11 @@ export async function setProductionFormats(
         .update({ production_formats: args.formats })
         .eq("id", args.storyId)
         .eq("project_id", args.projectId)
-        .select("production_formats")
+        .select("production_formats, opportunity_id")
         .maybeSingle(),
     );
     if (!row) return notFound("story");
-    return success({ formats: row.production_formats });
+    return success({ formats: row.production_formats, opportunityId: row.opportunity_id });
   });
 }
 

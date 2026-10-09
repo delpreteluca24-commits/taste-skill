@@ -471,6 +471,8 @@ describe("STORY ≠ FOOTAGE", () => {
     const { story } = await storyFixture(alice, projectA);
     expect(unwrap(await setProductionFormats(alice.db, { projectId: projectA, storyId: story, formats: ["original_commentary", "statistics"] }))).toEqual({
       formats: ["original_commentary", "statistics"],
+      // returned so the action can refresh the opportunity's rights-safety score
+      opportunityId: expect.any(String),
     });
     expect(unwrap(await loadStoryAlternatives(alice.db, projectA, story)).story.productionFormats).toEqual(["original_commentary", "statistics"]);
 

@@ -1123,7 +1123,7 @@ isOneToOne: false
           Functions: {
             "ai_usage_summary":
 { Args: { "p_days"?: number,"p_project_id": string }; Returns: {
-              "calls": number,"cost_usd": number,"errors": number,"input_tokens": number,"model": string,"output_tokens": number,"provider": string,"task": Database["public"]['Enums']["ai_task"]
+              "cache_read_tokens": number,"cache_write_tokens": number,"calls": number,"cost_usd": number,"errors": number,"input_tokens": number,"model": string,"output_tokens": number,"provider": string,"task": Database["public"]['Enums']["ai_task"],"unpriced_calls": number
             }[]
                            },
 "cancel_job":
@@ -1212,6 +1212,16 @@ isOneToOne: false
       } },
 "content_item_blockers":
 { Args: { "p_content_item_id": string }; Returns: (string)[]
+                           },
+"content_items_blockers":
+{ Args: { "p_ids": (string)[],"p_project_id": string }; Returns: {
+              "blockers": (string)[],"content_item_id": string
+            }[]
+                           },
+"create_story_for_content_item":
+{ Args: { "p_content_item_id": string }; Returns: {
+              "existing": boolean,"story_id": string
+            }[]
                            },
 "fail_job":
 { Args: { "p_error": string,"p_job_id": string,"p_retry"?: boolean }; Returns: {

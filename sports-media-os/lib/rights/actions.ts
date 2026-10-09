@@ -8,6 +8,7 @@ import { fail, ok, type ActionResult } from "@/lib/actions";
 import { requireUser } from "@/lib/auth/dal";
 import { toUserMessage } from "@/lib/db/errors";
 import { logger } from "@/lib/logger";
+import { rescoreHeuristics } from "@/lib/opportunities/service";
 import { getActiveProject } from "@/lib/projects/service";
 import { createClient } from "@/lib/supabase/server";
 
@@ -44,6 +45,28 @@ function revalidateRights(asset?: { type: string; id: string }) {
   revalidatePath("/research", "layout");
   revalidatePath("/opportunities", "layout");
   revalidatePath("/content", "layout");
+}
+
+/**
+ * Rights safety in the opportunity score depends on whether the media an
+ * opportunity's research relies on is usable: refresh those opportunities after
+ * a classification or a YELLOW decision (best effort, bounded).
+ */
+async function rescoreOpportunitiesUsing(ctx: { db: Awaited<ReturnType<typeof createClient>>; project: { id: string } }, asset: { type: string; id: string }) {
+  if (asset.type !== "source") return;
+  const { data, error } = await ctx.db
+    .from("research_items")
+    .select("opportunity_id")
+    .eq("project_id", ctx.project.id)
+    .eq("source_id", asset.id)
+    .not("opportunity_id", "is", null)
+    .limit(50);
+  if (error) return logger.warn("rights.rescore_lookup_failed", { code: error.code });
+  const ids = [...new Set((data ?? []).map((r) => r.opportunity_id).filter((id): id is string => Boolean(id)))].slice(0, 20);
+  for (const id of ids) {
+    const rescored = await rescoreHeuristics(ctx.db, { projectId: ctx.project.id, id });
+    if (rescored.error) logger.warn("rights.rescore_failed", { opportunityId: id, code: rescored.error.code });
+  }
 }
 
 const STATUS_LABEL: Record<ClassifiedStatus, string> = { green: "GREEN", yellow: "YELLOW", red: "RED" };
@@ -85,6 +108,7 @@ export async function classifyAsset(
     usable: res.data.usable,
     userId: ctx.user.id,
   });
+  await rescoreOpportunitiesUsing(ctx, { type: assetType, id: assetId });
   revalidateRights({ type: assetType, id: assetId });
   const label = STATUS_LABEL[res.data.status];
   return ok(
@@ -140,6 +164,7 @@ export async function decideRightsAction(checkId: string, decision: string, note
     usable: res.data.usable,
     userId: ctx.user.id,
   });
+  await rescoreOpportunitiesUsing(ctx, { type: res.data.assetType, id: res.data.assetId });
   revalidateRights({ type: res.data.assetType, id: res.data.assetId });
   return ok(
     undefined,
@@ -162,6 +187,11 @@ export async function saveProductionFormats(storyId: string, formats: string[]):
   const res = await setProductionFormats(ctx.db, { projectId: ctx.project.id, storyId: parsed.data.storyId, formats: parsed.data.formats });
   if (res.error) return fail(errorMessage(res.error, "Could not save the production formats."));
   logger.info("rights.production_formats_saved", { projectId: ctx.project.id, storyId, count: res.data.formats.length });
+  // Rights safety in the opportunity score depends on the chosen formats (best effort)
+  if (res.data.opportunityId) {
+    const rescored = await rescoreHeuristics(ctx.db, { projectId: ctx.project.id, id: res.data.opportunityId });
+    if (rescored.error) logger.warn("rights.rescore_failed", { opportunityId: res.data.opportunityId, code: rescored.error.code });
+  }
   revalidatePath("/content", "layout");
   revalidatePath("/opportunities", "layout");
   return ok(

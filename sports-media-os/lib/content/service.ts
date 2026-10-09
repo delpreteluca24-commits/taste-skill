@@ -1,5 +1,5 @@
 import type { Db, Enums, Tables } from "@/lib/db/client";
-import { parseGuardError, toUserMessage } from "@/lib/db/errors";
+import { parseGuardError } from "@/lib/db/errors";
 import { logger } from "@/lib/logger";
 import type { Json } from "@/types/database";
 
@@ -64,20 +64,6 @@ async function inChunks<R>(ids: readonly string[], query: (chunk: string[]) => P
   return out;
 }
 
-/** run `fn` over `items`, at most `limit` at a time (keeps RPC fan-out polite) */
-async function mapLimit<T, R>(items: readonly T[], limit: number, fn: (item: T) => Promise<R>): Promise<R[]> {
-  const out = new Array<R>(items.length);
-  let next = 0;
-  const workers = Array.from({ length: Math.min(limit, items.length) }, async () => {
-    while (next < items.length) {
-      const i = next++;
-      out[i] = await fn(items[i]);
-    }
-  });
-  await Promise.all(workers);
-  return out;
-}
-
 const unique = (ids: readonly (string | null | undefined)[]) => [...new Set(ids.filter((id): id is string => Boolean(id)))];
 
 export type DecisionView = {
@@ -128,7 +114,6 @@ async function userNames(db: Db, ids: readonly string[]): Promise<Map<string, st
 /* ------------------------------------------------------------------------- */
 
 export const BOARD_LIMIT = 1000;
-const BLOCKER_CONCURRENCY = 8;
 
 export type BoardData = { items: BoardItem[]; truncated: boolean; generatedAt: string };
 
@@ -171,17 +156,19 @@ export async function board(db: Db, projectId: string): Promise<ServiceResult<Bo
     const scriptByStory = new Map(scripts.map((s) => [s.story_id, s]));
     const decisions = await latestDecisions(db, projectId, "script", "script", scripts.map((s) => s.id));
 
+    // READY blockers of every gated card in one round trip per 500 cards
     const needBlockers = items.filter((i) => BLOCKER_STAGES.includes(i.stage as ContentStage));
-    const blockerLists = await mapLimit(needBlockers, BLOCKER_CONCURRENCY, async (i) => {
-      const { data, error } = await db.rpc("content_item_blockers", { p_content_item_id: i.id });
+    const blockersById = new Map<string, string[] | null>(needBlockers.map((i) => [i.id, null]));
+    for (let n = 0; n < needBlockers.length; n += 500) {
+      const ids = needBlockers.slice(n, n + 500).map((i) => i.id);
+      const { data, error } = await db.rpc("content_items_blockers", { p_project_id: projectId, p_ids: ids });
       if (error) {
-        // the card still renders; its count shows as unknown
-        logger.warn("content.board_blockers_failed", { contentItemId: i.id, code: error.code, message: error.message });
-        return null;
+        // the cards still render; their count shows as unknown
+        logger.warn("content.board_blockers_failed", { projectId, code: error.code, message: error.message });
+        continue;
       }
-      return data ?? [];
-    });
-    const blockersById = new Map(needBlockers.map((i, n) => [i.id, blockerLists[n]]));
+      for (const row of data ?? []) blockersById.set(row.content_item_id, row.blockers ?? []);
+    }
 
     const boardItems: BoardItem[] = items.map((i) => {
       const story = i.story_id ? storyById.get(i.story_id) : undefined;
@@ -361,9 +348,9 @@ export async function updateItem(
 
 /**
  * An item without a story gets one built from its own title/description (and
- * its opportunity's angle when there is one), linked atomically-enough: the
- * link only succeeds while the item still has no story; if another request won
- * the race, the new story is removed and the winner is returned.
+ * its opportunity's angle/hook when there is one), created and linked in one
+ * transaction by public.create_story_for_content_item (row lock: concurrent
+ * clicks land on the same story).
  */
 export async function createStoryForItem(
   db: Db,
@@ -371,68 +358,14 @@ export async function createStoryForItem(
 ): Promise<ServiceResult<{ storyId: string; existing: boolean }>> {
   return guarded<{ storyId: string; existing: boolean }>("content.create_story_failed", async () => {
     const { projectId, id } = args;
-    const item = must(
-      await db
-        .from("content_items")
-        .select("id, title, description, story_id, opportunity_id")
-        .eq("id", id)
-        .eq("project_id", projectId)
-        .maybeSingle(),
-    );
+    const item = must(await db.from("content_items").select("id, story_id").eq("id", id).eq("project_id", projectId).maybeSingle());
     if (!item) return notFound("content item");
     if (item.story_id) return success({ storyId: item.story_id, existing: true });
 
-    const opportunity = item.opportunity_id
-      ? must(
-          await db
-            .from("opportunities")
-            .select("id, angle, hook, why_now")
-            .eq("id", item.opportunity_id)
-            .eq("project_id", projectId)
-            .maybeSingle(),
-        )
-      : null;
-
-    const logline = item.description ?? opportunity?.why_now ?? null;
-    const story = mustOne(
-      await db
-        .from("stories")
-        .insert({
-          project_id: projectId,
-          opportunity_id: item.opportunity_id,
-          title: item.title,
-          logline: logline ? logline.slice(0, 1000) : null,
-          angle: opportunity?.angle ?? null,
-          created_by: args.userId,
-          metadata: {
-            created_from: "content_item",
-            content_item_id: item.id,
-            ...(opportunity?.hook ? { hook: opportunity.hook } : {}),
-          } as { [key: string]: Json },
-        })
-        .select("id")
-        .single(),
-    );
-
-    const linked = await db
-      .from("content_items")
-      .update({ story_id: story.id })
-      .eq("id", id)
-      .eq("project_id", projectId)
-      .is("story_id", null)
-      .select("id")
-      .maybeSingle();
-    if (linked.error || !linked.data) {
-      const cleanup = await db.from("stories").delete().eq("id", story.id).eq("project_id", projectId);
-      if (cleanup.error) logger.warn("content.orphan_story_cleanup_failed", { projectId, storyId: story.id, code: cleanup.error.code });
-      if (linked.error) {
-        if (isGuard(linked.error)) return failure({ ...linked.error, userMessage: toUserMessage(linked.error) });
-        throw new QueryFailed(linked.error);
-      }
-      const again = must(await db.from("content_items").select("story_id").eq("id", id).eq("project_id", projectId).maybeSingle());
-      return again?.story_id ? success({ storyId: again.story_id, existing: true }) : notFound("content item");
-    }
-    return success({ storyId: story.id, existing: false });
+    const rows = must(await db.rpc("create_story_for_content_item", { p_content_item_id: id }));
+    const row = rows?.[0];
+    if (!row) throw new QueryFailed({ message: "create_story_for_content_item returned no row" });
+    return success({ storyId: row.story_id, existing: row.existing });
   });
 }
 

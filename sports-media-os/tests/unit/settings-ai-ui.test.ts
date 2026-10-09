@@ -71,8 +71,8 @@ describe("AI usage panel", () => {
 
   it("lists task × model rows with totals and marks unpriced cost explicitly", () => {
     const summary = summarizeUsage([
-      { task: "scoring", provider: "anthropic", model: "claude-haiku-5-5", calls: 12, errors: 2, inputTokens: 8400, outputTokens: 5400, costUsd: 0.00354 },
-      { task: "script", provider: "openai", model: "gpt-test", calls: 3, errors: 0, inputTokens: 4200, outputTokens: 3300, costUsd: null },
+      { task: "scoring", provider: "anthropic", model: "claude-haiku-5-5", calls: 12, errors: 2, inputTokens: 8400, outputTokens: 5400, cacheReadTokens: 0, cacheWriteTokens: 0, unpricedCalls: 0, costUsd: 0.00354 },
+      { task: "script", provider: "openai", model: "gpt-test", calls: 3, errors: 0, inputTokens: 4200, outputTokens: 3300, cacheReadTokens: 0, cacheWriteTokens: 0, unpricedCalls: 3, costUsd: null },
     ]);
     const out = html(createElement(AiUsagePanel, { summary }));
     expect(out).toContain("Scoring");
@@ -83,7 +83,7 @@ describe("AI usage panel", () => {
     expect(out).toMatch(/Total.*\$0\.0035.*excl\. unpriced/s);
     expect(out).toContain("failed or refused");
 
-    const one = summarizeUsage([{ task: "script", provider: "openai", model: "gpt-test", calls: 1, errors: 0, inputTokens: 10, outputTokens: 10, costUsd: null }]);
+    const one = summarizeUsage([{ task: "script", provider: "openai", model: "gpt-test", calls: 1, errors: 0, inputTokens: 10, outputTokens: 10, cacheReadTokens: 0, cacheWriteTokens: 0, unpricedCalls: 1, costUsd: null }]);
     expect(html(createElement(AiUsagePanel, { summary: one }))).toContain("+ 1 unpriced call<");
   });
 });

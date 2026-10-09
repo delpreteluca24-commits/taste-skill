@@ -9,6 +9,7 @@ import { toUserMessage } from "@/lib/db/errors";
 import { suggestionStaleReason } from "@/lib/factcheck/sanitize";
 import { enqueueJob } from "@/lib/jobs/enqueue";
 import { logger } from "@/lib/logger";
+import { rescoreHeuristics } from "@/lib/opportunities/service";
 import { getActiveProject } from "@/lib/projects/service";
 import { createClient } from "@/lib/supabase/server";
 
@@ -62,11 +63,20 @@ function errorMessage(error: ServiceError, fallback: string) {
   return toUserMessage(error, fallback);
 }
 
-function revalidateWorkspace(opportunityId?: string | null) {
+type Ctx = NonNullable<Awaited<ReturnType<typeof activeContext>>>;
+
+/**
+ * After a research change: refresh the opportunity's heuristic score (production
+ * feasibility depends on sources, confirmed facts and timeline; best effort,
+ * never blocks the edit), then revalidate the pages that show it.
+ */
+async function refreshWorkspace(ctx: Ctx, opportunityId?: string | null) {
   revalidatePath("/research");
   if (opportunityId) {
+    const rescored = await rescoreHeuristics(ctx.db, { projectId: ctx.project.id, id: opportunityId });
+    if (rescored.error) logger.warn("research.rescore_failed", { opportunityId, code: rescored.error.code });
     revalidatePath(`/research/${opportunityId}`);
-    // the opportunity page shows research counts
+    // the opportunity page shows research counts and the score
     revalidatePath(`/opportunities/${opportunityId}`);
   }
 }
@@ -112,7 +122,7 @@ export async function addSourceAction(
     sourceId: res.data.sourceId,
     existingSource: res.data.existingSource,
   });
-  revalidateWorkspace(opportunityId);
+  await refreshWorkspace(ctx, opportunityId);
   const message = res.data.alreadyLinked
     ? "This source is already in the workspace."
     : res.data.existingSource
@@ -156,7 +166,7 @@ export async function createItemAction(_prev: ActionResult | null, formData: For
   const res = await createItem(ctx.db, { projectId: ctx.project.id, opportunityId: opportunityId!, userId: ctx.user.id, input: parsed.data });
   if (res.error) return fail(errorMessage(res.error, "Could not add it."));
   logger.info("research.item_created", { projectId: ctx.project.id, opportunityId, itemId: res.data.id, type: parsed.data.type });
-  revalidateWorkspace(opportunityId);
+  await refreshWorkspace(ctx, opportunityId);
   return ok(undefined, "Added.");
 }
 
@@ -170,7 +180,7 @@ export async function updateItemAction(_prev: ActionResult | null, formData: For
 
   const res = await updateItem(ctx.db, { projectId: ctx.project.id, itemId: itemId!, input: parsed.data });
   if (res.error) return fail(errorMessage(res.error, "Could not save the changes."));
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(undefined, "Saved.");
 }
 
@@ -183,7 +193,7 @@ export async function deleteItemAction(_prev: ActionResult | null, formData: For
   const res = await deleteItem(ctx.db, { projectId: ctx.project.id, itemId: itemId! });
   if (res.error) return fail(errorMessage(res.error, "Could not delete it."));
   logger.info("research.item_deleted", { projectId: ctx.project.id, itemId });
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(undefined, "Deleted.");
 }
 
@@ -205,7 +215,7 @@ export async function answerQuestionAction(_prev: ActionResult | null, formData:
     userId: ctx.user.id,
   });
   if (res.error) return fail(errorMessage(res.error, "Could not save the answer."));
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(undefined, parsed.data.answered ? "Marked answered." : "Question reopened.");
 }
 
@@ -229,7 +239,7 @@ export async function createClaimAction(_prev: ActionResult | null, formData: Fo
   });
   if (res.error) return fail(errorMessage(res.error, "Could not add the claim."));
   logger.info("research.claim_created", { projectId: ctx.project.id, opportunityId, factId: res.data.id, critical: parsed.data.isCritical });
-  revalidateWorkspace(opportunityId);
+  await refreshWorkspace(ctx, opportunityId);
   return ok(undefined, "Claim added as Uncertain. Link its sources, then verify it.");
 }
 
@@ -248,7 +258,7 @@ export async function updateClaimAction(_prev: ActionResult | null, formData: Fo
     isCritical: parsed.data.isCritical,
   });
   if (res.error) return fail(errorMessage(res.error, "Could not save the claim."));
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(undefined, res.data.statusReset ? "Saved. The wording changed, so the status was reset to Uncertain." : "Saved.");
 }
 
@@ -260,7 +270,7 @@ export async function deleteClaimAction(_prev: ActionResult | null, formData: Fo
   const res = await deleteClaim(ctx.db, { projectId: ctx.project.id, factId: factId! });
   if (res.error) return fail(errorMessage(res.error, "Could not delete the claim."));
   logger.info("research.claim_deleted", { projectId: ctx.project.id, factId });
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(undefined, "Claim deleted.");
 }
 
@@ -296,7 +306,7 @@ export async function linkClaimSourceAction(_prev: ActionResult | null, formData
 
   const res = await linkClaimSource(ctx.db, { projectId: ctx.project.id, userId: ctx.user.id, ...parsed.data });
   if (res.error) return fail(errorMessage(res.error, "Could not link the source."));
-  revalidateWorkspace(res.data.opportunityId ?? opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId ?? opportunityId);
   return ok(undefined, res.data.updated ? "Link updated." : "Source linked.");
 }
 
@@ -309,7 +319,7 @@ export async function unlinkClaimSourceAction(_prev: ActionResult | null, formDa
 
   const res = await unlinkClaimSource(ctx.db, { projectId: ctx.project.id, factId: factId!, sourceId: sourceId! });
   if (res.error) return fail(errorMessage(res.error, "Could not unlink the source."));
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(
     undefined,
     res.data.downgraded ? "Unlinked. That was the last supporting source, so the claim went back to Uncertain." : "Unlinked.",
@@ -327,7 +337,7 @@ export async function setLinkRelationAction(_prev: ActionResult | null, formData
 
   const res = await setLinkRelation(ctx.db, { projectId: ctx.project.id, ...parsed.data });
   if (res.error) return fail(errorMessage(res.error, "Could not change the relation."));
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(undefined, "Relation updated.");
 }
 
@@ -346,7 +356,7 @@ export async function setClaimStatusAction(_prev: ActionResult | null, formData:
   const res = await setClaimStatus(ctx.db, { projectId: ctx.project.id, ...parsed.data });
   if (res.error) return fail(errorMessage(res.error, "Could not update the status."));
   logger.info("research.claim_status_set", { projectId: ctx.project.id, factId: parsed.data.factId, status: parsed.data.status });
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(undefined, "Status updated.");
 }
 
@@ -378,7 +388,7 @@ export async function applyClaimSuggestionAction(_prev: ActionResult | null, for
   });
   if (res.error) return fail(errorMessage(res.error, "Could not apply the suggestion."));
   logger.info("research.claim_suggestion_applied", { projectId: ctx.project.id, factId: fact.id, status: aiSuggestion.suggestedStatus });
-  revalidateWorkspace(res.data.opportunityId);
+  await refreshWorkspace(ctx, res.data.opportunityId);
   return ok(undefined, "Suggestion applied.");
 }
 

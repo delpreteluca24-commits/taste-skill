@@ -23,6 +23,10 @@ export type AiUsageRow = {
   errors: number;
   inputTokens: number;
   outputTokens: number;
+  cacheReadTokens: number;
+  cacheWriteTokens: number;
+  /** calls that used tokens on a model without a price (cost unknown) */
+  unpricedCalls: number;
   /** sum of priced calls; null when no call of this group has a price */
   costUsd: number | null;
 };
@@ -44,9 +48,11 @@ export type AiUsageSummary = {
     errors: number;
     inputTokens: number;
     outputTokens: number;
+    cacheReadTokens: number;
+    cacheWriteTokens: number;
     /** priced calls only */
     costUsd: number;
-    /** calls in groups whose cost is unknown */
+    /** calls whose cost is unknown (model without a price) */
     unpricedCalls: number;
     unpricedModels: string[];
   };
@@ -75,6 +81,9 @@ export function normalizeUsageRows(raw: readonly Record<string, unknown>[]): AiU
       errors: num(r.errors),
       inputTokens: num(r.input_tokens),
       outputTokens: num(r.output_tokens),
+      cacheReadTokens: num(r.cache_read_tokens),
+      cacheWriteTokens: num(r.cache_write_tokens),
+      unpricedCalls: num(r.unpriced_calls),
       costUsd: nullableNum(r.cost_usd),
     }));
 }
@@ -100,14 +109,18 @@ export function summarizeUsage(rows: readonly AiUsageRow[], days: number = USAGE
       acc.errors += l.errors;
       acc.inputTokens += l.inputTokens;
       acc.outputTokens += l.outputTokens;
+      acc.cacheReadTokens += l.cacheReadTokens;
+      acc.cacheWriteTokens += l.cacheWriteTokens;
       if (l.costUsd !== null) acc.costUsd += l.costUsd;
-      if (l.costState === "unpriced") {
-        acc.unpricedCalls += l.calls;
+      // exact count from the ledger; older rows without it fall back to the whole unpriced group
+      const unpriced = l.unpricedCalls || (l.costState === "unpriced" ? l.calls : 0);
+      if (unpriced > 0) {
+        acc.unpricedCalls += unpriced;
         unpricedModels.add(`${l.provider}:${l.model}`);
       }
       return acc;
     },
-    { calls: 0, errors: 0, inputTokens: 0, outputTokens: 0, costUsd: 0, unpricedCalls: 0 },
+    { calls: 0, errors: 0, inputTokens: 0, outputTokens: 0, cacheReadTokens: 0, cacheWriteTokens: 0, costUsd: 0, unpricedCalls: 0 },
   );
 
   return { days, lines, totals: { ...totals, costUsd: round6(totals.costUsd), unpricedModels: [...unpricedModels].sort() } };

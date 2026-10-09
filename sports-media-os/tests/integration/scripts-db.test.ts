@@ -152,14 +152,14 @@ describe("project isolation", () => {
       await db.fails(
         "insert into public.scripts (project_id, story_id, hook, operation) values ($1, $2, 'x', 'manual')",
         [a.project, a.story],
-        /row-level security/,
+        // the version trigger cannot see A's story (RLS) → NOT_FOUND before the RLS check
+        /NOT_FOUND|row-level security/,
       );
-      // B's project id with A's story is refused: by the (story_id, version) unique key
-      // (B cannot see A's versions, so the trigger proposes version 1) or by the composite FK
+      // B's project id with A's story: the story is not in B's project → a clear NOT_FOUND
       await db.fails(
         "insert into public.scripts (project_id, story_id, hook, operation) values ($1, $2, 'x', 'manual')",
         [b.project, a.story],
-        /23503|23505|foreign key|duplicate key/,
+        /NOT_FOUND: story not found in this project/,
       );
       await db.fails("select public.record_approval('script', $1, 'approved', null)", [v1.id], /NOT_FOUND/);
       expect(await db.q("update public.scripts set is_current = true where id = $1 returning id", [v1.id])).toEqual([]);

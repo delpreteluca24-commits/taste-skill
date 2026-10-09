@@ -70,6 +70,7 @@ export function AiUsagePanel({ summary }: { summary: AiUsageSummary | null }) {
             <TableHead className="text-right">Errors</TableHead>
             <TableHead className="text-right">Tokens in</TableHead>
             <TableHead className="text-right">Tokens out</TableHead>
+            <TableHead className="text-right">Cache read / write</TableHead>
             <TableHead className="text-right">Cost</TableHead>
           </TableRow>
         </TableHeader>
@@ -84,6 +85,9 @@ export function AiUsagePanel({ summary }: { summary: AiUsageSummary | null }) {
             <TableCell className="text-right">{formatTokens(t.inputTokens)}</TableCell>
             <TableCell className="text-right">{formatTokens(t.outputTokens)}</TableCell>
             <TableCell className="text-right">
+              {formatTokens(t.cacheReadTokens)} / {formatTokens(t.cacheWriteTokens)}
+            </TableCell>
+            <TableCell className="text-right">
               {formatCost(t.costUsd)}
               {t.unpricedCalls ? <span className="block text-[10px] font-normal text-warning">excl. unpriced</span> : null}
             </TableCell>
@@ -91,8 +95,8 @@ export function AiUsagePanel({ summary }: { summary: AiUsageSummary | null }) {
         </TableBody>
       </Table>
       <p className="text-[11px] text-muted-foreground">
-        Errors = failed or refused attempts (each fallback attempt counts as a call). Tokens in = uncached prompt tokens;
-        cost includes prompt-cache reads and writes, priced when each call was made. Benchmark runs are not in this ledger.
+        Errors = failed or refused attempts (each fallback attempt counts as a call). Tokens in = uncached prompt tokens
+        (prompt-cache reads/writes are listed separately); cost includes them, priced when each call was made. Benchmark runs are not in this ledger.
       </p>
     </div>
   );
@@ -121,6 +125,9 @@ function UsageRow({ line }: { line: AiUsageLine }) {
       </TableCell>
       <TableCell className="text-right">{formatTokens(line.inputTokens)}</TableCell>
       <TableCell className="text-right">{formatTokens(line.outputTokens)}</TableCell>
+      <TableCell className="text-right">
+        {formatTokens(line.cacheReadTokens)} / {formatTokens(line.cacheWriteTokens)}
+      </TableCell>
       <TableCell className="text-right">
         {line.costState === "unpriced" ? (
           <Badge variant="warning" className="ml-auto">
