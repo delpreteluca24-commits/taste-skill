@@ -1,0 +1,7 @@
+node_modules/
+data/
+dist/
+*.log
+.env
+spike/
+public/music/*.wav

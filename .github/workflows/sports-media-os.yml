@@ -1,0 +1,88 @@
+name: sports-media-os
+
+on:
+  push:
+    paths:
+      - "sports-media-os/**"
+      - ".github/workflows/sports-media-os.yml"
+  pull_request:
+    paths:
+      - "sports-media-os/**"
+      - ".github/workflows/sports-media-os.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sports-media-os-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: sports-media-os
+
+jobs:
+  checks:
+    name: lint · typecheck · unit · build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: sports-media-os/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+        env:
+          # build never needs real credentials; pages are dynamic
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_build_placeholder_value
+
+  database-and-e2e:
+    name: migrations · DB integration · E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: sports-media-os/package-lock.json
+      - run: npm ci
+      - name: Start local Supabase (applies all migrations)
+        run: npm run db:start
+      - name: Lint schema
+        run: npm run db:lint
+      - name: Check generated types are up to date
+        run: |
+          npx supabase gen types typescript --local > /tmp/database.ts
+          diff -q types/database.ts /tmp/database.ts
+      - name: Write .env.local from the local stack
+        run: |
+          eval "$(npx supabase status -o env | grep -E '^(API_URL|PUBLISHABLE_KEY|SECRET_KEY)=')"
+          {
+            echo "NEXT_PUBLIC_SUPABASE_URL=$API_URL"
+            echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$PUBLISHABLE_KEY"
+            echo "SUPABASE_SECRET_KEY=$SECRET_KEY"
+            echo "DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres"
+          } > .env.local
+      - run: npm run test:db
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          CI: "true"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: sports-media-os/test-results
+          retention-days: 7
+      - if: always()
+        run: npm run db:stop

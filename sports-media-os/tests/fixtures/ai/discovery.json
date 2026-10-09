@@ -1,0 +1,118 @@
+{
+  "fixture": true,
+  "notice": "FIXTURE DATA for scripts/ai-benchmark.mts. Every team, league, person, publisher, number and event below is INVENTED and clearly fictional (example.test URLs, '(fixture)' publishers). Not real news, not copyrighted text. Never use as facts.",
+  "task": "discovery",
+  "cases": [
+    {
+      "id": "discovery-01-matchday",
+      "description": "A typical matchday batch: four clusters, one of them noise",
+      "input": {
+        "clusters": [
+          {
+            "key": "c1",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000101", "title": "Gulls end Rovers' unbeaten run with late winner", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000102", "title": "Harbor City Gulls 2-1 Northvale Rovers: promoted side stuns leaders", "publisher": "Sample Gazette (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000103", "title": "Northvale coach Teodor Vask: 'We were second best tonight'", "publisher": "Demo Club Media (fixture)" }
+            ]
+          },
+          {
+            "key": "c2",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000111", "title": "Calloway closes in on Fictional Hoops League assists record", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000112", "title": "Lakeside Comets guard Ines Calloway nine assists from history", "publisher": "Sample Gazette (fixture)" }
+            ]
+          },
+          {
+            "key": "c3",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000121", "title": "Sharks in early talks over Gulls striker Quillon, sources say", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000122", "title": "Port Amberly Sharks deny contact with Mara Quillon's agent", "publisher": "Demo Club Media (fixture)" }
+            ]
+          },
+          {
+            "key": "c4",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000131", "title": "Ticket office opening hours change for the holidays", "publisher": "Demo Club Media (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000132", "title": "New kit colours revealed at fan evening", "publisher": "Sample Gazette (fixture)" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "discovery-02-injury-and-stat",
+      "description": "Injury news with conflicting headlines plus a stat cluster",
+      "input": {
+        "clusters": [
+          {
+            "key": "c1",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000201", "title": "Ironridge FC captain Lio Brandt out for six weeks", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000202", "title": "Brandt injury: Ironridge fear longer absence", "publisher": "Sample Gazette (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000203", "title": "Ironridge FC update on Lio Brandt hamstring", "publisher": "Demo Club Media (fixture)" }
+            ]
+          },
+          {
+            "key": "c2",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000211", "title": "Rovers' first-half wall: twelve matches without conceding", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000212", "title": "Analysis: the shape behind Northvale's first halves", "publisher": "Sample Gazette (fixture)" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "discovery-03-large-batch",
+      "description": "Larger batch (six clusters) to measure tokens on a full radar run",
+      "input": {
+        "clusters": [
+          {
+            "key": "c1",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000301", "title": "Kestrel Bay Athletic appoint Dana Morrow as head coach", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000302", "title": "Morrow takes Kestrel Bay job after two seasons in the second tier", "publisher": "Sample Gazette (fixture)" }
+            ]
+          },
+          {
+            "key": "c2",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000311", "title": "Fictional Hoops League confirms new playoff format", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000312", "title": "Play-in round added to Fictional Hoops League playoffs", "publisher": "Demo Club Media (fixture)" }
+            ]
+          },
+          {
+            "key": "c3",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000321", "title": "Ironridge chairman named in investigation, reports say", "publisher": "Sample Gazette (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000322", "title": "Ironridge FC statement: club cooperating fully", "publisher": "Demo Club Media (fixture)" }
+            ]
+          },
+          {
+            "key": "c4",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000331", "title": "Port Amberly Sharks sell out derby in record time", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000332", "title": "Bay derby tickets gone in 40 minutes", "publisher": "Sample Gazette (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000333", "title": "Sharks vs Gulls: demand for derby tickets breaks club record", "publisher": "Demo Club Media (fixture)" }
+            ]
+          },
+          {
+            "key": "c5",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000341", "title": "Lakeside Comets win sixth straight game", "publisher": "Example Sports Wire (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000342", "title": "Comets extend winning streak to six behind Calloway", "publisher": "Sample Gazette (fixture)" }
+            ]
+          },
+          {
+            "key": "c6",
+            "headlines": [
+              { "id": "00000000-0000-4000-b000-000000000351", "title": "Weekend weather forecast for the coast", "publisher": "Sample Gazette (fixture)" },
+              { "id": "00000000-0000-4000-b000-000000000352", "title": "Northvale youth team reach regional cup final", "publisher": "Demo Club Media (fixture)" }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

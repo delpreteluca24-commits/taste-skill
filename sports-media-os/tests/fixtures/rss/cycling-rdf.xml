@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://purl.org/rss/1.0/"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel rdf:about="https://cycling.example.net/">
+    <title>Example Cycling Daily</title>
+    <link>https://cycling.example.net/</link>
+    <description>Stage reports (fictional test fixture)</description>
+    <items>
+      <rdf:Seq>
+        <rdf:li resource="https://cycling.example.net/stage-12-report"/>
+        <rdf:li resource="https://cycling.example.net/rider-abandons"/>
+      </rdf:Seq>
+    </items>
+  </channel>
+
+  <item rdf:about="https://cycling.example.net/stage-12-report">
+    <title>Stage 12: breakaway survives on the summit finish</title>
+    <link>https://cycling.example.net/stage-12-report</link>
+    <description>A five-rider move held off the peloton by 14 seconds.</description>
+    <dc:date>2026-10-07T15:20:00Z</dc:date>
+    <dc:creator>Example Cycling Desk</dc:creator>
+    <dc:subject>Grand Tour</dc:subject>
+  </item>
+
+  <item rdf:about="https://cycling.example.net/rider-abandons">
+    <title>Leader's team-mate abandons after crash</title>
+    <description>The domestique crashed on the descent of the Col d'Exemple.</description>
+    <dc:date>2026-10-07T13:05:00+02:00</dc:date>
+  </item>
+</rdf:RDF>

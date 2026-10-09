@@ -1,0 +1,51 @@
+{
+  "meta": { "provider": "example-sports-data", "generatedAt": "2026-10-07T21:00:00Z" },
+  "response": {
+    "fixtures": [
+      {
+        "id": 90001,
+        "kickoff": "2026-10-10T14:00:00Z",
+        "end": "2026-10-10T15:55:00Z",
+        "status": "FT",
+        "league": { "name": "Example Premier Division", "season": 2026 },
+        "venue": { "name": "Northbridge Park", "city": "Northbridge" },
+        "teams": { "home": { "name": "Northbridge FC" }, "away": { "name": "Riverside United" } }
+      },
+      {
+        "id": "90002",
+        "kickoff": 1791900000,
+        "status": "NOT_STARTED",
+        "league": { "name": "Example Premier Division" },
+        "venue": { "name": "Harbour Stadium" },
+        "teams": { "home": { "name": "Harbour City" }, "away": { "name": "Eastfield Athletic" } }
+      },
+      {
+        "id": 90003,
+        "kickoff": "2026-10-11T19:45:00+02:00",
+        "end": "2026-10-11T18:00:00+02:00",
+        "status": "Postponed",
+        "league": { "name": "Example Cup" },
+        "teams": { "home": { "name": "Westgate Rovers" }, "away": { "name": "Northbridge FC" } }
+      },
+      {
+        "id": 90004,
+        "kickoff": "not a date",
+        "status": "weird-provider-code",
+        "league": { "name": "Example Cup" },
+        "teams": { "home": { "name": "Southport Town" }, "away": { "name": "Lakeside FC" } }
+      },
+      {
+        "id": 90005,
+        "kickoff": "2026-10-12T12:00:00Z",
+        "status": "scheduled",
+        "teams": { "home": {}, "away": {} }
+      },
+      {
+        "kickoff": "2026-10-12T15:00:00Z",
+        "status": "scheduled",
+        "teams": { "home": { "name": "No Id FC" }, "away": { "name": "Missing Id United" } }
+      },
+      "not an object"
+    ]
+  }
+}
