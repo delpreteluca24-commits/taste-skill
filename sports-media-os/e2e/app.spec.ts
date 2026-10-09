@@ -69,7 +69,9 @@ test("sidebar navigates to every module; later milestones are labelled honestly"
   await nav.getByRole("link", { name: /Sports Radar/ }).click();
   await expect(page).toHaveURL(/\/radar$/);
   await expect(page.getByRole("heading", { name: "Sports Radar" })).toBeVisible();
-  await expect(page.getByText("Scheduled for Milestone 2")).toBeVisible();
+  // delivered in Milestone 2: the live radar (trend detection strip), no roadmap placeholder
+  await expect(page.getByTestId("detection-strip")).toBeVisible();
+  await expect(page.getByText("Scheduled for Milestone 2")).toHaveCount(0);
 
   await nav.getByRole("link", { name: /Clips/ }).click();
   await expect(page.getByText("Scheduled for Milestone 3")).toBeVisible();
