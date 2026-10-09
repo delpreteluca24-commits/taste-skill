@@ -12,7 +12,9 @@ import { S09Ongoing } from './S09Ongoing'
 import { S10Loyalty } from './S10Loyalty'
 import { S11Revenue } from './S11Revenue'
 import { S12Example } from './S12Example'
+import { S13Extras } from './S13Extras'
 import { S13Results } from './S13Results'
+import { S14WhyPhase1 } from './S14WhyPhase1'
 import { S14Vision } from './S14Vision'
 import { S15NextSteps } from './S15NextSteps'
 
@@ -37,6 +39,8 @@ export const SLIDES: SlideDef[] = [
   { title: 'Fidelizzazione', Component: S10Loyalty, transition: 'slide', tone: 'light' },
   { title: 'Modello di guadagno', Component: S11Revenue, transition: 'black', tone: 'dark' },
   { title: 'Esempio reale', Component: S12Example, transition: 'mask', tone: 'light' },
+  { title: 'Costi degli extra', Component: S13Extras, transition: 'slide', tone: 'dark' },
+  { title: 'Perché conviene', Component: S14WhyPhase1, transition: 'fade', tone: 'light' },
   { title: 'Risultati attesi', Component: S13Results, transition: 'zoom', tone: 'dark' },
   { title: 'La visione', Component: S14Vision, transition: 'black', tone: 'dark', cinematic: true },
   { title: 'Prossimi passi', Component: S15NextSteps, transition: 'mask', tone: 'dark' },

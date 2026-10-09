@@ -10,16 +10,18 @@ type Props = {
   prefix?: string
   suffix?: string
   className?: string
+  decimals?: number
 }
 
 /** Contatore animato (aggiorna il DOM direttamente: nessun re-render per frame). */
-export function AnimatedNumber({ to, from = 0, delay = 0, duration = 1.6, prefix = '', suffix = '', className }: Props) {
+export function AnimatedNumber({ to, from = 0, delay = 0, duration = 1.6, prefix = '', suffix = '', className, decimals = 0 }: Props) {
   const ref = useRef<HTMLSpanElement>(null)
   const reduce = useReducedMotion()
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const fmt = (v: number) => `${prefix}${Math.round(v).toLocaleString('it-IT')}${suffix}`
+    const fmt = (v: number) =>
+      `${prefix}${v.toLocaleString('it-IT', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}${suffix}`
     if (reduce) {
       el.textContent = fmt(to)
       return
@@ -32,6 +34,10 @@ export function AnimatedNumber({ to, from = 0, delay = 0, duration = 1.6, prefix
       onUpdate: (v) => { el.textContent = fmt(v) },
     })
     return () => controls.stop()
-  }, [to, from, delay, duration, prefix, suffix, reduce])
-  return <span ref={ref} className={`tnum ${className ?? ''}`}>{`${prefix}${from}${suffix}`}</span>
+  }, [to, from, delay, duration, prefix, suffix, reduce, decimals])
+  return (
+    <span ref={ref} className={`tnum ${className ?? ''}`}>
+      {`${prefix}${from.toLocaleString('it-IT', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}${suffix}`}
+    </span>
+  )
 }

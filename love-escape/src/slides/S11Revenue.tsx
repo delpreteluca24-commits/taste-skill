@@ -7,6 +7,7 @@ import { EASE, ENTER } from '../lib/motion'
 // Modello economico (non modificare senza aggiornare anche la slide 12):
 // Fase 1 → 80% DP System / 20% proprietario, fino al recupero di €850 di setup.
 // Fase 2 → 40% DP System / 60% proprietario.
+// Base di calcolo: incasso della prenotazione meno i costi vivi documentati degli extra (slide 13).
 export const MODEL = {
   phase1: { us: 80, owner: 20 },
   phase2: { us: 40, owner: 60 },
@@ -24,7 +25,7 @@ export function S11Revenue() {
         lines={['Una collaborazione semplice, chiara', <span className="italic text-blush">e vantaggiosa per entrambi.</span>]}
       />
       <Reveal delay={0.6} className="mt-5 text-[19px] text-cream/45">
-        Percentuali calcolate sull’importo di ogni prenotazione.
+        Percentuali calcolate sull’importo di ogni prenotazione, al netto dei costi vivi degli extra.
       </Reveal>
 
       <div className="mt-[64px] grid grid-cols-[1fr_160px_1fr] items-start">

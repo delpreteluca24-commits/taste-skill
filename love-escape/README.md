@@ -1,6 +1,6 @@
 # Love Escape La Spezia — presentazione interattiva
 
-Pitch deck cinematico (15 slide, 16:9, ottimizzato 1920×1080) per la proposta di collaborazione DP System × Love Escape.
+Pitch deck cinematico (17 slide, 16:9, ottimizzato 1920×1080) per la proposta di collaborazione DP System × Love Escape.
 
 ## Presentare dal vivo
 
@@ -36,7 +36,7 @@ src/
   components/   Presentation, Slide, SlideTransition, HeroSlide, ImageReveal,
                 PackageCard, PriceCard, StatCard, Timeline, RevenueModel,
                 ProgressBar, AnimatedNumber, Chrome, Reveal, Icons
-  slides/       S01Cover … S15NextSteps + index.ts (ordine, transizioni, tema)
+  slides/       S01Cover … S15NextSteps (+ S13Extras, S14WhyPhase1) + index.ts (ordine, transizioni, tema)
   lib/          motion.ts (curve e tempi), parallax.tsx, sound.ts
   assets/       images.ts + images/*.webp
 ```
@@ -60,4 +60,5 @@ Le foto attuali sono **immagini di mood generate con AI**, da sostituire con lo 
 Prezzi, setup e percentuali sono in un solo posto ciascuno:
 - pacchetti: `slides/S04Packages.tsx`
 - voci setup (totale calcolato automaticamente): `slides/S08Setup.tsx`
-- modello 80/20 → 40/60: `MODEL` in `slides/S11Revenue.tsx` (l'esempio della slide 12 si ricalcola da qui)
+- modello 80/20 → 40/60: `MODEL` in `slides/S11Revenue.tsx` (le slide 12, 13 e 14 si ricalcolano da qui)
+- costi degli extra: `slides/S13Extras.tsx`. Regola proposta: i costi vivi documentati degli extra (drink, cioccolatini, decorazioni, aperitivo) si detraggono dall'incasso prima della ripartizione. Il costo di €10 nell'esempio è un'ipotesi: va sostituito con il costo reale concordato.
