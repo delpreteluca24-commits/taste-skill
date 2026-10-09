@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0d0d0d;
+  --coal: #171717;
+  --cream: #f5efe8;
+  --white: #ffffff;
+  --blush: #e9a0a8;
+  --rose: #c95c70;
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--ink);
+  color: var(--cream);
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: Manrope, Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-serif { font-feature-settings: 'lnum' 1, 'pnum' 1; }
+.tnum { font-variant-numeric: tabular-nums lining-nums; }
+.balance { text-wrap: balance; }
+
+.label {
+  font-family: Manrope, Inter, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+/* Grana fotografica leggerissima sopra tutto lo stage */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Ken Burns lento sulle fotografie */
+@keyframes kenburns {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to { transform: scale(1.07) translate3d(-1%, -1%, 0); }
+}
+.kenburns { animation: kenburns 22s ease-in-out infinite alternate; will-change: transform; }
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(233,160,168,.55), 0 30px 80px -20px rgba(201,92,112,.30), 0 0 60px -10px rgba(233,160,168,.18); }
+  50% { box-shadow: 0 0 0 1px rgba(233,160,168,.85), 0 30px 90px -20px rgba(201,92,112,.45), 0 0 90px -6px rgba(233,160,168,.30); }
+}
+.glow { animation: glow 3.6s ease-in-out infinite; }
+
+.hide-cursor, .hide-cursor * { cursor: none !important; }
+
+button:focus-visible, [role='button']:focus-visible {
+  outline: 1px solid var(--blush);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kenburns, .glow { animation: none; }
+}
