@@ -3,7 +3,8 @@
 Operating system for an AI-first sports media company: one control room for
 discovery, research, fact check, rights, production, publishing, analytics and agents.
 
-**Status: Milestone 1 (Foundation) complete** — see [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
+**Status: Milestone 1 (Foundation) and Milestone 2 (Radar, Opportunities, Research, Fact check, Rights, Script/Hook Studio, Content Kanban) built** — see [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
+Personal local setup, step by step (Italian): [docs/AVVIO-LOCALE.md](docs/AVVIO-LOCALE.md).
 Architecture and decisions: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 Stack: Next.js 16 · TypeScript · Tailwind v4 · shadcn/ui · Supabase (Postgres, Auth, Storage) · Vitest · Playwright.
