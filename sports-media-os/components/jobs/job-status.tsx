@@ -8,6 +8,15 @@ import { Badge } from "@/components/ui/badge";
 import { getJobStatus, type JobStatusView } from "@/lib/jobs/actions";
 
 const TERMINAL = new Set(["completed", "failed", "cancelled"]);
+const DRAIN_EVERY_MS = 15_000;
+let lastDrainAt = 0;
+
+/** Hosted mode has no long-running worker: ask the server to run queued jobs. */
+function kickDrain() {
+  if (Date.now() - lastDrainAt < DRAIN_EVERY_MS) return;
+  lastDrainAt = Date.now();
+  fetch("/api/jobs/drain", { method: "POST" }).catch(() => {});
+}
 
 /**
  * Shows a background job's progress and refreshes the page when it finishes.
@@ -53,6 +62,7 @@ export function JobStatus({
         }
         return;
       }
+      if (next?.status === "pending") kickDrain();
       timer = setTimeout(tick, 2000);
     }
     tick();

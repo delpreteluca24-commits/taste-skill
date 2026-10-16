@@ -6,6 +6,7 @@ describe("isPublicPath", () => {
   it("allows only login and health without a session", () => {
     expect(isPublicPath("/login")).toBe(true);
     expect(isPublicPath("/api/health")).toBe(true);
+    expect(isPublicPath("/api/jobs/drain")).toBe(true);
     expect(isPublicPath("/dashboard")).toBe(false);
     expect(isPublicPath("/")).toBe(false);
     expect(isPublicPath("/loginx")).toBe(false);

@@ -1,5 +1,6 @@
 /** Routes reachable without a session. Everything else requires login. */
-const PUBLIC_PATHS = ["/login", "/api/health"] as const;
+// /api/jobs/drain authenticates itself (session or CRON_SECRET).
+const PUBLIC_PATHS = ["/login", "/api/health", "/api/jobs/drain"] as const;
 
 export function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
