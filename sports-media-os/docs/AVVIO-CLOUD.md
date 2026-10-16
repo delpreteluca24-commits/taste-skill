@@ -8,7 +8,9 @@ Stato al 2026-10-16:
 | Schema database (tutte le migrazioni) | ✅ applicato |
 | Account proprietario `unichornofm@gmail.com` (ruolo owner) | ✅ creato — password iniziale comunicata in chat, cambiala al primo accesso |
 | Worker | ✅ non serve più: i job girano dentro l'app (`/api/jobs/drain`) |
-| Vercel (l'app web) | ⏳ da fare — 10 minuti, passi sotto |
+| Vercel progetto `sports-media-os` (deploy di produzione, URL `https://sports-media-os-delpreteluca24-commits-projects.vercel.app`, protetto da login Vercel) | ✅ online |
+| Variabili Vercel: URL Supabase, publishable key, CRON_SECRET | ✅ impostate |
+| Variabili Vercel: `SUPABASE_SECRET_KEY`, `ANTHROPIC_API_KEY` | ⏳ le inserisci tu (sono segreti che non posso leggere) → poi **Redeploy** |
 
 ## Passi rimasti (li fai tu, una volta sola)
 
