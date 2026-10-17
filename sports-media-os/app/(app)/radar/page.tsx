@@ -79,6 +79,7 @@ export default async function RadarPage(props: PageProps<"/radar">) {
   return (
     <div className="grid gap-4">
       <PageHeader
+        eyebrow="Step 1 · Discover"
         title="Sports Radar"
         description={`${project.name} · stories ranked by radar score: high interest, high curiosity, low or medium competition. Not a news feed.`}
         actions={

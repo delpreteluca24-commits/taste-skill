@@ -10,9 +10,7 @@ export type ModuleKey =
   | "research"
   | "rights"
   | "content"
-  | "clips"
-  | "editor"
-  | "thumbnails"
+  | "studio"
   | "calendar"
   | "analytics"
   | "agents"
@@ -24,50 +22,49 @@ export type ModuleDefinition = {
   label: string;
   description: string;
   milestone: number;
-  group: "operate" | "intel" | "produce" | "distribute" | "system";
+  group: "home" | "discover" | "verify" | "produce" | "publish" | "learn" | "system";
 };
 
 export const MODULES: readonly ModuleDefinition[] = [
-  { key: "dashboard", href: "/dashboard", label: "Dashboard", group: "operate", milestone: 1,
-    description: "Control room: what to make today, what is in production, what is performing." },
-  { key: "radar", href: "/radar", label: "Sports Radar", group: "intel", milestone: 2,
+  { key: "dashboard", href: "/dashboard", label: "Dashboard", group: "home", milestone: 1,
+    description: "Your next best action, what is in production and what is performing." },
+  { key: "radar", href: "/radar", label: "Sports Radar", group: "discover", milestone: 2,
     description: "Sports, events, latest news and emerging stories, ranked by priority." },
-  { key: "trends", href: "/trends", label: "Trends", group: "intel", milestone: 2,
+  { key: "trends", href: "/trends", label: "Trends", group: "discover", milestone: 2,
     description: "Signals normalized from connected sources: Source → Trend → Opportunity." },
-  { key: "opportunities", href: "/opportunities", label: "Opportunities", group: "intel", milestone: 2,
+  { key: "opportunities", href: "/opportunities", label: "Opportunities", group: "discover", milestone: 2,
     description: "Scored content opportunities with why-now, angle, hook and explained score." },
-  { key: "research", href: "/research", label: "Research", group: "intel", milestone: 2,
+  { key: "research", href: "/research", label: "Research", group: "verify", milestone: 2,
     description: "Research workspace per opportunity: sources, claims, timeline, quotes, media, competitors, questions." },
-  { key: "rights", href: "/rights", label: "Rights Center", group: "intel", milestone: 2,
+  { key: "rights", href: "/rights", label: "Rights Center", group: "verify", milestone: 2,
     description: "Rights-first asset classification (GREEN / YELLOW / RED) and usage approvals." },
-  { key: "content", href: "/content", label: "Content", group: "produce", milestone: 2,
+  { key: "content", href: "/content", label: "Pipeline", group: "produce", milestone: 2,
     description: "Kanban from idea to analyzing, with Script Studio and Hook Studio." },
-  { key: "clips", href: "/clips", label: "Clips", group: "produce", milestone: 3,
-    description: "Long-form ingestion, transcription, scene detection and ranked clip candidates." },
-  { key: "editor", href: "/editor", label: "Editor", group: "produce", milestone: 4,
-    description: "Shorts editor: trim, crop, captions, zoom, audio, export." },
-  { key: "thumbnails", href: "/thumbnails", label: "Thumbnails", group: "produce", milestone: 4,
-    description: "Thumbnail concepts and title variants scored for curiosity, clarity and accuracy." },
-  { key: "calendar", href: "/calendar", label: "Calendar", group: "distribute", milestone: 5,
-    description: "Day, week and month planning across YouTube, TikTok and Instagram." },
-  { key: "analytics", href: "/analytics", label: "Analytics", group: "distribute", milestone: 5,
-    description: "Performance vs prediction, winning and losing patterns." },
-  { key: "agents", href: "/agents", label: "Agents", group: "system", milestone: 6,
-    description: "Agent status, runs, tasks, errors and human approvals." },
+  { key: "studio", href: "/studio", label: "Studio", group: "produce", milestone: 5,
+    description: "Production package per piece: script, hook, verified facts, titles, thumbnail brief, export." },
+  { key: "calendar", href: "/calendar", label: "Calendar", group: "publish", milestone: 5,
+    description: "Plan and track publishing across YouTube, TikTok and Instagram." },
+  { key: "analytics", href: "/analytics", label: "Analytics", group: "learn", milestone: 5,
+    description: "Real performance vs predicted score — the learning loop." },
+  { key: "agents", href: "/agents", label: "Agents", group: "learn", milestone: 5,
+    description: "What the AI agents did, what it cost and what failed." },
   { key: "settings", href: "/settings", label: "Settings", group: "system", milestone: 1,
     description: "AI provider, defaults, thresholds, publishing and connections." },
 ] as const;
 
-export const NAV_GROUPS: { key: ModuleDefinition["group"]; label: string }[] = [
-  { key: "operate", label: "Operate" },
-  { key: "intel", label: "Intelligence" },
-  { key: "produce", label: "Production" },
-  { key: "distribute", label: "Distribution" },
+/** Sidebar groups follow the editorial workflow; `step` numbers the path. */
+export const NAV_GROUPS: { key: ModuleDefinition["group"]; label: string; step?: number }[] = [
+  { key: "home", label: "Home" },
+  { key: "discover", label: "Discover", step: 1 },
+  { key: "verify", label: "Verify", step: 2 },
+  { key: "produce", label: "Produce", step: 3 },
+  { key: "publish", label: "Publish", step: 4 },
+  { key: "learn", label: "Learn", step: 5 },
   { key: "system", label: "System" },
 ];
 
 /** Milestone currently delivered — modules above it render their roadmap placeholder. */
-export const CURRENT_MILESTONE = 2;
+export const CURRENT_MILESTONE = 5;
 
 export function getModule(key: ModuleKey): ModuleDefinition {
   const found = MODULES.find((m) => m.key === key);

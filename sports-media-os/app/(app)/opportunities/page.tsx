@@ -57,6 +57,7 @@ export default async function OpportunitiesPage(props: PageProps<"/opportunities
   return (
     <div className="grid gap-4">
       <PageHeader
+        eyebrow="Step 1 · Discover"
         title="Opportunities"
         description={`Scored content opportunities for ${project.name}. Every score explains itself; a person approves before production.`}
       />

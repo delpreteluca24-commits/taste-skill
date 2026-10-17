@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Clapperboard, Eye, Gauge, Layers, Send, Target } from "lucide-react";
 
 import { PageHeader } from "@/components/common/page-header";
+import { NextActionCard } from "@/components/dashboard/next-action-card";
 import { AgentStatusList } from "@/components/dashboard/agent-status-list";
 import { ContentList, OpportunityList, PipelineStrip, TrendList } from "@/components/dashboard/item-lists";
 import { EmptyState, SectionCard } from "@/components/dashboard/section-card";
@@ -11,6 +12,7 @@ import { ViewsChart } from "@/components/dashboard/views-chart";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { requireUser } from "@/lib/auth/dal";
 import { formatCount, formatScore } from "@/lib/dashboard/format";
+import { nextBestAction } from "@/lib/dashboard/next-action";
 import { getDashboard } from "@/lib/dashboard/service";
 import { getActiveProject } from "@/lib/projects/service";
 
@@ -24,11 +26,14 @@ export default async function DashboardPage() {
   const m = d.metrics;
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-5">
       <PageHeader
-        title="Control room"
-        description={`${project.name} · ${d.timezone} · updated ${new Date(d.generated_at).toLocaleTimeString("en-GB", { timeZone: d.timezone, hour: "2-digit", minute: "2-digit" })}`}
+        eyebrow="Control room"
+        title={project.name}
+        description={`${d.timezone} · updated ${new Date(d.generated_at).toLocaleTimeString("en-GB", { timeZone: d.timezone, hour: "2-digit", minute: "2-digit" })}`}
       />
+
+      <NextActionCard action={nextBestAction(d)} />
 
       <section aria-label="Key metrics" className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
         <StatTile label="Views" value={formatCount(m.views)} hint="latest snapshot, all platforms" icon={Eye} />

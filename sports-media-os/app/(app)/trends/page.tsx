@@ -45,6 +45,7 @@ export default async function TrendsPage(props: PageProps<"/trends">) {
   return (
     <div className="grid gap-4">
       <PageHeader
+        eyebrow="Step 1 · Discover"
         title="Trends"
         description={`${project.name} · stories detected from your sources by the Trend Hunter: Source → Trend → Opportunity. Every score explains itself.`}
         actions={

@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MODULES } from "@/lib/navigation";
+import { MODULES, NAV_GROUPS } from "@/lib/navigation";
 
 import { MODULE_ICONS } from "./module-icons";
 
@@ -24,17 +24,20 @@ export function MobileNav() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
-        {MODULES.map((m) => {
-          const Icon = MODULE_ICONS[m.key];
-          return (
-            <DropdownMenuItem key={m.key} asChild>
-              <Link href={m.href}>
-                <Icon />
-                {m.label}
-              </Link>
-            </DropdownMenuItem>
-          );
-        })}
+        {NAV_GROUPS.map((g) =>
+          MODULES.filter((m) => m.group === g.key).map((m, i) => {
+            const Icon = MODULE_ICONS[m.key];
+            return (
+              <DropdownMenuItem key={m.key} asChild className={i === 0 && g.key !== "home" ? "mt-1 border-t pt-2" : undefined}>
+                <Link href={m.href}>
+                  <Icon />
+                  {m.label}
+                  {i === 0 && g.step ? <span className="ml-auto text-[10px] text-muted-foreground uppercase">{g.step} · {g.label}</span> : null}
+                </Link>
+              </DropdownMenuItem>
+            );
+          }),
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

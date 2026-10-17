@@ -29,6 +29,7 @@ export default async function ResearchPage() {
   return (
     <div className="grid gap-4">
       <PageHeader
+        eyebrow="Step 2 · Verify"
         title="Research"
         description={`Research workspaces for ${project.name}: sources, claims, timeline, quotes, media, competitors and open questions per opportunity. A person verifies every critical claim.`}
       />

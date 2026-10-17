@@ -29,6 +29,7 @@ export const JOB_PAYLOAD_SCHEMAS = {
     operation: z.enum(SCRIPT_TRANSFORMS),
     tone: z.string().trim().max(60).optional(),
   }),
+  "studio.package": z.object({ contentItemId: uuid }),
 } as const;
 
 export type JobType = keyof typeof JOB_PAYLOAD_SCHEMAS;
@@ -44,6 +45,7 @@ export const JOB_LABELS: Record<JobType, string> = {
   "script.generate": "Generate scripts",
   "hooks.generate": "Generate hooks",
   "script.transform": "Rewrite script",
+  "studio.package": "Titles & thumbnails",
 };
 
 /** which AI task (→ model) a job uses; jobs without AI are absent */
@@ -55,6 +57,7 @@ export const JOB_AI_TASK: Partial<Record<JobType, AITask>> = {
   "script.generate": "script",
   "hooks.generate": "script",
   "script.transform": "script",
+  "studio.package": "script",
 };
 
 export function isJobType(value: unknown): value is JobType {

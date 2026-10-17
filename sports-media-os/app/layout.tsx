@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Barlow_Condensed, Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const display = Barlow_Condensed({ variable: "--font-barlow", subsets: ["latin"], weight: ["600", "700"] });
 
 export const metadata: Metadata = {
   title: { default: "Sports Media OS", template: "%s · Sports Media OS" },
@@ -13,13 +14,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0b0e",
+  themeColor: "#0b0f1a",
   colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable} ${display.variable} h-full antialiased`}>
       <body className="min-h-full">{children}</body>
     </html>
   );

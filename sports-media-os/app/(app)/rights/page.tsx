@@ -80,6 +80,7 @@ export default async function RightsPage(props: PageProps<"/rights">) {
   return (
     <div className="grid gap-4">
       <PageHeader
+        eyebrow="Step 2 · Verify"
         title="Rights Center"
         description={`Every asset of ${project.name} with its rights classification. Rights belong to assets, never to stories; a person decides GREEN, YELLOW or RED.`}
       />

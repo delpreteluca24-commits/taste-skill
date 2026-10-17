@@ -43,7 +43,7 @@ test("first login → onboarding → control room", async ({ page }, testInfo) =
   }
 
   await expect(page).toHaveURL(/\/dashboard$/);
-  await expect(page.getByRole("heading", { name: "Control room" })).toBeVisible();
+  await expect(page.getByTestId("next-action")).toBeVisible();
   await expect(page.getByText("Football Shorts E2E · Europe/Rome")).toBeVisible();
   await expect(page.getByTestId("stat-tile")).toHaveCount(6);
   for (const section of [
@@ -64,7 +64,7 @@ test("first login → onboarding → control room", async ({ page }, testInfo) =
   await expect(page.getByTestId("agent-status").getByText("Never run")).toHaveCount(13);
 });
 
-test("sidebar navigates to every module; later milestones are labelled honestly", async ({ page }) => {
+test("sidebar navigates to every module, grouped by workflow step", async ({ page }) => {
   await login(page);
   await expect(page).toHaveURL(/\/dashboard$/);
   const nav = page.getByRole("navigation", { name: "Main" });
@@ -76,8 +76,14 @@ test("sidebar navigates to every module; later milestones are labelled honestly"
   await expect(page.getByTestId("detection-strip")).toBeVisible();
   await expect(page.getByText("Scheduled for Milestone 2")).toHaveCount(0);
 
-  await nav.getByRole("link", { name: /Clips/ }).click();
-  await expect(page.getByText("Scheduled for Milestone 3")).toBeVisible();
+  for (const [name, path] of [["Studio", "studio"], ["Calendar", "calendar"], ["Analytics", "analytics"], ["Agents", "agents"]] as const) {
+    await nav.getByRole("link", { name }).click();
+    await expect(page).toHaveURL(new RegExp(`/${path}`));
+    await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
+  }
+  // the old clip/editor routes now lead to Studio
+  await page.goto("/clips");
+  await expect(page).toHaveURL(/\/studio$/);
 });
 
 test("settings persist and are validated server-side", async ({ page }) => {

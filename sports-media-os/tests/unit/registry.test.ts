@@ -30,10 +30,8 @@ describe("navigation", () => {
       "Opportunities",
       "Research",
       "Rights Center",
-      "Content",
-      "Clips",
-      "Editor",
-      "Thumbnails",
+      "Pipeline",
+      "Studio",
       "Calendar",
       "Analytics",
       "Agents",
@@ -47,12 +45,12 @@ describe("navigation", () => {
     expect(activeModuleKey("/projects/new")).toBeNull();
   });
 
-  it("marks later-milestone modules as unavailable", () => {
-    const dashboard = MODULES.find((m) => m.key === "dashboard")!;
-    const clips = MODULES.find((m) => m.key === "clips")!;
-    expect(isModuleAvailable(dashboard)).toBe(true);
-    expect(CURRENT_MILESTONE).toBe(2);
-    expect(isModuleAvailable(clips, CURRENT_MILESTONE)).toBe(false);
-    expect(isModuleAvailable(clips, 3)).toBe(true);
+  it("delivers every module in the current milestone", () => {
+    expect(CURRENT_MILESTONE).toBe(5);
+    for (const m of MODULES) expect(isModuleAvailable(m)).toBe(true);
+  });
+
+  it("orders the workflow steps", () => {
+    expect(NAV_GROUPS.filter((g) => g.step).map((g) => g.label)).toEqual(["Discover", "Verify", "Produce", "Publish", "Learn"]);
   });
 });

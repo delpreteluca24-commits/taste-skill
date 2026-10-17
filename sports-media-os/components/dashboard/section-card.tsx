@@ -19,9 +19,9 @@ export function SectionCard({
   testId?: string;
 }) {
   return (
-    <Card className={cn("gap-3", className)} data-testid={testId}>
+    <Card className={cn("gap-3 bg-card/80 backdrop-blur", className)} data-testid={testId}>
       <CardHeader>
-        <CardTitle className="text-[13px] tracking-tight uppercase">{title}</CardTitle>
+        <CardTitle className="font-display text-base font-bold tracking-wider uppercase">{title}</CardTitle>
         {description ? <CardDescription>{description}</CardDescription> : null}
         {count !== undefined ? (
           <CardAction>

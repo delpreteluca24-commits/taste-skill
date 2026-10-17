@@ -8,6 +8,7 @@ import { handler as factcheck_assist } from "./factcheck-assist";
 import { handler as script_generate } from "./script-generate";
 import { handler as hooks_generate } from "./hooks-generate";
 import { handler as script_transform } from "./script-transform";
+import { handler as studio_package } from "./studio-package";
 
 /** Every job type the worker can run. */
 export const handlers: HandlerMap = {
@@ -19,4 +20,5 @@ export const handlers: HandlerMap = {
   "script.generate": script_generate,
   "hooks.generate": hooks_generate,
   "script.transform": script_transform,
+  "studio.package": studio_package,
 };

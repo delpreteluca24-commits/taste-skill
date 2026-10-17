@@ -27,6 +27,7 @@ export default async function ContentPage() {
   return (
     <div className="grid min-w-0 gap-4">
       <PageHeader
+        eyebrow="Step 3 · Produce"
         title="Content"
         description={`Production pipeline for ${project.name}. Drag cards between stages or use “Move to…”. The database enforces the gates: PRODUCTION needs an approved script, READY needs confirmed critical claims and cleared clips. Moving a card never publishes anything.`}
       />
