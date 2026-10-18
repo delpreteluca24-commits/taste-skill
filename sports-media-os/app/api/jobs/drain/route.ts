@@ -26,6 +26,9 @@ async function drain(request: NextRequest) {
     const { data } = await supabase.auth.getClaims();
     if (!data?.claims?.sub) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
+  if (!process.env.SUPABASE_SECRET_KEY && !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return NextResponse.json({ error: "setup_incomplete", missing: "SUPABASE_SECRET_KEY" }, { status: 503 });
+  }
   const result = await drainJobs(createAdminClient(), handlers, `drain:${crypto.randomUUID()}`, {
     budgetMs: (maxDuration - 60) * 1000,
   });

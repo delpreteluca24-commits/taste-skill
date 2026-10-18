@@ -74,7 +74,7 @@ export function JobStatus({
 
   const status = job?.status ?? "pending";
   const view = {
-    pending: { variant: "outline" as const, icon: Clock, text: "Queued — waiting for the worker" },
+    pending: { variant: "outline" as const, icon: Clock, text: "Queued — starting…" },
     running: { variant: "info" as const, icon: Loader2, text: "Running" },
     completed: { variant: "success" as const, icon: CheckCircle2, text: "Done" },
     failed: { variant: "danger" as const, icon: XCircle, text: "Failed" },
