@@ -23,7 +23,14 @@ export function createAnthropicProvider(opts: AnthropicProviderOptions = {}): AI
   function getClient() {
     if (!client) {
       // SDK retries 429/5xx once; the router then moves to the next model in the chain
-      client = new Anthropic({ apiKey, maxRetries: 1, timeout: opts.timeoutMs ?? 120_000 });
+      // user-level keys (sk-ant-usr-…) are not bound to a workspace: the API needs the workspace id header
+      const workspace = process.env.ANTHROPIC_WORKSPACE_ID?.trim();
+      client = new Anthropic({
+        apiKey,
+        maxRetries: 1,
+        timeout: opts.timeoutMs ?? 120_000,
+        ...(workspace ? { defaultHeaders: { "anthropic-workspace-id": workspace } } : {}),
+      });
     }
     return client;
   }
