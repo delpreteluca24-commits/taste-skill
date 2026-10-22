@@ -171,3 +171,13 @@ describe("matchEvent — link only when obvious", () => {
     expect(matchEvent(cluster, [ev("e1", "Inter vs Juventus")], ref)).toBeNull();
   });
 });
+
+describe("feed boilerplate", () => {
+  it("never becomes an entity or a keyword", async () => {
+    const { extractEntities, keywordsOf } = await import("@/lib/trends/text");
+    const headline = "ATP Lione: Musetti in campo, CLICCA QUI PER AGGIORNARE la DIRETTA";
+    const keys = extractEntities(headline).map((e) => e.key);
+    expect(keys.some((k) => k.includes("clicca") || k.includes("aggiornare"))).toBe(false);
+    expect(keywordsOf("Dove vedere in tv Musetti-Arnaldi: orario, programma, streaming Sky o Dazn")).not.toContain("streaming");
+  });
+});

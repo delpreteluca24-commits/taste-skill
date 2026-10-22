@@ -62,6 +62,10 @@ export const GENERIC_WORDS: ReadonlySet<string> = new Set([
   "giocatori", "allenatore", "tecnico", "tifosi", "oggi", "notizie", "notizia", "ufficiale", "diretta", "risultato",
   "risultati", "giornata", "stagione", "gol", "pagelle", "commento", "foto", "anno", "anni", "settimana", "ora",
   "ultime", "nuovo", "nuova",
+  // feed boilerplate: live blogs, TV guides, calls to action — never the story
+  "clicca", "qui", "aggiornare", "aggiorna", "aggiornamenti", "pagina", "live", "liveblog", "minuto", "tv", "streaming",
+  "orario", "orari", "programma", "vedere", "canale", "sky", "dazn", "rai", "mediaset", "eurosport", "click", "here",
+  "refresh", "tap", "subscribe", "iscriviti", "leggi", "read", "more",
 ]);
 
 /**

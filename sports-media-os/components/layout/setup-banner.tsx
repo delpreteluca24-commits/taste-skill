@@ -25,17 +25,31 @@ const STEPS = [
     where: "Anthropic Console → API Keys → Create key (set a spend limit)",
     href: "https://console.anthropic.com/settings/keys",
   },
+  {
+    env: "ANTHROPIC_WORKSPACE_ID",
+    what: "is required because the Anthropic key is a user-level key (sk-ant-usr-…) not bound to a workspace — or replace it with a workspace key (sk-ant-api03-…)",
+    where: "Anthropic Console → Settings → Workspaces → copy the ID (wrkspc_…)",
+    href: "https://console.anthropic.com/settings/workspaces",
+  },
 ] as const;
 
+function isMissing(env: (typeof STEPS)[number]["env"]): boolean {
+  if (env === "SUPABASE_SECRET_KEY") return !process.env.SUPABASE_SECRET_KEY && !process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (env === "ANTHROPIC_WORKSPACE_ID") {
+    return Boolean(process.env.ANTHROPIC_API_KEY?.startsWith("sk-ant-usr-")) && !process.env.ANTHROPIC_WORKSPACE_ID?.trim();
+  }
+  return !process.env[env];
+}
+
 export function SetupBanner() {
-  const missing = STEPS.filter((s) => !process.env[s.env] && !(s.env === "SUPABASE_SECRET_KEY" && process.env.SUPABASE_SERVICE_ROLE_KEY));
+  const missing = STEPS.filter((s) => isMissing(s.env));
   if (missing.length === 0) return null;
   return (
     <div role="alert" data-testid="setup-banner" className="mb-5 rounded-2xl border border-warning/40 bg-warning/10 p-4 md:p-5">
       <div className="flex items-start gap-3">
         <KeyRound className="mt-0.5 size-5 shrink-0 text-warning" />
         <div className="min-w-0 flex-1">
-          <p className="font-display text-lg font-bold tracking-wide uppercase">Setup incomplete — {missing.length} key{missing.length > 1 ? "s" : ""} missing</p>
+          <p className="font-display text-lg font-bold tracking-wide uppercase">Setup incomplete — {missing.length} setting{missing.length > 1 ? "s" : ""} missing</p>
           <p className="mt-0.5 text-sm text-muted-foreground">
             Until then, searches and AI buttons stay queued. Add each key in Vercel → Project → Settings → Environment Variables, then Redeploy.
           </p>
