@@ -10,11 +10,11 @@
 | Capitale disponibile | €2.000 | 2026-10-22 |
 | Obiettivo | €5.000/mese (ricavi ripetibili, IVA esclusa) | 2026-10-22 |
 | Ore/settimana disponibili | DA CONFERMARE — assunto 20 [A] | 2026-10-22 |
-| Location | Italia — città DA CONFERMARE (città campione del test: La Spezia [A]) | 2026-10-22 |
-| Può già fatturare (P.IVA) | DA CONFERMARE | 2026-10-22 |
-| Regime fiscale | DA CONFERMARE | 2026-10-22 |
+| Location | La Spezia e dintorni (provincia SP + Val di Magra) | 2026-10-22 |
+| Può già fatturare (P.IVA) | NO — primi pilot come prestazione occasionale; aprire P.IVA prima del primo canone mensile (entro G5) | 2026-10-22 |
+| Regime fiscale | forfettario da aprire (5% se requisiti); da chiarire Gestione Separata vs INPS commercianti | 2026-10-22 |
 | Settori esclusi | — | 2026-10-22 |
-| Opportunità attiva | BH-003 (ANALYZING) | 2026-10-22 |
+| Opportunità attiva | BH-003 (ANALYZING → VALIDATING al primo contatto, previsto 23/10) | 2026-10-22 |
 
 ## REGISTRO
 
@@ -41,7 +41,8 @@
 - Fatal assumption: ≥ 1 titolare su 15 conversazioni paga un pilot da €149.
 - Test: 60 studi in 7 giorni con audit competitor personalizzato; gate G1–G2 29/10, G3–G4 5/11, G5 12/11.
 - Risultato: —
-- Decisione: testare (FINAL DECISION del 2026-10-22).
+- Decisione: testare (FINAL DECISION del 2026-10-22). Acquisizione avviata dall'utente il 2026-10-22.
+- Materiale: memory/private/bh-003/ (non versionato) — 125 studi indipendenti censiti (27 tier A, 71 B, 24 C, 3 già forti), 21 audit personalizzati, kit vendita.
 - Motivo del kill: —
 - Clienti (anonimi): —
 - Pricing: setup €290 + €190/mese; pilot €149 per i primi 5 studi.
@@ -77,3 +78,4 @@
 | Data | ID | Gate | Metrica | Valore | Decisione |
 |---|---|---|---|---|---|
 | 2026-10-22 | BH-003 | — | analisi deep completata | Final 7,00 · ROI 5,95 | testare; G1 entro 29/10 |
+| 2026-10-22 | BH-003 | prep G1 | studi censiti / audit pronti | 125 / 21 | prime visite ven 23/10 (10 studi tier A) |

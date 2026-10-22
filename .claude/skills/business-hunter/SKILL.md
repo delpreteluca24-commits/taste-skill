@@ -28,6 +28,7 @@ Percorsi relativi alla directory di questa skill.
 | `templates/*.md` | Quando compili l'output corrispondente (§3). |
 | `memory/opportunities.md` | SEMPRE: lettura all'inizio, aggiornamento alla fine (§12). |
 | `memory/reports/` | Report completi salvati dai run (§4, step 5). |
+| `memory/private/<ID>/` | Materiale operativo con nomi reali (prospect, audit, pipeline). Escluso da git: mai in un repo pubblico. |
 
 **Precedenza:** questo file definisce costanti, pesi, soglie, stati e regole. Gli agenti definiscono solo procedura e formato di output. Se un agente sembra contraddire SKILL.md, vale SKILL.md.
 
@@ -354,6 +355,7 @@ File: `memory/opportunities.md`. Contiene FOUNDER STATE, REGISTRO, SCHEDE, LOG R
 - Campi della scheda: nome, categoria, archetipo, score, ROI Index, data, stato, ipotesi, test, risultato, decisione, motivo del kill, clienti (anonimi), pricing, metriche.
 - Non riproporre KILLED salvo nuovo dato (§4 step 1). Non duplicare: se un'opportunità esiste già, aggiornala.
 - Aggiorna FOUNDER STATE quando l'utente comunica capitale speso, ore disponibili, città o vincoli.
+- Liste prospect, audit e pipeline con nomi reali vanno in `memory/private/<ID>/` (gitignored); in memoria e nei report restano solo numeri aggregati.
 
 ---
 
