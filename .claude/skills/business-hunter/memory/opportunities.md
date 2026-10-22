@@ -1,0 +1,79 @@
+# Business Hunter — Registro opportunità
+
+> Memoria della skill. Letta all'inizio di ogni run, aggiornata alla fine (SKILL.md §12).
+> Non riproporre opportunità KILLED salvo nuovi dati. Non salvare dati personali di prospect o clienti: usa identificativi anonimi.
+
+## FOUNDER STATE
+
+| Campo | Valore | Aggiornato |
+|---|---|---|
+| Capitale disponibile | €2.000 | 2026-10-22 |
+| Obiettivo | €5.000/mese (ricavi ripetibili, IVA esclusa) | 2026-10-22 |
+| Ore/settimana disponibili | DA CONFERMARE — assunto 20 [A] | 2026-10-22 |
+| Location | Italia — città DA CONFERMARE (città campione del test: La Spezia [A]) | 2026-10-22 |
+| Può già fatturare (P.IVA) | DA CONFERMARE | 2026-10-22 |
+| Regime fiscale | DA CONFERMARE | 2026-10-22 |
+| Settori esclusi | — | 2026-10-22 |
+| Opportunità attiva | BH-003 (ANALYZING) | 2026-10-22 |
+
+## REGISTRO
+
+| ID | Nome | Cat. | Archetipo | Score | ROI Idx | Stato | Creato | Aggiornato | Nota / motivo kill |
+|---|---|---|---|---|---|---|---|---|---|
+| BH-001 | Review Engine ristoranti/pizzerie | A | PRODUCTIZED SERVICE | 5,85 | 4,97 | DISCOVERED | 2026-10-22 | 2026-10-22 | WEAK: ristoranti già a 4–10 recensioni/mese; dolore solo con rating 4,0–4,3 |
+| BH-002 | Review Engine centri estetici/parrucchieri | A | PRODUCTIZED SERVICE | 5,75 | 4,89 | DISCOVERED | 2026-10-22 | 2026-10-22 | WEAK: tetto di prezzo €10–34/mese, servono 73 clienti |
+| BH-003 | Reputation Engine privacy-safe per studi dentistici | A | PRODUCTIZED SERVICE | 7,00 | 5,95 | ANALYZING | 2026-10-22 | 2026-10-22 | #1 da testare (BACKUP, confidenza Media) |
+| BH-004 | Review Engine officine e servizi casa | A | PRODUCTIZED SERVICE | 5,95 | 4,17 | DISCOVERED | 2026-10-22 | 2026-10-22 | quick score; spesa esistente bassa |
+| BH-005 | Kit fisico NFC/QR one-off | G | E-COMMERCE | 4,45 | — | KILLED | 2026-10-22 | 2026-10-22 | commodity + policy Google vieta pressione in sede |
+| BH-006 | White-label review engine per web agency | B | MICRO-SAAS | 4,90 | 3,43 | DISCOVERED | 2026-10-22 | 2026-10-22 | quick score; Vendasta/Grade.us, ciclo lungo |
+| BH-007 | Solo risposte AI alle recensioni | C | AI AUTOMATION | 4,70 | — | KILLED | 2026-10-22 | 2026-10-22 | fatal flaw [V]: prezzo di mercato ~€10/mese (Popup €119/anno, Trustindex $29/fonte/anno) |
+| BH-008 | Audit e segnalazione recensioni illecite (L. 34/2026) | J | SERVICE | 5,85 | 4,97 | DISCOVERED | 2026-10-22 | 2026-10-22 | esito deciso dalla piattaforma; usare come hook per BH-001 |
+| BH-009 | Gestione completa Google Business Profile | E | AGENCY | 5,80 | 4,93 | DISCOVERED | 2026-10-22 | 2026-10-22 | quick score; commodity con spesa esistente provata |
+| BH-010 | Kit compliance L. 34/2026 per esercenti | J | INFO PRODUCT | 4,25 | — | KILLED | 2026-10-22 | 2026-10-22 | nessun obbligo/sanzione diretta per l'esercente → WTP bassa, one-off |
+
+## SCHEDE
+
+### BH-003 — Reputation Engine privacy-safe per studi dentistici
+- Categoria / archetipo: A Local B2B · AGENCY → parti come PRODUCTIZED SERVICE
+- Score / ROI Index / confidenza: 7,00 / 5,95 / Media
+- Stato: ANALYZING (dal 2026-10-22)
+- Ipotesi: studi con < 80 recensioni vicini a catene/leader pagano €190/mese per un processo costante di recensioni e risposte senza gestire dati dei pazienti.
+- Fatal assumption: ≥ 1 titolare su 15 conversazioni paga un pilot da €149.
+- Test: 60 studi in 7 giorni con audit competitor personalizzato; gate G1–G2 29/10, G3–G4 5/11, G5 12/11.
+- Risultato: —
+- Decisione: testare (FINAL DECISION del 2026-10-22).
+- Motivo del kill: —
+- Clienti (anonimi): —
+- Pricing: setup €290 + €190/mese; pilot €149 per i primi 5 studi.
+- Metriche: —
+- Varianti se G3 fallisce: veterinari, fisioterapisti.
+- Report: memory/reports/2026-10-22-deep-recensioni-google-attivita-locali.md
+
+### BH-001 — Review Engine ristoranti/pizzerie
+- Categoria / archetipo: A Local B2B · PRODUCTIZED SERVICE
+- Score / ROI Index / confidenza: 5,85 / 4,97 / Media
+- Stato: DISCOVERED (dal 2026-10-22)
+- Ipotesi: ristoranti con rating 4,0–4,3 pagano €99/mese per alzare il rating senza incentivi.
+- Fatal assumption: la fascia 4,0–4,3 (5% del campione di La Spezia) è abbastanza grande e paga.
+- Pricing: €99/mese + €149 setup.
+- Nota: candidata se BH-003 fallisce, con hook BH-008 (audit L. 34/2026).
+- Report: memory/reports/2026-10-22-deep-recensioni-google-attivita-locali.md
+
+### BH-002 — Review Engine centri estetici/parrucchieri
+- Categoria / archetipo: A Local B2B · PRODUCTIZED SERVICE
+- Score / ROI Index / confidenza: 5,75 / 4,89 / Media
+- Stato: DISCOVERED (dal 2026-10-22)
+- Ipotesi: centri con poche recensioni pagano ≥ €69/mese.
+- Fatal assumption: il budget del settore supera il tetto fissato da Popup (€119/anno) e dai gestionali (€34/mese).
+- Pricing: €69/mese + €99 setup.
+- Report: memory/reports/2026-10-22-deep-recensioni-google-attivita-locali.md
+
+### BH-007 — Solo risposte AI alle recensioni
+- Stato: KILLED (dal 2026-10-22)
+- Motivo del kill: prezzo di mercato ~€10/mese per attività singola [V]. Riaprire solo con evidenza di WTP ≥ €50/mese (es. catene multi-sede, hotel).
+
+## LOG RISULTATI
+
+| Data | ID | Gate | Metrica | Valore | Decisione |
+|---|---|---|---|---|---|
+| 2026-10-22 | BH-003 | — | analisi deep completata | Final 7,00 · ROI 5,95 | testare; G1 entro 29/10 |
