@@ -62,3 +62,12 @@ Prezzi, setup e percentuali sono in un solo posto ciascuno:
 - voci setup (totale calcolato automaticamente): `slides/S08Setup.tsx`
 - modello 80/20 → 40/60: `MODEL` in `slides/S11Revenue.tsx` (le slide 12, 13 e 14 si ricalcolano da qui)
 - costi degli extra: `slides/S13Extras.tsx`. Regola proposta: i costi vivi documentati degli extra (drink, cioccolatini, decorazioni, aperitivo) si detraggono dall'incasso prima della ripartizione. Il costo di €10 nell'esempio è un'ipotesi: va sostituito con il costo reale concordato.
+
+## Reel 20 secondi (video/)
+
+`video/out/love-escape-reel.mp4`: reel verticale 1080×1920, 30 fps, 20 s, H.264 + AAC, sottotitoli già impressi nel video. Pronto per Instagram Reels, TikTok e YouTube Shorts. `video/out/love-escape-reel.srt` contiene gli stessi sottotitoli come file separato.
+
+- Animazione: `video/index.html` (funzione `render(t)` deterministica, apribile nel browser: `index.html#9.5` mostra il frame a 9,5 s).
+- Musica: sintetizzata nel browser (`renderAudio()`), 96 BPM, nessun diritto d'autore di terzi; i tagli cadono a tempo.
+- Rigenerare: `cd video && node render.mjs` (richiede Playwright e ffmpeg). Anteprime: `node render.mjs --preview 1,5,9`.
+- Immagini: `video/img/` (camera1, camera2, brindisi: generate con AI). Sostituiscile con le foto reali delle due camere mantenendo il nome.
