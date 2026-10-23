@@ -9,6 +9,7 @@ import { toUserMessage } from "@/lib/db/errors";
 import { enqueueJob } from "@/lib/jobs/enqueue";
 import { logger } from "@/lib/logger";
 import { getActiveProject } from "@/lib/projects/service";
+import { scoreHook } from "@/lib/scoring/hook";
 import { createClient } from "@/lib/supabase/server";
 
 /** Studio, Calendar and Analytics actions: requireUser → zod → project → RLS write → revalidate. */
@@ -51,6 +52,35 @@ export async function selectTitleAction(titleId: string): Promise<ActionResult> 
   if (error) return fail(toUserMessage(error, "Could not select the title."));
   refresh();
   return ok(undefined, "Title selected.");
+}
+
+const manualSchema = z.object({
+  contentItemId: uuid,
+  kind: z.enum(["title", "thumbnail"]),
+  text: z.string().trim().min(3, "Write at least 3 characters").max(200, "Keep it under 200 characters"),
+});
+
+/**
+ * Manual title or thumbnail headline, so the Studio works without AI too. A
+ * typed title becomes the selected one (the DB keeps one per piece) and gets
+ * the same heuristic score as a hook.
+ */
+export async function addManualPackageAction(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const ctx = await activeContext();
+  if (!ctx) return fail("Create or select a project first.");
+  const parsed = manualSchema.safeParse({ contentItemId: formData.get("contentItemId"), kind: formData.get("kind"), text: formData.get("text") });
+  if (!parsed.success) return fail(parsed.error.issues[0]?.message ?? "Invalid input.");
+  const { contentItemId, kind, text } = parsed.data;
+  const { data: item } = await ctx.db.from("content_items").select("id").eq("id", contentItemId).eq("project_id", ctx.project.id).maybeSingle();
+  if (!item) return fail("Content not found.");
+  const base = { project_id: ctx.project.id, content_item_id: contentItemId, provider: "manual" };
+  const { error } =
+    kind === "title"
+      ? await ctx.db.from("titles").insert({ ...base, text, overall_score: scoreHook(text).score, is_selected: true })
+      : await ctx.db.from("thumbnails").insert({ ...base, headline: text.slice(0, 120) });
+  if (error) return fail(toUserMessage(error, "Could not save it."));
+  refresh();
+  return ok(undefined, kind === "title" ? "Title added and selected." : "Thumbnail headline added.");
 }
 
 const scheduleSchema = z.object({

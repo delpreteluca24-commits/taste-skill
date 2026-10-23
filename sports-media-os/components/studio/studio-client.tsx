@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { Check, Copy, Download, Sparkles } from "lucide-react";
+import { useActionState, useEffect, useRef, useState, useTransition } from "react";
+import { Check, Copy, Download, Plus, Sparkles } from "lucide-react";
 
+import { FormMessage } from "@/components/common/form-feedback";
 import { JobStatus } from "@/components/jobs/job-status";
 import { Button } from "@/components/ui/button";
-import { generatePackageAction, selectTitleAction } from "@/lib/publishing/actions";
+import { Input } from "@/components/ui/input";
+import { addManualPackageAction, generatePackageAction, selectTitleAction } from "@/lib/publishing/actions";
 import { cn } from "@/lib/utils";
 
 export function GeneratePackageButton({ contentItemId, hasPackage, disabledReason }: { contentItemId: string; hasPackage: boolean; disabledReason?: string }) {
@@ -85,5 +87,28 @@ export function PackageExport({ markdown, filename }: { markdown: string; filena
         {copied ? <Check /> : <Copy />} {copied ? "Copied" : "Copy"}
       </Button>
     </div>
+  );
+}
+
+/** Write your own title / thumbnail headline (works without AI). */
+export function ManualPackageForm({ contentItemId, kind }: { contentItemId: string; kind: "title" | "thumbnail" }) {
+  const [state, action, pending] = useActionState(addManualPackageAction, null);
+  const form = useRef<HTMLFormElement>(null);
+  useEffect(() => {
+    if (state?.ok) form.current?.reset();
+  }, [state]);
+  const label = kind === "title" ? "Your own title" : "Your own thumbnail headline";
+  return (
+    <form ref={form} action={action} className="grid gap-1.5">
+      <input type="hidden" name="contentItemId" value={contentItemId} />
+      <input type="hidden" name="kind" value={kind} />
+      <div className="flex gap-2">
+        <Input name="text" aria-label={label} placeholder={`${label}…`} maxLength={kind === "title" ? 200 : 120} required />
+        <Button type="submit" size="sm" variant="outline" disabled={pending}>
+          <Plus /> Add
+        </Button>
+      </div>
+      <FormMessage state={state} />
+    </form>
   );
 }

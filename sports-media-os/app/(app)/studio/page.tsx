@@ -6,8 +6,9 @@ import { AlertTriangle, ArrowRight, Clapperboard, ExternalLink, FileText, ImageI
 import { PageHeader } from "@/components/common/page-header";
 import { StageBadge } from "@/components/content/badges";
 import { EmptyState, SectionCard } from "@/components/dashboard/section-card";
-import { GeneratePackageButton, PackageExport, TitleOption } from "@/components/studio/studio-client";
+import { GeneratePackageButton, ManualPackageForm, PackageExport, TitleOption } from "@/components/studio/studio-client";
 import { Button } from "@/components/ui/button";
+import { aiReady } from "@/lib/ai/ready";
 import { requireUser } from "@/lib/auth/dal";
 import type { ContentStage } from "@/lib/content/stages";
 import { getActiveProject } from "@/lib/projects/service";
@@ -133,10 +134,11 @@ export default async function StudioPage(props: PageProps<"/studio">) {
                     {pkg.titles.length ? pkg.titles.slice(0, 8).map((t) => <TitleOption key={t.id} id={t.id} text={t.text} score={t.overall_score} selected={t.is_selected} />) : (
                       <EmptyState><Type className="mx-auto mb-2 size-5" />No titles yet.</EmptyState>
                     )}
+                    <ManualPackageForm contentItemId={pkg.item.id} kind="title" />
                     <GeneratePackageButton
                       contentItemId={pkg.item.id}
                       hasPackage={pkg.titles.length > 0}
-                      disabledReason={pkg.item.story_id ? (pkg.facts.length ? undefined : "Add at least one fact in Research first.") : "Create the story in the Pipeline first."}
+                      disabledReason={!aiReady() ? "AI is off: write your own title above (see the setup banner to turn AI on)." : pkg.item.story_id ? (pkg.facts.length ? undefined : "Add at least one fact in Research first.") : "Create the story in the Pipeline first."}
                     />
                   </div>
                 </SectionCard>
@@ -150,16 +152,19 @@ export default async function StudioPage(props: PageProps<"/studio">) {
                             <p className="px-4 text-center font-display text-3xl font-bold tracking-wide uppercase">{t.headline}</p>
                           </div>
                           <dl className="mt-2 grid gap-1 text-xs text-muted-foreground">
-                            <div><dt className="inline font-medium text-foreground">Visual: </dt><dd className="inline">{t.visual_concept}</dd></div>
-                            <div><dt className="inline font-medium text-foreground">Emotion: </dt><dd className="inline">{t.emotion} · {t.contrast}</dd></div>
-                            <div><dt className="inline font-medium text-foreground">Image prompt: </dt><dd className="inline">{t.image_prompt}</dd></div>
+                            {t.visual_concept ? <div><dt className="inline font-medium text-foreground">Visual: </dt><dd className="inline">{t.visual_concept}</dd></div> : null}
+                            {t.emotion || t.contrast ? <div><dt className="inline font-medium text-foreground">Emotion: </dt><dd className="inline">{[t.emotion, t.contrast].filter(Boolean).join(" · ")}</dd></div> : null}
+                            {t.image_prompt ? <div><dt className="inline font-medium text-foreground">Image prompt: </dt><dd className="inline">{t.image_prompt}</dd></div> : null}
                           </dl>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <EmptyState><ImageIcon className="mx-auto mb-2 size-5" />Generated together with the titles.</EmptyState>
+                    <EmptyState><ImageIcon className="mx-auto mb-2 size-5" />Generated together with the titles, or write your own below.</EmptyState>
                   )}
+                  <div className="mt-3">
+                    <ManualPackageForm contentItemId={pkg.item.id} kind="thumbnail" />
+                  </div>
                 </SectionCard>
               </div>
 
