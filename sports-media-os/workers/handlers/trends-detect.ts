@@ -15,7 +15,7 @@ const MAX_SWEET_SPOT_ACTIVITY = 10;
  */
 export const AUTO_PROMOTE = { minRadarScore: 50, perRun: 5, perDay: 10, freshHours: 48 } as const;
 
-async function promoteTopTrends(ctx: JobContext): Promise<string[]> {
+export async function promoteTopTrends(ctx: Pick<JobContext, "db" | "projectId" | "activity">): Promise<string[]> {
   const since = new Date(Date.now() - AUTO_PROMOTE.freshHours * 3600_000).toISOString();
   const dayStart = new Date(Date.now() - 24 * 3600_000).toISOString();
   const [{ data: candidates }, { count: today }, { data: taken }] = await Promise.all([
