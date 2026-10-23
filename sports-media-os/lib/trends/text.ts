@@ -66,6 +66,9 @@ export const GENERIC_WORDS: ReadonlySet<string> = new Set([
   "clicca", "qui", "aggiornare", "aggiorna", "aggiornamenti", "pagina", "live", "liveblog", "minuto", "tv", "streaming",
   "orario", "orari", "programma", "vedere", "canale", "sky", "dazn", "rai", "mediaset", "eurosport", "click", "here",
   "refresh", "tap", "subscribe", "iscriviti", "leggi", "read", "more",
+  // en column / betting filler
+  "matchup", "matchups", "bottom", "rankings", "ranking", "takeaways", "picks", "pick", "odds", "predictions",
+  "prediction", "betting", "bets", "fantasy", "mailbag", "grades", "power", "lines", "spread", "props",
 ]);
 
 /**

@@ -1,10 +1,66 @@
+import { createFromTrend } from "@/lib/opportunities/service";
 import { detectionRunningAhead, detectTrends } from "@/lib/trends/service";
 import type { Json } from "@/types/database";
 
-import { defineHandler } from "../context";
+import { defineHandler, type JobContext } from "../context";
 
 /** at most this many "new sweet spot" entries per run in the activity log */
 const MAX_SWEET_SPOT_ACTIVITY = 10;
+
+/**
+ * Auto-promotion: after each detection the strongest fresh trends become
+ * scored opportunities (heuristic score, no AI needed), so the Opportunities
+ * list fills itself every day. Bounded per run and per day; a trend that
+ * already has an open (or rejected) opportunity is never promoted again.
+ */
+export const AUTO_PROMOTE = { minRadarScore: 50, perRun: 5, perDay: 10, freshHours: 48 } as const;
+
+async function promoteTopTrends(ctx: JobContext): Promise<string[]> {
+  const since = new Date(Date.now() - AUTO_PROMOTE.freshHours * 3600_000).toISOString();
+  const dayStart = new Date(Date.now() - 24 * 3600_000).toISOString();
+  const [{ data: candidates }, { count: today }, { data: taken }] = await Promise.all([
+    ctx.db
+      .from("trends")
+      .select("id, title, radar_score")
+      .eq("project_id", ctx.projectId)
+      .in("status", ["emerging", "rising", "peaking"])
+      .gte("last_seen_at", since)
+      .gte("radar_score", AUTO_PROMOTE.minRadarScore)
+      .order("radar_score", { ascending: false })
+      .limit(30),
+    ctx.db
+      .from("opportunities")
+      .select("id", { count: "exact", head: true })
+      .eq("project_id", ctx.projectId)
+      .gte("created_at", dayStart)
+      .contains("metadata", { auto_promoted: true }),
+    ctx.db.from("opportunities").select("trend_id").eq("project_id", ctx.projectId).not("trend_id", "is", null),
+  ]);
+  const used = new Set((taken ?? []).map((o) => o.trend_id));
+  const budget = Math.max(0, Math.min(AUTO_PROMOTE.perRun, AUTO_PROMOTE.perDay - (today ?? 0)));
+  const picked = (candidates ?? []).filter((t) => !used.has(t.id)).slice(0, budget);
+
+  const created: string[] = [];
+  for (const t of picked) {
+    const res = await createFromTrend(ctx.db, { projectId: ctx.projectId, trendId: t.id, userId: null });
+    if (res.error || res.data.existing) continue;
+    await ctx.db
+      .from("opportunities")
+      .update({ metadata: { created_from: "trend", trend_radar_score: t.radar_score, auto_promoted: true } })
+      .eq("id", res.data.id)
+      .eq("project_id", ctx.projectId);
+    created.push(res.data.id);
+    await ctx.activity({
+      agent: "trend_hunter",
+      action: "opportunity.auto_created",
+      entityType: "opportunity",
+      entityId: res.data.id,
+      status: "info",
+      metadata: { title: t.title, radarScore: t.radar_score },
+    });
+  }
+  return created;
+}
 
 /**
  * trends.detect — Trend Hunter for the job's project: signals → clustering →
@@ -70,7 +126,9 @@ export const handler = defineHandler({
       }
       ctx.log("trends.detected", { ...summary, ai: result.ai.status });
 
-      return { result: summary as unknown as Json, output: summary as unknown as Json };
+      const promoted = await promoteTopTrends(ctx);
+      const out = { ...summary, opportunitiesCreated: promoted.length };
+      return { result: out as unknown as Json, output: out as unknown as Json };
     });
   },
 });
