@@ -9,7 +9,7 @@
 |---|---|---|
 | Capitale disponibile | €2.000 | 2026-10-22 |
 | Obiettivo | €5.000/mese (ricavi ripetibili, IVA esclusa) | 2026-10-22 |
-| Ore/settimana disponibili | DA CONFERMARE — assunto 20 [A] | 2026-10-22 |
+| Ore/settimana disponibili | 10 | 2026-10-23 |
 | Location | La Spezia e dintorni (provincia SP + Val di Magra) | 2026-10-22 |
 | Può già fatturare (P.IVA) | NO — primi pilot come prestazione occasionale; aprire P.IVA prima del primo canone mensile (entro G5) | 2026-10-22 |
 | Regime fiscale | forfettario da aprire (5% se requisiti); da chiarire Gestione Separata vs INPS commercianti | 2026-10-22 |
@@ -45,7 +45,10 @@
 - Materiale: memory/private/bh-003/ (non versionato) — 125 studi indipendenti censiti (27 tier A, 71 B, 24 C, 3 già forti), 21 audit personalizzati, kit vendita.
 - Motivo del kill: —
 - Clienti (anonimi): —
-- Pricing: setup €290 + €190/mese; pilot €149 per i primi 5 studi.
+- Pricing (rivisto 2026-10-23): ingresso Sistemazione Google €100 · card NFC €20 / espositore €35 / kit €50 · sito €690 + €19/mese · pacchetto €790 · gestione €90/mese. Social escluso per ora.
+- Ipotesi aggiunta: il sito con anteprima gratuita è la leva di ricavo/ora più alta (17 studi su 27 del Tier A senza sito valido).
+- Canale: visita di persona con deck e card NFC programmata; email solo dopo consenso (art. 130 Codice Privacy).
+- Gate a 10 h/settimana: G1–G2 6/11 · G3–G4 13/11 · G5 20/11. €5k/mese stimati a 9–12 mesi con 10 h [E].
 - Metriche: —
 - Varianti se G3 fallisce: veterinari, fisioterapisti.
 - Report: memory/reports/2026-10-22-deep-recensioni-google-attivita-locali.md
@@ -79,3 +82,4 @@
 |---|---|---|---|---|---|
 | 2026-10-22 | BH-003 | — | analisi deep completata | Final 7,00 · ROI 5,95 | testare; G1 entro 29/10 |
 | 2026-10-22 | BH-003 | prep G1 | studi censiti / audit pronti | 125 / 21 | prime visite ven 23/10 (10 studi tier A) |
+| 2026-10-23 | BH-003 | prep G1 | deck personalizzati / anteprime sito | 27 / 17 | offerta a scala; ore ridotte a 10; gate spostati |
