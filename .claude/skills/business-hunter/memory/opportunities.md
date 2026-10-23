@@ -83,3 +83,4 @@
 | 2026-10-22 | BH-003 | — | analisi deep completata | Final 7,00 · ROI 5,95 | testare; G1 entro 29/10 |
 | 2026-10-22 | BH-003 | prep G1 | studi censiti / audit pronti | 125 / 21 | prime visite ven 23/10 (10 studi tier A) |
 | 2026-10-23 | BH-003 | prep G1 | deck personalizzati / anteprime sito | 27 / 17 | offerta a scala; ore ridotte a 10; gate spostati |
+| 2026-10-23 | BH-003 | prep G1 | bozze email v3 in Gmail / lettere stampabili | 7 / 27 | invio dal founder con immagine della card; controllo risposte ogni ora (lun–sab 8–20) fino al 21/11 |
