@@ -18,6 +18,7 @@ import {
 } from "./estimate";
 import { escapeLike, type ManualOpportunityInput, type OpportunityFields, type OpportunityFilters } from "./schema";
 import { applyManual, buildScoreColumns, clearComponent, mergeHeuristics, readRow } from "./scoring";
+import { opportunityTitle } from "./title";
 
 /**
  * Opportunity Engine — DB logic. Every function takes the DB client first, so
@@ -319,7 +320,7 @@ export async function createFromTrend(
           trend_id: trend.id,
           sport_id: trend.sport_id,
           event_id: trend.event_id,
-          title: trend.title,
+          title: opportunityTitle(trend.title, sourceRows[0]?.title ?? null),
           description: trend.description,
           why_now: buildWhyNow({ trend: facts, event: toEventFacts(event), now }),
           competition: event?.competition ?? null,
