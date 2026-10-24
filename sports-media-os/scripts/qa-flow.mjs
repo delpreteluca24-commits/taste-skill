@@ -2,18 +2,29 @@
  * Unattended end-to-end flow on a throwaway account: onboarding → manual
  * opportunity → approval → production → hand-written script → approval →
  * READY → Studio (own title + thumbnail) → Calendar (schedule, publish) →
- * Analytics (metrics). Each step records what the page said; the report and
- * JPEG screenshots land in /tmp/qa (read them from outside the box).
+ * Analytics (metrics). Each step records what the page said; every step and
+ * its JPEG screenshot is stored in public.qa_runs / public.qa_shots as the QA
+ * user itself (temporary insert policies), so results survive the box.
  *
- *   BASE=http://localhost:3000 QA_EMAIL=… QA_PASSWORD=… node scripts/qa-flow.mjs
+ *   BASE=http://localhost:3000 QA_EMAIL=… QA_PASSWORD=… NEXT_PUBLIC_SUPABASE_URL=… \
+ *   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=… node scripts/qa-flow.mjs
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 
 import { chromium } from "@playwright/test";
+import { createClient } from "@supabase/supabase-js";
 
 const BASE = process.env.BASE ?? "http://localhost:3000";
 const OUT = "/tmp/qa";
+const RUN = `flow-${new Date().toISOString().slice(0, 16)}`;
 mkdirSync(OUT, { recursive: true });
+const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
+const signIn = await db.auth.signInWithPassword({ email: process.env.QA_EMAIL ?? "", password: process.env.QA_PASSWORD ?? "" });
+const save = async (table, row) => {
+  const { error } = await db.from(table).insert(row);
+  if (error) console.log(`save ${table} failed: ${error.message}`);
+};
+await save("qa_runs", { kind: `${RUN}:start`, report: { signIn: signIn.error?.message ?? "ok" } });
 
 const browser = await chromium.launch();
 const context = await browser.newContext({ viewport: { width: 1366, height: 900 }, acceptDownloads: true });
@@ -49,7 +60,12 @@ async function step(name, fn) {
   s.feedback = await feedback();
   s.errors = errors.slice(before);
   const shot = await page.screenshot({ type: "jpeg", quality: 50, fullPage: true }).catch(() => null);
-  if (shot) writeFileSync(`${OUT}/${String(s.n).padStart(2, "0")}-${name.replace(/\W+/g, "_")}.jpg`, shot);
+  const shotName = `${String(s.n).padStart(2, "0")}-${name.replace(/\W+/g, "_")}`;
+  if (shot) {
+    writeFileSync(`${OUT}/${shotName}.jpg`, shot);
+    await save("qa_shots", { run_kind: RUN, name: shotName, jpeg_b64: shot.toString("base64") });
+  }
+  await save("qa_runs", { kind: `${RUN}:${shotName}`, report: s });
   report.steps.push(s);
   writeFileSync(`${OUT}/flow.json`, JSON.stringify(report, null, 2));
   return s.ok;
@@ -213,6 +229,7 @@ try {
 } finally {
   report.finishedAt = new Date().toISOString();
   writeFileSync(`${OUT}/flow.json`, JSON.stringify(report, null, 2));
+  await save("qa_runs", { kind: `${RUN}:done`, report: { fatal: report.fatal ?? null, ok: report.steps.filter((x) => x.ok).length, total: report.steps.length } });
   console.log(`FLOW DONE ${report.steps.filter((s) => s.ok).length}/${report.steps.length} ok`);
   await browser.close();
 }
