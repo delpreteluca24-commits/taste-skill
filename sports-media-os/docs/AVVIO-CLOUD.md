@@ -1,6 +1,6 @@
 # Avvio in cloud (senza PC acceso)
 
-Stato al 2026-10-16:
+Stato al 2026-10-24:
 
 | Pezzo | Stato |
 |---|---|
@@ -10,7 +10,10 @@ Stato al 2026-10-16:
 | Worker | ✅ non serve più: i job girano dentro l'app (`/api/jobs/drain`) |
 | Vercel progetto `sports-media-os` (deploy di produzione, URL `https://sports-media-os-delpreteluca24-commits-projects.vercel.app`, protetto da login Vercel) | ✅ online |
 | Variabili Vercel: URL Supabase, publishable key, CRON_SECRET | ✅ impostate |
-| Variabili Vercel: `SUPABASE_SECRET_KEY`, `ANTHROPIC_API_KEY` | ⏳ le inserisci tu (sono segreti che non posso leggere) → poi **Redeploy** |
+| Variabili Vercel: `SUPABASE_SECRET_KEY`, `ANTHROPIC_API_KEY` | ✅ impostate |
+| AI attiva | ⏳ la chiave Anthropic è di tipo utente (`sk-ant-usr-…`): serve `ANTHROPIC_WORKSPACE_ID` (`wrkspc_…`) **oppure** una chiave di workspace `sk-ant-api03-…` → poi **Redeploy**. Il banner in alto nell'app lo segnala finché manca |
+| Ricerca automatica | ✅ ogni giorno alle 06:00 UTC (e a ogni apertura dell'app): fonti → trend → fino a 10 opportunità/giorno create da sole |
+| Senza AI | ✅ tutto usabile a mano: punteggi euristici, script a mano, hook e titoli scritti da te, miniatura (titolo) scritta da te |
 
 ## Passi rimasti (li fai tu, una volta sola)
 
