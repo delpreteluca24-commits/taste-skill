@@ -1,0 +1,37 @@
+# Read-only CEO report. Cannot spend money, generate or publish.
+name: daily-orchestrator
+on:
+  schedule: [{cron: "0 6 * * *"}]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: read
+concurrency: {group: daily-orchestrator, cancel-in-progress: true}
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Emergency stop check
+        run: |
+          if grep -Eq '^EMERGENCY_STOP:\s*true' 08_AUTOMATION/configs/autonomy.yml; then
+            echo "::warning::EMERGENCY_STOP active - skipping"; echo "STOP=1" >> "$GITHUB_ENV"; fi
+      - name: Build CEO report
+        if: env.STOP != '1'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = await github.paginate(github.rest.issues.listForRepo, {...context.repo, state: 'open', per_page: 100});
+            const open = issues.filter(i => !i.pull_request);
+            const has = (i, l) => i.labels.some(x => (x.name || x) === l);
+            const staleDays = 7, now = Date.now();
+            const blocked = open.filter(i => has(i, 'status:blocked'));
+            const stale = open.filter(i => has(i, 'status:running') && (now - new Date(i.updated_at)) / 864e5 > staleDays);
+            const review = open.filter(i => has(i, 'status:review'));
+            const incidents = open.filter(i => has(i, 'incident'));
+            const fmt = a => a.length ? a.map(i => `- #${i.number} ${i.title}`).join('\n') : '- none';
+            await core.summary.addRaw(`# CEO DAILY REPORT ${new Date().toISOString().slice(0,10)}\n\n` +
+              `## INCIDENTS\n${fmt(incidents)}\n\n## BLOCKERS\n${fmt(blocked)}\n\n` +
+              `## STALE (running > ${staleDays}d)\n${fmt(stale)}\n\n## AWAITING REVIEW / FOUNDER\n${fmt(review)}\n\n` +
+              `Open issues: ${open.length}\n`).write();

@@ -1,0 +1,35 @@
+{
+  "status": "ok",
+  "data": {
+    "articles": [
+      {
+        "headline": "Basketball: Example City Comets extend winning run to nine",
+        "links": { "web": "https://hoops.example.com/news/comets-nine-straight?utm_campaign=api&ref=home" },
+        "published": "2026-10-07T23:10:00Z",
+        "standfirst": "<p>The Comets beat the Harbour Hawks 112&ndash;104 behind a 38-point night.</p>",
+        "byline": "By Casey Analyst"
+      },
+      {
+        "headline": "Hawks guard ruled out with ankle sprain",
+        "links": { "web": "/news/hawks-guard-ankle" },
+        "published": 1791500000,
+        "standfirst": "Expected to miss two weeks.",
+        "byline": "newsdesk@hoops.example.com"
+      },
+      {
+        "headline": "Item without a link",
+        "links": {},
+        "standfirst": "Skipped: no URL."
+      },
+      {
+        "headline": "Item with a non-http link",
+        "links": { "web": "ftp://hoops.example.com/file" }
+      },
+      {
+        "links": { "web": "https://hoops.example.com/news/untitled" },
+        "standfirst": "Summary-only item is kept with a null title."
+      },
+      null
+    ]
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "fixture": true,
+  "notice": "FIXTURE DATA for scripts/ai-benchmark.mts. Every team, league, person, publisher, number and event below is INVENTED and clearly fictional (example.test URLs, '(fixture)' publishers). Not real news, not copyrighted text. Never use as facts.",
+  "task": "fact_check",
+  "cases": [
+    {
+      "id": "factcheck-01-supported",
+      "description": "Claim stated explicitly by one source: expect confirmed",
+      "input": {
+        "claim": { "text": "Harbor City Gulls won 2-1 at Northvale Rovers.", "isCritical": true },
+        "sources": [
+          {
+            "id": "00000000-0000-4000-d000-000000000101",
+            "title": "Gulls end Rovers' unbeaten run with late winner",
+            "publisher": "Example Sports Wire (fixture)",
+            "url": "https://example.test/fixture/wire/gulls-end-run",
+            "summary": "Harbor City Gulls won 2-1 at Northvale Rovers on 4 October.",
+            "relation": "supports",
+            "excerpt": "Harbor City Gulls won 2-1 at Northvale Rovers",
+            "locator": "paragraph 1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "factcheck-02-partial",
+      "description": "Number differs slightly between claim and source: expect probable or uncertain, not confirmed",
+      "input": {
+        "claim": { "text": "Northvale Rovers were unbeaten in their first 12 league matches.", "isCritical": true },
+        "sources": [
+          {
+            "id": "00000000-0000-4000-d000-000000000201",
+            "title": "Gulls end Rovers' unbeaten run with late winner",
+            "publisher": "Example Sports Wire (fixture)",
+            "url": "https://example.test/fixture/wire/gulls-end-run",
+            "summary": "Rovers had been unbeaten in their first 11 league matches.",
+            "relation": "supports",
+            "excerpt": "unbeaten in their first 11 league matches",
+            "locator": "paragraph 2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "factcheck-03-contradicted",
+      "description": "Sources contradict each other on a transfer: expect uncertain",
+      "input": {
+        "claim": { "text": "Port Amberly Sharks have held talks with Mara Quillon's agent.", "isCritical": true },
+        "sources": [
+          {
+            "id": "00000000-0000-4000-d000-000000000301",
+            "title": "Sharks in early talks over Gulls striker Quillon, sources say",
+            "publisher": "Example Sports Wire (fixture)",
+            "url": "https://example.test/fixture/wire/sharks-quillon-talks",
+            "summary": "Unnamed sources say the Sharks have held early talks with Quillon's agent.",
+            "relation": "supports",
+            "excerpt": "held early talks with Quillon's agent",
+            "locator": null
+          },
+          {
+            "id": "00000000-0000-4000-d000-000000000302",
+            "title": "Port Amberly Sharks deny contact with Mara Quillon's agent",
+            "publisher": "Demo Club Media (fixture)",
+            "url": "https://example.test/fixture/club/sharks-deny",
+            "summary": "A Sharks spokesperson said the club has had no contact with the player or her representatives.",
+            "relation": "contradicts",
+            "excerpt": "no contact with the player or her representatives",
+            "locator": "statement"
+          }
+        ]
+      }
+    },
+    {
+      "id": "factcheck-04-false",
+      "description": "Source states the opposite: expect false",
+      "input": {
+        "claim": { "text": "The Lakeside Comets' Friday home game still has tickets available.", "isCritical": false },
+        "sources": [
+          {
+            "id": "00000000-0000-4000-d000-000000000401",
+            "title": "Comets confirm Friday home game sold out",
+            "publisher": "Demo Club Media (fixture)",
+            "url": "https://example.test/fixture/club/comets-sold-out",
+            "summary": "The Lakeside Comets said all tickets for Friday's home game have been sold.",
+            "relation": "mentions",
+            "excerpt": "all tickets for Friday's home game have been sold",
+            "locator": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "factcheck-05-unrelated",
+      "description": "Only a summary that says he did not comment on the referee, no excerpt: expect false or uncertain, never confirmed",
+      "input": {
+        "claim": { "text": "Teodor Vask criticised the referee after the defeat.", "isCritical": false },
+        "sources": [
+          {
+            "id": "00000000-0000-4000-d000-000000000501",
+            "title": "Northvale coach Teodor Vask: 'We were second best tonight'",
+            "publisher": "Sample Gazette (fixture)",
+            "url": "https://example.test/fixture/gazette/vask-second-best",
+            "summary": "Vask said his side lacked intensity and praised the Gulls' pressing. He did not comment on the referee.",
+            "relation": "mentions",
+            "excerpt": null,
+            "locator": null
+          }
+        ]
+      }
+    }
+  ]
+}
