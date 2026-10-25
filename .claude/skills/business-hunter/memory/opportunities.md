@@ -84,4 +84,5 @@
 | 2026-10-22 | BH-003 | prep G1 | studi censiti / audit pronti | 125 / 21 | prime visite ven 23/10 (10 studi tier A) |
 | 2026-10-23 | BH-003 | prep G1 | deck personalizzati / anteprime sito | 27 / 17 | offerta a scala; ore ridotte a 10; gate spostati |
 | 2026-10-23 | BH-003 | prep G1 | bozze email v3 in Gmail / lettere stampabili | 7 / 27 | invio dal founder con immagine della card; controllo risposte ogni ora (lun–sab 8–20) fino al 21/11 |
+| 2026-10-25 | BH-003 | prep G1 | copy v4: parole per email / richieste per email | 420 → 155 / 3 → 1 | una richiesta sì/no ("posso passare a lasciargliela?"); consulenza spostata alla consegna; niente prezzi né allegati |
 | 2026-10-25 | BH-003 | prep G1 | email pubbliche trovate / bozze totali | +16 / 23 | resa ricerca ~1 email ogni 3 studi; i piccoli studi senza sito quasi mai pubblicano l'email → per loro lettera o visita |
