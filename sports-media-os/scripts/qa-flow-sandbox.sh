@@ -13,5 +13,5 @@ wait
 (nohup npx next start -p 3000 > /tmp/qa-server.log 2>&1 &)
 for i in $(seq 1 40); do curl -s -o /dev/null http://localhost:3000/login && break; sleep 1; done
 log "server up"
-node scripts/qa-flow.mjs >> /tmp/qa-setup.log 2>&1; log "flow $?"
+for s in ${QA_SCRIPTS:-qa-flow}; do node "scripts/$s.mjs" >> /tmp/qa-setup.log 2>&1; log "$s $?"; done
 log done
