@@ -86,3 +86,4 @@
 | 2026-10-23 | BH-003 | prep G1 | bozze email v3 in Gmail / lettere stampabili | 7 / 27 | invio dal founder con immagine della card; controllo risposte ogni ora (lun–sab 8–20) fino al 21/11 |
 | 2026-10-25 | BH-003 | prep G1 | copy v4: parole per email / richieste per email | 420 → 155 / 3 → 1 | una richiesta sì/no ("posso passare a lasciargliela?"); consulenza spostata alla consegna; niente prezzi né allegati |
 | 2026-10-25 | BH-003 | prep G1 | email pubbliche trovate / bozze totali | +16 / 23 | resa ricerca ~1 email ogni 3 studi; i piccoli studi senza sito quasi mai pubblicano l'email → per loro lettera o visita |
+| 2026-10-25 | BH-003 | prep G1 | bozze totali / comuni coperti | 23 → 50 / 5 (La Spezia, Sarzana, Carrara, Massa, Aulla) | lotto 3: 27 studi di Carrara, Massa e Aulla con lo stesso testo v4 e confronto con lo studio indipendente più forte del comune; invio in 2–3 giorni per non finire in spam |
