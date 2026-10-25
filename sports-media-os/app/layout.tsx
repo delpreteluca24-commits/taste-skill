@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: { default: "Sports Media OS", template: "%s · Sports Media OS" },
   description: "Operating system for an AI-first sports media company.",
   robots: { index: false, follow: false },
+  appleWebApp: { capable: true, title: "Sports OS", statusBarStyle: "black" },
 };
 
 export const viewport: Viewport = {

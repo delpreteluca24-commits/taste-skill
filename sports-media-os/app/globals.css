@@ -97,6 +97,20 @@
   }
   html {
     color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /*
+   * Phone widths: a grid cell may never grow past its track because of wide
+   * content (tables, long names). Tables then scroll inside their card
+   * instead of pushing the whole page sideways. Zero specificity, so any
+   * explicit min-w-* utility still wins.
+   */
+  main :where(.grid) > * {
+    min-width: 0;
+  }
+  main :where([data-slot="table-container"]) {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
   }
   body {
     @apply bg-background text-foreground;

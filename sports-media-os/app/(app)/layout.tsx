@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { AppSidebar } from "@/components/layout/app-sidebar";
+import { BottomNav } from "@/components/layout/bottom-nav";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { DrainKicker } from "@/components/layout/drain-kicker";
 import { SetupBanner } from "@/components/layout/setup-banner";
@@ -25,11 +26,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             <UserMenu email={user.email} displayName={user.displayName} role={user.role} />
           </div>
         </header>
-        <main className="mx-auto w-full max-w-[1400px] flex-1 px-3 py-5 md:px-6 md:py-7">
+        <main className="mx-auto w-full max-w-[1400px] flex-1 px-3 pt-5 pb-24 md:px-6 md:py-7">
           <DrainKicker />
           <SetupBanner />
           {children}
         </main>
+        <BottomNav />
       </div>
     </div>
   );

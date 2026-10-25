@@ -5,10 +5,14 @@
  *   BASE=http://localhost:3000 QA_EMAIL=… QA_PASSWORD=… node scripts/qa-overflow.mjs
  */
 import { chromium } from "@playwright/test";
+import { createClient } from "@supabase/supabase-js";
 
 const BASE = process.env.BASE ?? "http://localhost:3000";
 const PAGES = (process.env.PAGES ?? "/dashboard /radar /trends /research /rights /opportunities /content /studio /calendar /analytics /agents /settings").split(" ");
 
+const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: false } });
+await db.auth.signInWithPassword({ email: process.env.QA_EMAIL ?? "", password: process.env.QA_PASSWORD ?? "" });
+const results = [];
 const browser = await chromium.launch();
 const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 const page = await context.newPage();
@@ -43,6 +47,8 @@ for (const path of [...PAGES, ...extra]) {
     }
     return { scrollWidth: document.documentElement.scrollWidth, offenders: out };
   });
+  results.push({ path, ...res });
   console.log(JSON.stringify({ path, ...res }));
 }
+await db.from("qa_runs").insert({ kind: `overflow-${new Date().toISOString().slice(0, 16)}`, report: { results } });
 await browser.close();

@@ -89,18 +89,18 @@ export default async function DashboardPage() {
                 <TableRow>
                   <TableHead>Content</TableHead>
                   <TableHead className="text-right">Views</TableHead>
-                  <TableHead className="text-right">Likes</TableHead>
-                  <TableHead className="text-right">Shares</TableHead>
+                  <TableHead className="hidden text-right sm:table-cell">Likes</TableHead>
+                  <TableHead className="hidden text-right sm:table-cell">Shares</TableHead>
                   <TableHead className="text-right">Predicted</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {d.performing_content.map((c) => (
                   <TableRow key={c.id}>
-                    <TableCell className="max-w-64 truncate">{c.title}</TableCell>
+                    <TableCell className="max-w-40 truncate sm:max-w-64">{c.title}</TableCell>
                     <TableCell className="text-right tabular">{formatCount(c.views)}</TableCell>
-                    <TableCell className="text-right tabular">{formatCount(c.likes)}</TableCell>
-                    <TableCell className="text-right tabular">{formatCount(c.shares)}</TableCell>
+                    <TableCell className="hidden text-right tabular sm:table-cell">{formatCount(c.likes)}</TableCell>
+                    <TableCell className="hidden text-right tabular sm:table-cell">{formatCount(c.shares)}</TableCell>
                     <TableCell className="text-right tabular">{formatScore(c.predicted_score)}</TableCell>
                   </TableRow>
                 ))}
