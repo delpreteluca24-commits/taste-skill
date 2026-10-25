@@ -31,16 +31,15 @@ for (const path of [...PAGES, ...extra]) {
   const res = await page.evaluate(() => {
     const vw = 390;
     const out = [];
-    for (const el of document.querySelectorAll("main *, header *")) {
+    // deepest elements wider than the phone: no child of theirs is that wide, so they force the width
+    const wide = (el) => el.getBoundingClientRect().width > vw - 20;
+    for (const el of document.querySelectorAll("main *")) {
+      if (!wide(el) || [...el.children].some(wide)) continue;
       const r = el.getBoundingClientRect();
-      if (r.width === 0 || r.right <= vw + 1) continue;
-      // report only the outermost offender of each branch
-      const parent = el.parentElement;
-      const pr = parent?.getBoundingClientRect();
-      if (pr && pr.right > vw + 1 && parent.closest("main, header")) continue;
-      const cls = (el.getAttribute("class") ?? "").split(/\s+/).slice(0, 8).join(" ");
-      out.push({ tag: el.tagName.toLowerCase(), right: Math.round(r.right), w: Math.round(r.width), cls, text: (el.innerText ?? "").trim().replace(/\s+/g, " ").slice(0, 60), testid: el.getAttribute("data-testid") });
-      if (out.length >= 6) break;
+      const cls = (el.getAttribute("class") ?? "").split(/\s+/).slice(0, 10).join(" ");
+      const kids = [...el.children].slice(0, 12).map((c) => Math.round(c.getBoundingClientRect().width));
+      out.push({ tag: el.tagName.toLowerCase(), w: Math.round(r.width), cls, kids, text: (el.innerText ?? "").trim().replace(/\s+/g, " ").slice(0, 50), testid: el.getAttribute("data-testid") ?? el.closest("[data-testid]")?.getAttribute("data-testid") });
+      if (out.length >= 5) break;
     }
     return { scrollWidth: document.documentElement.scrollWidth, offenders: out };
   });
