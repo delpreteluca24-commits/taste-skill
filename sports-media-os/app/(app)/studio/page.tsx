@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AlertTriangle, ArrowRight, Clapperboard, ExternalLink, FileText, ImageIcon, ListChecks, Type } from "lucide-react";
+import { z } from "zod";
 
 import { PageHeader } from "@/components/common/page-header";
 import { StageBadge } from "@/components/content/badges";
@@ -27,7 +28,7 @@ export default async function StudioPage(props: PageProps<"/studio">) {
   const db = await createClient();
   const sp = await props.searchParams;
   const items = await listWork(db, project.id, STUDIO_STAGES);
-  const selectedId = typeof sp.id === "string" ? sp.id : items[0]?.id;
+  const selectedId = typeof sp.id === "string" && z.uuid().safeParse(sp.id).success ? sp.id : items[0]?.id;
   const pkg = selectedId ? await studioPackage(db, project.id, selectedId) : null;
 
   return (

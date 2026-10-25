@@ -94,14 +94,14 @@ try {
   await step("new opportunity", async () => {
     await page.goto(`${BASE}/opportunities`);
     const form = page.getByTestId("new-opportunity-form");
-    if (!(await form.isVisible())) await page.getByRole("button", { name: /new opportunity|add opportunity|create/i }).first().click();
+    if (!(await form.isVisible())) await page.getByTestId("new-opportunity").locator("summary").click();
     await form.getByLabel("Title").fill(TITLE);
     await form.getByLabel("Why now").fill("The derby is on Sunday and the comeback story is everywhere.").catch(() => {});
     await form.getByLabel("Angle").fill("What nobody noticed about the comeback.").catch(() => {});
     await form.getByLabel("Hook").fill("Three goals down, and they still won the derby.").catch(() => {});
     const sport = form.getByLabel("Sport");
     if (await sport.count()) await sport.selectOption({ index: 1 }).catch(() => {});
-    await form.getByRole("button").last().click();
+    await form.getByRole("button", { name: "Create and score" }).click();
     await page.waitForURL(/\/opportunities\/[0-9a-f-]{36}/, { timeout: 20_000 });
   });
 
