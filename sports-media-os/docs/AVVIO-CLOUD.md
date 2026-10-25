@@ -1,6 +1,6 @@
 # Avvio in cloud (senza PC acceso)
 
-Stato al 2026-10-24:
+Stato al 2026-10-25:
 
 | Pezzo | Stato |
 |---|---|
@@ -8,7 +8,9 @@ Stato al 2026-10-24:
 | Schema database (tutte le migrazioni) | ✅ applicato |
 | Account proprietario `unichornofm@gmail.com` (ruolo owner) | ✅ creato — password iniziale comunicata in chat, cambiala al primo accesso |
 | Worker | ✅ non serve più: i job girano dentro l'app (`/api/jobs/drain`) |
-| Vercel progetto `sports-media-os` (deploy di produzione, URL `https://sports-media-os-delpreteluca24-commits-projects.vercel.app`, protetto da login Vercel) | ✅ online |
+| Vercel progetto `sports-media-os` (deploy di produzione, URL `https://sports-media-os-delpreteluca24-commits-projects.vercel.app`) | ✅ online — apribile anche da telefono: protetto dal login dell'app; il login Vercel resta solo sulle anteprime |
+| Registrazioni | 🔒 chiuse a livello database (trigger `block_unlisted_signups` su `auth.users`): entra solo chi è in `private.allowed_signups` |
+| Telefono | ✅ installabile come app: iPhone (Safari → Condividi → *Aggiungi alla schermata Home*), Android (Chrome → ⋮ → *Installa app*) |
 | Variabili Vercel: URL Supabase, publishable key, CRON_SECRET | ✅ impostate |
 | Variabili Vercel: `SUPABASE_SECRET_KEY`, `ANTHROPIC_API_KEY` | ✅ impostate |
 | AI attiva | ⏳ la chiave Anthropic è di tipo utente (`sk-ant-usr-…`): serve `ANTHROPIC_WORKSPACE_ID` (`wrkspc_…`) **oppure** una chiave di workspace `sk-ant-api03-…` → poi **Redeploy**. Il banner in alto nell'app lo segnala finché manca |
