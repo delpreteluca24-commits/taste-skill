@@ -57,6 +57,7 @@ export function createServerAI(options: ServerAIOptions): AIRouter {
         status: event.status,
         costUsd: event.costUsd,
         latencyMs: event.latencyMs,
+        ...(event.errorMessage ? { errorCode: event.errorCode, error: event.errorMessage } : {}),
       });
     },
   });

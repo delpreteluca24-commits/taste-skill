@@ -104,6 +104,7 @@ export function createAIRouter(options: AIRouterOptions): AIRouter {
           attempt: attemptNo,
           status: err.kind === "refused" ? "refused" : "error",
           errorCode: err.kind,
+          errorMessage: err.message.slice(0, 300),
           usage,
           costUsd: call ? costFor(call.servedModel || ref.model, usage) : null,
           latencyMs: call?.latencyMs ?? null,

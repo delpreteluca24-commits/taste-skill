@@ -113,6 +113,8 @@ export type UsageEvent = {
   attempt: number;
   status: "success" | "error" | "refused";
   errorCode?: AIErrorKind;
+  /** provider's own error text (truncated), for the logs only — never stored */
+  errorMessage?: string;
   usage: AIUsage;
   costUsd: number | null;
   latencyMs: number | null;
