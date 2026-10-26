@@ -87,3 +87,4 @@
 | 2026-10-25 | BH-003 | prep G1 | copy v4: parole per email / richieste per email | 420 → 155 / 3 → 1 | una richiesta sì/no ("posso passare a lasciargliela?"); consulenza spostata alla consegna; niente prezzi né allegati |
 | 2026-10-25 | BH-003 | prep G1 | email pubbliche trovate / bozze totali | +16 / 23 | resa ricerca ~1 email ogni 3 studi; i piccoli studi senza sito quasi mai pubblicano l'email → per loro lettera o visita |
 | 2026-10-25 | BH-003 | prep G1 | bozze totali / comuni coperti | 23 → 50 / 5 (La Spezia, Sarzana, Carrara, Massa, Aulla) | lotto 3: 27 studi di Carrara, Massa e Aulla con lo stesso testo v4 e confronto con lo studio indipendente più forte del comune; invio in 2–3 giorni per non finire in spam |
+| 2026-10-26 | BH-003 | G1 | email inviate (La Spezia, Sarzana, Val di Magra) / risposte | 23 / 0 (invio ore 13) | lotto 3 (27, Carrara–Massa–Aulla) resta in bozza: invio 27–28/10 |
