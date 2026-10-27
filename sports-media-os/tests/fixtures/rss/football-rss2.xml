@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rss PUBLIC "-//Netscape Communications//DTD RSS 0.91//EN" "http://my.netscape.com/publish/formats/rss-0.91.dtd">
+<rss version="2.0"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Example Sport News — Football</title>
+    <link>https://news.example.com/football</link>
+    <atom:link href="https://news.example.com/football/rss.xml" rel="self" type="application/rss+xml"/>
+    <description>Latest football headlines (fictional test fixture)</description>
+    <language>en-gb</language>
+    <lastBuildDate>Wed, 07 Oct 2026 21:10:00 GMT</lastBuildDate>
+
+    <!-- 1: full item, CDATA HTML description, tracking params, dc:creator, categories -->
+    <item>
+      <title><![CDATA[Northbridge stun Riverside with 94th-minute winner]]></title>
+      <link>https://news.example.com/football/articles/northbridge-riverside?utm_source=rss&amp;utm_medium=feed#comments</link>
+      <guid isPermaLink="false">nb-rv-20261007</guid>
+      <description><![CDATA[<p>Ten-man <b>Northbridge</b> came from behind to beat Riverside 2&ndash;1 &amp; move top of the table.</p><img src="https://news.example.com/img/1.jpg" alt=""/>]]></description>
+      <content:encoded><![CDATA[<p>FULL ARTICLE BODY THAT MUST NEVER BE STORED. Paragraph one…</p><p>Paragraph two…</p>]]></content:encoded>
+      <dc:creator>Sam Reporter</dc:creator>
+      <category>Premier Division</category>
+      <category domain="https://news.example.com/teams">Northbridge FC</category>
+      <category>premier division</category>
+      <pubDate>Wed, 07 Oct 2026 20:55:00 GMT</pubDate>
+      <media:description>Highlights photo caption</media:description>
+    </item>
+
+    <!-- 2: entity-escaped HTML description, RSS author with e-mail, named zone -->
+    <item>
+      <title>Coach: &#8220;We deserved more&#8221; after Harbour City draw</title>
+      <link>https://news.example.com/football/articles/harbour-city-draw/</link>
+      <description>&lt;p&gt;Harbour City&amp;#8217;s coach said his side &lt;em&gt;dominated&lt;/em&gt; possession &amp;hellip;&lt;/p&gt;</description>
+      <author>desk@news.example.com (Alex Writer)</author>
+      <pubDate>Wed, 07 Oct 2026 19:30:00 CEST</pubDate>
+    </item>
+
+    <!-- 3: no <link>, guid permalink only -->
+    <item>
+      <title>Transfer window: Riverside close in on defender</title>
+      <guid isPermaLink="true">https://news.example.com/football/articles/riverside-defender</guid>
+      <description>Riverside are in advanced talks, according to club sources.</description>
+      <pubDate>Wed, 07 Oct 2026 18:00:00 +0100</pubDate>
+    </item>
+
+    <!-- 4: relative link (resolved against the feed URL), no date -->
+    <item>
+      <title>Injury update: Northbridge captain out for three weeks</title>
+      <link>/football/articles/northbridge-captain-injury</link>
+      <description>The midfielder suffered a hamstring strain in training.</description>
+    </item>
+
+    <!-- 5: no title, no description → skipped -->
+    <item>
+      <link>https://news.example.com/football/articles/empty</link>
+    </item>
+
+    <!-- 6: no usable link (javascript:) → skipped -->
+    <item>
+      <title>Broken link item</title>
+      <link>javascript:alert(1)</link>
+      <description>Should be skipped.</description>
+    </item>
+
+    <!-- 7: same story syndicated under another URL (same title + summary as item 1) -->
+    <item>
+      <title>Northbridge stun Riverside with 94th-minute winner</title>
+      <link>https://mirror.example.net/sport/northbridge-riverside</link>
+      <description><![CDATA[<p>Ten-man <b>Northbridge</b> came from behind to beat Riverside 2&ndash;1 &amp; move top of the table.</p>]]></description>
+      <pubDate>Wed, 07 Oct 2026 21:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

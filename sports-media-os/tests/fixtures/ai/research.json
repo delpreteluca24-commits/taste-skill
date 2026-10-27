@@ -1,0 +1,107 @@
+{
+  "fixture": true,
+  "notice": "FIXTURE DATA for scripts/ai-benchmark.mts. Every team, league, person, publisher, number and event below is INVENTED and clearly fictional (example.test URLs, '(fixture)' publishers). Not real news, not copyrighted text. Never use as facts.",
+  "task": "research",
+  "cases": [
+    {
+      "id": "research-01-upset",
+      "description": "Upset story with three sources that partly overlap",
+      "input": {
+        "opportunity": {
+          "title": "Harbor City Gulls stun Northvale Rovers in the Fixture Premier Division",
+          "description": "The newly promoted Gulls beat the unbeaten league leaders away from home.",
+          "why_now": "Result came in last night; the leaders' unbeaten run is over.",
+          "angle": "How a promoted side with the smallest budget in the league planned the upset.",
+          "hook": "The cheapest squad in the league just ended the longest unbeaten run.",
+          "competition": "Fixture Premier Division",
+          "sport": "Football"
+        },
+        "sources": [
+          {
+            "id": "00000000-0000-4000-c000-000000000101",
+            "title": "Gulls end Rovers' unbeaten run with late winner",
+            "summary": "Harbor City Gulls won 2-1 at Northvale Rovers on 4 October. The winner came in the 88th minute. Rovers had been unbeaten in their first 11 league matches.",
+            "url": "https://example.test/fixture/wire/gulls-end-run",
+            "publisher": "Example Sports Wire (fixture)"
+          },
+          {
+            "id": "00000000-0000-4000-c000-000000000102",
+            "title": "Northvale coach Teodor Vask: 'We were second best tonight'",
+            "summary": "Vask said his side lacked intensity and praised the Gulls' pressing. He did not comment on the referee.",
+            "url": "https://example.test/fixture/gazette/vask-second-best",
+            "publisher": "Sample Gazette (fixture)"
+          },
+          {
+            "id": "00000000-0000-4000-c000-000000000103",
+            "title": "Gulls were promoted with the league's lowest wage bill",
+            "summary": "A preseason report listed Harbor City Gulls with the lowest wage bill of the 18 Fixture Premier Division clubs.",
+            "url": "https://example.test/fixture/club/gulls-wage-bill",
+            "publisher": "Demo Club Media (fixture)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "research-02-record",
+      "description": "Upcoming record attempt; one source gives a number the other omits",
+      "input": {
+        "opportunity": {
+          "title": "Ines Calloway one game away from the Fictional Hoops League assists record",
+          "description": "The Lakeside Comets guard needs nine assists on Friday to pass the league record.",
+          "why_now": "The record attempt is in two days, at home.",
+          "angle": "A graphic countdown of the record and the playmaking pattern behind it.",
+          "hook": "Nine assists. One game. A record that stood for a generation.",
+          "competition": "Fictional Hoops League",
+          "sport": "Basketball"
+        },
+        "sources": [
+          {
+            "id": "00000000-0000-4000-c000-000000000201",
+            "title": "Calloway closes in on assists record",
+            "summary": "Ines Calloway has 1,991 career assists in the Fictional Hoops League. The record is 1,999, set by a fictional player in 1998.",
+            "url": "https://example.test/fixture/wire/calloway-record",
+            "publisher": "Example Sports Wire (fixture)"
+          },
+          {
+            "id": "00000000-0000-4000-c000-000000000202",
+            "title": "Comets confirm Friday home game sold out",
+            "summary": "The Lakeside Comets said all tickets for Friday's home game have been sold.",
+            "url": "https://example.test/fixture/club/comets-sold-out",
+            "publisher": "Demo Club Media (fixture)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "research-03-conflict",
+      "description": "Transfer rumour where the sources contradict each other: claims must stay uncertain and cited",
+      "input": {
+        "opportunity": {
+          "title": "Mara Quillon linked with a move from Harbor City Gulls to rivals Port Amberly Sharks",
+          "description": "One outlet reports early talks; the Sharks deny contact.",
+          "why_now": "Transfer window opens next week.",
+          "angle": "Why the move would divide both fan bases.",
+          "hook": null,
+          "competition": "Fixture Premier Division",
+          "sport": "Football"
+        },
+        "sources": [
+          {
+            "id": "00000000-0000-4000-c000-000000000301",
+            "title": "Sharks in early talks over Gulls striker Quillon, sources say",
+            "summary": "Unnamed sources say the Sharks have held early talks with Quillon's agent. No fee was mentioned.",
+            "url": "https://example.test/fixture/wire/sharks-quillon-talks",
+            "publisher": "Example Sports Wire (fixture)"
+          },
+          {
+            "id": "00000000-0000-4000-c000-000000000302",
+            "title": "Port Amberly Sharks deny contact with Mara Quillon's agent",
+            "summary": "A Sharks spokesperson said the club has had no contact with the player or her representatives.",
+            "url": "https://example.test/fixture/club/sharks-deny",
+            "publisher": "Demo Club Media (fixture)"
+          }
+        ]
+      }
+    }
+  ]
+}
