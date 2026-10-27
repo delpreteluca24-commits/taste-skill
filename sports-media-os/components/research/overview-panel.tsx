@@ -14,6 +14,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { AiOnly } from "@/components/ai/ai-status";
 import { EmptyState, SectionCard } from "@/components/dashboard/section-card";
 import { StatTile } from "@/components/dashboard/stat-tile";
 import { Badge } from "@/components/ui/badge";
@@ -125,7 +126,7 @@ export function OverviewPanel({ ws }: { ws: Workspace }) {
             testId="ai-research-assist"
           >
             <div className="grid gap-2">
-              <SuggestResearchButton opportunityId={o.id} activeJobId={activeJobId} sourceCount={p.sources} />
+              <AiOnly><SuggestResearchButton opportunityId={o.id} activeJobId={activeJobId} sourceCount={p.sources} /></AiOnly>
               {ws.researchJob ? <LastRun job={ws.researchJob} /> : null}
             </div>
           </SectionCard>

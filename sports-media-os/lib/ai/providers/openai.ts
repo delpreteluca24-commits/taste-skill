@@ -3,6 +3,7 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import type { z } from "zod";
 
 import { AIError, type AICallResult, type AIErrorKind, type AIProvider, type AIRequest } from "../types";
+import { aiSwitchedOff } from "../switch";
 
 export type OpenAIProviderOptions = {
   apiKey?: string;
@@ -26,7 +27,7 @@ export function createOpenAIProvider(opts: OpenAIProviderOptions = {}): AIProvid
 
   return {
     id: "openai",
-    isConfigured: () => Boolean(opts.client || apiKey),
+    isConfigured: () => Boolean(opts.client || (apiKey && !aiSwitchedOff())),
     async complete(model: string, request: AIRequest, schema?: z.ZodType): Promise<AICallResult> {
       const started = Date.now();
       try {

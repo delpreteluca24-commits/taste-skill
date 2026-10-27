@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, CalendarClock, Clapperboard, ExternalLink, Microscope, TrendingUp } from "lucide-react";
 import { z } from "zod";
 
+import { AiOnly } from "@/components/ai/ai-status";
 import { PageHeader } from "@/components/common/page-header";
 import { SectionCard } from "@/components/dashboard/section-card";
 import { AIScoreButton } from "@/components/opportunities/ai-score-button";
@@ -108,7 +109,7 @@ export default async function OpportunityPage(props: PageProps<"/opportunities/[
               </div>
               <div className="flex flex-wrap items-start gap-3">
                 <RescoreButton id={o.id} />
-                <AIScoreButton ids={[o.id]} label="Refine with AI" />
+                <AiOnly><AIScoreButton ids={[o.id]} label="Refine with AI" /></AiOnly>
               </div>
               {aiMeta?.at ? (
                 <p className="text-[11px] text-muted-foreground" data-testid="ai-scoring-meta">

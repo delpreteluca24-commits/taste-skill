@@ -3,6 +3,7 @@ import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import type { z } from "zod";
 
 import { AIError, type AICallResult, type AIErrorKind, type AIProvider, type AIRequest } from "../types";
+import { aiSwitchedOff } from "../switch";
 
 /** Models that accept server-side refusal fallback (`fallbacks: "default"`). Haiku 5.5 does not. */
 const SERVER_FALLBACK_MODELS = new Set(["claude-fable-5-1", "claude-opus-5-5", "claude-opus-5", "claude-sonnet-5-5"]);
@@ -37,7 +38,7 @@ export function createAnthropicProvider(opts: AnthropicProviderOptions = {}): AI
 
   return {
     id: "anthropic",
-    isConfigured: () => Boolean(opts.client || apiKey),
+    isConfigured: () => Boolean(opts.client || (apiKey && !aiSwitchedOff())),
     async complete(model: string, request: AIRequest, schema?: z.ZodType): Promise<AICallResult> {
       const started = Date.now();
       const serverFallback = SERVER_FALLBACK_MODELS.has(model);

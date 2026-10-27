@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FileText, Layers, Microscope, PenLine, TriangleAlert } from "lucide-react";
 import { z } from "zod";
 
+import { AiOnly } from "@/components/ai/ai-status";
 import { EmptyState, SectionCard } from "@/components/dashboard/section-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -59,7 +60,7 @@ export async function ScriptStudio({ storyId }: { storyId: string }) {
       >
         <div className="grid gap-4">
           <MaterialSummary d={d} />
-          <GenerateAnglesForm storyId={d.story.id} activeJobId={d.generateJob?.id ?? null} hasVersions={d.versionCount > 0} />
+          <AiOnly><GenerateAnglesForm storyId={d.story.id} activeJobId={d.generateJob?.id ?? null} hasVersions={d.versionCount > 0} /></AiOnly>
         </div>
       </SectionCard>
 
@@ -192,7 +193,7 @@ function CurrentVersion({ v, d, when }: { v: ScriptVersionView; d: ScriptStudioD
         </div>
         <div className="grid gap-1.5 border-t pt-3">
           <p className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">Rewrite as a new version</p>
-          <TransformControls scriptId={v.id} version={v.version} activeJobId={d.transformJobs[v.id]?.id ?? null} />
+          <AiOnly><TransformControls scriptId={v.id} version={v.version} activeJobId={d.transformJobs[v.id]?.id ?? null} /></AiOnly>
         </div>
         <details className="rounded-md border p-3">
           <summary className="flex cursor-pointer list-none items-center gap-1.5 text-xs font-medium select-none">
@@ -286,7 +287,7 @@ function VersionItem({ v, open, d, when }: { v: ScriptVersionView; open: boolean
           ) : null}
           <div className="flex flex-wrap items-start gap-3 border-t pt-3">
             {!v.isCurrent ? <MakeCurrentButton scriptId={v.id} version={v.version} /> : null}
-            <TransformControls scriptId={v.id} version={v.version} activeJobId={d.transformJobs[v.id]?.id ?? null} />
+            <AiOnly><TransformControls scriptId={v.id} version={v.version} activeJobId={d.transformJobs[v.id]?.id ?? null} /></AiOnly>
           </div>
         </div>
       </details>

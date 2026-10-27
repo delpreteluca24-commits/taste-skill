@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
+import { AI_OFF_MESSAGE, aiSwitchedOff } from "@/lib/ai/switch";
 import { fail, ok, type ActionResult } from "@/lib/actions";
 import { resolveTaskConfig } from "@/lib/ai/models";
 import { requireUser } from "@/lib/auth/dal";
@@ -192,6 +193,7 @@ export type AIScoringRequestResult =
  * model) it returns the estimate and waits for the user to confirm it.
  */
 export async function requestAIScoring(ids: string[], confirmedCostUsd?: number): Promise<ActionResult<AIScoringRequestResult>> {
+  if (aiSwitchedOff()) return fail(AI_OFF_MESSAGE);
   const ctx = await activeContext();
   if (!ctx) return fail("Create or select a project first.");
   const parsed = aiScoringRequestSchema.safeParse({ ids, confirmedCostUsd });

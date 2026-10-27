@@ -1,5 +1,7 @@
 import { ExternalLink, KeyRound } from "lucide-react";
 
+import { aiSwitchedOff } from "@/lib/ai/switch";
+
 /**
  * Server-only check of the two secrets the app cannot run without. Values are
  * never read or shown — only whether they exist.
@@ -34,6 +36,8 @@ const STEPS = [
 ] as const;
 
 function isMissing(env: (typeof STEPS)[number]["env"]): boolean {
+  // manual mode (AI_ENABLED=false): AI keys are intentionally absent
+  if (env.startsWith("ANTHROPIC_") && aiSwitchedOff()) return false;
   if (env === "SUPABASE_SECRET_KEY") return !process.env.SUPABASE_SECRET_KEY && !process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (env === "ANTHROPIC_WORKSPACE_ID") {
     return Boolean(process.env.ANTHROPIC_API_KEY?.startsWith("sk-ant-usr-")) && !process.env.ANTHROPIC_WORKSPACE_ID?.trim();

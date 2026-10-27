@@ -16,7 +16,7 @@ export function AppSidebar() {
 
   return (
     <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar/95 text-sidebar-foreground backdrop-blur md:flex">
-      <Link href="/dashboard" className="flex h-14 items-center gap-2.5 px-4">
+      <Link href="/dashboard" prefetch={false} className="flex h-14 items-center gap-2.5 px-4">
         <span className="grid size-8 place-items-center rounded-lg bg-brand text-brand-foreground shadow-[0_0_24px_-4px_var(--brand)]">
           <Radar className="size-4" />
         </span>
@@ -45,6 +45,7 @@ export function AppSidebar() {
                 return (
                   <li key={m.key}>
                     <Link
+                      prefetch={false}
                       href={m.href}
                       aria-current={isActive ? "page" : undefined}
                       className={cn(

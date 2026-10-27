@@ -1,6 +1,7 @@
 import { Bot, CircleCheck, PenLine, Plus } from "lucide-react";
 import { z } from "zod";
 
+import { AiOnly } from "@/components/ai/ai-status";
 import { EmptyState, SectionCard } from "@/components/dashboard/section-card";
 import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
@@ -43,7 +44,7 @@ export async function HookStudio({ storyId }: { storyId: string }) {
       testId="hook-studio"
     >
       <div className="grid gap-4">
-        <GenerateHooksButton storyId={story.id} activeJobId={generateJob?.id ?? null} factCount={factCount} />
+        <AiOnly><GenerateHooksButton storyId={story.id} activeJobId={generateJob?.id ?? null} factCount={factCount} /></AiOnly>
 
         {selected ? (
           <p className="flex items-start gap-1.5 rounded-md border border-success/30 bg-success/5 px-3 py-2 text-xs" data-testid="selected-hook">

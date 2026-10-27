@@ -27,7 +27,7 @@ export function OpportunityList({ items, empty }: { items: OpportunityRow[]; emp
         <li key={o.id} className="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
           <ScoreChip value={o.opportunity_score} label="Opportunity score" />
           <div className="min-w-0 flex-1">
-            <Link href={`/opportunities/${o.id}`} className="block truncate text-[13px] hover:underline">
+            <Link href={`/opportunities/${o.id}`} prefetch={false} className="block truncate text-[13px] hover:underline">
               {o.title}
             </Link>
             <p className="truncate text-[11px] text-muted-foreground">
@@ -50,7 +50,7 @@ export function TrendList({ items }: { items: TrendRow[] }) {
         <li key={t.id} className="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
           <ScoreChip value={t.trend_score} label="Trend score" />
           <div className="min-w-0 flex-1">
-            <Link href={`/trends?id=${t.id}`} className="block truncate text-[13px] hover:underline">
+            <Link href={`/trends?id=${t.id}`} prefetch={false} className="block truncate text-[13px] hover:underline">
               {t.title}
             </Link>
             <p className="truncate text-[11px] text-muted-foreground">
@@ -78,7 +78,7 @@ export function ContentList({
       {items.map((c) => (
         <li key={c.id} className="flex items-center gap-3 py-2 first:pt-0 last:pb-0">
           <div className="min-w-0 flex-1">
-            <Link href={`/content/${c.id}`} className="block truncate text-[13px] hover:underline">
+            <Link href={`/content/${c.id}`} prefetch={false} className="block truncate text-[13px] hover:underline">
               {c.title}
             </Link>
             <p className="truncate text-[11px] text-muted-foreground">

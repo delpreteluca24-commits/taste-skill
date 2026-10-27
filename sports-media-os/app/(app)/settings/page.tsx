@@ -8,6 +8,7 @@ import { modelSuggestions, presentAllTaskRouting } from "@/components/settings/a
 import { fetchAiUsageSummary, USAGE_WINDOW_DAYS } from "@/components/settings/ai-usage";
 import { AiUsagePanel } from "@/components/settings/ai-usage-panel";
 import { CostControlExplainer } from "@/components/settings/cost-control-explainer";
+import { PasswordForm } from "@/components/settings/password-form";
 import { Badge } from "@/components/ui/badge";
 import { requireUser } from "@/lib/auth/dal";
 import { platformLabel } from "@/lib/dashboard/format";
@@ -52,6 +53,10 @@ export default async function SettingsPage() {
   return (
     <div className="grid max-w-4xl gap-4">
       <PageHeader title="Settings" description="Workspace defaults used by agents, workers and the production pipeline." />
+      <SectionCard title="Your account" description={`Signed in as ${user.email}. Change your password here; nobody else can see it.`} testId="account">
+        <PasswordForm />
+      </SectionCard>
+
       {readOnly ? (
         <p className="rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-warning">
           Read-only: only workspace admins can change these settings.

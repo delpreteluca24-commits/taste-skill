@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 
+import { AiOnly } from "@/components/ai/ai-status";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { Enums } from "@/lib/db/client";
 
@@ -43,6 +44,7 @@ export function OpportunityTable({ rows, threshold }: { rows: OpportunityTableRo
 
   return (
     <div className="grid gap-3">
+      <AiOnly>
       <div className="flex flex-wrap items-start justify-between gap-2 rounded-md border bg-card/60 px-3 py-2">
         <p className="pt-1.5 text-xs text-muted-foreground" aria-live="polite">
           {ids.length ? `${ids.length} selected` : "Select opportunities to refine their score with AI."}
@@ -50,6 +52,7 @@ export function OpportunityTable({ rows, threshold }: { rows: OpportunityTableRo
         </p>
         <AIScoreButton key={ids.join(",")} ids={ids} disabled={ids.length === 0 || ids.length > MAX_BATCH} />
       </div>
+      </AiOnly>
 
       <Table data-testid="opportunity-table">
         <TableHeader>

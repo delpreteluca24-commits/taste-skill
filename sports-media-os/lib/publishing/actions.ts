@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { AI_OFF_MESSAGE, aiSwitchedOff } from "@/lib/ai/switch";
 import { fail, ok, type ActionResult } from "@/lib/actions";
 import { requireUser } from "@/lib/auth/dal";
 import { toUserMessage } from "@/lib/db/errors";
@@ -29,6 +30,7 @@ function refresh() {
 }
 
 export async function generatePackageAction(contentItemId: string): Promise<ActionResult<{ jobId: string; deduplicated: boolean }>> {
+  if (aiSwitchedOff()) return fail(AI_OFF_MESSAGE);
   const ctx = await activeContext();
   if (!ctx) return fail("Create or select a project first.");
   if (!uuid.safeParse(contentItemId).success) return fail("Invalid content item.");

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { AlertTriangle, ArrowRight, Clapperboard, ExternalLink, FileText, ImageIcon, ListChecks, Type } from "lucide-react";
 import { z } from "zod";
 
+import { AiOnly } from "@/components/ai/ai-status";
 import { PageHeader } from "@/components/common/page-header";
 import { StageBadge } from "@/components/content/badges";
 import { EmptyState, SectionCard } from "@/components/dashboard/section-card";
@@ -136,11 +137,13 @@ export default async function StudioPage(props: PageProps<"/studio">) {
                       <EmptyState><Type className="mx-auto mb-2 size-5" />No titles yet.</EmptyState>
                     )}
                     <ManualPackageForm contentItemId={pkg.item.id} kind="title" />
+                    <AiOnly>
                     <GeneratePackageButton
                       contentItemId={pkg.item.id}
                       hasPackage={pkg.titles.length > 0}
                       disabledReason={!aiReady() ? "AI is off: write your own title above (see the setup banner to turn AI on)." : pkg.item.story_id ? (pkg.facts.length ? undefined : "Add at least one fact in Research first.") : "Create the story in the Pipeline first."}
                     />
+                    </AiOnly>
                   </div>
                 </SectionCard>
 

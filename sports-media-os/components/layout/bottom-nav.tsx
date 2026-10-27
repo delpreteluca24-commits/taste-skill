@@ -31,6 +31,7 @@ export function BottomNav() {
           return (
             <li key={t.key}>
               <Link
+                prefetch={false}
                 href={getModule(t.key).href}
                 aria-current={on ? "page" : undefined}
                 className={cn(

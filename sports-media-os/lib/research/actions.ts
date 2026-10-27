@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { AI_OFF_MESSAGE, aiSwitchedOff } from "@/lib/ai/switch";
 import { fail, ok, type ActionResult } from "@/lib/actions";
 import { requireUser } from "@/lib/auth/dal";
 import { toUserMessage } from "@/lib/db/errors";
@@ -404,6 +405,7 @@ function enqueueError(code: string | undefined) {
 
 /** "AI: suggest research" → research.suggest job (RESEARCH task model, agent 'researcher'). */
 export async function requestResearchSuggestionsAction(opportunityId: string): Promise<ActionResult<QueuedJob>> {
+  if (aiSwitchedOff()) return fail(AI_OFF_MESSAGE);
   const ctx = await activeContext();
   if (!ctx) return fail("Create or select a project first.");
   if (!uuid.safeParse(opportunityId).success) return fail("Invalid opportunity.");
@@ -430,6 +432,7 @@ export async function requestResearchSuggestionsAction(opportunityId: string): P
 
 /** "Ask AI to assess" → factcheck.assist job (FACT_CHECK task model, agent 'fact_checker'). */
 export async function requestFactCheckAction(factId: string): Promise<ActionResult<QueuedJob>> {
+  if (aiSwitchedOff()) return fail(AI_OFF_MESSAGE);
   const ctx = await activeContext();
   if (!ctx) return fail("Create or select a project first.");
   if (!uuid.safeParse(factId).success) return fail("Invalid claim.");

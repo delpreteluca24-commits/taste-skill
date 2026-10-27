@@ -29,7 +29,7 @@ export function MobileNav() {
             const Icon = MODULE_ICONS[m.key];
             return (
               <DropdownMenuItem key={m.key} asChild className={i === 0 && g.key !== "home" ? "mt-1 border-t pt-2" : undefined}>
-                <Link href={m.href}>
+                <Link href={m.href} prefetch={false}>
                   <Icon />
                   {m.label}
                   {i === 0 && g.step ? <span className="ml-auto text-[10px] text-muted-foreground uppercase">{g.step} · {g.label}</span> : null}

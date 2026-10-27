@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Bot, Info, Settings2, TriangleAlert } from "lucide-react";
 
+import { AiOnly } from "@/components/ai/ai-status";
 import { EmptyState, SectionCard } from "@/components/dashboard/section-card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatRelative } from "@/lib/dashboard/format";
@@ -197,7 +198,7 @@ function ClaimRow({ claim, opportunityId, sources }: { claim: ClaimView; opportu
                 />
               </div>
             </details>
-            <AISuggestionPanel claim={claim} />
+            <AiOnly><AISuggestionPanel claim={claim} /></AiOnly>
           </div>
         </TableCell>
       </TableRow>

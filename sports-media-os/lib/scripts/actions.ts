@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { AI_OFF_MESSAGE, aiSwitchedOff } from "@/lib/ai/switch";
 import { fail, ok, type ActionResult } from "@/lib/actions";
 import { requireUser } from "@/lib/auth/dal";
 import { toUserMessage } from "@/lib/db/errors";
@@ -72,6 +73,7 @@ const invalidForm = (error: z.ZodError) => fail("Check the highlighted fields.",
 
 /** Generate one version per checked angle (1–5; three pre-selected). */
 export async function generateScriptsAction(_prev: ActionResult<QueuedJob> | null, formData: FormData): Promise<ActionResult<QueuedJob>> {
+  if (aiSwitchedOff()) return fail(AI_OFF_MESSAGE);
   const ctx = await activeContext();
   if (!ctx) return fail("Create or select a project first.");
   const picked = formData.getAll("angle").filter((v): v is string => typeof v === "string");
@@ -102,6 +104,7 @@ export async function generateScriptsAction(_prev: ActionResult<QueuedJob> | nul
 
 /** Regenerate / shorten / expand / rewrite hook / change tone → always a NEW version. */
 export async function transformScriptAction(input: { scriptId: string; operation: string; tone?: string | null }): Promise<ActionResult<QueuedJob>> {
+  if (aiSwitchedOff()) return fail(AI_OFF_MESSAGE);
   const ctx = await activeContext();
   if (!ctx) return fail("Create or select a project first.");
   const parsed = transformScriptSchema.safeParse(input);
@@ -127,6 +130,7 @@ export async function transformScriptAction(input: { scriptId: string; operation
 
 /** Hook agent: five (or more) scored hooks across hook types. */
 export async function generateHooksAction(storyId: string): Promise<ActionResult<QueuedJob>> {
+  if (aiSwitchedOff()) return fail(AI_OFF_MESSAGE);
   const ctx = await activeContext();
   if (!ctx) return fail("Create or select a project first.");
   if (!uuid.safeParse(storyId).success) return fail("Invalid story.");
