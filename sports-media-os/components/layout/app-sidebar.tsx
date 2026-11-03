@@ -8,15 +8,16 @@ import { activeModuleKey, MODULES, NAV_GROUPS } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
 import { MODULE_ICONS } from "./module-icons";
+import { SimpleNav } from "./simple-nav";
 
 /** Desktop sidebar: grouped by the editorial workflow (Discover → Learn). */
-export function AppSidebar() {
+export function AppSidebar({ simple = false }: { simple?: boolean }) {
   const pathname = usePathname();
   const active = activeModuleKey(pathname);
 
   return (
     <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar/95 text-sidebar-foreground backdrop-blur md:flex">
-      <Link href="/dashboard" prefetch={false} className="flex h-14 items-center gap-2.5 px-4">
+      <Link href={simple ? "/oggi" : "/dashboard"} prefetch={false} className="flex h-14 items-center gap-2.5 px-4">
         <span className="grid size-8 place-items-center rounded-lg bg-brand text-brand-foreground shadow-[0_0_24px_-4px_var(--brand)]">
           <Radar className="size-4" />
         </span>
@@ -25,6 +26,7 @@ export function AppSidebar() {
           <span className="block text-[10px] tracking-[0.2em] text-muted-foreground uppercase">Operating system</span>
         </span>
       </Link>
+      {simple ? <SimpleNav variant="sidebar" /> : (
       <nav aria-label="Main" className="flex-1 overflow-y-auto px-3 pt-2 pb-4">
         {NAV_GROUPS.map((group) => (
           <div key={group.key} className="mb-4">
@@ -65,6 +67,7 @@ export function AppSidebar() {
           </div>
         ))}
       </nav>
+      )}
     </aside>
   );
 }

@@ -11,18 +11,20 @@ import { UserMenu } from "@/components/layout/user-menu";
 import { aiSwitchedOff } from "@/lib/ai/switch";
 import { requireUser } from "@/lib/auth/dal";
 import { getActiveProject, listProjects } from "@/lib/projects/service";
+import { simpleMode } from "@/lib/ui-mode";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser();
   const [projects, active] = await Promise.all([listProjects(), getActiveProject()]);
   if (!active) redirect("/welcome");
+  const simple = simpleMode();
 
   return (
     <div className="flex min-h-dvh">
-      <AppSidebar />
+      <AppSidebar simple={simple} />
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/70 px-3 backdrop-blur-md md:px-6">
-          <MobileNav />
+          <MobileNav simple={simple} />
           <ProjectSwitcher projects={projects.map(({ id, name }) => ({ id, name }))} activeProjectId={active.id} />
           <div className="ml-auto flex items-center gap-2">
             <UserMenu email={user.email} displayName={user.displayName} role={user.role} />
@@ -33,7 +35,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <SetupBanner />
           <AiStatusProvider enabled={!aiSwitchedOff()}>{children}</AiStatusProvider>
         </main>
-        <BottomNav />
+        <BottomNav simple={simple} />
       </div>
     </div>
   );

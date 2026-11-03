@@ -15,10 +15,13 @@ import { formatCount, formatScore } from "@/lib/dashboard/format";
 import { nextBestAction } from "@/lib/dashboard/next-action";
 import { getDashboard } from "@/lib/dashboard/service";
 import { getActiveProject } from "@/lib/projects/service";
+import { simpleMode } from "@/lib/ui-mode";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
+  // simple mode: one home page, "Oggi"
+  if (simpleMode()) redirect("/oggi");
   await requireUser();
   const project = await getActiveProject();
   if (!project) redirect("/welcome");

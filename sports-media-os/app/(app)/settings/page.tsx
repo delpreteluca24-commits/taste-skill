@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { CheckCircle2, CircleSlash } from "lucide-react";
 
@@ -14,7 +15,9 @@ import { requireUser } from "@/lib/auth/dal";
 import { platformLabel } from "@/lib/dashboard/format";
 import { configuredAIProviders } from "@/lib/env.server";
 import { logger } from "@/lib/logger";
+import { MODULES } from "@/lib/navigation";
 import { getActiveProject } from "@/lib/projects/service";
+import { simpleMode } from "@/lib/ui-mode";
 import { SUGGESTED_MODELS } from "@/lib/settings/schema";
 import { getWorkspaceSettings } from "@/lib/settings/service";
 import { createClient } from "@/lib/supabase/server";
@@ -53,6 +56,20 @@ export default async function SettingsPage() {
   return (
     <div className="grid max-w-4xl gap-4">
       <PageHeader title="Settings" description="Workspace defaults used by agents, workers and the production pipeline." />
+      {simpleMode() ? (
+        <SectionCard title="Strumenti avanzati" description="Le sezioni complete dell'app (in inglese), per quando ti servono." testId="advanced-tools">
+          <ul className="flex flex-wrap gap-2 text-sm">
+            {MODULES.filter((m) => m.key !== "settings").map((m) => (
+              <li key={m.key}>
+                <Link href={m.href} prefetch={false} className="inline-block rounded-lg border px-3 py-1.5 hover:bg-accent">
+                  {m.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </SectionCard>
+      ) : null}
+
       <SectionCard title="Your account" description={`Signed in as ${user.email}. Change your password here; nobody else can see it.`} testId="account">
         <PasswordForm />
       </SectionCard>

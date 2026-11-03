@@ -7,6 +7,7 @@ import { activeModuleKey, getModule, type ModuleKey } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
 import { MODULE_ICONS } from "./module-icons";
+import { SimpleNav } from "./simple-nav";
 
 /** The five places a phone user goes most; everything else is in the ☰ menu. */
 const TABS: { key: ModuleKey; label: string }[] = [
@@ -17,8 +18,9 @@ const TABS: { key: ModuleKey; label: string }[] = [
   { key: "calendar", label: "Calendar" },
 ];
 
-export function BottomNav() {
+export function BottomNav({ simple = false }: { simple?: boolean }) {
   const active = activeModuleKey(usePathname());
+  if (simple) return <SimpleNav variant="bottom" />;
   return (
     <nav
       aria-label="Quick navigation"

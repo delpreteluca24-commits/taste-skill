@@ -15,7 +15,9 @@ import { MODULES, NAV_GROUPS } from "@/lib/navigation";
 import { MODULE_ICONS } from "./module-icons";
 
 /** Compact navigation for small screens (the sidebar is desktop-only). */
-export function MobileNav() {
+export function MobileNav({ simple = false }: { simple?: boolean }) {
+  // simple mode: the bottom bar is the whole navigation
+  if (simple) return null;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
