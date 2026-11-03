@@ -1,6 +1,6 @@
 # Avvio in cloud (senza PC acceso)
 
-Stato al 2026-10-25:
+Stato al 2026-11-03:
 
 | Pezzo | Stato |
 |---|---|
@@ -10,12 +10,13 @@ Stato al 2026-10-25:
 | Worker | ✅ non serve più: i job girano dentro l'app (`/api/jobs/drain`) |
 | Vercel progetto `sports-media-os` (deploy di produzione, URL `https://sports-media-os-delpreteluca24-commits-projects.vercel.app`) | ✅ online — apribile anche da telefono: protetto dal login dell'app; il login Vercel resta solo sulle anteprime |
 | Registrazioni | 🔒 chiuse a livello database (trigger `block_unlisted_signups` su `auth.users`): entra solo chi è in `private.allowed_signups` |
+| Cambio password | ✅ Impostazioni → Your account |
 | Telefono | ✅ installabile come app: iPhone (Safari → Condividi → *Aggiungi alla schermata Home*), Android (Chrome → ⋮ → *Installa app*) |
 | Variabili Vercel: URL Supabase, publishable key, CRON_SECRET | ✅ impostate |
 | Variabili Vercel: `SUPABASE_SECRET_KEY`, `ANTHROPIC_API_KEY` | ✅ impostate |
-| AI attiva | ⏳ la chiave Anthropic è di tipo utente (`sk-ant-usr-…`): serve `ANTHROPIC_WORKSPACE_ID` (`wrkspc_…`) **oppure** una chiave di workspace `sk-ant-api03-…` → poi **Redeploy**. Il banner in alto nell'app lo segnala finché manca |
+| AI | ⏸️ spenta per scelta (`AI_ENABLED=false` su Vercel): nessuna chiamata a modelli, nessun costo, nessun pulsante AI. Per riaccenderla: chiave `sk-ant-api03-…` in `ANTHROPIC_API_KEY`, `AI_ENABLED=true`, Redeploy |
 | Ricerca automatica | ✅ ogni giorno alle 06:00 UTC (e a ogni apertura dell'app): fonti → trend → fino a 10 opportunità/giorno create da sole |
-| Senza AI | ✅ tutto usabile a mano: punteggi euristici, script a mano, hook e titoli scritti da te, miniatura (titolo) scritta da te |
+| Modalità manuale | ✅ tutto usabile a mano: punteggi euristici, script a mano, hook e titoli scritti da te, miniatura (titolo) scritta da te |
 
 ## Passi rimasti (li fai tu, una volta sola)
 
