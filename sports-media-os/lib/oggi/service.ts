@@ -1,6 +1,6 @@
 import type { Db } from "@/lib/db/client";
 
-import { buildKit, italianSport, type Kit, type Signal } from "./kit";
+import { buildKit, italianSport, looksItalian, type Kit, type Signal } from "./kit";
 
 export type IdeaSource = { title: string; url: string; publisher: string | null };
 
@@ -20,11 +20,14 @@ export type Idea = {
 export const FRESH_HOURS = 72;
 /** potential lost per hour of age: a 2-day-old 80 ranks like a fresh 56 */
 const AGE_PENALTY_PER_HOUR = 0.5;
+/** foreign-language stories (US leagues…) stay available but below Italian ones */
+const FOREIGN_PENALTY = 25;
 
 /** Freshness-weighted rank: what is worth a video today, not the best score ever. */
-export function rankScore(score: number | null, createdAt: string, now = Date.now()): number {
+export function rankScore(score: number | null, createdAt: string, now = Date.now(), title?: string): number {
   const ageHours = Math.max(0, (now - new Date(createdAt).getTime()) / 3_600_000);
-  return (score ?? 40) - ageHours * AGE_PENALTY_PER_HOUR;
+  const foreign = title !== undefined && !looksItalian(title) ? FOREIGN_PENALTY : 0;
+  return (score ?? 40) - ageHours * AGE_PENALTY_PER_HOUR - foreign;
 }
 
 type Row = {
@@ -99,7 +102,7 @@ export async function todayIdeas(db: Db, projectId: string, now = Date.now()) {
     .order("opportunity_score", { ascending: false, nullsFirst: false })
     .limit(60);
   if (error) throw new Error(error.message);
-  const ranked = [...((data ?? []) as Row[])].sort((a, b) => rankScore(b.opportunity_score, b.created_at, now) - rankScore(a.opportunity_score, a.created_at, now));
+  const ranked = [...((data ?? []) as Row[])].sort((a, b) => rankScore(b.opportunity_score, b.created_at, now, b.title) - rankScore(a.opportunity_score, a.created_at, now, a.title));
   const ideas = await hydrate(db, projectId, ranked.slice(0, 15));
   return { top: ideas.slice(0, 5), more: ideas.slice(5) };
 }

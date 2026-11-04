@@ -92,6 +92,16 @@ function isRealName(display: string): boolean {
   return display.length >= 3 && !words.every((w) => COMPETITION_WORDS.has(w) || GENERIC_WORDS.has(w));
 }
 
+const IT_WORDS = /\b(il|lo|la|gli|le|di|del|della|che|per|con|non|una|dopo|contro|nel|nella|sul|alla|è)\b/gi;
+const EN_WORDS = /\b(the|of|and|after|with|for|vs|from|his|their|wins?|tops)\b/gi;
+
+/** Italian headline? Foreign-language stories rank lower for an Italian audience. */
+export function looksItalian(title: string): boolean {
+  const it = title.match(IT_WORDS)?.length ?? 0;
+  const en = title.match(EN_WORDS)?.length ?? 0;
+  return it >= en;
+}
+
 /** "Titolo notizia - Gazzetta" → "Titolo notizia"; whitespace collapsed. */
 export function cleanHeadline(raw: string): string {
   return raw

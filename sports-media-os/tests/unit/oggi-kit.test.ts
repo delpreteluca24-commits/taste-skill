@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildKit, cleanHeadline, kitText, shorten } from "@/lib/oggi/kit";
+import { buildKit, cleanHeadline, kitText, looksItalian, shorten } from "@/lib/oggi/kit";
 import { rankScore } from "@/lib/oggi/service";
 
 describe("buildKit (no AI)", () => {
@@ -52,5 +52,13 @@ describe("rankScore", () => {
     const fresh = rankScore(70, "2026-11-03T10:00:00Z", now);
     const old = rankScore(80, "2026-11-01T12:00:00Z", now);
     expect(fresh).toBeGreaterThan(old);
+  });
+});
+
+describe("looksItalian", () => {
+  it("tells Italian headlines from English ones", () => {
+    expect(looksItalian("Basket, Napoli vince il derby con Trento e rimane imbattuta in EuroCup")).toBe(true);
+    expect(looksItalian("Bills release Gardner-Johnson after he served one-game spitting suspension")).toBe(false);
+    expect(looksItalian("Miami tops 1st CFP rankings as date with No. 11 Notre Dame looms")).toBe(false);
   });
 });
