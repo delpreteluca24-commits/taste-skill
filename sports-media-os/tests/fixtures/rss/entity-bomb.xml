@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE rss [
+  <!ENTITY a "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
+  <!ENTITY b "&a;&a;&a;&a;&a;&a;&a;&a;&a;&a;">
+  <!ENTITY c "&b;&b;&b;&b;&b;&b;&b;&b;&b;&b;">
+  <!ENTITY d "&c;&c;&c;&c;&c;&c;&c;&c;&c;&c;">
+  <!ENTITY e "&d;&d;&d;&d;&d;&d;&d;&d;&d;&d;">
+  <!ENTITY xxe SYSTEM "file:///etc/passwd">
+]>
+<rss version="2.0">
+  <channel>
+    <title>Hostile feed</title>
+    <item>
+      <title>Expansion &e; and external &xxe;</title>
+      <link>https://hostile.example.com/1</link>
+      <description>Entity expansion must not happen.</description>
+    </item>
+  </channel>
+</rss>

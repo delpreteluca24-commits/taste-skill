@@ -1,0 +1,9 @@
+# Changed only by the founder (via PR).
+EMERGENCY_STOP: false
+autonomy_level: 2          # 0 READ .. 5 FOUNDER APPROVAL
+spending_enabled: false    # no workflow may spend; this flag is for humans/agents
+publishing_enabled: false
+budget:
+  capital_eur: 300
+  reserve_pct: 30
+approved_experiments: []   # e.g. [{id: CAL-01, cap_eur: 60, approved_on: 2026-10-01}]

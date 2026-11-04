@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+
+@theme {
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+  --color-ink-950: #09090a;
+  --color-ink-900: #0f0f11;
+  --color-ink-850: #141417;
+  --color-ink-800: #19191d;
+  --color-ink-700: #232328;
+  --color-ink-600: #2e2e35;
+  --color-ink-500: #4a4a54;
+  --color-ink-400: #74747f;
+  --color-ink-300: #a3a3ad;
+  --color-ink-100: #ececef;
+  --color-accent: #ffd43b;
+  --color-accent-ink: #1a1500;
+}
+
+html, body, #root { height: 100%; }
+body { background: var(--color-ink-950); color: var(--color-ink-100); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+::selection { background: color-mix(in srgb, var(--color-accent) 35%, transparent); }
+.scroll-thin { scrollbar-width: thin; scrollbar-color: var(--color-ink-600) transparent; }
+.tabular { font-variant-numeric: tabular-nums; }

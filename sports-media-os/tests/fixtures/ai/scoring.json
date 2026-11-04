@@ -1,0 +1,142 @@
+{
+  "fixture": true,
+  "notice": "FIXTURE DATA for scripts/ai-benchmark.mts. Every team, league, person, publisher, number and event below is INVENTED and clearly fictional (example.test URLs, '(fixture)' publishers). Not real news, not copyrighted text. Never use as facts.",
+  "task": "scoring",
+  "cases": [
+    {
+      "id": "scoring-01-upset",
+      "description": "Promoted side beats the leader; rich angle, two sources",
+      "input": {
+        "opportunity": {
+          "id": "00000000-0000-4000-a000-000000000101",
+          "title": "Harbor City Gulls stun Northvale Rovers in the Fixture Premier Division",
+          "description": "The newly promoted Gulls beat the unbeaten league leaders away from home.",
+          "why_now": "Result came in last night; the leaders' unbeaten run is over.",
+          "angle": "How a promoted side with the smallest budget in the league planned the upset.",
+          "hook": "The cheapest squad in the league just ended the longest unbeaten run.",
+          "competition": "Fixture Premier Division",
+          "sport": "Football",
+          "signals": ["upset", "just_finished"],
+          "competition_level": "medium"
+        },
+        "sources": [
+          { "id": "00000000-0000-4000-a000-000000000111", "title": "Gulls end Rovers' unbeaten run with late winner", "publisher": "Example Sports Wire (fixture)" },
+          { "id": "00000000-0000-4000-a000-000000000112", "title": "Northvale coach Teodor Vask: 'We were second best tonight'", "publisher": "Sample Gazette (fixture)" }
+        ],
+        "doNotScore": []
+      }
+    },
+    {
+      "id": "scoring-02-thin",
+      "description": "Thin opportunity with almost no context: model should skip components it cannot judge",
+      "input": {
+        "opportunity": {
+          "id": "00000000-0000-4000-a000-000000000201",
+          "title": "Kestrel Bay Athletic training update",
+          "description": null,
+          "why_now": null,
+          "angle": null,
+          "hook": null,
+          "competition": null,
+          "sport": "Football",
+          "signals": [],
+          "competition_level": null
+        },
+        "sources": [{ "id": "00000000-0000-4000-a000-000000000211", "title": "Kestrel Bay Athletic return to training", "publisher": "Demo Club Media (fixture)" }],
+        "doNotScore": []
+      }
+    },
+    {
+      "id": "scoring-03-record-manual",
+      "description": "Record chase; audience and monetization already set by a human (do_not_score)",
+      "input": {
+        "opportunity": {
+          "id": "00000000-0000-4000-a000-000000000301",
+          "title": "Ines Calloway one game away from the Fictional Hoops League assists record",
+          "description": "The Lakeside Comets guard needs nine assists on Friday to pass the league record.",
+          "why_now": "The record attempt is in two days, at home.",
+          "angle": "A graphic countdown of the record and the playmaking pattern behind it.",
+          "hook": "Nine assists. One game. A record that stood for a generation.",
+          "competition": "Fictional Hoops League",
+          "sport": "Basketball",
+          "signals": ["record", "upcoming_event"],
+          "competition_level": "low"
+        },
+        "sources": [
+          { "id": "00000000-0000-4000-a000-000000000311", "title": "Calloway closes in on assists record", "publisher": "Example Sports Wire (fixture)" },
+          { "id": "00000000-0000-4000-a000-000000000312", "title": "Comets confirm Friday home game sold out", "publisher": "Demo Club Media (fixture)" },
+          { "id": "00000000-0000-4000-a000-000000000313", "title": "The fictional record book: the assists mark explained", "publisher": "Sample Gazette (fixture)" }
+        ],
+        "doNotScore": ["audience", "monetization"]
+      }
+    },
+    {
+      "id": "scoring-04-sensitive",
+      "description": "Brand-sensitive topic (legal case): monetization should be judged low",
+      "input": {
+        "opportunity": {
+          "id": "00000000-0000-4000-a000-000000000401",
+          "title": "Ironridge FC chairman named in fictional tax investigation",
+          "description": "Reports say the club chairman is part of an investigation; the club says it is cooperating.",
+          "why_now": "Reports published this morning.",
+          "angle": "What an investigation can and cannot mean for the club's season, without speculation.",
+          "hook": null,
+          "competition": "Fixture Premier Division",
+          "sport": "Football",
+          "signals": ["controversy", "breaking"],
+          "competition_level": "high"
+        },
+        "sources": [
+          { "id": "00000000-0000-4000-a000-000000000411", "title": "Ironridge chairman named in investigation, reports say", "publisher": "Sample Gazette (fixture)" },
+          { "id": "00000000-0000-4000-a000-000000000412", "title": "Ironridge FC statement: club cooperating fully", "publisher": "Demo Club Media (fixture)" }
+        ],
+        "doNotScore": []
+      }
+    },
+    {
+      "id": "scoring-05-transfer",
+      "description": "Transfer rumour with a strong rivalry hook and one source",
+      "input": {
+        "opportunity": {
+          "id": "00000000-0000-4000-a000-000000000501",
+          "title": "Mara Quillon linked with a move from Harbor City Gulls to rivals Port Amberly Sharks",
+          "description": "One outlet reports early talks between the striker's agent and the Sharks.",
+          "why_now": "Transfer window opens next week.",
+          "angle": "Why a move across the bay would be the most divisive transfer in the fictional league's history.",
+          "hook": "Her goals sank the Sharks twice. Now they might sign her.",
+          "competition": "Fixture Premier Division",
+          "sport": "Football",
+          "signals": ["transfer", "rivalry"],
+          "competition_level": "medium"
+        },
+        "sources": [{ "id": "00000000-0000-4000-a000-000000000511", "title": "Sharks in early talks over Gulls striker Quillon, sources say", "publisher": "Example Sports Wire (fixture)" }],
+        "doNotScore": []
+      }
+    },
+    {
+      "id": "scoring-06-stat",
+      "description": "Unusual stat story with many sources (prompt cap applies at 15 sources)",
+      "input": {
+        "opportunity": {
+          "id": "00000000-0000-4000-a000-000000000601",
+          "title": "Northvale Rovers have not conceded a first-half goal all season",
+          "description": "A defensive pattern that the fictional league's analysts call unusual.",
+          "why_now": "The run reached twelve matches at the weekend.",
+          "angle": "Animated breakdown of the first-half shape, using only the published numbers.",
+          "hook": "Twelve matches. Zero first-half goals conceded.",
+          "competition": "Fixture Premier Division",
+          "sport": "Football",
+          "signals": ["unusual_stat"],
+          "competition_level": "low"
+        },
+        "sources": [
+          { "id": "00000000-0000-4000-a000-000000000611", "title": "Rovers' first-half wall: twelve matches without conceding", "publisher": "Example Sports Wire (fixture)" },
+          { "id": "00000000-0000-4000-a000-000000000612", "title": "Analysis: the shape behind Northvale's first halves", "publisher": "Sample Gazette (fixture)" },
+          { "id": "00000000-0000-4000-a000-000000000613", "title": "Vask on the run: 'It is a habit now'", "publisher": "Demo Club Media (fixture)" },
+          { "id": "00000000-0000-4000-a000-000000000614", "title": "Fixture Premier Division weekly stats roundup", "publisher": "Example Sports Wire (fixture)" }
+        ],
+        "doNotScore": []
+      }
+    }
+  ]
+}
